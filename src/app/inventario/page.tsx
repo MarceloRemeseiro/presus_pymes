@@ -6,17 +6,15 @@ import { Button } from "@/components/ui/button"
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
-import { NuevoProductoDialog } from "@/components/productos/nuevo-producto-dialog"
-import { EditarProductoDialog } from "@/components/productos/editar-producto-dialog"
-import { EliminarProductoDialog } from "@/components/productos/eliminar-producto-dialog"
-import { Toaster } from "@/components/ui/toaster"
-import { LayoutListIcon, Pencil, Trash2 } from "lucide-react"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { toast, Toaster } from "sonner"
+import { Plus, Search, Eye, Pencil, Trash2, LayoutList, Loader2 } from "lucide-react"
 
 interface Producto {
   id: string
@@ -38,205 +36,207 @@ interface Producto {
     id: string
     nombre: string
   } | null
-  _count?: {
-    equipoItems: number
-  }
-}
-
-interface Categoria {
-  id: string
-  nombre: string
-}
-
-interface Marca {
-  id: string
-  nombre: string
 }
 
 export default function InventarioPage() {
   const [productos, setProductos] = useState<Producto[]>([])
-  const [categorias, setCategorias] = useState<Categoria[]>([])
-  const [marcas, setMarcas] = useState<Marca[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [searchTerm, setSearchTerm] = useState("")
   const [error, setError] = useState<string | null>(null)
-  const [refreshTrigger, setRefreshTrigger] = useState(0)
-
-  // Función para refrescar los datos
-  const refreshData = () => {
-    setRefreshTrigger(prev => prev + 1)
-  }
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchProductos = async () => {
       try {
         setIsLoading(true)
+        const response = await fetch('/api/productos')
         
-        // Cargar categorías
-        const categoriasResponse = await fetch('/api/categorias')
-        const categoriasData = await categoriasResponse.json()
-        setCategorias(categoriasData)
-        
-        // Cargar marcas
-        const marcasResponse = await fetch('/api/marcas')
-        const marcasData = await marcasResponse.json()
-        setMarcas(marcasData)
-        
-        // Cargar productos con conteo de equipoItems
-        const productosResponse = await fetch('/api/productos?includeEquipoItems=true')
-        if (!productosResponse.ok) {
+        if (!response.ok) {
           throw new Error('Error al cargar productos')
         }
-        const productosData = await productosResponse.json()
         
-        // Verificar que sea un array
-        if (Array.isArray(productosData)) {
-          setProductos(productosData)
-        } else {
-          console.error('La API no devolvió un array:', productosData)
-          setError('Error: Formato de datos incorrecto')
-          setProductos([])
-        }
-        
+        const data = await response.json()
+        // Filtrar productos que no sean de categoría __SISTEMA__
+        const filteredData = Array.isArray(data) 
+          ? data.filter(p => p.categoria.nombre !== '__SISTEMA__') 
+          : []
+        setProductos(filteredData)
         setError(null)
       } catch (err) {
         console.error('Error al cargar datos:', err)
-        setError('Error al cargar los datos. Por favor, intente de nuevo más tarde.')
-        setProductos([]) // Asegurar que productos sea un array vacío
+        setError('Error al cargar los productos. Por favor, intente de nuevo más tarde.')
       } finally {
         setIsLoading(false)
       }
     }
     
-    fetchData()
-  }, [refreshTrigger]) // Agregar refreshTrigger como dependencia
+    fetchProductos()
+  }, [])
 
-  if (isLoading) {
-    return (
-      <div className="py-10 flex justify-center">
-        <div className="text-center">
-          <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"></div>
-          <p className="mt-2">Cargando inventario...</p>
-        </div>
-      </div>
-    )
-  }
+  // Filtrar productos basados en el término de búsqueda
+  const filteredProductos = productos.filter(
+    (producto) =>
+      producto.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      producto.codigo.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (producto.marca?.nombre && producto.marca.nombre.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (producto.modelo && producto.modelo.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      producto.categoria.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+  )
 
-  if (error) {
-    return (
-      <div className="py-10">
-        <div className="p-4 mb-4 text-red-800 rounded-lg bg-red-50">
-          <p>{error}</p>
-        </div>
-      </div>
-    )
+  // Eliminar un producto
+  const handleDelete = async (id: string, nombre: string) => {
+    if (!window.confirm(`¿Estás seguro de eliminar el producto "${nombre}"? Esta acción no se puede deshacer.`)) {
+      return
+    }
+    
+    try {
+      const response = await fetch(`/api/productos/${id}`, {
+        method: "DELETE"
+      })
+      
+      if (!response.ok) {
+        const data = await response.json()
+        throw new Error(data.error || "Error al eliminar el producto")
+      }
+      
+      setProductos(prevProductos => 
+        prevProductos.filter(producto => producto.id !== id)
+      )
+      
+      toast.success("Producto eliminado correctamente")
+    } catch (error) {
+      console.error("Error:", error)
+      toast.error(`Error: ${error instanceof Error ? error.message : "Error al eliminar el producto"}`)
+    }
   }
 
   return (
     <div className="py-10">
-      <div className="flex justify-between items-center mb-8">
+      <Toaster />
+      
+      <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Inventario</h1>
-        <NuevoProductoDialog 
-          categorias={categorias} 
-          marcas={marcas}
-          onSuccess={refreshData}
-        />
+        <Button asChild>
+          <Link href="/inventario/nuevo">
+            <Plus className="mr-2 h-4 w-4" /> Nuevo Producto
+          </Link>
+        </Button>
       </div>
 
-      <div className="border rounded-lg">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Nombre</TableHead>
-              <TableHead>Marca / Modelo</TableHead>
-              <TableHead>Categoría</TableHead>
-              <TableHead className="text-right">Stock</TableHead>
-              <TableHead className="text-right">Precio Alquiler</TableHead>
-              <TableHead className="text-center">Acciones</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {!Array.isArray(productos) || productos.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan={6} className="text-center py-6 text-muted-foreground">
-                  No hay productos en el inventario. Agregue uno para comenzar.
-                </TableCell>
-              </TableRow>
-            ) : (
-              productos.map((producto) => (
-                <TableRow key={producto.id}>
-                  <TableCell className="font-medium">{producto.nombre}</TableCell>
-                  <TableCell>
-                    {producto.marca ? (
-                      <>
-                        {producto.marca.nombre}
-                        {producto.modelo && <span className="text-muted-foreground ml-1">{producto.modelo}</span>}
-                      </>
-                    ) : (
-                      producto.modelo || "-"
-                    )}
-                  </TableCell>
-                  <TableCell>{producto.categoria.nombre}</TableCell>
-                  <TableCell className="text-right">{producto.stock}</TableCell>
-                  <TableCell className="text-right">
-                    {producto.precioAlquiler !== null ? `$${producto.precioAlquiler.toFixed(2)}` : "-"}
-                  </TableCell>
-                  <TableCell className="text-center">
-                    <div className="flex justify-center gap-2">
-                      <EditarProductoDialog 
-                        producto={producto}
-                        categorias={categorias}
-                        marcas={marcas}
-                        onSuccess={refreshData}
-                        trigger={
-                          <Button
-                            variant="outline"
-                            size="icon"
-                            title="Editar producto"
-                            className="h-8 w-8 text-amber-600 hover:text-amber-700 hover:bg-amber-50 border-amber-200"
-                          >
-                            <Pencil className="h-4 w-4" />
-                            <span className="sr-only">Editar</span>
-                          </Button>
-                        }
-                      />
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        asChild
-                        title="Ver elementos de equipo"
-                        className="h-8 w-8 text-blue-600 hover:text-blue-700 hover:bg-blue-50 border-blue-200"
-                      >
-                        <Link href={`/inventario/equipos/${producto.id}`}>
-                          <LayoutListIcon className="h-4 w-4" />
-                          <span className="sr-only">Ver elementos</span>
-                        </Link>
-                      </Button>
-                      <EliminarProductoDialog 
-                        productoId={producto.id}
-                        productoNombre={producto.nombre}
-                        onSuccess={refreshData}
-                        trigger={
-                          <Button
-                            variant="outline"
-                            size="icon"
-                            title="Eliminar producto"
-                            className="h-8 w-8 text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200"
-                          >
-                            <Trash2 className="h-4 w-4" />
-                            <span className="sr-only">Eliminar</span>
-                          </Button>
-                        }
-                      />
-                    </div>
-                  </TableCell>
+      <Card>
+        <CardHeader>
+          <CardTitle>Gestión de Inventario</CardTitle>
+          <CardDescription>
+            Administra todos tus productos desde aquí
+          </CardDescription>
+          
+          <div className="flex items-center mt-4">
+            <Search className="h-4 w-4 mr-2 opacity-50" />
+            <Input
+              placeholder="Buscar por nombre, código, categoría, marca o modelo..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="max-w-sm"
+            />
+          </div>
+        </CardHeader>
+        <CardContent>
+          {isLoading ? (
+            <div className="flex justify-center items-center py-8">
+              <Loader2 className="h-8 w-8 animate-spin opacity-70" />
+            </div>
+          ) : error ? (
+            <div className="bg-red-50 text-red-800 p-4 rounded-md">
+              {error}
+            </div>
+          ) : filteredProductos.length === 0 ? (
+            <div className="text-center py-8 text-muted-foreground">
+              {searchTerm 
+                ? "No se encontraron productos que coincidan con tu búsqueda" 
+                : "No hay productos registrados aún"}
+            </div>
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Nombre</TableHead>
+                  <TableHead>Marca / Modelo</TableHead>
+                  <TableHead>Categoría</TableHead>
+                  <TableHead className="text-right">Stock</TableHead>
+                  <TableHead className="text-right">Precio Alquiler</TableHead>
+                  <TableHead className="text-right">Acciones</TableHead>
                 </TableRow>
-              ))
-            )}
-          </TableBody>
-        </Table>
-      </div>
-      
-      <Toaster />
+              </TableHeader>
+              <TableBody>
+                {filteredProductos.map((producto) => (
+                  <TableRow key={producto.id}>
+                    <TableCell className="font-medium">
+                      <Link 
+                        href={`/inventario/${producto.id}`} 
+                        className="hover:underline"
+                      >
+                        {producto.nombre}
+                      </Link>
+                    </TableCell>
+                    <TableCell>
+                      {producto.marca ? (
+                        <>
+                          {producto.marca.nombre}
+                          {producto.modelo && <span className="text-muted-foreground ml-1">{producto.modelo}</span>}
+                        </>
+                      ) : (
+                        producto.modelo || "-"
+                      )}
+                    </TableCell>
+                    <TableCell>{producto.categoria.nombre}</TableCell>
+                    <TableCell className="text-right">{producto.stock}</TableCell>
+                    <TableCell className="text-right">
+                      {producto.precioAlquiler !== null ? `$${producto.precioAlquiler.toFixed(2)}` : "-"}
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <div className="flex justify-end gap-2">
+                        <Button 
+                          variant="ghost" 
+                          size="icon"
+                          asChild
+                        >
+                          <Link href={`/inventario/${producto.id}`}>
+                            <Eye className="h-4 w-4" />
+                          </Link>
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="icon"
+                          asChild
+                        >
+                          <Link href={`/inventario/editar/${producto.id}`}>
+                            <Pencil className="h-4 w-4" />
+                          </Link>
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="icon"
+                          asChild
+                        >
+                          <Link href={`/inventario/equipos/${producto.id}`}>
+                            <LayoutList className="h-4 w-4" />
+                          </Link>
+                        </Button>
+                        <Button 
+                          variant="ghost" 
+                          size="icon"
+                          onClick={() => handleDelete(producto.id, producto.nombre)}
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
+        </CardContent>
+      </Card>
     </div>
-  );
+  )
 } 

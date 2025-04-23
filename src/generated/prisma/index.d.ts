@@ -73,6 +73,31 @@ export type ItemFactura = $Result.DefaultSelection<Prisma.$ItemFacturaPayload>
  * 
  */
 export type Configuracion = $Result.DefaultSelection<Prisma.$ConfiguracionPayload>
+/**
+ * Model Puesto
+ * 
+ */
+export type Puesto = $Result.DefaultSelection<Prisma.$PuestoPayload>
+/**
+ * Model Personal
+ * 
+ */
+export type Personal = $Result.DefaultSelection<Prisma.$PersonalPayload>
+/**
+ * Model PersonalPuesto
+ * 
+ */
+export type PersonalPuesto = $Result.DefaultSelection<Prisma.$PersonalPuestoPayload>
+/**
+ * Model Proveedor
+ * 
+ */
+export type Proveedor = $Result.DefaultSelection<Prisma.$ProveedorPayload>
+/**
+ * Model Tikelia
+ * 
+ */
+export type Tikelia = $Result.DefaultSelection<Prisma.$TikeliaPayload>
 
 /**
  * Enums
@@ -377,6 +402,56 @@ export class PrismaClient<
     * ```
     */
   get configuracion(): Prisma.ConfiguracionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.puesto`: Exposes CRUD operations for the **Puesto** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Puestos
+    * const puestos = await prisma.puesto.findMany()
+    * ```
+    */
+  get puesto(): Prisma.PuestoDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.personal`: Exposes CRUD operations for the **Personal** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Personals
+    * const personals = await prisma.personal.findMany()
+    * ```
+    */
+  get personal(): Prisma.PersonalDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.personalPuesto`: Exposes CRUD operations for the **PersonalPuesto** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PersonalPuestos
+    * const personalPuestos = await prisma.personalPuesto.findMany()
+    * ```
+    */
+  get personalPuesto(): Prisma.PersonalPuestoDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.proveedor`: Exposes CRUD operations for the **Proveedor** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Proveedors
+    * const proveedors = await prisma.proveedor.findMany()
+    * ```
+    */
+  get proveedor(): Prisma.ProveedorDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.tikelia`: Exposes CRUD operations for the **Tikelia** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Tikelias
+    * const tikelias = await prisma.tikelia.findMany()
+    * ```
+    */
+  get tikelia(): Prisma.TikeliaDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -828,7 +903,12 @@ export namespace Prisma {
     ItemPresupuesto: 'ItemPresupuesto',
     Factura: 'Factura',
     ItemFactura: 'ItemFactura',
-    Configuracion: 'Configuracion'
+    Configuracion: 'Configuracion',
+    Puesto: 'Puesto',
+    Personal: 'Personal',
+    PersonalPuesto: 'PersonalPuesto',
+    Proveedor: 'Proveedor',
+    Tikelia: 'Tikelia'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -847,7 +927,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "empresa" | "categoria" | "marca" | "producto" | "equipoItem" | "cliente" | "partidaPresupuesto" | "presupuesto" | "itemPresupuesto" | "factura" | "itemFactura" | "configuracion"
+      modelProps: "empresa" | "categoria" | "marca" | "producto" | "equipoItem" | "cliente" | "partidaPresupuesto" | "presupuesto" | "itemPresupuesto" | "factura" | "itemFactura" | "configuracion" | "puesto" | "personal" | "personalPuesto" | "proveedor" | "tikelia"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1739,6 +1819,376 @@ export namespace Prisma {
           }
         }
       }
+      Puesto: {
+        payload: Prisma.$PuestoPayload<ExtArgs>
+        fields: Prisma.PuestoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PuestoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PuestoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PuestoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PuestoPayload>
+          }
+          findFirst: {
+            args: Prisma.PuestoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PuestoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PuestoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PuestoPayload>
+          }
+          findMany: {
+            args: Prisma.PuestoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PuestoPayload>[]
+          }
+          create: {
+            args: Prisma.PuestoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PuestoPayload>
+          }
+          createMany: {
+            args: Prisma.PuestoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PuestoCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PuestoPayload>[]
+          }
+          delete: {
+            args: Prisma.PuestoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PuestoPayload>
+          }
+          update: {
+            args: Prisma.PuestoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PuestoPayload>
+          }
+          deleteMany: {
+            args: Prisma.PuestoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PuestoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PuestoUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PuestoPayload>[]
+          }
+          upsert: {
+            args: Prisma.PuestoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PuestoPayload>
+          }
+          aggregate: {
+            args: Prisma.PuestoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePuesto>
+          }
+          groupBy: {
+            args: Prisma.PuestoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PuestoGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PuestoCountArgs<ExtArgs>
+            result: $Utils.Optional<PuestoCountAggregateOutputType> | number
+          }
+        }
+      }
+      Personal: {
+        payload: Prisma.$PersonalPayload<ExtArgs>
+        fields: Prisma.PersonalFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PersonalFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PersonalFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalPayload>
+          }
+          findFirst: {
+            args: Prisma.PersonalFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PersonalFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalPayload>
+          }
+          findMany: {
+            args: Prisma.PersonalFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalPayload>[]
+          }
+          create: {
+            args: Prisma.PersonalCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalPayload>
+          }
+          createMany: {
+            args: Prisma.PersonalCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PersonalCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalPayload>[]
+          }
+          delete: {
+            args: Prisma.PersonalDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalPayload>
+          }
+          update: {
+            args: Prisma.PersonalUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalPayload>
+          }
+          deleteMany: {
+            args: Prisma.PersonalDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PersonalUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PersonalUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalPayload>[]
+          }
+          upsert: {
+            args: Prisma.PersonalUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalPayload>
+          }
+          aggregate: {
+            args: Prisma.PersonalAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePersonal>
+          }
+          groupBy: {
+            args: Prisma.PersonalGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PersonalGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PersonalCountArgs<ExtArgs>
+            result: $Utils.Optional<PersonalCountAggregateOutputType> | number
+          }
+        }
+      }
+      PersonalPuesto: {
+        payload: Prisma.$PersonalPuestoPayload<ExtArgs>
+        fields: Prisma.PersonalPuestoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PersonalPuestoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalPuestoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PersonalPuestoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalPuestoPayload>
+          }
+          findFirst: {
+            args: Prisma.PersonalPuestoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalPuestoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PersonalPuestoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalPuestoPayload>
+          }
+          findMany: {
+            args: Prisma.PersonalPuestoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalPuestoPayload>[]
+          }
+          create: {
+            args: Prisma.PersonalPuestoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalPuestoPayload>
+          }
+          createMany: {
+            args: Prisma.PersonalPuestoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PersonalPuestoCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalPuestoPayload>[]
+          }
+          delete: {
+            args: Prisma.PersonalPuestoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalPuestoPayload>
+          }
+          update: {
+            args: Prisma.PersonalPuestoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalPuestoPayload>
+          }
+          deleteMany: {
+            args: Prisma.PersonalPuestoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PersonalPuestoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PersonalPuestoUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalPuestoPayload>[]
+          }
+          upsert: {
+            args: Prisma.PersonalPuestoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalPuestoPayload>
+          }
+          aggregate: {
+            args: Prisma.PersonalPuestoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePersonalPuesto>
+          }
+          groupBy: {
+            args: Prisma.PersonalPuestoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PersonalPuestoGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PersonalPuestoCountArgs<ExtArgs>
+            result: $Utils.Optional<PersonalPuestoCountAggregateOutputType> | number
+          }
+        }
+      }
+      Proveedor: {
+        payload: Prisma.$ProveedorPayload<ExtArgs>
+        fields: Prisma.ProveedorFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ProveedorFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProveedorPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ProveedorFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProveedorPayload>
+          }
+          findFirst: {
+            args: Prisma.ProveedorFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProveedorPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ProveedorFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProveedorPayload>
+          }
+          findMany: {
+            args: Prisma.ProveedorFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProveedorPayload>[]
+          }
+          create: {
+            args: Prisma.ProveedorCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProveedorPayload>
+          }
+          createMany: {
+            args: Prisma.ProveedorCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ProveedorCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProveedorPayload>[]
+          }
+          delete: {
+            args: Prisma.ProveedorDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProveedorPayload>
+          }
+          update: {
+            args: Prisma.ProveedorUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProveedorPayload>
+          }
+          deleteMany: {
+            args: Prisma.ProveedorDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ProveedorUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ProveedorUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProveedorPayload>[]
+          }
+          upsert: {
+            args: Prisma.ProveedorUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ProveedorPayload>
+          }
+          aggregate: {
+            args: Prisma.ProveedorAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateProveedor>
+          }
+          groupBy: {
+            args: Prisma.ProveedorGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ProveedorGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ProveedorCountArgs<ExtArgs>
+            result: $Utils.Optional<ProveedorCountAggregateOutputType> | number
+          }
+        }
+      }
+      Tikelia: {
+        payload: Prisma.$TikeliaPayload<ExtArgs>
+        fields: Prisma.TikeliaFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.TikeliaFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TikeliaPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TikeliaFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TikeliaPayload>
+          }
+          findFirst: {
+            args: Prisma.TikeliaFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TikeliaPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TikeliaFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TikeliaPayload>
+          }
+          findMany: {
+            args: Prisma.TikeliaFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TikeliaPayload>[]
+          }
+          create: {
+            args: Prisma.TikeliaCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TikeliaPayload>
+          }
+          createMany: {
+            args: Prisma.TikeliaCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.TikeliaCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TikeliaPayload>[]
+          }
+          delete: {
+            args: Prisma.TikeliaDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TikeliaPayload>
+          }
+          update: {
+            args: Prisma.TikeliaUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TikeliaPayload>
+          }
+          deleteMany: {
+            args: Prisma.TikeliaDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TikeliaUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.TikeliaUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TikeliaPayload>[]
+          }
+          upsert: {
+            args: Prisma.TikeliaUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$TikeliaPayload>
+          }
+          aggregate: {
+            args: Prisma.TikeliaAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTikelia>
+          }
+          groupBy: {
+            args: Prisma.TikeliaGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TikeliaGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TikeliaCountArgs<ExtArgs>
+            result: $Utils.Optional<TikeliaCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1835,6 +2285,11 @@ export namespace Prisma {
     factura?: FacturaOmit
     itemFactura?: ItemFacturaOmit
     configuracion?: ConfiguracionOmit
+    puesto?: PuestoOmit
+    personal?: PersonalOmit
+    personalPuesto?: PersonalPuestoOmit
+    proveedor?: ProveedorOmit
+    tikelia?: TikeliaOmit
   }
 
   /* Types for Logging */
@@ -2144,11 +2599,13 @@ export namespace Prisma {
   export type FacturaCountOutputType = {
     items: number
     presupuestos: number
+    gastosTickelia: number
   }
 
   export type FacturaCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     items?: boolean | FacturaCountOutputTypeCountItemsArgs
     presupuestos?: boolean | FacturaCountOutputTypeCountPresupuestosArgs
+    gastosTickelia?: boolean | FacturaCountOutputTypeCountGastosTickeliaArgs
   }
 
   // Custom InputTypes
@@ -2174,6 +2631,106 @@ export namespace Prisma {
    */
   export type FacturaCountOutputTypeCountPresupuestosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PresupuestoWhereInput
+  }
+
+  /**
+   * FacturaCountOutputType without action
+   */
+  export type FacturaCountOutputTypeCountGastosTickeliaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TikeliaWhereInput
+  }
+
+
+  /**
+   * Count Type PuestoCountOutputType
+   */
+
+  export type PuestoCountOutputType = {
+    personal: number
+  }
+
+  export type PuestoCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    personal?: boolean | PuestoCountOutputTypeCountPersonalArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * PuestoCountOutputType without action
+   */
+  export type PuestoCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PuestoCountOutputType
+     */
+    select?: PuestoCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * PuestoCountOutputType without action
+   */
+  export type PuestoCountOutputTypeCountPersonalArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PersonalPuestoWhereInput
+  }
+
+
+  /**
+   * Count Type PersonalCountOutputType
+   */
+
+  export type PersonalCountOutputType = {
+    puestos: number
+  }
+
+  export type PersonalCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    puestos?: boolean | PersonalCountOutputTypeCountPuestosArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * PersonalCountOutputType without action
+   */
+  export type PersonalCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalCountOutputType
+     */
+    select?: PersonalCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * PersonalCountOutputType without action
+   */
+  export type PersonalCountOutputTypeCountPuestosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PersonalPuestoWhereInput
+  }
+
+
+  /**
+   * Count Type ProveedorCountOutputType
+   */
+
+  export type ProveedorCountOutputType = {
+    equipos: number
+  }
+
+  export type ProveedorCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    equipos?: boolean | ProveedorCountOutputTypeCountEquiposArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ProveedorCountOutputType without action
+   */
+  export type ProveedorCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ProveedorCountOutputType
+     */
+    select?: ProveedorCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ProveedorCountOutputType without action
+   */
+  export type ProveedorCountOutputTypeCountEquiposArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EquipoItemWhereInput
   }
 
 
@@ -6678,6 +7235,7 @@ export namespace Prisma {
     estado: $Enums.EstadoEquipo | null
     fechaCompra: Date | null
     precioCompra: number | null
+    proveedorId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -6690,6 +7248,7 @@ export namespace Prisma {
     estado: $Enums.EstadoEquipo | null
     fechaCompra: Date | null
     precioCompra: number | null
+    proveedorId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -6702,6 +7261,7 @@ export namespace Prisma {
     estado: number
     fechaCompra: number
     precioCompra: number
+    proveedorId: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -6724,6 +7284,7 @@ export namespace Prisma {
     estado?: true
     fechaCompra?: true
     precioCompra?: true
+    proveedorId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -6736,6 +7297,7 @@ export namespace Prisma {
     estado?: true
     fechaCompra?: true
     precioCompra?: true
+    proveedorId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -6748,6 +7310,7 @@ export namespace Prisma {
     estado?: true
     fechaCompra?: true
     precioCompra?: true
+    proveedorId?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -6847,6 +7410,7 @@ export namespace Prisma {
     estado: $Enums.EstadoEquipo
     fechaCompra: Date | null
     precioCompra: number | null
+    proveedorId: string | null
     createdAt: Date
     updatedAt: Date
     _count: EquipoItemCountAggregateOutputType | null
@@ -6878,9 +7442,11 @@ export namespace Prisma {
     estado?: boolean
     fechaCompra?: boolean
     precioCompra?: boolean
+    proveedorId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     producto?: boolean | ProductoDefaultArgs<ExtArgs>
+    proveedor?: boolean | EquipoItem$proveedorArgs<ExtArgs>
   }, ExtArgs["result"]["equipoItem"]>
 
   export type EquipoItemSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -6891,9 +7457,11 @@ export namespace Prisma {
     estado?: boolean
     fechaCompra?: boolean
     precioCompra?: boolean
+    proveedorId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     producto?: boolean | ProductoDefaultArgs<ExtArgs>
+    proveedor?: boolean | EquipoItem$proveedorArgs<ExtArgs>
   }, ExtArgs["result"]["equipoItem"]>
 
   export type EquipoItemSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -6904,9 +7472,11 @@ export namespace Prisma {
     estado?: boolean
     fechaCompra?: boolean
     precioCompra?: boolean
+    proveedorId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     producto?: boolean | ProductoDefaultArgs<ExtArgs>
+    proveedor?: boolean | EquipoItem$proveedorArgs<ExtArgs>
   }, ExtArgs["result"]["equipoItem"]>
 
   export type EquipoItemSelectScalar = {
@@ -6917,25 +7487,30 @@ export namespace Prisma {
     estado?: boolean
     fechaCompra?: boolean
     precioCompra?: boolean
+    proveedorId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type EquipoItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "productoId" | "numeroSerie" | "notasInternas" | "estado" | "fechaCompra" | "precioCompra" | "createdAt" | "updatedAt", ExtArgs["result"]["equipoItem"]>
+  export type EquipoItemOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "productoId" | "numeroSerie" | "notasInternas" | "estado" | "fechaCompra" | "precioCompra" | "proveedorId" | "createdAt" | "updatedAt", ExtArgs["result"]["equipoItem"]>
   export type EquipoItemInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     producto?: boolean | ProductoDefaultArgs<ExtArgs>
+    proveedor?: boolean | EquipoItem$proveedorArgs<ExtArgs>
   }
   export type EquipoItemIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     producto?: boolean | ProductoDefaultArgs<ExtArgs>
+    proveedor?: boolean | EquipoItem$proveedorArgs<ExtArgs>
   }
   export type EquipoItemIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     producto?: boolean | ProductoDefaultArgs<ExtArgs>
+    proveedor?: boolean | EquipoItem$proveedorArgs<ExtArgs>
   }
 
   export type $EquipoItemPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "EquipoItem"
     objects: {
       producto: Prisma.$ProductoPayload<ExtArgs>
+      proveedor: Prisma.$ProveedorPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -6945,6 +7520,7 @@ export namespace Prisma {
       estado: $Enums.EstadoEquipo
       fechaCompra: Date | null
       precioCompra: number | null
+      proveedorId: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["equipoItem"]>
@@ -7342,6 +7918,7 @@ export namespace Prisma {
   export interface Prisma__EquipoItemClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     producto<T extends ProductoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProductoDefaultArgs<ExtArgs>>): Prisma__ProductoClient<$Result.GetResult<Prisma.$ProductoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    proveedor<T extends EquipoItem$proveedorArgs<ExtArgs> = {}>(args?: Subset<T, EquipoItem$proveedorArgs<ExtArgs>>): Prisma__ProveedorClient<$Result.GetResult<Prisma.$ProveedorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7378,6 +7955,7 @@ export namespace Prisma {
     readonly estado: FieldRef<"EquipoItem", 'EstadoEquipo'>
     readonly fechaCompra: FieldRef<"EquipoItem", 'DateTime'>
     readonly precioCompra: FieldRef<"EquipoItem", 'Float'>
+    readonly proveedorId: FieldRef<"EquipoItem", 'String'>
     readonly createdAt: FieldRef<"EquipoItem", 'DateTime'>
     readonly updatedAt: FieldRef<"EquipoItem", 'DateTime'>
   }
@@ -7773,6 +8351,25 @@ export namespace Prisma {
      * Limit how many EquipoItems to delete.
      */
     limit?: number
+  }
+
+  /**
+   * EquipoItem.proveedor
+   */
+  export type EquipoItem$proveedorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Proveedor
+     */
+    select?: ProveedorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Proveedor
+     */
+    omit?: ProveedorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProveedorInclude<ExtArgs> | null
+    where?: ProveedorWhereInput
   }
 
   /**
@@ -12888,6 +13485,7 @@ export namespace Prisma {
     cliente?: boolean | ClienteDefaultArgs<ExtArgs>
     items?: boolean | Factura$itemsArgs<ExtArgs>
     presupuestos?: boolean | Factura$presupuestosArgs<ExtArgs>
+    gastosTickelia?: boolean | Factura$gastosTickeliaArgs<ExtArgs>
     _count?: boolean | FacturaCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["factura"]>
 
@@ -12943,6 +13541,7 @@ export namespace Prisma {
     cliente?: boolean | ClienteDefaultArgs<ExtArgs>
     items?: boolean | Factura$itemsArgs<ExtArgs>
     presupuestos?: boolean | Factura$presupuestosArgs<ExtArgs>
+    gastosTickelia?: boolean | Factura$gastosTickeliaArgs<ExtArgs>
     _count?: boolean | FacturaCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type FacturaIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -12958,6 +13557,7 @@ export namespace Prisma {
       cliente: Prisma.$ClientePayload<ExtArgs>
       items: Prisma.$ItemFacturaPayload<ExtArgs>[]
       presupuestos: Prisma.$PresupuestoPayload<ExtArgs>[]
+      gastosTickelia: Prisma.$TikeliaPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -13369,6 +13969,7 @@ export namespace Prisma {
     cliente<T extends ClienteDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ClienteDefaultArgs<ExtArgs>>): Prisma__ClienteClient<$Result.GetResult<Prisma.$ClientePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     items<T extends Factura$itemsArgs<ExtArgs> = {}>(args?: Subset<T, Factura$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemFacturaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     presupuestos<T extends Factura$presupuestosArgs<ExtArgs> = {}>(args?: Subset<T, Factura$presupuestosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PresupuestoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    gastosTickelia<T extends Factura$gastosTickeliaArgs<ExtArgs> = {}>(args?: Subset<T, Factura$gastosTickeliaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TikeliaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -13851,6 +14452,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PresupuestoScalarFieldEnum | PresupuestoScalarFieldEnum[]
+  }
+
+  /**
+   * Factura.gastosTickelia
+   */
+  export type Factura$gastosTickeliaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tikelia
+     */
+    select?: TikeliaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tikelia
+     */
+    omit?: TikeliaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TikeliaInclude<ExtArgs> | null
+    where?: TikeliaWhereInput
+    orderBy?: TikeliaOrderByWithRelationInput | TikeliaOrderByWithRelationInput[]
+    cursor?: TikeliaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TikeliaScalarFieldEnum | TikeliaScalarFieldEnum[]
   }
 
   /**
@@ -16083,6 +16708,5484 @@ export namespace Prisma {
 
 
   /**
+   * Model Puesto
+   */
+
+  export type AggregatePuesto = {
+    _count: PuestoCountAggregateOutputType | null
+    _min: PuestoMinAggregateOutputType | null
+    _max: PuestoMaxAggregateOutputType | null
+  }
+
+  export type PuestoMinAggregateOutputType = {
+    id: string | null
+    nombre: string | null
+    descripcion: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PuestoMaxAggregateOutputType = {
+    id: string | null
+    nombre: string | null
+    descripcion: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PuestoCountAggregateOutputType = {
+    id: number
+    nombre: number
+    descripcion: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PuestoMinAggregateInputType = {
+    id?: true
+    nombre?: true
+    descripcion?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PuestoMaxAggregateInputType = {
+    id?: true
+    nombre?: true
+    descripcion?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PuestoCountAggregateInputType = {
+    id?: true
+    nombre?: true
+    descripcion?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PuestoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Puesto to aggregate.
+     */
+    where?: PuestoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Puestos to fetch.
+     */
+    orderBy?: PuestoOrderByWithRelationInput | PuestoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PuestoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Puestos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Puestos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Puestos
+    **/
+    _count?: true | PuestoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PuestoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PuestoMaxAggregateInputType
+  }
+
+  export type GetPuestoAggregateType<T extends PuestoAggregateArgs> = {
+        [P in keyof T & keyof AggregatePuesto]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePuesto[P]>
+      : GetScalarType<T[P], AggregatePuesto[P]>
+  }
+
+
+
+
+  export type PuestoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PuestoWhereInput
+    orderBy?: PuestoOrderByWithAggregationInput | PuestoOrderByWithAggregationInput[]
+    by: PuestoScalarFieldEnum[] | PuestoScalarFieldEnum
+    having?: PuestoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PuestoCountAggregateInputType | true
+    _min?: PuestoMinAggregateInputType
+    _max?: PuestoMaxAggregateInputType
+  }
+
+  export type PuestoGroupByOutputType = {
+    id: string
+    nombre: string
+    descripcion: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: PuestoCountAggregateOutputType | null
+    _min: PuestoMinAggregateOutputType | null
+    _max: PuestoMaxAggregateOutputType | null
+  }
+
+  type GetPuestoGroupByPayload<T extends PuestoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PuestoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PuestoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PuestoGroupByOutputType[P]>
+            : GetScalarType<T[P], PuestoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PuestoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nombre?: boolean
+    descripcion?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    personal?: boolean | Puesto$personalArgs<ExtArgs>
+    _count?: boolean | PuestoCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["puesto"]>
+
+  export type PuestoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nombre?: boolean
+    descripcion?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["puesto"]>
+
+  export type PuestoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nombre?: boolean
+    descripcion?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["puesto"]>
+
+  export type PuestoSelectScalar = {
+    id?: boolean
+    nombre?: boolean
+    descripcion?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PuestoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "descripcion" | "createdAt" | "updatedAt", ExtArgs["result"]["puesto"]>
+  export type PuestoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    personal?: boolean | Puesto$personalArgs<ExtArgs>
+    _count?: boolean | PuestoCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type PuestoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type PuestoIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $PuestoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Puesto"
+    objects: {
+      personal: Prisma.$PersonalPuestoPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      nombre: string
+      descripcion: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["puesto"]>
+    composites: {}
+  }
+
+  type PuestoGetPayload<S extends boolean | null | undefined | PuestoDefaultArgs> = $Result.GetResult<Prisma.$PuestoPayload, S>
+
+  type PuestoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PuestoFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PuestoCountAggregateInputType | true
+    }
+
+  export interface PuestoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Puesto'], meta: { name: 'Puesto' } }
+    /**
+     * Find zero or one Puesto that matches the filter.
+     * @param {PuestoFindUniqueArgs} args - Arguments to find a Puesto
+     * @example
+     * // Get one Puesto
+     * const puesto = await prisma.puesto.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PuestoFindUniqueArgs>(args: SelectSubset<T, PuestoFindUniqueArgs<ExtArgs>>): Prisma__PuestoClient<$Result.GetResult<Prisma.$PuestoPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Puesto that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PuestoFindUniqueOrThrowArgs} args - Arguments to find a Puesto
+     * @example
+     * // Get one Puesto
+     * const puesto = await prisma.puesto.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PuestoFindUniqueOrThrowArgs>(args: SelectSubset<T, PuestoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PuestoClient<$Result.GetResult<Prisma.$PuestoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Puesto that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PuestoFindFirstArgs} args - Arguments to find a Puesto
+     * @example
+     * // Get one Puesto
+     * const puesto = await prisma.puesto.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PuestoFindFirstArgs>(args?: SelectSubset<T, PuestoFindFirstArgs<ExtArgs>>): Prisma__PuestoClient<$Result.GetResult<Prisma.$PuestoPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Puesto that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PuestoFindFirstOrThrowArgs} args - Arguments to find a Puesto
+     * @example
+     * // Get one Puesto
+     * const puesto = await prisma.puesto.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PuestoFindFirstOrThrowArgs>(args?: SelectSubset<T, PuestoFindFirstOrThrowArgs<ExtArgs>>): Prisma__PuestoClient<$Result.GetResult<Prisma.$PuestoPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Puestos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PuestoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Puestos
+     * const puestos = await prisma.puesto.findMany()
+     * 
+     * // Get first 10 Puestos
+     * const puestos = await prisma.puesto.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const puestoWithIdOnly = await prisma.puesto.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PuestoFindManyArgs>(args?: SelectSubset<T, PuestoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PuestoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Puesto.
+     * @param {PuestoCreateArgs} args - Arguments to create a Puesto.
+     * @example
+     * // Create one Puesto
+     * const Puesto = await prisma.puesto.create({
+     *   data: {
+     *     // ... data to create a Puesto
+     *   }
+     * })
+     * 
+     */
+    create<T extends PuestoCreateArgs>(args: SelectSubset<T, PuestoCreateArgs<ExtArgs>>): Prisma__PuestoClient<$Result.GetResult<Prisma.$PuestoPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Puestos.
+     * @param {PuestoCreateManyArgs} args - Arguments to create many Puestos.
+     * @example
+     * // Create many Puestos
+     * const puesto = await prisma.puesto.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PuestoCreateManyArgs>(args?: SelectSubset<T, PuestoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Puestos and returns the data saved in the database.
+     * @param {PuestoCreateManyAndReturnArgs} args - Arguments to create many Puestos.
+     * @example
+     * // Create many Puestos
+     * const puesto = await prisma.puesto.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Puestos and only return the `id`
+     * const puestoWithIdOnly = await prisma.puesto.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PuestoCreateManyAndReturnArgs>(args?: SelectSubset<T, PuestoCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PuestoPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Puesto.
+     * @param {PuestoDeleteArgs} args - Arguments to delete one Puesto.
+     * @example
+     * // Delete one Puesto
+     * const Puesto = await prisma.puesto.delete({
+     *   where: {
+     *     // ... filter to delete one Puesto
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PuestoDeleteArgs>(args: SelectSubset<T, PuestoDeleteArgs<ExtArgs>>): Prisma__PuestoClient<$Result.GetResult<Prisma.$PuestoPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Puesto.
+     * @param {PuestoUpdateArgs} args - Arguments to update one Puesto.
+     * @example
+     * // Update one Puesto
+     * const puesto = await prisma.puesto.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PuestoUpdateArgs>(args: SelectSubset<T, PuestoUpdateArgs<ExtArgs>>): Prisma__PuestoClient<$Result.GetResult<Prisma.$PuestoPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Puestos.
+     * @param {PuestoDeleteManyArgs} args - Arguments to filter Puestos to delete.
+     * @example
+     * // Delete a few Puestos
+     * const { count } = await prisma.puesto.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PuestoDeleteManyArgs>(args?: SelectSubset<T, PuestoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Puestos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PuestoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Puestos
+     * const puesto = await prisma.puesto.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PuestoUpdateManyArgs>(args: SelectSubset<T, PuestoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Puestos and returns the data updated in the database.
+     * @param {PuestoUpdateManyAndReturnArgs} args - Arguments to update many Puestos.
+     * @example
+     * // Update many Puestos
+     * const puesto = await prisma.puesto.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Puestos and only return the `id`
+     * const puestoWithIdOnly = await prisma.puesto.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PuestoUpdateManyAndReturnArgs>(args: SelectSubset<T, PuestoUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PuestoPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Puesto.
+     * @param {PuestoUpsertArgs} args - Arguments to update or create a Puesto.
+     * @example
+     * // Update or create a Puesto
+     * const puesto = await prisma.puesto.upsert({
+     *   create: {
+     *     // ... data to create a Puesto
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Puesto we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PuestoUpsertArgs>(args: SelectSubset<T, PuestoUpsertArgs<ExtArgs>>): Prisma__PuestoClient<$Result.GetResult<Prisma.$PuestoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Puestos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PuestoCountArgs} args - Arguments to filter Puestos to count.
+     * @example
+     * // Count the number of Puestos
+     * const count = await prisma.puesto.count({
+     *   where: {
+     *     // ... the filter for the Puestos we want to count
+     *   }
+     * })
+    **/
+    count<T extends PuestoCountArgs>(
+      args?: Subset<T, PuestoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PuestoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Puesto.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PuestoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PuestoAggregateArgs>(args: Subset<T, PuestoAggregateArgs>): Prisma.PrismaPromise<GetPuestoAggregateType<T>>
+
+    /**
+     * Group by Puesto.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PuestoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PuestoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PuestoGroupByArgs['orderBy'] }
+        : { orderBy?: PuestoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PuestoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPuestoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Puesto model
+   */
+  readonly fields: PuestoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Puesto.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PuestoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    personal<T extends Puesto$personalArgs<ExtArgs> = {}>(args?: Subset<T, Puesto$personalArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PersonalPuestoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Puesto model
+   */
+  interface PuestoFieldRefs {
+    readonly id: FieldRef<"Puesto", 'String'>
+    readonly nombre: FieldRef<"Puesto", 'String'>
+    readonly descripcion: FieldRef<"Puesto", 'String'>
+    readonly createdAt: FieldRef<"Puesto", 'DateTime'>
+    readonly updatedAt: FieldRef<"Puesto", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Puesto findUnique
+   */
+  export type PuestoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Puesto
+     */
+    select?: PuestoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Puesto
+     */
+    omit?: PuestoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PuestoInclude<ExtArgs> | null
+    /**
+     * Filter, which Puesto to fetch.
+     */
+    where: PuestoWhereUniqueInput
+  }
+
+  /**
+   * Puesto findUniqueOrThrow
+   */
+  export type PuestoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Puesto
+     */
+    select?: PuestoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Puesto
+     */
+    omit?: PuestoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PuestoInclude<ExtArgs> | null
+    /**
+     * Filter, which Puesto to fetch.
+     */
+    where: PuestoWhereUniqueInput
+  }
+
+  /**
+   * Puesto findFirst
+   */
+  export type PuestoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Puesto
+     */
+    select?: PuestoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Puesto
+     */
+    omit?: PuestoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PuestoInclude<ExtArgs> | null
+    /**
+     * Filter, which Puesto to fetch.
+     */
+    where?: PuestoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Puestos to fetch.
+     */
+    orderBy?: PuestoOrderByWithRelationInput | PuestoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Puestos.
+     */
+    cursor?: PuestoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Puestos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Puestos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Puestos.
+     */
+    distinct?: PuestoScalarFieldEnum | PuestoScalarFieldEnum[]
+  }
+
+  /**
+   * Puesto findFirstOrThrow
+   */
+  export type PuestoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Puesto
+     */
+    select?: PuestoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Puesto
+     */
+    omit?: PuestoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PuestoInclude<ExtArgs> | null
+    /**
+     * Filter, which Puesto to fetch.
+     */
+    where?: PuestoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Puestos to fetch.
+     */
+    orderBy?: PuestoOrderByWithRelationInput | PuestoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Puestos.
+     */
+    cursor?: PuestoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Puestos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Puestos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Puestos.
+     */
+    distinct?: PuestoScalarFieldEnum | PuestoScalarFieldEnum[]
+  }
+
+  /**
+   * Puesto findMany
+   */
+  export type PuestoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Puesto
+     */
+    select?: PuestoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Puesto
+     */
+    omit?: PuestoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PuestoInclude<ExtArgs> | null
+    /**
+     * Filter, which Puestos to fetch.
+     */
+    where?: PuestoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Puestos to fetch.
+     */
+    orderBy?: PuestoOrderByWithRelationInput | PuestoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Puestos.
+     */
+    cursor?: PuestoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Puestos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Puestos.
+     */
+    skip?: number
+    distinct?: PuestoScalarFieldEnum | PuestoScalarFieldEnum[]
+  }
+
+  /**
+   * Puesto create
+   */
+  export type PuestoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Puesto
+     */
+    select?: PuestoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Puesto
+     */
+    omit?: PuestoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PuestoInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Puesto.
+     */
+    data: XOR<PuestoCreateInput, PuestoUncheckedCreateInput>
+  }
+
+  /**
+   * Puesto createMany
+   */
+  export type PuestoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Puestos.
+     */
+    data: PuestoCreateManyInput | PuestoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Puesto createManyAndReturn
+   */
+  export type PuestoCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Puesto
+     */
+    select?: PuestoSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Puesto
+     */
+    omit?: PuestoOmit<ExtArgs> | null
+    /**
+     * The data used to create many Puestos.
+     */
+    data: PuestoCreateManyInput | PuestoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Puesto update
+   */
+  export type PuestoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Puesto
+     */
+    select?: PuestoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Puesto
+     */
+    omit?: PuestoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PuestoInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Puesto.
+     */
+    data: XOR<PuestoUpdateInput, PuestoUncheckedUpdateInput>
+    /**
+     * Choose, which Puesto to update.
+     */
+    where: PuestoWhereUniqueInput
+  }
+
+  /**
+   * Puesto updateMany
+   */
+  export type PuestoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Puestos.
+     */
+    data: XOR<PuestoUpdateManyMutationInput, PuestoUncheckedUpdateManyInput>
+    /**
+     * Filter which Puestos to update
+     */
+    where?: PuestoWhereInput
+    /**
+     * Limit how many Puestos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Puesto updateManyAndReturn
+   */
+  export type PuestoUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Puesto
+     */
+    select?: PuestoSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Puesto
+     */
+    omit?: PuestoOmit<ExtArgs> | null
+    /**
+     * The data used to update Puestos.
+     */
+    data: XOR<PuestoUpdateManyMutationInput, PuestoUncheckedUpdateManyInput>
+    /**
+     * Filter which Puestos to update
+     */
+    where?: PuestoWhereInput
+    /**
+     * Limit how many Puestos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Puesto upsert
+   */
+  export type PuestoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Puesto
+     */
+    select?: PuestoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Puesto
+     */
+    omit?: PuestoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PuestoInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Puesto to update in case it exists.
+     */
+    where: PuestoWhereUniqueInput
+    /**
+     * In case the Puesto found by the `where` argument doesn't exist, create a new Puesto with this data.
+     */
+    create: XOR<PuestoCreateInput, PuestoUncheckedCreateInput>
+    /**
+     * In case the Puesto was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PuestoUpdateInput, PuestoUncheckedUpdateInput>
+  }
+
+  /**
+   * Puesto delete
+   */
+  export type PuestoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Puesto
+     */
+    select?: PuestoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Puesto
+     */
+    omit?: PuestoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PuestoInclude<ExtArgs> | null
+    /**
+     * Filter which Puesto to delete.
+     */
+    where: PuestoWhereUniqueInput
+  }
+
+  /**
+   * Puesto deleteMany
+   */
+  export type PuestoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Puestos to delete
+     */
+    where?: PuestoWhereInput
+    /**
+     * Limit how many Puestos to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Puesto.personal
+   */
+  export type Puesto$personalArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalPuesto
+     */
+    select?: PersonalPuestoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalPuesto
+     */
+    omit?: PersonalPuestoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalPuestoInclude<ExtArgs> | null
+    where?: PersonalPuestoWhereInput
+    orderBy?: PersonalPuestoOrderByWithRelationInput | PersonalPuestoOrderByWithRelationInput[]
+    cursor?: PersonalPuestoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PersonalPuestoScalarFieldEnum | PersonalPuestoScalarFieldEnum[]
+  }
+
+  /**
+   * Puesto without action
+   */
+  export type PuestoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Puesto
+     */
+    select?: PuestoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Puesto
+     */
+    omit?: PuestoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PuestoInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Personal
+   */
+
+  export type AggregatePersonal = {
+    _count: PersonalCountAggregateOutputType | null
+    _min: PersonalMinAggregateOutputType | null
+    _max: PersonalMaxAggregateOutputType | null
+  }
+
+  export type PersonalMinAggregateOutputType = {
+    id: string | null
+    nombre: string | null
+    telefono: string | null
+    email: string | null
+    notas: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PersonalMaxAggregateOutputType = {
+    id: string | null
+    nombre: string | null
+    telefono: string | null
+    email: string | null
+    notas: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PersonalCountAggregateOutputType = {
+    id: number
+    nombre: number
+    telefono: number
+    email: number
+    notas: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PersonalMinAggregateInputType = {
+    id?: true
+    nombre?: true
+    telefono?: true
+    email?: true
+    notas?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PersonalMaxAggregateInputType = {
+    id?: true
+    nombre?: true
+    telefono?: true
+    email?: true
+    notas?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PersonalCountAggregateInputType = {
+    id?: true
+    nombre?: true
+    telefono?: true
+    email?: true
+    notas?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PersonalAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Personal to aggregate.
+     */
+    where?: PersonalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Personals to fetch.
+     */
+    orderBy?: PersonalOrderByWithRelationInput | PersonalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PersonalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Personals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Personals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Personals
+    **/
+    _count?: true | PersonalCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PersonalMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PersonalMaxAggregateInputType
+  }
+
+  export type GetPersonalAggregateType<T extends PersonalAggregateArgs> = {
+        [P in keyof T & keyof AggregatePersonal]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePersonal[P]>
+      : GetScalarType<T[P], AggregatePersonal[P]>
+  }
+
+
+
+
+  export type PersonalGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PersonalWhereInput
+    orderBy?: PersonalOrderByWithAggregationInput | PersonalOrderByWithAggregationInput[]
+    by: PersonalScalarFieldEnum[] | PersonalScalarFieldEnum
+    having?: PersonalScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PersonalCountAggregateInputType | true
+    _min?: PersonalMinAggregateInputType
+    _max?: PersonalMaxAggregateInputType
+  }
+
+  export type PersonalGroupByOutputType = {
+    id: string
+    nombre: string
+    telefono: string | null
+    email: string | null
+    notas: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: PersonalCountAggregateOutputType | null
+    _min: PersonalMinAggregateOutputType | null
+    _max: PersonalMaxAggregateOutputType | null
+  }
+
+  type GetPersonalGroupByPayload<T extends PersonalGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PersonalGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PersonalGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PersonalGroupByOutputType[P]>
+            : GetScalarType<T[P], PersonalGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PersonalSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nombre?: boolean
+    telefono?: boolean
+    email?: boolean
+    notas?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    puestos?: boolean | Personal$puestosArgs<ExtArgs>
+    _count?: boolean | PersonalCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["personal"]>
+
+  export type PersonalSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nombre?: boolean
+    telefono?: boolean
+    email?: boolean
+    notas?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["personal"]>
+
+  export type PersonalSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nombre?: boolean
+    telefono?: boolean
+    email?: boolean
+    notas?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["personal"]>
+
+  export type PersonalSelectScalar = {
+    id?: boolean
+    nombre?: boolean
+    telefono?: boolean
+    email?: boolean
+    notas?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PersonalOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "telefono" | "email" | "notas" | "createdAt" | "updatedAt", ExtArgs["result"]["personal"]>
+  export type PersonalInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    puestos?: boolean | Personal$puestosArgs<ExtArgs>
+    _count?: boolean | PersonalCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type PersonalIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type PersonalIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $PersonalPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Personal"
+    objects: {
+      puestos: Prisma.$PersonalPuestoPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      nombre: string
+      telefono: string | null
+      email: string | null
+      notas: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["personal"]>
+    composites: {}
+  }
+
+  type PersonalGetPayload<S extends boolean | null | undefined | PersonalDefaultArgs> = $Result.GetResult<Prisma.$PersonalPayload, S>
+
+  type PersonalCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PersonalFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PersonalCountAggregateInputType | true
+    }
+
+  export interface PersonalDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Personal'], meta: { name: 'Personal' } }
+    /**
+     * Find zero or one Personal that matches the filter.
+     * @param {PersonalFindUniqueArgs} args - Arguments to find a Personal
+     * @example
+     * // Get one Personal
+     * const personal = await prisma.personal.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PersonalFindUniqueArgs>(args: SelectSubset<T, PersonalFindUniqueArgs<ExtArgs>>): Prisma__PersonalClient<$Result.GetResult<Prisma.$PersonalPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Personal that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PersonalFindUniqueOrThrowArgs} args - Arguments to find a Personal
+     * @example
+     * // Get one Personal
+     * const personal = await prisma.personal.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PersonalFindUniqueOrThrowArgs>(args: SelectSubset<T, PersonalFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PersonalClient<$Result.GetResult<Prisma.$PersonalPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Personal that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonalFindFirstArgs} args - Arguments to find a Personal
+     * @example
+     * // Get one Personal
+     * const personal = await prisma.personal.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PersonalFindFirstArgs>(args?: SelectSubset<T, PersonalFindFirstArgs<ExtArgs>>): Prisma__PersonalClient<$Result.GetResult<Prisma.$PersonalPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Personal that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonalFindFirstOrThrowArgs} args - Arguments to find a Personal
+     * @example
+     * // Get one Personal
+     * const personal = await prisma.personal.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PersonalFindFirstOrThrowArgs>(args?: SelectSubset<T, PersonalFindFirstOrThrowArgs<ExtArgs>>): Prisma__PersonalClient<$Result.GetResult<Prisma.$PersonalPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Personals that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonalFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Personals
+     * const personals = await prisma.personal.findMany()
+     * 
+     * // Get first 10 Personals
+     * const personals = await prisma.personal.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const personalWithIdOnly = await prisma.personal.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PersonalFindManyArgs>(args?: SelectSubset<T, PersonalFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PersonalPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Personal.
+     * @param {PersonalCreateArgs} args - Arguments to create a Personal.
+     * @example
+     * // Create one Personal
+     * const Personal = await prisma.personal.create({
+     *   data: {
+     *     // ... data to create a Personal
+     *   }
+     * })
+     * 
+     */
+    create<T extends PersonalCreateArgs>(args: SelectSubset<T, PersonalCreateArgs<ExtArgs>>): Prisma__PersonalClient<$Result.GetResult<Prisma.$PersonalPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Personals.
+     * @param {PersonalCreateManyArgs} args - Arguments to create many Personals.
+     * @example
+     * // Create many Personals
+     * const personal = await prisma.personal.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PersonalCreateManyArgs>(args?: SelectSubset<T, PersonalCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Personals and returns the data saved in the database.
+     * @param {PersonalCreateManyAndReturnArgs} args - Arguments to create many Personals.
+     * @example
+     * // Create many Personals
+     * const personal = await prisma.personal.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Personals and only return the `id`
+     * const personalWithIdOnly = await prisma.personal.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PersonalCreateManyAndReturnArgs>(args?: SelectSubset<T, PersonalCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PersonalPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Personal.
+     * @param {PersonalDeleteArgs} args - Arguments to delete one Personal.
+     * @example
+     * // Delete one Personal
+     * const Personal = await prisma.personal.delete({
+     *   where: {
+     *     // ... filter to delete one Personal
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PersonalDeleteArgs>(args: SelectSubset<T, PersonalDeleteArgs<ExtArgs>>): Prisma__PersonalClient<$Result.GetResult<Prisma.$PersonalPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Personal.
+     * @param {PersonalUpdateArgs} args - Arguments to update one Personal.
+     * @example
+     * // Update one Personal
+     * const personal = await prisma.personal.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PersonalUpdateArgs>(args: SelectSubset<T, PersonalUpdateArgs<ExtArgs>>): Prisma__PersonalClient<$Result.GetResult<Prisma.$PersonalPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Personals.
+     * @param {PersonalDeleteManyArgs} args - Arguments to filter Personals to delete.
+     * @example
+     * // Delete a few Personals
+     * const { count } = await prisma.personal.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PersonalDeleteManyArgs>(args?: SelectSubset<T, PersonalDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Personals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonalUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Personals
+     * const personal = await prisma.personal.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PersonalUpdateManyArgs>(args: SelectSubset<T, PersonalUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Personals and returns the data updated in the database.
+     * @param {PersonalUpdateManyAndReturnArgs} args - Arguments to update many Personals.
+     * @example
+     * // Update many Personals
+     * const personal = await prisma.personal.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Personals and only return the `id`
+     * const personalWithIdOnly = await prisma.personal.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PersonalUpdateManyAndReturnArgs>(args: SelectSubset<T, PersonalUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PersonalPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Personal.
+     * @param {PersonalUpsertArgs} args - Arguments to update or create a Personal.
+     * @example
+     * // Update or create a Personal
+     * const personal = await prisma.personal.upsert({
+     *   create: {
+     *     // ... data to create a Personal
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Personal we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PersonalUpsertArgs>(args: SelectSubset<T, PersonalUpsertArgs<ExtArgs>>): Prisma__PersonalClient<$Result.GetResult<Prisma.$PersonalPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Personals.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonalCountArgs} args - Arguments to filter Personals to count.
+     * @example
+     * // Count the number of Personals
+     * const count = await prisma.personal.count({
+     *   where: {
+     *     // ... the filter for the Personals we want to count
+     *   }
+     * })
+    **/
+    count<T extends PersonalCountArgs>(
+      args?: Subset<T, PersonalCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PersonalCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Personal.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonalAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PersonalAggregateArgs>(args: Subset<T, PersonalAggregateArgs>): Prisma.PrismaPromise<GetPersonalAggregateType<T>>
+
+    /**
+     * Group by Personal.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonalGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PersonalGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PersonalGroupByArgs['orderBy'] }
+        : { orderBy?: PersonalGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PersonalGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPersonalGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Personal model
+   */
+  readonly fields: PersonalFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Personal.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PersonalClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    puestos<T extends Personal$puestosArgs<ExtArgs> = {}>(args?: Subset<T, Personal$puestosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PersonalPuestoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Personal model
+   */
+  interface PersonalFieldRefs {
+    readonly id: FieldRef<"Personal", 'String'>
+    readonly nombre: FieldRef<"Personal", 'String'>
+    readonly telefono: FieldRef<"Personal", 'String'>
+    readonly email: FieldRef<"Personal", 'String'>
+    readonly notas: FieldRef<"Personal", 'String'>
+    readonly createdAt: FieldRef<"Personal", 'DateTime'>
+    readonly updatedAt: FieldRef<"Personal", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Personal findUnique
+   */
+  export type PersonalFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Personal
+     */
+    select?: PersonalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Personal
+     */
+    omit?: PersonalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalInclude<ExtArgs> | null
+    /**
+     * Filter, which Personal to fetch.
+     */
+    where: PersonalWhereUniqueInput
+  }
+
+  /**
+   * Personal findUniqueOrThrow
+   */
+  export type PersonalFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Personal
+     */
+    select?: PersonalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Personal
+     */
+    omit?: PersonalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalInclude<ExtArgs> | null
+    /**
+     * Filter, which Personal to fetch.
+     */
+    where: PersonalWhereUniqueInput
+  }
+
+  /**
+   * Personal findFirst
+   */
+  export type PersonalFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Personal
+     */
+    select?: PersonalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Personal
+     */
+    omit?: PersonalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalInclude<ExtArgs> | null
+    /**
+     * Filter, which Personal to fetch.
+     */
+    where?: PersonalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Personals to fetch.
+     */
+    orderBy?: PersonalOrderByWithRelationInput | PersonalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Personals.
+     */
+    cursor?: PersonalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Personals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Personals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Personals.
+     */
+    distinct?: PersonalScalarFieldEnum | PersonalScalarFieldEnum[]
+  }
+
+  /**
+   * Personal findFirstOrThrow
+   */
+  export type PersonalFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Personal
+     */
+    select?: PersonalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Personal
+     */
+    omit?: PersonalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalInclude<ExtArgs> | null
+    /**
+     * Filter, which Personal to fetch.
+     */
+    where?: PersonalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Personals to fetch.
+     */
+    orderBy?: PersonalOrderByWithRelationInput | PersonalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Personals.
+     */
+    cursor?: PersonalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Personals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Personals.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Personals.
+     */
+    distinct?: PersonalScalarFieldEnum | PersonalScalarFieldEnum[]
+  }
+
+  /**
+   * Personal findMany
+   */
+  export type PersonalFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Personal
+     */
+    select?: PersonalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Personal
+     */
+    omit?: PersonalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalInclude<ExtArgs> | null
+    /**
+     * Filter, which Personals to fetch.
+     */
+    where?: PersonalWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Personals to fetch.
+     */
+    orderBy?: PersonalOrderByWithRelationInput | PersonalOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Personals.
+     */
+    cursor?: PersonalWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Personals from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Personals.
+     */
+    skip?: number
+    distinct?: PersonalScalarFieldEnum | PersonalScalarFieldEnum[]
+  }
+
+  /**
+   * Personal create
+   */
+  export type PersonalCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Personal
+     */
+    select?: PersonalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Personal
+     */
+    omit?: PersonalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Personal.
+     */
+    data: XOR<PersonalCreateInput, PersonalUncheckedCreateInput>
+  }
+
+  /**
+   * Personal createMany
+   */
+  export type PersonalCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Personals.
+     */
+    data: PersonalCreateManyInput | PersonalCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Personal createManyAndReturn
+   */
+  export type PersonalCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Personal
+     */
+    select?: PersonalSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Personal
+     */
+    omit?: PersonalOmit<ExtArgs> | null
+    /**
+     * The data used to create many Personals.
+     */
+    data: PersonalCreateManyInput | PersonalCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Personal update
+   */
+  export type PersonalUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Personal
+     */
+    select?: PersonalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Personal
+     */
+    omit?: PersonalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Personal.
+     */
+    data: XOR<PersonalUpdateInput, PersonalUncheckedUpdateInput>
+    /**
+     * Choose, which Personal to update.
+     */
+    where: PersonalWhereUniqueInput
+  }
+
+  /**
+   * Personal updateMany
+   */
+  export type PersonalUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Personals.
+     */
+    data: XOR<PersonalUpdateManyMutationInput, PersonalUncheckedUpdateManyInput>
+    /**
+     * Filter which Personals to update
+     */
+    where?: PersonalWhereInput
+    /**
+     * Limit how many Personals to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Personal updateManyAndReturn
+   */
+  export type PersonalUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Personal
+     */
+    select?: PersonalSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Personal
+     */
+    omit?: PersonalOmit<ExtArgs> | null
+    /**
+     * The data used to update Personals.
+     */
+    data: XOR<PersonalUpdateManyMutationInput, PersonalUncheckedUpdateManyInput>
+    /**
+     * Filter which Personals to update
+     */
+    where?: PersonalWhereInput
+    /**
+     * Limit how many Personals to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Personal upsert
+   */
+  export type PersonalUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Personal
+     */
+    select?: PersonalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Personal
+     */
+    omit?: PersonalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Personal to update in case it exists.
+     */
+    where: PersonalWhereUniqueInput
+    /**
+     * In case the Personal found by the `where` argument doesn't exist, create a new Personal with this data.
+     */
+    create: XOR<PersonalCreateInput, PersonalUncheckedCreateInput>
+    /**
+     * In case the Personal was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PersonalUpdateInput, PersonalUncheckedUpdateInput>
+  }
+
+  /**
+   * Personal delete
+   */
+  export type PersonalDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Personal
+     */
+    select?: PersonalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Personal
+     */
+    omit?: PersonalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalInclude<ExtArgs> | null
+    /**
+     * Filter which Personal to delete.
+     */
+    where: PersonalWhereUniqueInput
+  }
+
+  /**
+   * Personal deleteMany
+   */
+  export type PersonalDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Personals to delete
+     */
+    where?: PersonalWhereInput
+    /**
+     * Limit how many Personals to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Personal.puestos
+   */
+  export type Personal$puestosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalPuesto
+     */
+    select?: PersonalPuestoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalPuesto
+     */
+    omit?: PersonalPuestoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalPuestoInclude<ExtArgs> | null
+    where?: PersonalPuestoWhereInput
+    orderBy?: PersonalPuestoOrderByWithRelationInput | PersonalPuestoOrderByWithRelationInput[]
+    cursor?: PersonalPuestoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PersonalPuestoScalarFieldEnum | PersonalPuestoScalarFieldEnum[]
+  }
+
+  /**
+   * Personal without action
+   */
+  export type PersonalDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Personal
+     */
+    select?: PersonalSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Personal
+     */
+    omit?: PersonalOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PersonalPuesto
+   */
+
+  export type AggregatePersonalPuesto = {
+    _count: PersonalPuestoCountAggregateOutputType | null
+    _min: PersonalPuestoMinAggregateOutputType | null
+    _max: PersonalPuestoMaxAggregateOutputType | null
+  }
+
+  export type PersonalPuestoMinAggregateOutputType = {
+    personalId: string | null
+    puestoId: string | null
+    asignadoEn: Date | null
+  }
+
+  export type PersonalPuestoMaxAggregateOutputType = {
+    personalId: string | null
+    puestoId: string | null
+    asignadoEn: Date | null
+  }
+
+  export type PersonalPuestoCountAggregateOutputType = {
+    personalId: number
+    puestoId: number
+    asignadoEn: number
+    _all: number
+  }
+
+
+  export type PersonalPuestoMinAggregateInputType = {
+    personalId?: true
+    puestoId?: true
+    asignadoEn?: true
+  }
+
+  export type PersonalPuestoMaxAggregateInputType = {
+    personalId?: true
+    puestoId?: true
+    asignadoEn?: true
+  }
+
+  export type PersonalPuestoCountAggregateInputType = {
+    personalId?: true
+    puestoId?: true
+    asignadoEn?: true
+    _all?: true
+  }
+
+  export type PersonalPuestoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PersonalPuesto to aggregate.
+     */
+    where?: PersonalPuestoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PersonalPuestos to fetch.
+     */
+    orderBy?: PersonalPuestoOrderByWithRelationInput | PersonalPuestoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PersonalPuestoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PersonalPuestos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PersonalPuestos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PersonalPuestos
+    **/
+    _count?: true | PersonalPuestoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PersonalPuestoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PersonalPuestoMaxAggregateInputType
+  }
+
+  export type GetPersonalPuestoAggregateType<T extends PersonalPuestoAggregateArgs> = {
+        [P in keyof T & keyof AggregatePersonalPuesto]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePersonalPuesto[P]>
+      : GetScalarType<T[P], AggregatePersonalPuesto[P]>
+  }
+
+
+
+
+  export type PersonalPuestoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PersonalPuestoWhereInput
+    orderBy?: PersonalPuestoOrderByWithAggregationInput | PersonalPuestoOrderByWithAggregationInput[]
+    by: PersonalPuestoScalarFieldEnum[] | PersonalPuestoScalarFieldEnum
+    having?: PersonalPuestoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PersonalPuestoCountAggregateInputType | true
+    _min?: PersonalPuestoMinAggregateInputType
+    _max?: PersonalPuestoMaxAggregateInputType
+  }
+
+  export type PersonalPuestoGroupByOutputType = {
+    personalId: string
+    puestoId: string
+    asignadoEn: Date
+    _count: PersonalPuestoCountAggregateOutputType | null
+    _min: PersonalPuestoMinAggregateOutputType | null
+    _max: PersonalPuestoMaxAggregateOutputType | null
+  }
+
+  type GetPersonalPuestoGroupByPayload<T extends PersonalPuestoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PersonalPuestoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PersonalPuestoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PersonalPuestoGroupByOutputType[P]>
+            : GetScalarType<T[P], PersonalPuestoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PersonalPuestoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    personalId?: boolean
+    puestoId?: boolean
+    asignadoEn?: boolean
+    personal?: boolean | PersonalDefaultArgs<ExtArgs>
+    puesto?: boolean | PuestoDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["personalPuesto"]>
+
+  export type PersonalPuestoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    personalId?: boolean
+    puestoId?: boolean
+    asignadoEn?: boolean
+    personal?: boolean | PersonalDefaultArgs<ExtArgs>
+    puesto?: boolean | PuestoDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["personalPuesto"]>
+
+  export type PersonalPuestoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    personalId?: boolean
+    puestoId?: boolean
+    asignadoEn?: boolean
+    personal?: boolean | PersonalDefaultArgs<ExtArgs>
+    puesto?: boolean | PuestoDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["personalPuesto"]>
+
+  export type PersonalPuestoSelectScalar = {
+    personalId?: boolean
+    puestoId?: boolean
+    asignadoEn?: boolean
+  }
+
+  export type PersonalPuestoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"personalId" | "puestoId" | "asignadoEn", ExtArgs["result"]["personalPuesto"]>
+  export type PersonalPuestoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    personal?: boolean | PersonalDefaultArgs<ExtArgs>
+    puesto?: boolean | PuestoDefaultArgs<ExtArgs>
+  }
+  export type PersonalPuestoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    personal?: boolean | PersonalDefaultArgs<ExtArgs>
+    puesto?: boolean | PuestoDefaultArgs<ExtArgs>
+  }
+  export type PersonalPuestoIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    personal?: boolean | PersonalDefaultArgs<ExtArgs>
+    puesto?: boolean | PuestoDefaultArgs<ExtArgs>
+  }
+
+  export type $PersonalPuestoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PersonalPuesto"
+    objects: {
+      personal: Prisma.$PersonalPayload<ExtArgs>
+      puesto: Prisma.$PuestoPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      personalId: string
+      puestoId: string
+      asignadoEn: Date
+    }, ExtArgs["result"]["personalPuesto"]>
+    composites: {}
+  }
+
+  type PersonalPuestoGetPayload<S extends boolean | null | undefined | PersonalPuestoDefaultArgs> = $Result.GetResult<Prisma.$PersonalPuestoPayload, S>
+
+  type PersonalPuestoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PersonalPuestoFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PersonalPuestoCountAggregateInputType | true
+    }
+
+  export interface PersonalPuestoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PersonalPuesto'], meta: { name: 'PersonalPuesto' } }
+    /**
+     * Find zero or one PersonalPuesto that matches the filter.
+     * @param {PersonalPuestoFindUniqueArgs} args - Arguments to find a PersonalPuesto
+     * @example
+     * // Get one PersonalPuesto
+     * const personalPuesto = await prisma.personalPuesto.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PersonalPuestoFindUniqueArgs>(args: SelectSubset<T, PersonalPuestoFindUniqueArgs<ExtArgs>>): Prisma__PersonalPuestoClient<$Result.GetResult<Prisma.$PersonalPuestoPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PersonalPuesto that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PersonalPuestoFindUniqueOrThrowArgs} args - Arguments to find a PersonalPuesto
+     * @example
+     * // Get one PersonalPuesto
+     * const personalPuesto = await prisma.personalPuesto.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PersonalPuestoFindUniqueOrThrowArgs>(args: SelectSubset<T, PersonalPuestoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PersonalPuestoClient<$Result.GetResult<Prisma.$PersonalPuestoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PersonalPuesto that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonalPuestoFindFirstArgs} args - Arguments to find a PersonalPuesto
+     * @example
+     * // Get one PersonalPuesto
+     * const personalPuesto = await prisma.personalPuesto.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PersonalPuestoFindFirstArgs>(args?: SelectSubset<T, PersonalPuestoFindFirstArgs<ExtArgs>>): Prisma__PersonalPuestoClient<$Result.GetResult<Prisma.$PersonalPuestoPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PersonalPuesto that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonalPuestoFindFirstOrThrowArgs} args - Arguments to find a PersonalPuesto
+     * @example
+     * // Get one PersonalPuesto
+     * const personalPuesto = await prisma.personalPuesto.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PersonalPuestoFindFirstOrThrowArgs>(args?: SelectSubset<T, PersonalPuestoFindFirstOrThrowArgs<ExtArgs>>): Prisma__PersonalPuestoClient<$Result.GetResult<Prisma.$PersonalPuestoPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PersonalPuestos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonalPuestoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PersonalPuestos
+     * const personalPuestos = await prisma.personalPuesto.findMany()
+     * 
+     * // Get first 10 PersonalPuestos
+     * const personalPuestos = await prisma.personalPuesto.findMany({ take: 10 })
+     * 
+     * // Only select the `personalId`
+     * const personalPuestoWithPersonalIdOnly = await prisma.personalPuesto.findMany({ select: { personalId: true } })
+     * 
+     */
+    findMany<T extends PersonalPuestoFindManyArgs>(args?: SelectSubset<T, PersonalPuestoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PersonalPuestoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PersonalPuesto.
+     * @param {PersonalPuestoCreateArgs} args - Arguments to create a PersonalPuesto.
+     * @example
+     * // Create one PersonalPuesto
+     * const PersonalPuesto = await prisma.personalPuesto.create({
+     *   data: {
+     *     // ... data to create a PersonalPuesto
+     *   }
+     * })
+     * 
+     */
+    create<T extends PersonalPuestoCreateArgs>(args: SelectSubset<T, PersonalPuestoCreateArgs<ExtArgs>>): Prisma__PersonalPuestoClient<$Result.GetResult<Prisma.$PersonalPuestoPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PersonalPuestos.
+     * @param {PersonalPuestoCreateManyArgs} args - Arguments to create many PersonalPuestos.
+     * @example
+     * // Create many PersonalPuestos
+     * const personalPuesto = await prisma.personalPuesto.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PersonalPuestoCreateManyArgs>(args?: SelectSubset<T, PersonalPuestoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PersonalPuestos and returns the data saved in the database.
+     * @param {PersonalPuestoCreateManyAndReturnArgs} args - Arguments to create many PersonalPuestos.
+     * @example
+     * // Create many PersonalPuestos
+     * const personalPuesto = await prisma.personalPuesto.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PersonalPuestos and only return the `personalId`
+     * const personalPuestoWithPersonalIdOnly = await prisma.personalPuesto.createManyAndReturn({
+     *   select: { personalId: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PersonalPuestoCreateManyAndReturnArgs>(args?: SelectSubset<T, PersonalPuestoCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PersonalPuestoPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PersonalPuesto.
+     * @param {PersonalPuestoDeleteArgs} args - Arguments to delete one PersonalPuesto.
+     * @example
+     * // Delete one PersonalPuesto
+     * const PersonalPuesto = await prisma.personalPuesto.delete({
+     *   where: {
+     *     // ... filter to delete one PersonalPuesto
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PersonalPuestoDeleteArgs>(args: SelectSubset<T, PersonalPuestoDeleteArgs<ExtArgs>>): Prisma__PersonalPuestoClient<$Result.GetResult<Prisma.$PersonalPuestoPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PersonalPuesto.
+     * @param {PersonalPuestoUpdateArgs} args - Arguments to update one PersonalPuesto.
+     * @example
+     * // Update one PersonalPuesto
+     * const personalPuesto = await prisma.personalPuesto.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PersonalPuestoUpdateArgs>(args: SelectSubset<T, PersonalPuestoUpdateArgs<ExtArgs>>): Prisma__PersonalPuestoClient<$Result.GetResult<Prisma.$PersonalPuestoPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PersonalPuestos.
+     * @param {PersonalPuestoDeleteManyArgs} args - Arguments to filter PersonalPuestos to delete.
+     * @example
+     * // Delete a few PersonalPuestos
+     * const { count } = await prisma.personalPuesto.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PersonalPuestoDeleteManyArgs>(args?: SelectSubset<T, PersonalPuestoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PersonalPuestos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonalPuestoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PersonalPuestos
+     * const personalPuesto = await prisma.personalPuesto.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PersonalPuestoUpdateManyArgs>(args: SelectSubset<T, PersonalPuestoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PersonalPuestos and returns the data updated in the database.
+     * @param {PersonalPuestoUpdateManyAndReturnArgs} args - Arguments to update many PersonalPuestos.
+     * @example
+     * // Update many PersonalPuestos
+     * const personalPuesto = await prisma.personalPuesto.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PersonalPuestos and only return the `personalId`
+     * const personalPuestoWithPersonalIdOnly = await prisma.personalPuesto.updateManyAndReturn({
+     *   select: { personalId: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PersonalPuestoUpdateManyAndReturnArgs>(args: SelectSubset<T, PersonalPuestoUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PersonalPuestoPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PersonalPuesto.
+     * @param {PersonalPuestoUpsertArgs} args - Arguments to update or create a PersonalPuesto.
+     * @example
+     * // Update or create a PersonalPuesto
+     * const personalPuesto = await prisma.personalPuesto.upsert({
+     *   create: {
+     *     // ... data to create a PersonalPuesto
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PersonalPuesto we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PersonalPuestoUpsertArgs>(args: SelectSubset<T, PersonalPuestoUpsertArgs<ExtArgs>>): Prisma__PersonalPuestoClient<$Result.GetResult<Prisma.$PersonalPuestoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PersonalPuestos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonalPuestoCountArgs} args - Arguments to filter PersonalPuestos to count.
+     * @example
+     * // Count the number of PersonalPuestos
+     * const count = await prisma.personalPuesto.count({
+     *   where: {
+     *     // ... the filter for the PersonalPuestos we want to count
+     *   }
+     * })
+    **/
+    count<T extends PersonalPuestoCountArgs>(
+      args?: Subset<T, PersonalPuestoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PersonalPuestoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PersonalPuesto.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonalPuestoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PersonalPuestoAggregateArgs>(args: Subset<T, PersonalPuestoAggregateArgs>): Prisma.PrismaPromise<GetPersonalPuestoAggregateType<T>>
+
+    /**
+     * Group by PersonalPuesto.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonalPuestoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PersonalPuestoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PersonalPuestoGroupByArgs['orderBy'] }
+        : { orderBy?: PersonalPuestoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PersonalPuestoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPersonalPuestoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PersonalPuesto model
+   */
+  readonly fields: PersonalPuestoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PersonalPuesto.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PersonalPuestoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    personal<T extends PersonalDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PersonalDefaultArgs<ExtArgs>>): Prisma__PersonalClient<$Result.GetResult<Prisma.$PersonalPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    puesto<T extends PuestoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PuestoDefaultArgs<ExtArgs>>): Prisma__PuestoClient<$Result.GetResult<Prisma.$PuestoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PersonalPuesto model
+   */
+  interface PersonalPuestoFieldRefs {
+    readonly personalId: FieldRef<"PersonalPuesto", 'String'>
+    readonly puestoId: FieldRef<"PersonalPuesto", 'String'>
+    readonly asignadoEn: FieldRef<"PersonalPuesto", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PersonalPuesto findUnique
+   */
+  export type PersonalPuestoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalPuesto
+     */
+    select?: PersonalPuestoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalPuesto
+     */
+    omit?: PersonalPuestoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalPuestoInclude<ExtArgs> | null
+    /**
+     * Filter, which PersonalPuesto to fetch.
+     */
+    where: PersonalPuestoWhereUniqueInput
+  }
+
+  /**
+   * PersonalPuesto findUniqueOrThrow
+   */
+  export type PersonalPuestoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalPuesto
+     */
+    select?: PersonalPuestoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalPuesto
+     */
+    omit?: PersonalPuestoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalPuestoInclude<ExtArgs> | null
+    /**
+     * Filter, which PersonalPuesto to fetch.
+     */
+    where: PersonalPuestoWhereUniqueInput
+  }
+
+  /**
+   * PersonalPuesto findFirst
+   */
+  export type PersonalPuestoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalPuesto
+     */
+    select?: PersonalPuestoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalPuesto
+     */
+    omit?: PersonalPuestoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalPuestoInclude<ExtArgs> | null
+    /**
+     * Filter, which PersonalPuesto to fetch.
+     */
+    where?: PersonalPuestoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PersonalPuestos to fetch.
+     */
+    orderBy?: PersonalPuestoOrderByWithRelationInput | PersonalPuestoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PersonalPuestos.
+     */
+    cursor?: PersonalPuestoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PersonalPuestos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PersonalPuestos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PersonalPuestos.
+     */
+    distinct?: PersonalPuestoScalarFieldEnum | PersonalPuestoScalarFieldEnum[]
+  }
+
+  /**
+   * PersonalPuesto findFirstOrThrow
+   */
+  export type PersonalPuestoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalPuesto
+     */
+    select?: PersonalPuestoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalPuesto
+     */
+    omit?: PersonalPuestoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalPuestoInclude<ExtArgs> | null
+    /**
+     * Filter, which PersonalPuesto to fetch.
+     */
+    where?: PersonalPuestoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PersonalPuestos to fetch.
+     */
+    orderBy?: PersonalPuestoOrderByWithRelationInput | PersonalPuestoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PersonalPuestos.
+     */
+    cursor?: PersonalPuestoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PersonalPuestos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PersonalPuestos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PersonalPuestos.
+     */
+    distinct?: PersonalPuestoScalarFieldEnum | PersonalPuestoScalarFieldEnum[]
+  }
+
+  /**
+   * PersonalPuesto findMany
+   */
+  export type PersonalPuestoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalPuesto
+     */
+    select?: PersonalPuestoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalPuesto
+     */
+    omit?: PersonalPuestoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalPuestoInclude<ExtArgs> | null
+    /**
+     * Filter, which PersonalPuestos to fetch.
+     */
+    where?: PersonalPuestoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PersonalPuestos to fetch.
+     */
+    orderBy?: PersonalPuestoOrderByWithRelationInput | PersonalPuestoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PersonalPuestos.
+     */
+    cursor?: PersonalPuestoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PersonalPuestos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PersonalPuestos.
+     */
+    skip?: number
+    distinct?: PersonalPuestoScalarFieldEnum | PersonalPuestoScalarFieldEnum[]
+  }
+
+  /**
+   * PersonalPuesto create
+   */
+  export type PersonalPuestoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalPuesto
+     */
+    select?: PersonalPuestoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalPuesto
+     */
+    omit?: PersonalPuestoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalPuestoInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PersonalPuesto.
+     */
+    data: XOR<PersonalPuestoCreateInput, PersonalPuestoUncheckedCreateInput>
+  }
+
+  /**
+   * PersonalPuesto createMany
+   */
+  export type PersonalPuestoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PersonalPuestos.
+     */
+    data: PersonalPuestoCreateManyInput | PersonalPuestoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PersonalPuesto createManyAndReturn
+   */
+  export type PersonalPuestoCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalPuesto
+     */
+    select?: PersonalPuestoSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalPuesto
+     */
+    omit?: PersonalPuestoOmit<ExtArgs> | null
+    /**
+     * The data used to create many PersonalPuestos.
+     */
+    data: PersonalPuestoCreateManyInput | PersonalPuestoCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalPuestoIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PersonalPuesto update
+   */
+  export type PersonalPuestoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalPuesto
+     */
+    select?: PersonalPuestoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalPuesto
+     */
+    omit?: PersonalPuestoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalPuestoInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PersonalPuesto.
+     */
+    data: XOR<PersonalPuestoUpdateInput, PersonalPuestoUncheckedUpdateInput>
+    /**
+     * Choose, which PersonalPuesto to update.
+     */
+    where: PersonalPuestoWhereUniqueInput
+  }
+
+  /**
+   * PersonalPuesto updateMany
+   */
+  export type PersonalPuestoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PersonalPuestos.
+     */
+    data: XOR<PersonalPuestoUpdateManyMutationInput, PersonalPuestoUncheckedUpdateManyInput>
+    /**
+     * Filter which PersonalPuestos to update
+     */
+    where?: PersonalPuestoWhereInput
+    /**
+     * Limit how many PersonalPuestos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PersonalPuesto updateManyAndReturn
+   */
+  export type PersonalPuestoUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalPuesto
+     */
+    select?: PersonalPuestoSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalPuesto
+     */
+    omit?: PersonalPuestoOmit<ExtArgs> | null
+    /**
+     * The data used to update PersonalPuestos.
+     */
+    data: XOR<PersonalPuestoUpdateManyMutationInput, PersonalPuestoUncheckedUpdateManyInput>
+    /**
+     * Filter which PersonalPuestos to update
+     */
+    where?: PersonalPuestoWhereInput
+    /**
+     * Limit how many PersonalPuestos to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalPuestoIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PersonalPuesto upsert
+   */
+  export type PersonalPuestoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalPuesto
+     */
+    select?: PersonalPuestoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalPuesto
+     */
+    omit?: PersonalPuestoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalPuestoInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PersonalPuesto to update in case it exists.
+     */
+    where: PersonalPuestoWhereUniqueInput
+    /**
+     * In case the PersonalPuesto found by the `where` argument doesn't exist, create a new PersonalPuesto with this data.
+     */
+    create: XOR<PersonalPuestoCreateInput, PersonalPuestoUncheckedCreateInput>
+    /**
+     * In case the PersonalPuesto was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PersonalPuestoUpdateInput, PersonalPuestoUncheckedUpdateInput>
+  }
+
+  /**
+   * PersonalPuesto delete
+   */
+  export type PersonalPuestoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalPuesto
+     */
+    select?: PersonalPuestoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalPuesto
+     */
+    omit?: PersonalPuestoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalPuestoInclude<ExtArgs> | null
+    /**
+     * Filter which PersonalPuesto to delete.
+     */
+    where: PersonalPuestoWhereUniqueInput
+  }
+
+  /**
+   * PersonalPuesto deleteMany
+   */
+  export type PersonalPuestoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PersonalPuestos to delete
+     */
+    where?: PersonalPuestoWhereInput
+    /**
+     * Limit how many PersonalPuestos to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PersonalPuesto without action
+   */
+  export type PersonalPuestoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalPuesto
+     */
+    select?: PersonalPuestoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalPuesto
+     */
+    omit?: PersonalPuestoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalPuestoInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Proveedor
+   */
+
+  export type AggregateProveedor = {
+    _count: ProveedorCountAggregateOutputType | null
+    _min: ProveedorMinAggregateOutputType | null
+    _max: ProveedorMaxAggregateOutputType | null
+  }
+
+  export type ProveedorMinAggregateOutputType = {
+    id: string | null
+    nombre: string | null
+    nif: string | null
+    direccion: string | null
+    email: string | null
+    telefono: string | null
+    contacto: string | null
+    notas: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ProveedorMaxAggregateOutputType = {
+    id: string | null
+    nombre: string | null
+    nif: string | null
+    direccion: string | null
+    email: string | null
+    telefono: string | null
+    contacto: string | null
+    notas: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type ProveedorCountAggregateOutputType = {
+    id: number
+    nombre: number
+    nif: number
+    direccion: number
+    email: number
+    telefono: number
+    contacto: number
+    notas: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type ProveedorMinAggregateInputType = {
+    id?: true
+    nombre?: true
+    nif?: true
+    direccion?: true
+    email?: true
+    telefono?: true
+    contacto?: true
+    notas?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ProveedorMaxAggregateInputType = {
+    id?: true
+    nombre?: true
+    nif?: true
+    direccion?: true
+    email?: true
+    telefono?: true
+    contacto?: true
+    notas?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type ProveedorCountAggregateInputType = {
+    id?: true
+    nombre?: true
+    nif?: true
+    direccion?: true
+    email?: true
+    telefono?: true
+    contacto?: true
+    notas?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type ProveedorAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Proveedor to aggregate.
+     */
+    where?: ProveedorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Proveedors to fetch.
+     */
+    orderBy?: ProveedorOrderByWithRelationInput | ProveedorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ProveedorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Proveedors from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Proveedors.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Proveedors
+    **/
+    _count?: true | ProveedorCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ProveedorMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ProveedorMaxAggregateInputType
+  }
+
+  export type GetProveedorAggregateType<T extends ProveedorAggregateArgs> = {
+        [P in keyof T & keyof AggregateProveedor]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateProveedor[P]>
+      : GetScalarType<T[P], AggregateProveedor[P]>
+  }
+
+
+
+
+  export type ProveedorGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ProveedorWhereInput
+    orderBy?: ProveedorOrderByWithAggregationInput | ProveedorOrderByWithAggregationInput[]
+    by: ProveedorScalarFieldEnum[] | ProveedorScalarFieldEnum
+    having?: ProveedorScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ProveedorCountAggregateInputType | true
+    _min?: ProveedorMinAggregateInputType
+    _max?: ProveedorMaxAggregateInputType
+  }
+
+  export type ProveedorGroupByOutputType = {
+    id: string
+    nombre: string
+    nif: string | null
+    direccion: string | null
+    email: string | null
+    telefono: string | null
+    contacto: string | null
+    notas: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: ProveedorCountAggregateOutputType | null
+    _min: ProveedorMinAggregateOutputType | null
+    _max: ProveedorMaxAggregateOutputType | null
+  }
+
+  type GetProveedorGroupByPayload<T extends ProveedorGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ProveedorGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ProveedorGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ProveedorGroupByOutputType[P]>
+            : GetScalarType<T[P], ProveedorGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ProveedorSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nombre?: boolean
+    nif?: boolean
+    direccion?: boolean
+    email?: boolean
+    telefono?: boolean
+    contacto?: boolean
+    notas?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    equipos?: boolean | Proveedor$equiposArgs<ExtArgs>
+    _count?: boolean | ProveedorCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["proveedor"]>
+
+  export type ProveedorSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nombre?: boolean
+    nif?: boolean
+    direccion?: boolean
+    email?: boolean
+    telefono?: boolean
+    contacto?: boolean
+    notas?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["proveedor"]>
+
+  export type ProveedorSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nombre?: boolean
+    nif?: boolean
+    direccion?: boolean
+    email?: boolean
+    telefono?: boolean
+    contacto?: boolean
+    notas?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["proveedor"]>
+
+  export type ProveedorSelectScalar = {
+    id?: boolean
+    nombre?: boolean
+    nif?: boolean
+    direccion?: boolean
+    email?: boolean
+    telefono?: boolean
+    contacto?: boolean
+    notas?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type ProveedorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "nif" | "direccion" | "email" | "telefono" | "contacto" | "notas" | "createdAt" | "updatedAt", ExtArgs["result"]["proveedor"]>
+  export type ProveedorInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    equipos?: boolean | Proveedor$equiposArgs<ExtArgs>
+    _count?: boolean | ProveedorCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ProveedorIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type ProveedorIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $ProveedorPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Proveedor"
+    objects: {
+      equipos: Prisma.$EquipoItemPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      nombre: string
+      nif: string | null
+      direccion: string | null
+      email: string | null
+      telefono: string | null
+      contacto: string | null
+      notas: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["proveedor"]>
+    composites: {}
+  }
+
+  type ProveedorGetPayload<S extends boolean | null | undefined | ProveedorDefaultArgs> = $Result.GetResult<Prisma.$ProveedorPayload, S>
+
+  type ProveedorCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ProveedorFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ProveedorCountAggregateInputType | true
+    }
+
+  export interface ProveedorDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Proveedor'], meta: { name: 'Proveedor' } }
+    /**
+     * Find zero or one Proveedor that matches the filter.
+     * @param {ProveedorFindUniqueArgs} args - Arguments to find a Proveedor
+     * @example
+     * // Get one Proveedor
+     * const proveedor = await prisma.proveedor.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ProveedorFindUniqueArgs>(args: SelectSubset<T, ProveedorFindUniqueArgs<ExtArgs>>): Prisma__ProveedorClient<$Result.GetResult<Prisma.$ProveedorPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Proveedor that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ProveedorFindUniqueOrThrowArgs} args - Arguments to find a Proveedor
+     * @example
+     * // Get one Proveedor
+     * const proveedor = await prisma.proveedor.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ProveedorFindUniqueOrThrowArgs>(args: SelectSubset<T, ProveedorFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ProveedorClient<$Result.GetResult<Prisma.$ProveedorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Proveedor that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProveedorFindFirstArgs} args - Arguments to find a Proveedor
+     * @example
+     * // Get one Proveedor
+     * const proveedor = await prisma.proveedor.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ProveedorFindFirstArgs>(args?: SelectSubset<T, ProveedorFindFirstArgs<ExtArgs>>): Prisma__ProveedorClient<$Result.GetResult<Prisma.$ProveedorPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Proveedor that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProveedorFindFirstOrThrowArgs} args - Arguments to find a Proveedor
+     * @example
+     * // Get one Proveedor
+     * const proveedor = await prisma.proveedor.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ProveedorFindFirstOrThrowArgs>(args?: SelectSubset<T, ProveedorFindFirstOrThrowArgs<ExtArgs>>): Prisma__ProveedorClient<$Result.GetResult<Prisma.$ProveedorPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Proveedors that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProveedorFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Proveedors
+     * const proveedors = await prisma.proveedor.findMany()
+     * 
+     * // Get first 10 Proveedors
+     * const proveedors = await prisma.proveedor.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const proveedorWithIdOnly = await prisma.proveedor.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ProveedorFindManyArgs>(args?: SelectSubset<T, ProveedorFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProveedorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Proveedor.
+     * @param {ProveedorCreateArgs} args - Arguments to create a Proveedor.
+     * @example
+     * // Create one Proveedor
+     * const Proveedor = await prisma.proveedor.create({
+     *   data: {
+     *     // ... data to create a Proveedor
+     *   }
+     * })
+     * 
+     */
+    create<T extends ProveedorCreateArgs>(args: SelectSubset<T, ProveedorCreateArgs<ExtArgs>>): Prisma__ProveedorClient<$Result.GetResult<Prisma.$ProveedorPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Proveedors.
+     * @param {ProveedorCreateManyArgs} args - Arguments to create many Proveedors.
+     * @example
+     * // Create many Proveedors
+     * const proveedor = await prisma.proveedor.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ProveedorCreateManyArgs>(args?: SelectSubset<T, ProveedorCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Proveedors and returns the data saved in the database.
+     * @param {ProveedorCreateManyAndReturnArgs} args - Arguments to create many Proveedors.
+     * @example
+     * // Create many Proveedors
+     * const proveedor = await prisma.proveedor.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Proveedors and only return the `id`
+     * const proveedorWithIdOnly = await prisma.proveedor.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ProveedorCreateManyAndReturnArgs>(args?: SelectSubset<T, ProveedorCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProveedorPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Proveedor.
+     * @param {ProveedorDeleteArgs} args - Arguments to delete one Proveedor.
+     * @example
+     * // Delete one Proveedor
+     * const Proveedor = await prisma.proveedor.delete({
+     *   where: {
+     *     // ... filter to delete one Proveedor
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ProveedorDeleteArgs>(args: SelectSubset<T, ProveedorDeleteArgs<ExtArgs>>): Prisma__ProveedorClient<$Result.GetResult<Prisma.$ProveedorPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Proveedor.
+     * @param {ProveedorUpdateArgs} args - Arguments to update one Proveedor.
+     * @example
+     * // Update one Proveedor
+     * const proveedor = await prisma.proveedor.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ProveedorUpdateArgs>(args: SelectSubset<T, ProveedorUpdateArgs<ExtArgs>>): Prisma__ProveedorClient<$Result.GetResult<Prisma.$ProveedorPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Proveedors.
+     * @param {ProveedorDeleteManyArgs} args - Arguments to filter Proveedors to delete.
+     * @example
+     * // Delete a few Proveedors
+     * const { count } = await prisma.proveedor.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ProveedorDeleteManyArgs>(args?: SelectSubset<T, ProveedorDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Proveedors.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProveedorUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Proveedors
+     * const proveedor = await prisma.proveedor.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ProveedorUpdateManyArgs>(args: SelectSubset<T, ProveedorUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Proveedors and returns the data updated in the database.
+     * @param {ProveedorUpdateManyAndReturnArgs} args - Arguments to update many Proveedors.
+     * @example
+     * // Update many Proveedors
+     * const proveedor = await prisma.proveedor.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Proveedors and only return the `id`
+     * const proveedorWithIdOnly = await prisma.proveedor.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ProveedorUpdateManyAndReturnArgs>(args: SelectSubset<T, ProveedorUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ProveedorPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Proveedor.
+     * @param {ProveedorUpsertArgs} args - Arguments to update or create a Proveedor.
+     * @example
+     * // Update or create a Proveedor
+     * const proveedor = await prisma.proveedor.upsert({
+     *   create: {
+     *     // ... data to create a Proveedor
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Proveedor we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ProveedorUpsertArgs>(args: SelectSubset<T, ProveedorUpsertArgs<ExtArgs>>): Prisma__ProveedorClient<$Result.GetResult<Prisma.$ProveedorPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Proveedors.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProveedorCountArgs} args - Arguments to filter Proveedors to count.
+     * @example
+     * // Count the number of Proveedors
+     * const count = await prisma.proveedor.count({
+     *   where: {
+     *     // ... the filter for the Proveedors we want to count
+     *   }
+     * })
+    **/
+    count<T extends ProveedorCountArgs>(
+      args?: Subset<T, ProveedorCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ProveedorCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Proveedor.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProveedorAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ProveedorAggregateArgs>(args: Subset<T, ProveedorAggregateArgs>): Prisma.PrismaPromise<GetProveedorAggregateType<T>>
+
+    /**
+     * Group by Proveedor.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ProveedorGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ProveedorGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ProveedorGroupByArgs['orderBy'] }
+        : { orderBy?: ProveedorGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ProveedorGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetProveedorGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Proveedor model
+   */
+  readonly fields: ProveedorFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Proveedor.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ProveedorClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    equipos<T extends Proveedor$equiposArgs<ExtArgs> = {}>(args?: Subset<T, Proveedor$equiposArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EquipoItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Proveedor model
+   */
+  interface ProveedorFieldRefs {
+    readonly id: FieldRef<"Proveedor", 'String'>
+    readonly nombre: FieldRef<"Proveedor", 'String'>
+    readonly nif: FieldRef<"Proveedor", 'String'>
+    readonly direccion: FieldRef<"Proveedor", 'String'>
+    readonly email: FieldRef<"Proveedor", 'String'>
+    readonly telefono: FieldRef<"Proveedor", 'String'>
+    readonly contacto: FieldRef<"Proveedor", 'String'>
+    readonly notas: FieldRef<"Proveedor", 'String'>
+    readonly createdAt: FieldRef<"Proveedor", 'DateTime'>
+    readonly updatedAt: FieldRef<"Proveedor", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Proveedor findUnique
+   */
+  export type ProveedorFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Proveedor
+     */
+    select?: ProveedorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Proveedor
+     */
+    omit?: ProveedorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProveedorInclude<ExtArgs> | null
+    /**
+     * Filter, which Proveedor to fetch.
+     */
+    where: ProveedorWhereUniqueInput
+  }
+
+  /**
+   * Proveedor findUniqueOrThrow
+   */
+  export type ProveedorFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Proveedor
+     */
+    select?: ProveedorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Proveedor
+     */
+    omit?: ProveedorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProveedorInclude<ExtArgs> | null
+    /**
+     * Filter, which Proveedor to fetch.
+     */
+    where: ProveedorWhereUniqueInput
+  }
+
+  /**
+   * Proveedor findFirst
+   */
+  export type ProveedorFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Proveedor
+     */
+    select?: ProveedorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Proveedor
+     */
+    omit?: ProveedorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProveedorInclude<ExtArgs> | null
+    /**
+     * Filter, which Proveedor to fetch.
+     */
+    where?: ProveedorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Proveedors to fetch.
+     */
+    orderBy?: ProveedorOrderByWithRelationInput | ProveedorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Proveedors.
+     */
+    cursor?: ProveedorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Proveedors from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Proveedors.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Proveedors.
+     */
+    distinct?: ProveedorScalarFieldEnum | ProveedorScalarFieldEnum[]
+  }
+
+  /**
+   * Proveedor findFirstOrThrow
+   */
+  export type ProveedorFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Proveedor
+     */
+    select?: ProveedorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Proveedor
+     */
+    omit?: ProveedorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProveedorInclude<ExtArgs> | null
+    /**
+     * Filter, which Proveedor to fetch.
+     */
+    where?: ProveedorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Proveedors to fetch.
+     */
+    orderBy?: ProveedorOrderByWithRelationInput | ProveedorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Proveedors.
+     */
+    cursor?: ProveedorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Proveedors from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Proveedors.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Proveedors.
+     */
+    distinct?: ProveedorScalarFieldEnum | ProveedorScalarFieldEnum[]
+  }
+
+  /**
+   * Proveedor findMany
+   */
+  export type ProveedorFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Proveedor
+     */
+    select?: ProveedorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Proveedor
+     */
+    omit?: ProveedorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProveedorInclude<ExtArgs> | null
+    /**
+     * Filter, which Proveedors to fetch.
+     */
+    where?: ProveedorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Proveedors to fetch.
+     */
+    orderBy?: ProveedorOrderByWithRelationInput | ProveedorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Proveedors.
+     */
+    cursor?: ProveedorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Proveedors from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Proveedors.
+     */
+    skip?: number
+    distinct?: ProveedorScalarFieldEnum | ProveedorScalarFieldEnum[]
+  }
+
+  /**
+   * Proveedor create
+   */
+  export type ProveedorCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Proveedor
+     */
+    select?: ProveedorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Proveedor
+     */
+    omit?: ProveedorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProveedorInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Proveedor.
+     */
+    data: XOR<ProveedorCreateInput, ProveedorUncheckedCreateInput>
+  }
+
+  /**
+   * Proveedor createMany
+   */
+  export type ProveedorCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Proveedors.
+     */
+    data: ProveedorCreateManyInput | ProveedorCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Proveedor createManyAndReturn
+   */
+  export type ProveedorCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Proveedor
+     */
+    select?: ProveedorSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Proveedor
+     */
+    omit?: ProveedorOmit<ExtArgs> | null
+    /**
+     * The data used to create many Proveedors.
+     */
+    data: ProveedorCreateManyInput | ProveedorCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Proveedor update
+   */
+  export type ProveedorUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Proveedor
+     */
+    select?: ProveedorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Proveedor
+     */
+    omit?: ProveedorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProveedorInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Proveedor.
+     */
+    data: XOR<ProveedorUpdateInput, ProveedorUncheckedUpdateInput>
+    /**
+     * Choose, which Proveedor to update.
+     */
+    where: ProveedorWhereUniqueInput
+  }
+
+  /**
+   * Proveedor updateMany
+   */
+  export type ProveedorUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Proveedors.
+     */
+    data: XOR<ProveedorUpdateManyMutationInput, ProveedorUncheckedUpdateManyInput>
+    /**
+     * Filter which Proveedors to update
+     */
+    where?: ProveedorWhereInput
+    /**
+     * Limit how many Proveedors to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Proveedor updateManyAndReturn
+   */
+  export type ProveedorUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Proveedor
+     */
+    select?: ProveedorSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Proveedor
+     */
+    omit?: ProveedorOmit<ExtArgs> | null
+    /**
+     * The data used to update Proveedors.
+     */
+    data: XOR<ProveedorUpdateManyMutationInput, ProveedorUncheckedUpdateManyInput>
+    /**
+     * Filter which Proveedors to update
+     */
+    where?: ProveedorWhereInput
+    /**
+     * Limit how many Proveedors to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Proveedor upsert
+   */
+  export type ProveedorUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Proveedor
+     */
+    select?: ProveedorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Proveedor
+     */
+    omit?: ProveedorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProveedorInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Proveedor to update in case it exists.
+     */
+    where: ProveedorWhereUniqueInput
+    /**
+     * In case the Proveedor found by the `where` argument doesn't exist, create a new Proveedor with this data.
+     */
+    create: XOR<ProveedorCreateInput, ProveedorUncheckedCreateInput>
+    /**
+     * In case the Proveedor was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ProveedorUpdateInput, ProveedorUncheckedUpdateInput>
+  }
+
+  /**
+   * Proveedor delete
+   */
+  export type ProveedorDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Proveedor
+     */
+    select?: ProveedorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Proveedor
+     */
+    omit?: ProveedorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProveedorInclude<ExtArgs> | null
+    /**
+     * Filter which Proveedor to delete.
+     */
+    where: ProveedorWhereUniqueInput
+  }
+
+  /**
+   * Proveedor deleteMany
+   */
+  export type ProveedorDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Proveedors to delete
+     */
+    where?: ProveedorWhereInput
+    /**
+     * Limit how many Proveedors to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Proveedor.equipos
+   */
+  export type Proveedor$equiposArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EquipoItem
+     */
+    select?: EquipoItemSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EquipoItem
+     */
+    omit?: EquipoItemOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: EquipoItemInclude<ExtArgs> | null
+    where?: EquipoItemWhereInput
+    orderBy?: EquipoItemOrderByWithRelationInput | EquipoItemOrderByWithRelationInput[]
+    cursor?: EquipoItemWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: EquipoItemScalarFieldEnum | EquipoItemScalarFieldEnum[]
+  }
+
+  /**
+   * Proveedor without action
+   */
+  export type ProveedorDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Proveedor
+     */
+    select?: ProveedorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Proveedor
+     */
+    omit?: ProveedorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProveedorInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Tikelia
+   */
+
+  export type AggregateTikelia = {
+    _count: TikeliaCountAggregateOutputType | null
+    _avg: TikeliaAvgAggregateOutputType | null
+    _sum: TikeliaSumAggregateOutputType | null
+    _min: TikeliaMinAggregateOutputType | null
+    _max: TikeliaMaxAggregateOutputType | null
+  }
+
+  export type TikeliaAvgAggregateOutputType = {
+    importe: number | null
+  }
+
+  export type TikeliaSumAggregateOutputType = {
+    importe: number | null
+  }
+
+  export type TikeliaMinAggregateOutputType = {
+    id: string | null
+    nombre: string | null
+    importe: number | null
+    fecha: Date | null
+    facturaId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TikeliaMaxAggregateOutputType = {
+    id: string | null
+    nombre: string | null
+    importe: number | null
+    fecha: Date | null
+    facturaId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type TikeliaCountAggregateOutputType = {
+    id: number
+    nombre: number
+    importe: number
+    fecha: number
+    facturaId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type TikeliaAvgAggregateInputType = {
+    importe?: true
+  }
+
+  export type TikeliaSumAggregateInputType = {
+    importe?: true
+  }
+
+  export type TikeliaMinAggregateInputType = {
+    id?: true
+    nombre?: true
+    importe?: true
+    fecha?: true
+    facturaId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TikeliaMaxAggregateInputType = {
+    id?: true
+    nombre?: true
+    importe?: true
+    fecha?: true
+    facturaId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type TikeliaCountAggregateInputType = {
+    id?: true
+    nombre?: true
+    importe?: true
+    fecha?: true
+    facturaId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type TikeliaAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Tikelia to aggregate.
+     */
+    where?: TikeliaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Tikelias to fetch.
+     */
+    orderBy?: TikeliaOrderByWithRelationInput | TikeliaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: TikeliaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Tikelias from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Tikelias.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Tikelias
+    **/
+    _count?: true | TikeliaCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: TikeliaAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: TikeliaSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: TikeliaMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: TikeliaMaxAggregateInputType
+  }
+
+  export type GetTikeliaAggregateType<T extends TikeliaAggregateArgs> = {
+        [P in keyof T & keyof AggregateTikelia]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTikelia[P]>
+      : GetScalarType<T[P], AggregateTikelia[P]>
+  }
+
+
+
+
+  export type TikeliaGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TikeliaWhereInput
+    orderBy?: TikeliaOrderByWithAggregationInput | TikeliaOrderByWithAggregationInput[]
+    by: TikeliaScalarFieldEnum[] | TikeliaScalarFieldEnum
+    having?: TikeliaScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TikeliaCountAggregateInputType | true
+    _avg?: TikeliaAvgAggregateInputType
+    _sum?: TikeliaSumAggregateInputType
+    _min?: TikeliaMinAggregateInputType
+    _max?: TikeliaMaxAggregateInputType
+  }
+
+  export type TikeliaGroupByOutputType = {
+    id: string
+    nombre: string
+    importe: number
+    fecha: Date
+    facturaId: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: TikeliaCountAggregateOutputType | null
+    _avg: TikeliaAvgAggregateOutputType | null
+    _sum: TikeliaSumAggregateOutputType | null
+    _min: TikeliaMinAggregateOutputType | null
+    _max: TikeliaMaxAggregateOutputType | null
+  }
+
+  type GetTikeliaGroupByPayload<T extends TikeliaGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<TikeliaGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof TikeliaGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TikeliaGroupByOutputType[P]>
+            : GetScalarType<T[P], TikeliaGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type TikeliaSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nombre?: boolean
+    importe?: boolean
+    fecha?: boolean
+    facturaId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    factura?: boolean | Tikelia$facturaArgs<ExtArgs>
+  }, ExtArgs["result"]["tikelia"]>
+
+  export type TikeliaSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nombre?: boolean
+    importe?: boolean
+    fecha?: boolean
+    facturaId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    factura?: boolean | Tikelia$facturaArgs<ExtArgs>
+  }, ExtArgs["result"]["tikelia"]>
+
+  export type TikeliaSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nombre?: boolean
+    importe?: boolean
+    fecha?: boolean
+    facturaId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    factura?: boolean | Tikelia$facturaArgs<ExtArgs>
+  }, ExtArgs["result"]["tikelia"]>
+
+  export type TikeliaSelectScalar = {
+    id?: boolean
+    nombre?: boolean
+    importe?: boolean
+    fecha?: boolean
+    facturaId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type TikeliaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "importe" | "fecha" | "facturaId" | "createdAt" | "updatedAt", ExtArgs["result"]["tikelia"]>
+  export type TikeliaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    factura?: boolean | Tikelia$facturaArgs<ExtArgs>
+  }
+  export type TikeliaIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    factura?: boolean | Tikelia$facturaArgs<ExtArgs>
+  }
+  export type TikeliaIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    factura?: boolean | Tikelia$facturaArgs<ExtArgs>
+  }
+
+  export type $TikeliaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Tikelia"
+    objects: {
+      factura: Prisma.$FacturaPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      nombre: string
+      importe: number
+      fecha: Date
+      facturaId: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["tikelia"]>
+    composites: {}
+  }
+
+  type TikeliaGetPayload<S extends boolean | null | undefined | TikeliaDefaultArgs> = $Result.GetResult<Prisma.$TikeliaPayload, S>
+
+  type TikeliaCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<TikeliaFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: TikeliaCountAggregateInputType | true
+    }
+
+  export interface TikeliaDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Tikelia'], meta: { name: 'Tikelia' } }
+    /**
+     * Find zero or one Tikelia that matches the filter.
+     * @param {TikeliaFindUniqueArgs} args - Arguments to find a Tikelia
+     * @example
+     * // Get one Tikelia
+     * const tikelia = await prisma.tikelia.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends TikeliaFindUniqueArgs>(args: SelectSubset<T, TikeliaFindUniqueArgs<ExtArgs>>): Prisma__TikeliaClient<$Result.GetResult<Prisma.$TikeliaPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Tikelia that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {TikeliaFindUniqueOrThrowArgs} args - Arguments to find a Tikelia
+     * @example
+     * // Get one Tikelia
+     * const tikelia = await prisma.tikelia.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends TikeliaFindUniqueOrThrowArgs>(args: SelectSubset<T, TikeliaFindUniqueOrThrowArgs<ExtArgs>>): Prisma__TikeliaClient<$Result.GetResult<Prisma.$TikeliaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Tikelia that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TikeliaFindFirstArgs} args - Arguments to find a Tikelia
+     * @example
+     * // Get one Tikelia
+     * const tikelia = await prisma.tikelia.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends TikeliaFindFirstArgs>(args?: SelectSubset<T, TikeliaFindFirstArgs<ExtArgs>>): Prisma__TikeliaClient<$Result.GetResult<Prisma.$TikeliaPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Tikelia that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TikeliaFindFirstOrThrowArgs} args - Arguments to find a Tikelia
+     * @example
+     * // Get one Tikelia
+     * const tikelia = await prisma.tikelia.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends TikeliaFindFirstOrThrowArgs>(args?: SelectSubset<T, TikeliaFindFirstOrThrowArgs<ExtArgs>>): Prisma__TikeliaClient<$Result.GetResult<Prisma.$TikeliaPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Tikelias that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TikeliaFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Tikelias
+     * const tikelias = await prisma.tikelia.findMany()
+     * 
+     * // Get first 10 Tikelias
+     * const tikelias = await prisma.tikelia.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const tikeliaWithIdOnly = await prisma.tikelia.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends TikeliaFindManyArgs>(args?: SelectSubset<T, TikeliaFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TikeliaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Tikelia.
+     * @param {TikeliaCreateArgs} args - Arguments to create a Tikelia.
+     * @example
+     * // Create one Tikelia
+     * const Tikelia = await prisma.tikelia.create({
+     *   data: {
+     *     // ... data to create a Tikelia
+     *   }
+     * })
+     * 
+     */
+    create<T extends TikeliaCreateArgs>(args: SelectSubset<T, TikeliaCreateArgs<ExtArgs>>): Prisma__TikeliaClient<$Result.GetResult<Prisma.$TikeliaPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Tikelias.
+     * @param {TikeliaCreateManyArgs} args - Arguments to create many Tikelias.
+     * @example
+     * // Create many Tikelias
+     * const tikelia = await prisma.tikelia.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends TikeliaCreateManyArgs>(args?: SelectSubset<T, TikeliaCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Tikelias and returns the data saved in the database.
+     * @param {TikeliaCreateManyAndReturnArgs} args - Arguments to create many Tikelias.
+     * @example
+     * // Create many Tikelias
+     * const tikelia = await prisma.tikelia.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Tikelias and only return the `id`
+     * const tikeliaWithIdOnly = await prisma.tikelia.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends TikeliaCreateManyAndReturnArgs>(args?: SelectSubset<T, TikeliaCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TikeliaPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Tikelia.
+     * @param {TikeliaDeleteArgs} args - Arguments to delete one Tikelia.
+     * @example
+     * // Delete one Tikelia
+     * const Tikelia = await prisma.tikelia.delete({
+     *   where: {
+     *     // ... filter to delete one Tikelia
+     *   }
+     * })
+     * 
+     */
+    delete<T extends TikeliaDeleteArgs>(args: SelectSubset<T, TikeliaDeleteArgs<ExtArgs>>): Prisma__TikeliaClient<$Result.GetResult<Prisma.$TikeliaPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Tikelia.
+     * @param {TikeliaUpdateArgs} args - Arguments to update one Tikelia.
+     * @example
+     * // Update one Tikelia
+     * const tikelia = await prisma.tikelia.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends TikeliaUpdateArgs>(args: SelectSubset<T, TikeliaUpdateArgs<ExtArgs>>): Prisma__TikeliaClient<$Result.GetResult<Prisma.$TikeliaPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Tikelias.
+     * @param {TikeliaDeleteManyArgs} args - Arguments to filter Tikelias to delete.
+     * @example
+     * // Delete a few Tikelias
+     * const { count } = await prisma.tikelia.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends TikeliaDeleteManyArgs>(args?: SelectSubset<T, TikeliaDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Tikelias.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TikeliaUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Tikelias
+     * const tikelia = await prisma.tikelia.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends TikeliaUpdateManyArgs>(args: SelectSubset<T, TikeliaUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Tikelias and returns the data updated in the database.
+     * @param {TikeliaUpdateManyAndReturnArgs} args - Arguments to update many Tikelias.
+     * @example
+     * // Update many Tikelias
+     * const tikelia = await prisma.tikelia.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Tikelias and only return the `id`
+     * const tikeliaWithIdOnly = await prisma.tikelia.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends TikeliaUpdateManyAndReturnArgs>(args: SelectSubset<T, TikeliaUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TikeliaPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Tikelia.
+     * @param {TikeliaUpsertArgs} args - Arguments to update or create a Tikelia.
+     * @example
+     * // Update or create a Tikelia
+     * const tikelia = await prisma.tikelia.upsert({
+     *   create: {
+     *     // ... data to create a Tikelia
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Tikelia we want to update
+     *   }
+     * })
+     */
+    upsert<T extends TikeliaUpsertArgs>(args: SelectSubset<T, TikeliaUpsertArgs<ExtArgs>>): Prisma__TikeliaClient<$Result.GetResult<Prisma.$TikeliaPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Tikelias.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TikeliaCountArgs} args - Arguments to filter Tikelias to count.
+     * @example
+     * // Count the number of Tikelias
+     * const count = await prisma.tikelia.count({
+     *   where: {
+     *     // ... the filter for the Tikelias we want to count
+     *   }
+     * })
+    **/
+    count<T extends TikeliaCountArgs>(
+      args?: Subset<T, TikeliaCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TikeliaCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Tikelia.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TikeliaAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends TikeliaAggregateArgs>(args: Subset<T, TikeliaAggregateArgs>): Prisma.PrismaPromise<GetTikeliaAggregateType<T>>
+
+    /**
+     * Group by Tikelia.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TikeliaGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends TikeliaGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TikeliaGroupByArgs['orderBy'] }
+        : { orderBy?: TikeliaGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, TikeliaGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetTikeliaGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Tikelia model
+   */
+  readonly fields: TikeliaFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Tikelia.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__TikeliaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    factura<T extends Tikelia$facturaArgs<ExtArgs> = {}>(args?: Subset<T, Tikelia$facturaArgs<ExtArgs>>): Prisma__FacturaClient<$Result.GetResult<Prisma.$FacturaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Tikelia model
+   */
+  interface TikeliaFieldRefs {
+    readonly id: FieldRef<"Tikelia", 'String'>
+    readonly nombre: FieldRef<"Tikelia", 'String'>
+    readonly importe: FieldRef<"Tikelia", 'Float'>
+    readonly fecha: FieldRef<"Tikelia", 'DateTime'>
+    readonly facturaId: FieldRef<"Tikelia", 'String'>
+    readonly createdAt: FieldRef<"Tikelia", 'DateTime'>
+    readonly updatedAt: FieldRef<"Tikelia", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Tikelia findUnique
+   */
+  export type TikeliaFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tikelia
+     */
+    select?: TikeliaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tikelia
+     */
+    omit?: TikeliaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TikeliaInclude<ExtArgs> | null
+    /**
+     * Filter, which Tikelia to fetch.
+     */
+    where: TikeliaWhereUniqueInput
+  }
+
+  /**
+   * Tikelia findUniqueOrThrow
+   */
+  export type TikeliaFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tikelia
+     */
+    select?: TikeliaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tikelia
+     */
+    omit?: TikeliaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TikeliaInclude<ExtArgs> | null
+    /**
+     * Filter, which Tikelia to fetch.
+     */
+    where: TikeliaWhereUniqueInput
+  }
+
+  /**
+   * Tikelia findFirst
+   */
+  export type TikeliaFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tikelia
+     */
+    select?: TikeliaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tikelia
+     */
+    omit?: TikeliaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TikeliaInclude<ExtArgs> | null
+    /**
+     * Filter, which Tikelia to fetch.
+     */
+    where?: TikeliaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Tikelias to fetch.
+     */
+    orderBy?: TikeliaOrderByWithRelationInput | TikeliaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Tikelias.
+     */
+    cursor?: TikeliaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Tikelias from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Tikelias.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Tikelias.
+     */
+    distinct?: TikeliaScalarFieldEnum | TikeliaScalarFieldEnum[]
+  }
+
+  /**
+   * Tikelia findFirstOrThrow
+   */
+  export type TikeliaFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tikelia
+     */
+    select?: TikeliaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tikelia
+     */
+    omit?: TikeliaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TikeliaInclude<ExtArgs> | null
+    /**
+     * Filter, which Tikelia to fetch.
+     */
+    where?: TikeliaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Tikelias to fetch.
+     */
+    orderBy?: TikeliaOrderByWithRelationInput | TikeliaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Tikelias.
+     */
+    cursor?: TikeliaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Tikelias from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Tikelias.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Tikelias.
+     */
+    distinct?: TikeliaScalarFieldEnum | TikeliaScalarFieldEnum[]
+  }
+
+  /**
+   * Tikelia findMany
+   */
+  export type TikeliaFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tikelia
+     */
+    select?: TikeliaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tikelia
+     */
+    omit?: TikeliaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TikeliaInclude<ExtArgs> | null
+    /**
+     * Filter, which Tikelias to fetch.
+     */
+    where?: TikeliaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Tikelias to fetch.
+     */
+    orderBy?: TikeliaOrderByWithRelationInput | TikeliaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Tikelias.
+     */
+    cursor?: TikeliaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Tikelias from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Tikelias.
+     */
+    skip?: number
+    distinct?: TikeliaScalarFieldEnum | TikeliaScalarFieldEnum[]
+  }
+
+  /**
+   * Tikelia create
+   */
+  export type TikeliaCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tikelia
+     */
+    select?: TikeliaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tikelia
+     */
+    omit?: TikeliaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TikeliaInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Tikelia.
+     */
+    data: XOR<TikeliaCreateInput, TikeliaUncheckedCreateInput>
+  }
+
+  /**
+   * Tikelia createMany
+   */
+  export type TikeliaCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Tikelias.
+     */
+    data: TikeliaCreateManyInput | TikeliaCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Tikelia createManyAndReturn
+   */
+  export type TikeliaCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tikelia
+     */
+    select?: TikeliaSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tikelia
+     */
+    omit?: TikeliaOmit<ExtArgs> | null
+    /**
+     * The data used to create many Tikelias.
+     */
+    data: TikeliaCreateManyInput | TikeliaCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TikeliaIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Tikelia update
+   */
+  export type TikeliaUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tikelia
+     */
+    select?: TikeliaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tikelia
+     */
+    omit?: TikeliaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TikeliaInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Tikelia.
+     */
+    data: XOR<TikeliaUpdateInput, TikeliaUncheckedUpdateInput>
+    /**
+     * Choose, which Tikelia to update.
+     */
+    where: TikeliaWhereUniqueInput
+  }
+
+  /**
+   * Tikelia updateMany
+   */
+  export type TikeliaUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Tikelias.
+     */
+    data: XOR<TikeliaUpdateManyMutationInput, TikeliaUncheckedUpdateManyInput>
+    /**
+     * Filter which Tikelias to update
+     */
+    where?: TikeliaWhereInput
+    /**
+     * Limit how many Tikelias to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Tikelia updateManyAndReturn
+   */
+  export type TikeliaUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tikelia
+     */
+    select?: TikeliaSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tikelia
+     */
+    omit?: TikeliaOmit<ExtArgs> | null
+    /**
+     * The data used to update Tikelias.
+     */
+    data: XOR<TikeliaUpdateManyMutationInput, TikeliaUncheckedUpdateManyInput>
+    /**
+     * Filter which Tikelias to update
+     */
+    where?: TikeliaWhereInput
+    /**
+     * Limit how many Tikelias to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TikeliaIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Tikelia upsert
+   */
+  export type TikeliaUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tikelia
+     */
+    select?: TikeliaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tikelia
+     */
+    omit?: TikeliaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TikeliaInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Tikelia to update in case it exists.
+     */
+    where: TikeliaWhereUniqueInput
+    /**
+     * In case the Tikelia found by the `where` argument doesn't exist, create a new Tikelia with this data.
+     */
+    create: XOR<TikeliaCreateInput, TikeliaUncheckedCreateInput>
+    /**
+     * In case the Tikelia was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TikeliaUpdateInput, TikeliaUncheckedUpdateInput>
+  }
+
+  /**
+   * Tikelia delete
+   */
+  export type TikeliaDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tikelia
+     */
+    select?: TikeliaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tikelia
+     */
+    omit?: TikeliaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TikeliaInclude<ExtArgs> | null
+    /**
+     * Filter which Tikelia to delete.
+     */
+    where: TikeliaWhereUniqueInput
+  }
+
+  /**
+   * Tikelia deleteMany
+   */
+  export type TikeliaDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Tikelias to delete
+     */
+    where?: TikeliaWhereInput
+    /**
+     * Limit how many Tikelias to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Tikelia.factura
+   */
+  export type Tikelia$facturaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Factura
+     */
+    select?: FacturaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Factura
+     */
+    omit?: FacturaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FacturaInclude<ExtArgs> | null
+    where?: FacturaWhereInput
+  }
+
+  /**
+   * Tikelia without action
+   */
+  export type TikeliaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Tikelia
+     */
+    select?: TikeliaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Tikelia
+     */
+    omit?: TikeliaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TikeliaInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -16157,6 +22260,7 @@ export namespace Prisma {
     estado: 'estado',
     fechaCompra: 'fechaCompra',
     precioCompra: 'precioCompra',
+    proveedorId: 'proveedorId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -16277,6 +22381,68 @@ export namespace Prisma {
   };
 
   export type ConfiguracionScalarFieldEnum = (typeof ConfiguracionScalarFieldEnum)[keyof typeof ConfiguracionScalarFieldEnum]
+
+
+  export const PuestoScalarFieldEnum: {
+    id: 'id',
+    nombre: 'nombre',
+    descripcion: 'descripcion',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PuestoScalarFieldEnum = (typeof PuestoScalarFieldEnum)[keyof typeof PuestoScalarFieldEnum]
+
+
+  export const PersonalScalarFieldEnum: {
+    id: 'id',
+    nombre: 'nombre',
+    telefono: 'telefono',
+    email: 'email',
+    notas: 'notas',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PersonalScalarFieldEnum = (typeof PersonalScalarFieldEnum)[keyof typeof PersonalScalarFieldEnum]
+
+
+  export const PersonalPuestoScalarFieldEnum: {
+    personalId: 'personalId',
+    puestoId: 'puestoId',
+    asignadoEn: 'asignadoEn'
+  };
+
+  export type PersonalPuestoScalarFieldEnum = (typeof PersonalPuestoScalarFieldEnum)[keyof typeof PersonalPuestoScalarFieldEnum]
+
+
+  export const ProveedorScalarFieldEnum: {
+    id: 'id',
+    nombre: 'nombre',
+    nif: 'nif',
+    direccion: 'direccion',
+    email: 'email',
+    telefono: 'telefono',
+    contacto: 'contacto',
+    notas: 'notas',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type ProveedorScalarFieldEnum = (typeof ProveedorScalarFieldEnum)[keyof typeof ProveedorScalarFieldEnum]
+
+
+  export const TikeliaScalarFieldEnum: {
+    id: 'id',
+    nombre: 'nombre',
+    importe: 'importe',
+    fecha: 'fecha',
+    facturaId: 'facturaId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type TikeliaScalarFieldEnum = (typeof TikeliaScalarFieldEnum)[keyof typeof TikeliaScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -16710,9 +22876,11 @@ export namespace Prisma {
     estado?: EnumEstadoEquipoFilter<"EquipoItem"> | $Enums.EstadoEquipo
     fechaCompra?: DateTimeNullableFilter<"EquipoItem"> | Date | string | null
     precioCompra?: FloatNullableFilter<"EquipoItem"> | number | null
+    proveedorId?: StringNullableFilter<"EquipoItem"> | string | null
     createdAt?: DateTimeFilter<"EquipoItem"> | Date | string
     updatedAt?: DateTimeFilter<"EquipoItem"> | Date | string
     producto?: XOR<ProductoScalarRelationFilter, ProductoWhereInput>
+    proveedor?: XOR<ProveedorNullableScalarRelationFilter, ProveedorWhereInput> | null
   }
 
   export type EquipoItemOrderByWithRelationInput = {
@@ -16723,9 +22891,11 @@ export namespace Prisma {
     estado?: SortOrder
     fechaCompra?: SortOrderInput | SortOrder
     precioCompra?: SortOrderInput | SortOrder
+    proveedorId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     producto?: ProductoOrderByWithRelationInput
+    proveedor?: ProveedorOrderByWithRelationInput
   }
 
   export type EquipoItemWhereUniqueInput = Prisma.AtLeast<{
@@ -16740,9 +22910,11 @@ export namespace Prisma {
     estado?: EnumEstadoEquipoFilter<"EquipoItem"> | $Enums.EstadoEquipo
     fechaCompra?: DateTimeNullableFilter<"EquipoItem"> | Date | string | null
     precioCompra?: FloatNullableFilter<"EquipoItem"> | number | null
+    proveedorId?: StringNullableFilter<"EquipoItem"> | string | null
     createdAt?: DateTimeFilter<"EquipoItem"> | Date | string
     updatedAt?: DateTimeFilter<"EquipoItem"> | Date | string
     producto?: XOR<ProductoScalarRelationFilter, ProductoWhereInput>
+    proveedor?: XOR<ProveedorNullableScalarRelationFilter, ProveedorWhereInput> | null
   }, "id" | "productoId_numeroSerie">
 
   export type EquipoItemOrderByWithAggregationInput = {
@@ -16753,6 +22925,7 @@ export namespace Prisma {
     estado?: SortOrder
     fechaCompra?: SortOrderInput | SortOrder
     precioCompra?: SortOrderInput | SortOrder
+    proveedorId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: EquipoItemCountOrderByAggregateInput
@@ -16773,6 +22946,7 @@ export namespace Prisma {
     estado?: EnumEstadoEquipoWithAggregatesFilter<"EquipoItem"> | $Enums.EstadoEquipo
     fechaCompra?: DateTimeNullableWithAggregatesFilter<"EquipoItem"> | Date | string | null
     precioCompra?: FloatNullableWithAggregatesFilter<"EquipoItem"> | number | null
+    proveedorId?: StringNullableWithAggregatesFilter<"EquipoItem"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"EquipoItem"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"EquipoItem"> | Date | string
   }
@@ -17165,6 +23339,7 @@ export namespace Prisma {
     cliente?: XOR<ClienteScalarRelationFilter, ClienteWhereInput>
     items?: ItemFacturaListRelationFilter
     presupuestos?: PresupuestoListRelationFilter
+    gastosTickelia?: TikeliaListRelationFilter
   }
 
   export type FacturaOrderByWithRelationInput = {
@@ -17183,6 +23358,7 @@ export namespace Prisma {
     cliente?: ClienteOrderByWithRelationInput
     items?: ItemFacturaOrderByRelationAggregateInput
     presupuestos?: PresupuestoOrderByRelationAggregateInput
+    gastosTickelia?: TikeliaOrderByRelationAggregateInput
   }
 
   export type FacturaWhereUniqueInput = Prisma.AtLeast<{
@@ -17204,6 +23380,7 @@ export namespace Prisma {
     cliente?: XOR<ClienteScalarRelationFilter, ClienteWhereInput>
     items?: ItemFacturaListRelationFilter
     presupuestos?: PresupuestoListRelationFilter
+    gastosTickelia?: TikeliaListRelationFilter
   }, "id" | "numero">
 
   export type FacturaOrderByWithAggregationInput = {
@@ -17381,6 +23558,322 @@ export namespace Prisma {
     moneda?: StringWithAggregatesFilter<"Configuracion"> | string
     prefijoFactura?: StringWithAggregatesFilter<"Configuracion"> | string
     prefijoPresupuesto?: StringWithAggregatesFilter<"Configuracion"> | string
+  }
+
+  export type PuestoWhereInput = {
+    AND?: PuestoWhereInput | PuestoWhereInput[]
+    OR?: PuestoWhereInput[]
+    NOT?: PuestoWhereInput | PuestoWhereInput[]
+    id?: StringFilter<"Puesto"> | string
+    nombre?: StringFilter<"Puesto"> | string
+    descripcion?: StringNullableFilter<"Puesto"> | string | null
+    createdAt?: DateTimeFilter<"Puesto"> | Date | string
+    updatedAt?: DateTimeFilter<"Puesto"> | Date | string
+    personal?: PersonalPuestoListRelationFilter
+  }
+
+  export type PuestoOrderByWithRelationInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    descripcion?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    personal?: PersonalPuestoOrderByRelationAggregateInput
+  }
+
+  export type PuestoWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    nombre?: string
+    AND?: PuestoWhereInput | PuestoWhereInput[]
+    OR?: PuestoWhereInput[]
+    NOT?: PuestoWhereInput | PuestoWhereInput[]
+    descripcion?: StringNullableFilter<"Puesto"> | string | null
+    createdAt?: DateTimeFilter<"Puesto"> | Date | string
+    updatedAt?: DateTimeFilter<"Puesto"> | Date | string
+    personal?: PersonalPuestoListRelationFilter
+  }, "id" | "nombre">
+
+  export type PuestoOrderByWithAggregationInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    descripcion?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PuestoCountOrderByAggregateInput
+    _max?: PuestoMaxOrderByAggregateInput
+    _min?: PuestoMinOrderByAggregateInput
+  }
+
+  export type PuestoScalarWhereWithAggregatesInput = {
+    AND?: PuestoScalarWhereWithAggregatesInput | PuestoScalarWhereWithAggregatesInput[]
+    OR?: PuestoScalarWhereWithAggregatesInput[]
+    NOT?: PuestoScalarWhereWithAggregatesInput | PuestoScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Puesto"> | string
+    nombre?: StringWithAggregatesFilter<"Puesto"> | string
+    descripcion?: StringNullableWithAggregatesFilter<"Puesto"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Puesto"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Puesto"> | Date | string
+  }
+
+  export type PersonalWhereInput = {
+    AND?: PersonalWhereInput | PersonalWhereInput[]
+    OR?: PersonalWhereInput[]
+    NOT?: PersonalWhereInput | PersonalWhereInput[]
+    id?: StringFilter<"Personal"> | string
+    nombre?: StringFilter<"Personal"> | string
+    telefono?: StringNullableFilter<"Personal"> | string | null
+    email?: StringNullableFilter<"Personal"> | string | null
+    notas?: StringNullableFilter<"Personal"> | string | null
+    createdAt?: DateTimeFilter<"Personal"> | Date | string
+    updatedAt?: DateTimeFilter<"Personal"> | Date | string
+    puestos?: PersonalPuestoListRelationFilter
+  }
+
+  export type PersonalOrderByWithRelationInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    telefono?: SortOrderInput | SortOrder
+    email?: SortOrderInput | SortOrder
+    notas?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    puestos?: PersonalPuestoOrderByRelationAggregateInput
+  }
+
+  export type PersonalWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: PersonalWhereInput | PersonalWhereInput[]
+    OR?: PersonalWhereInput[]
+    NOT?: PersonalWhereInput | PersonalWhereInput[]
+    nombre?: StringFilter<"Personal"> | string
+    telefono?: StringNullableFilter<"Personal"> | string | null
+    email?: StringNullableFilter<"Personal"> | string | null
+    notas?: StringNullableFilter<"Personal"> | string | null
+    createdAt?: DateTimeFilter<"Personal"> | Date | string
+    updatedAt?: DateTimeFilter<"Personal"> | Date | string
+    puestos?: PersonalPuestoListRelationFilter
+  }, "id">
+
+  export type PersonalOrderByWithAggregationInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    telefono?: SortOrderInput | SortOrder
+    email?: SortOrderInput | SortOrder
+    notas?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PersonalCountOrderByAggregateInput
+    _max?: PersonalMaxOrderByAggregateInput
+    _min?: PersonalMinOrderByAggregateInput
+  }
+
+  export type PersonalScalarWhereWithAggregatesInput = {
+    AND?: PersonalScalarWhereWithAggregatesInput | PersonalScalarWhereWithAggregatesInput[]
+    OR?: PersonalScalarWhereWithAggregatesInput[]
+    NOT?: PersonalScalarWhereWithAggregatesInput | PersonalScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Personal"> | string
+    nombre?: StringWithAggregatesFilter<"Personal"> | string
+    telefono?: StringNullableWithAggregatesFilter<"Personal"> | string | null
+    email?: StringNullableWithAggregatesFilter<"Personal"> | string | null
+    notas?: StringNullableWithAggregatesFilter<"Personal"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Personal"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Personal"> | Date | string
+  }
+
+  export type PersonalPuestoWhereInput = {
+    AND?: PersonalPuestoWhereInput | PersonalPuestoWhereInput[]
+    OR?: PersonalPuestoWhereInput[]
+    NOT?: PersonalPuestoWhereInput | PersonalPuestoWhereInput[]
+    personalId?: StringFilter<"PersonalPuesto"> | string
+    puestoId?: StringFilter<"PersonalPuesto"> | string
+    asignadoEn?: DateTimeFilter<"PersonalPuesto"> | Date | string
+    personal?: XOR<PersonalScalarRelationFilter, PersonalWhereInput>
+    puesto?: XOR<PuestoScalarRelationFilter, PuestoWhereInput>
+  }
+
+  export type PersonalPuestoOrderByWithRelationInput = {
+    personalId?: SortOrder
+    puestoId?: SortOrder
+    asignadoEn?: SortOrder
+    personal?: PersonalOrderByWithRelationInput
+    puesto?: PuestoOrderByWithRelationInput
+  }
+
+  export type PersonalPuestoWhereUniqueInput = Prisma.AtLeast<{
+    personalId_puestoId?: PersonalPuestoPersonalIdPuestoIdCompoundUniqueInput
+    AND?: PersonalPuestoWhereInput | PersonalPuestoWhereInput[]
+    OR?: PersonalPuestoWhereInput[]
+    NOT?: PersonalPuestoWhereInput | PersonalPuestoWhereInput[]
+    personalId?: StringFilter<"PersonalPuesto"> | string
+    puestoId?: StringFilter<"PersonalPuesto"> | string
+    asignadoEn?: DateTimeFilter<"PersonalPuesto"> | Date | string
+    personal?: XOR<PersonalScalarRelationFilter, PersonalWhereInput>
+    puesto?: XOR<PuestoScalarRelationFilter, PuestoWhereInput>
+  }, "personalId_puestoId">
+
+  export type PersonalPuestoOrderByWithAggregationInput = {
+    personalId?: SortOrder
+    puestoId?: SortOrder
+    asignadoEn?: SortOrder
+    _count?: PersonalPuestoCountOrderByAggregateInput
+    _max?: PersonalPuestoMaxOrderByAggregateInput
+    _min?: PersonalPuestoMinOrderByAggregateInput
+  }
+
+  export type PersonalPuestoScalarWhereWithAggregatesInput = {
+    AND?: PersonalPuestoScalarWhereWithAggregatesInput | PersonalPuestoScalarWhereWithAggregatesInput[]
+    OR?: PersonalPuestoScalarWhereWithAggregatesInput[]
+    NOT?: PersonalPuestoScalarWhereWithAggregatesInput | PersonalPuestoScalarWhereWithAggregatesInput[]
+    personalId?: StringWithAggregatesFilter<"PersonalPuesto"> | string
+    puestoId?: StringWithAggregatesFilter<"PersonalPuesto"> | string
+    asignadoEn?: DateTimeWithAggregatesFilter<"PersonalPuesto"> | Date | string
+  }
+
+  export type ProveedorWhereInput = {
+    AND?: ProveedorWhereInput | ProveedorWhereInput[]
+    OR?: ProveedorWhereInput[]
+    NOT?: ProveedorWhereInput | ProveedorWhereInput[]
+    id?: StringFilter<"Proveedor"> | string
+    nombre?: StringFilter<"Proveedor"> | string
+    nif?: StringNullableFilter<"Proveedor"> | string | null
+    direccion?: StringNullableFilter<"Proveedor"> | string | null
+    email?: StringNullableFilter<"Proveedor"> | string | null
+    telefono?: StringNullableFilter<"Proveedor"> | string | null
+    contacto?: StringNullableFilter<"Proveedor"> | string | null
+    notas?: StringNullableFilter<"Proveedor"> | string | null
+    createdAt?: DateTimeFilter<"Proveedor"> | Date | string
+    updatedAt?: DateTimeFilter<"Proveedor"> | Date | string
+    equipos?: EquipoItemListRelationFilter
+  }
+
+  export type ProveedorOrderByWithRelationInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    nif?: SortOrderInput | SortOrder
+    direccion?: SortOrderInput | SortOrder
+    email?: SortOrderInput | SortOrder
+    telefono?: SortOrderInput | SortOrder
+    contacto?: SortOrderInput | SortOrder
+    notas?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    equipos?: EquipoItemOrderByRelationAggregateInput
+  }
+
+  export type ProveedorWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    nif?: string
+    AND?: ProveedorWhereInput | ProveedorWhereInput[]
+    OR?: ProveedorWhereInput[]
+    NOT?: ProveedorWhereInput | ProveedorWhereInput[]
+    nombre?: StringFilter<"Proveedor"> | string
+    direccion?: StringNullableFilter<"Proveedor"> | string | null
+    email?: StringNullableFilter<"Proveedor"> | string | null
+    telefono?: StringNullableFilter<"Proveedor"> | string | null
+    contacto?: StringNullableFilter<"Proveedor"> | string | null
+    notas?: StringNullableFilter<"Proveedor"> | string | null
+    createdAt?: DateTimeFilter<"Proveedor"> | Date | string
+    updatedAt?: DateTimeFilter<"Proveedor"> | Date | string
+    equipos?: EquipoItemListRelationFilter
+  }, "id" | "nif">
+
+  export type ProveedorOrderByWithAggregationInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    nif?: SortOrderInput | SortOrder
+    direccion?: SortOrderInput | SortOrder
+    email?: SortOrderInput | SortOrder
+    telefono?: SortOrderInput | SortOrder
+    contacto?: SortOrderInput | SortOrder
+    notas?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: ProveedorCountOrderByAggregateInput
+    _max?: ProveedorMaxOrderByAggregateInput
+    _min?: ProveedorMinOrderByAggregateInput
+  }
+
+  export type ProveedorScalarWhereWithAggregatesInput = {
+    AND?: ProveedorScalarWhereWithAggregatesInput | ProveedorScalarWhereWithAggregatesInput[]
+    OR?: ProveedorScalarWhereWithAggregatesInput[]
+    NOT?: ProveedorScalarWhereWithAggregatesInput | ProveedorScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Proveedor"> | string
+    nombre?: StringWithAggregatesFilter<"Proveedor"> | string
+    nif?: StringNullableWithAggregatesFilter<"Proveedor"> | string | null
+    direccion?: StringNullableWithAggregatesFilter<"Proveedor"> | string | null
+    email?: StringNullableWithAggregatesFilter<"Proveedor"> | string | null
+    telefono?: StringNullableWithAggregatesFilter<"Proveedor"> | string | null
+    contacto?: StringNullableWithAggregatesFilter<"Proveedor"> | string | null
+    notas?: StringNullableWithAggregatesFilter<"Proveedor"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Proveedor"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Proveedor"> | Date | string
+  }
+
+  export type TikeliaWhereInput = {
+    AND?: TikeliaWhereInput | TikeliaWhereInput[]
+    OR?: TikeliaWhereInput[]
+    NOT?: TikeliaWhereInput | TikeliaWhereInput[]
+    id?: StringFilter<"Tikelia"> | string
+    nombre?: StringFilter<"Tikelia"> | string
+    importe?: FloatFilter<"Tikelia"> | number
+    fecha?: DateTimeFilter<"Tikelia"> | Date | string
+    facturaId?: StringNullableFilter<"Tikelia"> | string | null
+    createdAt?: DateTimeFilter<"Tikelia"> | Date | string
+    updatedAt?: DateTimeFilter<"Tikelia"> | Date | string
+    factura?: XOR<FacturaNullableScalarRelationFilter, FacturaWhereInput> | null
+  }
+
+  export type TikeliaOrderByWithRelationInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    importe?: SortOrder
+    fecha?: SortOrder
+    facturaId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    factura?: FacturaOrderByWithRelationInput
+  }
+
+  export type TikeliaWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: TikeliaWhereInput | TikeliaWhereInput[]
+    OR?: TikeliaWhereInput[]
+    NOT?: TikeliaWhereInput | TikeliaWhereInput[]
+    nombre?: StringFilter<"Tikelia"> | string
+    importe?: FloatFilter<"Tikelia"> | number
+    fecha?: DateTimeFilter<"Tikelia"> | Date | string
+    facturaId?: StringNullableFilter<"Tikelia"> | string | null
+    createdAt?: DateTimeFilter<"Tikelia"> | Date | string
+    updatedAt?: DateTimeFilter<"Tikelia"> | Date | string
+    factura?: XOR<FacturaNullableScalarRelationFilter, FacturaWhereInput> | null
+  }, "id">
+
+  export type TikeliaOrderByWithAggregationInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    importe?: SortOrder
+    fecha?: SortOrder
+    facturaId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: TikeliaCountOrderByAggregateInput
+    _avg?: TikeliaAvgOrderByAggregateInput
+    _max?: TikeliaMaxOrderByAggregateInput
+    _min?: TikeliaMinOrderByAggregateInput
+    _sum?: TikeliaSumOrderByAggregateInput
+  }
+
+  export type TikeliaScalarWhereWithAggregatesInput = {
+    AND?: TikeliaScalarWhereWithAggregatesInput | TikeliaScalarWhereWithAggregatesInput[]
+    OR?: TikeliaScalarWhereWithAggregatesInput[]
+    NOT?: TikeliaScalarWhereWithAggregatesInput | TikeliaScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Tikelia"> | string
+    nombre?: StringWithAggregatesFilter<"Tikelia"> | string
+    importe?: FloatWithAggregatesFilter<"Tikelia"> | number
+    fecha?: DateTimeWithAggregatesFilter<"Tikelia"> | Date | string
+    facturaId?: StringNullableWithAggregatesFilter<"Tikelia"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Tikelia"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Tikelia"> | Date | string
   }
 
   export type EmpresaCreateInput = {
@@ -17698,6 +24191,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     producto: ProductoCreateNestedOneWithoutEquipoItemsInput
+    proveedor?: ProveedorCreateNestedOneWithoutEquiposInput
   }
 
   export type EquipoItemUncheckedCreateInput = {
@@ -17708,6 +24202,7 @@ export namespace Prisma {
     estado?: $Enums.EstadoEquipo
     fechaCompra?: Date | string | null
     precioCompra?: number | null
+    proveedorId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -17722,6 +24217,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     producto?: ProductoUpdateOneRequiredWithoutEquipoItemsNestedInput
+    proveedor?: ProveedorUpdateOneWithoutEquiposNestedInput
   }
 
   export type EquipoItemUncheckedUpdateInput = {
@@ -17732,6 +24228,7 @@ export namespace Prisma {
     estado?: EnumEstadoEquipoFieldUpdateOperationsInput | $Enums.EstadoEquipo
     fechaCompra?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     precioCompra?: NullableFloatFieldUpdateOperationsInput | number | null
+    proveedorId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17744,6 +24241,7 @@ export namespace Prisma {
     estado?: $Enums.EstadoEquipo
     fechaCompra?: Date | string | null
     precioCompra?: number | null
+    proveedorId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -17767,6 +24265,7 @@ export namespace Prisma {
     estado?: EnumEstadoEquipoFieldUpdateOperationsInput | $Enums.EstadoEquipo
     fechaCompra?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     precioCompra?: NullableFloatFieldUpdateOperationsInput | number | null
+    proveedorId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -18203,6 +24702,7 @@ export namespace Prisma {
     cliente: ClienteCreateNestedOneWithoutFacturasInput
     items?: ItemFacturaCreateNestedManyWithoutFacturaInput
     presupuestos?: PresupuestoCreateNestedManyWithoutFacturaInput
+    gastosTickelia?: TikeliaCreateNestedManyWithoutFacturaInput
   }
 
   export type FacturaUncheckedCreateInput = {
@@ -18220,6 +24720,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     items?: ItemFacturaUncheckedCreateNestedManyWithoutFacturaInput
     presupuestos?: PresupuestoUncheckedCreateNestedManyWithoutFacturaInput
+    gastosTickelia?: TikeliaUncheckedCreateNestedManyWithoutFacturaInput
   }
 
   export type FacturaUpdateInput = {
@@ -18237,6 +24738,7 @@ export namespace Prisma {
     cliente?: ClienteUpdateOneRequiredWithoutFacturasNestedInput
     items?: ItemFacturaUpdateManyWithoutFacturaNestedInput
     presupuestos?: PresupuestoUpdateManyWithoutFacturaNestedInput
+    gastosTickelia?: TikeliaUpdateManyWithoutFacturaNestedInput
   }
 
   export type FacturaUncheckedUpdateInput = {
@@ -18254,6 +24756,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: ItemFacturaUncheckedUpdateManyWithoutFacturaNestedInput
     presupuestos?: PresupuestoUncheckedUpdateManyWithoutFacturaNestedInput
+    gastosTickelia?: TikeliaUncheckedUpdateManyWithoutFacturaNestedInput
   }
 
   export type FacturaCreateManyInput = {
@@ -18443,6 +24946,344 @@ export namespace Prisma {
     moneda?: StringFieldUpdateOperationsInput | string
     prefijoFactura?: StringFieldUpdateOperationsInput | string
     prefijoPresupuesto?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type PuestoCreateInput = {
+    id?: string
+    nombre: string
+    descripcion?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    personal?: PersonalPuestoCreateNestedManyWithoutPuestoInput
+  }
+
+  export type PuestoUncheckedCreateInput = {
+    id?: string
+    nombre: string
+    descripcion?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    personal?: PersonalPuestoUncheckedCreateNestedManyWithoutPuestoInput
+  }
+
+  export type PuestoUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    personal?: PersonalPuestoUpdateManyWithoutPuestoNestedInput
+  }
+
+  export type PuestoUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    personal?: PersonalPuestoUncheckedUpdateManyWithoutPuestoNestedInput
+  }
+
+  export type PuestoCreateManyInput = {
+    id?: string
+    nombre: string
+    descripcion?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PuestoUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PuestoUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PersonalCreateInput = {
+    id?: string
+    nombre: string
+    telefono?: string | null
+    email?: string | null
+    notas?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    puestos?: PersonalPuestoCreateNestedManyWithoutPersonalInput
+  }
+
+  export type PersonalUncheckedCreateInput = {
+    id?: string
+    nombre: string
+    telefono?: string | null
+    email?: string | null
+    notas?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    puestos?: PersonalPuestoUncheckedCreateNestedManyWithoutPersonalInput
+  }
+
+  export type PersonalUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    notas?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    puestos?: PersonalPuestoUpdateManyWithoutPersonalNestedInput
+  }
+
+  export type PersonalUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    notas?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    puestos?: PersonalPuestoUncheckedUpdateManyWithoutPersonalNestedInput
+  }
+
+  export type PersonalCreateManyInput = {
+    id?: string
+    nombre: string
+    telefono?: string | null
+    email?: string | null
+    notas?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PersonalUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    notas?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PersonalUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    notas?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PersonalPuestoCreateInput = {
+    asignadoEn?: Date | string
+    personal: PersonalCreateNestedOneWithoutPuestosInput
+    puesto: PuestoCreateNestedOneWithoutPersonalInput
+  }
+
+  export type PersonalPuestoUncheckedCreateInput = {
+    personalId: string
+    puestoId: string
+    asignadoEn?: Date | string
+  }
+
+  export type PersonalPuestoUpdateInput = {
+    asignadoEn?: DateTimeFieldUpdateOperationsInput | Date | string
+    personal?: PersonalUpdateOneRequiredWithoutPuestosNestedInput
+    puesto?: PuestoUpdateOneRequiredWithoutPersonalNestedInput
+  }
+
+  export type PersonalPuestoUncheckedUpdateInput = {
+    personalId?: StringFieldUpdateOperationsInput | string
+    puestoId?: StringFieldUpdateOperationsInput | string
+    asignadoEn?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PersonalPuestoCreateManyInput = {
+    personalId: string
+    puestoId: string
+    asignadoEn?: Date | string
+  }
+
+  export type PersonalPuestoUpdateManyMutationInput = {
+    asignadoEn?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PersonalPuestoUncheckedUpdateManyInput = {
+    personalId?: StringFieldUpdateOperationsInput | string
+    puestoId?: StringFieldUpdateOperationsInput | string
+    asignadoEn?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProveedorCreateInput = {
+    id?: string
+    nombre: string
+    nif?: string | null
+    direccion?: string | null
+    email?: string | null
+    telefono?: string | null
+    contacto?: string | null
+    notas?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    equipos?: EquipoItemCreateNestedManyWithoutProveedorInput
+  }
+
+  export type ProveedorUncheckedCreateInput = {
+    id?: string
+    nombre: string
+    nif?: string | null
+    direccion?: string | null
+    email?: string | null
+    telefono?: string | null
+    contacto?: string | null
+    notas?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    equipos?: EquipoItemUncheckedCreateNestedManyWithoutProveedorInput
+  }
+
+  export type ProveedorUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    nif?: NullableStringFieldUpdateOperationsInput | string | null
+    direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    contacto?: NullableStringFieldUpdateOperationsInput | string | null
+    notas?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    equipos?: EquipoItemUpdateManyWithoutProveedorNestedInput
+  }
+
+  export type ProveedorUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    nif?: NullableStringFieldUpdateOperationsInput | string | null
+    direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    contacto?: NullableStringFieldUpdateOperationsInput | string | null
+    notas?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    equipos?: EquipoItemUncheckedUpdateManyWithoutProveedorNestedInput
+  }
+
+  export type ProveedorCreateManyInput = {
+    id?: string
+    nombre: string
+    nif?: string | null
+    direccion?: string | null
+    email?: string | null
+    telefono?: string | null
+    contacto?: string | null
+    notas?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ProveedorUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    nif?: NullableStringFieldUpdateOperationsInput | string | null
+    direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    contacto?: NullableStringFieldUpdateOperationsInput | string | null
+    notas?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProveedorUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    nif?: NullableStringFieldUpdateOperationsInput | string | null
+    direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    contacto?: NullableStringFieldUpdateOperationsInput | string | null
+    notas?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TikeliaCreateInput = {
+    id?: string
+    nombre: string
+    importe: number
+    fecha?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    factura?: FacturaCreateNestedOneWithoutGastosTickeliaInput
+  }
+
+  export type TikeliaUncheckedCreateInput = {
+    id?: string
+    nombre: string
+    importe: number
+    fecha?: Date | string
+    facturaId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TikeliaUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    importe?: FloatFieldUpdateOperationsInput | number
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    factura?: FacturaUpdateOneWithoutGastosTickeliaNestedInput
+  }
+
+  export type TikeliaUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    importe?: FloatFieldUpdateOperationsInput | number
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    facturaId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TikeliaCreateManyInput = {
+    id?: string
+    nombre: string
+    importe: number
+    fecha?: Date | string
+    facturaId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TikeliaUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    importe?: FloatFieldUpdateOperationsInput | number
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TikeliaUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    importe?: FloatFieldUpdateOperationsInput | number
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    facturaId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -18832,6 +25673,11 @@ export namespace Prisma {
     isNot?: ProductoWhereInput
   }
 
+  export type ProveedorNullableScalarRelationFilter = {
+    is?: ProveedorWhereInput | null
+    isNot?: ProveedorWhereInput | null
+  }
+
   export type EquipoItemProductoIdNumeroSerieCompoundUniqueInput = {
     productoId: string
     numeroSerie: string
@@ -18845,6 +25691,7 @@ export namespace Prisma {
     estado?: SortOrder
     fechaCompra?: SortOrder
     precioCompra?: SortOrder
+    proveedorId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -18861,6 +25708,7 @@ export namespace Prisma {
     estado?: SortOrder
     fechaCompra?: SortOrder
     precioCompra?: SortOrder
+    proveedorId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -18873,6 +25721,7 @@ export namespace Prisma {
     estado?: SortOrder
     fechaCompra?: SortOrder
     precioCompra?: SortOrder
+    proveedorId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -19195,6 +26044,16 @@ export namespace Prisma {
     isNot?: ClienteWhereInput
   }
 
+  export type TikeliaListRelationFilter = {
+    every?: TikeliaWhereInput
+    some?: TikeliaWhereInput
+    none?: TikeliaWhereInput
+  }
+
+  export type TikeliaOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type FacturaCountOrderByAggregateInput = {
     id?: SortOrder
     numero?: SortOrder
@@ -19352,6 +26211,180 @@ export namespace Prisma {
 
   export type ConfiguracionSumOrderByAggregateInput = {
     ivaPorDefecto?: SortOrder
+  }
+
+  export type PersonalPuestoListRelationFilter = {
+    every?: PersonalPuestoWhereInput
+    some?: PersonalPuestoWhereInput
+    none?: PersonalPuestoWhereInput
+  }
+
+  export type PersonalPuestoOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type PuestoCountOrderByAggregateInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    descripcion?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PuestoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    descripcion?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PuestoMinOrderByAggregateInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    descripcion?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PersonalCountOrderByAggregateInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    telefono?: SortOrder
+    email?: SortOrder
+    notas?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PersonalMaxOrderByAggregateInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    telefono?: SortOrder
+    email?: SortOrder
+    notas?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PersonalMinOrderByAggregateInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    telefono?: SortOrder
+    email?: SortOrder
+    notas?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PersonalScalarRelationFilter = {
+    is?: PersonalWhereInput
+    isNot?: PersonalWhereInput
+  }
+
+  export type PuestoScalarRelationFilter = {
+    is?: PuestoWhereInput
+    isNot?: PuestoWhereInput
+  }
+
+  export type PersonalPuestoPersonalIdPuestoIdCompoundUniqueInput = {
+    personalId: string
+    puestoId: string
+  }
+
+  export type PersonalPuestoCountOrderByAggregateInput = {
+    personalId?: SortOrder
+    puestoId?: SortOrder
+    asignadoEn?: SortOrder
+  }
+
+  export type PersonalPuestoMaxOrderByAggregateInput = {
+    personalId?: SortOrder
+    puestoId?: SortOrder
+    asignadoEn?: SortOrder
+  }
+
+  export type PersonalPuestoMinOrderByAggregateInput = {
+    personalId?: SortOrder
+    puestoId?: SortOrder
+    asignadoEn?: SortOrder
+  }
+
+  export type ProveedorCountOrderByAggregateInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    nif?: SortOrder
+    direccion?: SortOrder
+    email?: SortOrder
+    telefono?: SortOrder
+    contacto?: SortOrder
+    notas?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ProveedorMaxOrderByAggregateInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    nif?: SortOrder
+    direccion?: SortOrder
+    email?: SortOrder
+    telefono?: SortOrder
+    contacto?: SortOrder
+    notas?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type ProveedorMinOrderByAggregateInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    nif?: SortOrder
+    direccion?: SortOrder
+    email?: SortOrder
+    telefono?: SortOrder
+    contacto?: SortOrder
+    notas?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TikeliaCountOrderByAggregateInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    importe?: SortOrder
+    fecha?: SortOrder
+    facturaId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TikeliaAvgOrderByAggregateInput = {
+    importe?: SortOrder
+  }
+
+  export type TikeliaMaxOrderByAggregateInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    importe?: SortOrder
+    fecha?: SortOrder
+    facturaId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TikeliaMinOrderByAggregateInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    importe?: SortOrder
+    fecha?: SortOrder
+    facturaId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type TikeliaSumOrderByAggregateInput = {
+    importe?: SortOrder
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -19636,6 +26669,12 @@ export namespace Prisma {
     connect?: ProductoWhereUniqueInput
   }
 
+  export type ProveedorCreateNestedOneWithoutEquiposInput = {
+    create?: XOR<ProveedorCreateWithoutEquiposInput, ProveedorUncheckedCreateWithoutEquiposInput>
+    connectOrCreate?: ProveedorCreateOrConnectWithoutEquiposInput
+    connect?: ProveedorWhereUniqueInput
+  }
+
   export type EnumEstadoEquipoFieldUpdateOperationsInput = {
     set?: $Enums.EstadoEquipo
   }
@@ -19650,6 +26689,16 @@ export namespace Prisma {
     upsert?: ProductoUpsertWithoutEquipoItemsInput
     connect?: ProductoWhereUniqueInput
     update?: XOR<XOR<ProductoUpdateToOneWithWhereWithoutEquipoItemsInput, ProductoUpdateWithoutEquipoItemsInput>, ProductoUncheckedUpdateWithoutEquipoItemsInput>
+  }
+
+  export type ProveedorUpdateOneWithoutEquiposNestedInput = {
+    create?: XOR<ProveedorCreateWithoutEquiposInput, ProveedorUncheckedCreateWithoutEquiposInput>
+    connectOrCreate?: ProveedorCreateOrConnectWithoutEquiposInput
+    upsert?: ProveedorUpsertWithoutEquiposInput
+    disconnect?: ProveedorWhereInput | boolean
+    delete?: ProveedorWhereInput | boolean
+    connect?: ProveedorWhereUniqueInput
+    update?: XOR<XOR<ProveedorUpdateToOneWithWhereWithoutEquiposInput, ProveedorUpdateWithoutEquiposInput>, ProveedorUncheckedUpdateWithoutEquiposInput>
   }
 
   export type PresupuestoCreateNestedManyWithoutClienteInput = {
@@ -19924,6 +26973,13 @@ export namespace Prisma {
     connect?: PresupuestoWhereUniqueInput | PresupuestoWhereUniqueInput[]
   }
 
+  export type TikeliaCreateNestedManyWithoutFacturaInput = {
+    create?: XOR<TikeliaCreateWithoutFacturaInput, TikeliaUncheckedCreateWithoutFacturaInput> | TikeliaCreateWithoutFacturaInput[] | TikeliaUncheckedCreateWithoutFacturaInput[]
+    connectOrCreate?: TikeliaCreateOrConnectWithoutFacturaInput | TikeliaCreateOrConnectWithoutFacturaInput[]
+    createMany?: TikeliaCreateManyFacturaInputEnvelope
+    connect?: TikeliaWhereUniqueInput | TikeliaWhereUniqueInput[]
+  }
+
   export type ItemFacturaUncheckedCreateNestedManyWithoutFacturaInput = {
     create?: XOR<ItemFacturaCreateWithoutFacturaInput, ItemFacturaUncheckedCreateWithoutFacturaInput> | ItemFacturaCreateWithoutFacturaInput[] | ItemFacturaUncheckedCreateWithoutFacturaInput[]
     connectOrCreate?: ItemFacturaCreateOrConnectWithoutFacturaInput | ItemFacturaCreateOrConnectWithoutFacturaInput[]
@@ -19936,6 +26992,13 @@ export namespace Prisma {
     connectOrCreate?: PresupuestoCreateOrConnectWithoutFacturaInput | PresupuestoCreateOrConnectWithoutFacturaInput[]
     createMany?: PresupuestoCreateManyFacturaInputEnvelope
     connect?: PresupuestoWhereUniqueInput | PresupuestoWhereUniqueInput[]
+  }
+
+  export type TikeliaUncheckedCreateNestedManyWithoutFacturaInput = {
+    create?: XOR<TikeliaCreateWithoutFacturaInput, TikeliaUncheckedCreateWithoutFacturaInput> | TikeliaCreateWithoutFacturaInput[] | TikeliaUncheckedCreateWithoutFacturaInput[]
+    connectOrCreate?: TikeliaCreateOrConnectWithoutFacturaInput | TikeliaCreateOrConnectWithoutFacturaInput[]
+    createMany?: TikeliaCreateManyFacturaInputEnvelope
+    connect?: TikeliaWhereUniqueInput | TikeliaWhereUniqueInput[]
   }
 
   export type EnumEstadoFacturaFieldUpdateOperationsInput = {
@@ -19978,6 +27041,20 @@ export namespace Prisma {
     deleteMany?: PresupuestoScalarWhereInput | PresupuestoScalarWhereInput[]
   }
 
+  export type TikeliaUpdateManyWithoutFacturaNestedInput = {
+    create?: XOR<TikeliaCreateWithoutFacturaInput, TikeliaUncheckedCreateWithoutFacturaInput> | TikeliaCreateWithoutFacturaInput[] | TikeliaUncheckedCreateWithoutFacturaInput[]
+    connectOrCreate?: TikeliaCreateOrConnectWithoutFacturaInput | TikeliaCreateOrConnectWithoutFacturaInput[]
+    upsert?: TikeliaUpsertWithWhereUniqueWithoutFacturaInput | TikeliaUpsertWithWhereUniqueWithoutFacturaInput[]
+    createMany?: TikeliaCreateManyFacturaInputEnvelope
+    set?: TikeliaWhereUniqueInput | TikeliaWhereUniqueInput[]
+    disconnect?: TikeliaWhereUniqueInput | TikeliaWhereUniqueInput[]
+    delete?: TikeliaWhereUniqueInput | TikeliaWhereUniqueInput[]
+    connect?: TikeliaWhereUniqueInput | TikeliaWhereUniqueInput[]
+    update?: TikeliaUpdateWithWhereUniqueWithoutFacturaInput | TikeliaUpdateWithWhereUniqueWithoutFacturaInput[]
+    updateMany?: TikeliaUpdateManyWithWhereWithoutFacturaInput | TikeliaUpdateManyWithWhereWithoutFacturaInput[]
+    deleteMany?: TikeliaScalarWhereInput | TikeliaScalarWhereInput[]
+  }
+
   export type ItemFacturaUncheckedUpdateManyWithoutFacturaNestedInput = {
     create?: XOR<ItemFacturaCreateWithoutFacturaInput, ItemFacturaUncheckedCreateWithoutFacturaInput> | ItemFacturaCreateWithoutFacturaInput[] | ItemFacturaUncheckedCreateWithoutFacturaInput[]
     connectOrCreate?: ItemFacturaCreateOrConnectWithoutFacturaInput | ItemFacturaCreateOrConnectWithoutFacturaInput[]
@@ -20006,6 +27083,20 @@ export namespace Prisma {
     deleteMany?: PresupuestoScalarWhereInput | PresupuestoScalarWhereInput[]
   }
 
+  export type TikeliaUncheckedUpdateManyWithoutFacturaNestedInput = {
+    create?: XOR<TikeliaCreateWithoutFacturaInput, TikeliaUncheckedCreateWithoutFacturaInput> | TikeliaCreateWithoutFacturaInput[] | TikeliaUncheckedCreateWithoutFacturaInput[]
+    connectOrCreate?: TikeliaCreateOrConnectWithoutFacturaInput | TikeliaCreateOrConnectWithoutFacturaInput[]
+    upsert?: TikeliaUpsertWithWhereUniqueWithoutFacturaInput | TikeliaUpsertWithWhereUniqueWithoutFacturaInput[]
+    createMany?: TikeliaCreateManyFacturaInputEnvelope
+    set?: TikeliaWhereUniqueInput | TikeliaWhereUniqueInput[]
+    disconnect?: TikeliaWhereUniqueInput | TikeliaWhereUniqueInput[]
+    delete?: TikeliaWhereUniqueInput | TikeliaWhereUniqueInput[]
+    connect?: TikeliaWhereUniqueInput | TikeliaWhereUniqueInput[]
+    update?: TikeliaUpdateWithWhereUniqueWithoutFacturaInput | TikeliaUpdateWithWhereUniqueWithoutFacturaInput[]
+    updateMany?: TikeliaUpdateManyWithWhereWithoutFacturaInput | TikeliaUpdateManyWithWhereWithoutFacturaInput[]
+    deleteMany?: TikeliaScalarWhereInput | TikeliaScalarWhereInput[]
+  }
+
   export type FacturaCreateNestedOneWithoutItemsInput = {
     create?: XOR<FacturaCreateWithoutItemsInput, FacturaUncheckedCreateWithoutItemsInput>
     connectOrCreate?: FacturaCreateOrConnectWithoutItemsInput
@@ -20032,6 +27123,176 @@ export namespace Prisma {
     upsert?: ProductoUpsertWithoutItemsFacturaInput
     connect?: ProductoWhereUniqueInput
     update?: XOR<XOR<ProductoUpdateToOneWithWhereWithoutItemsFacturaInput, ProductoUpdateWithoutItemsFacturaInput>, ProductoUncheckedUpdateWithoutItemsFacturaInput>
+  }
+
+  export type PersonalPuestoCreateNestedManyWithoutPuestoInput = {
+    create?: XOR<PersonalPuestoCreateWithoutPuestoInput, PersonalPuestoUncheckedCreateWithoutPuestoInput> | PersonalPuestoCreateWithoutPuestoInput[] | PersonalPuestoUncheckedCreateWithoutPuestoInput[]
+    connectOrCreate?: PersonalPuestoCreateOrConnectWithoutPuestoInput | PersonalPuestoCreateOrConnectWithoutPuestoInput[]
+    createMany?: PersonalPuestoCreateManyPuestoInputEnvelope
+    connect?: PersonalPuestoWhereUniqueInput | PersonalPuestoWhereUniqueInput[]
+  }
+
+  export type PersonalPuestoUncheckedCreateNestedManyWithoutPuestoInput = {
+    create?: XOR<PersonalPuestoCreateWithoutPuestoInput, PersonalPuestoUncheckedCreateWithoutPuestoInput> | PersonalPuestoCreateWithoutPuestoInput[] | PersonalPuestoUncheckedCreateWithoutPuestoInput[]
+    connectOrCreate?: PersonalPuestoCreateOrConnectWithoutPuestoInput | PersonalPuestoCreateOrConnectWithoutPuestoInput[]
+    createMany?: PersonalPuestoCreateManyPuestoInputEnvelope
+    connect?: PersonalPuestoWhereUniqueInput | PersonalPuestoWhereUniqueInput[]
+  }
+
+  export type PersonalPuestoUpdateManyWithoutPuestoNestedInput = {
+    create?: XOR<PersonalPuestoCreateWithoutPuestoInput, PersonalPuestoUncheckedCreateWithoutPuestoInput> | PersonalPuestoCreateWithoutPuestoInput[] | PersonalPuestoUncheckedCreateWithoutPuestoInput[]
+    connectOrCreate?: PersonalPuestoCreateOrConnectWithoutPuestoInput | PersonalPuestoCreateOrConnectWithoutPuestoInput[]
+    upsert?: PersonalPuestoUpsertWithWhereUniqueWithoutPuestoInput | PersonalPuestoUpsertWithWhereUniqueWithoutPuestoInput[]
+    createMany?: PersonalPuestoCreateManyPuestoInputEnvelope
+    set?: PersonalPuestoWhereUniqueInput | PersonalPuestoWhereUniqueInput[]
+    disconnect?: PersonalPuestoWhereUniqueInput | PersonalPuestoWhereUniqueInput[]
+    delete?: PersonalPuestoWhereUniqueInput | PersonalPuestoWhereUniqueInput[]
+    connect?: PersonalPuestoWhereUniqueInput | PersonalPuestoWhereUniqueInput[]
+    update?: PersonalPuestoUpdateWithWhereUniqueWithoutPuestoInput | PersonalPuestoUpdateWithWhereUniqueWithoutPuestoInput[]
+    updateMany?: PersonalPuestoUpdateManyWithWhereWithoutPuestoInput | PersonalPuestoUpdateManyWithWhereWithoutPuestoInput[]
+    deleteMany?: PersonalPuestoScalarWhereInput | PersonalPuestoScalarWhereInput[]
+  }
+
+  export type PersonalPuestoUncheckedUpdateManyWithoutPuestoNestedInput = {
+    create?: XOR<PersonalPuestoCreateWithoutPuestoInput, PersonalPuestoUncheckedCreateWithoutPuestoInput> | PersonalPuestoCreateWithoutPuestoInput[] | PersonalPuestoUncheckedCreateWithoutPuestoInput[]
+    connectOrCreate?: PersonalPuestoCreateOrConnectWithoutPuestoInput | PersonalPuestoCreateOrConnectWithoutPuestoInput[]
+    upsert?: PersonalPuestoUpsertWithWhereUniqueWithoutPuestoInput | PersonalPuestoUpsertWithWhereUniqueWithoutPuestoInput[]
+    createMany?: PersonalPuestoCreateManyPuestoInputEnvelope
+    set?: PersonalPuestoWhereUniqueInput | PersonalPuestoWhereUniqueInput[]
+    disconnect?: PersonalPuestoWhereUniqueInput | PersonalPuestoWhereUniqueInput[]
+    delete?: PersonalPuestoWhereUniqueInput | PersonalPuestoWhereUniqueInput[]
+    connect?: PersonalPuestoWhereUniqueInput | PersonalPuestoWhereUniqueInput[]
+    update?: PersonalPuestoUpdateWithWhereUniqueWithoutPuestoInput | PersonalPuestoUpdateWithWhereUniqueWithoutPuestoInput[]
+    updateMany?: PersonalPuestoUpdateManyWithWhereWithoutPuestoInput | PersonalPuestoUpdateManyWithWhereWithoutPuestoInput[]
+    deleteMany?: PersonalPuestoScalarWhereInput | PersonalPuestoScalarWhereInput[]
+  }
+
+  export type PersonalPuestoCreateNestedManyWithoutPersonalInput = {
+    create?: XOR<PersonalPuestoCreateWithoutPersonalInput, PersonalPuestoUncheckedCreateWithoutPersonalInput> | PersonalPuestoCreateWithoutPersonalInput[] | PersonalPuestoUncheckedCreateWithoutPersonalInput[]
+    connectOrCreate?: PersonalPuestoCreateOrConnectWithoutPersonalInput | PersonalPuestoCreateOrConnectWithoutPersonalInput[]
+    createMany?: PersonalPuestoCreateManyPersonalInputEnvelope
+    connect?: PersonalPuestoWhereUniqueInput | PersonalPuestoWhereUniqueInput[]
+  }
+
+  export type PersonalPuestoUncheckedCreateNestedManyWithoutPersonalInput = {
+    create?: XOR<PersonalPuestoCreateWithoutPersonalInput, PersonalPuestoUncheckedCreateWithoutPersonalInput> | PersonalPuestoCreateWithoutPersonalInput[] | PersonalPuestoUncheckedCreateWithoutPersonalInput[]
+    connectOrCreate?: PersonalPuestoCreateOrConnectWithoutPersonalInput | PersonalPuestoCreateOrConnectWithoutPersonalInput[]
+    createMany?: PersonalPuestoCreateManyPersonalInputEnvelope
+    connect?: PersonalPuestoWhereUniqueInput | PersonalPuestoWhereUniqueInput[]
+  }
+
+  export type PersonalPuestoUpdateManyWithoutPersonalNestedInput = {
+    create?: XOR<PersonalPuestoCreateWithoutPersonalInput, PersonalPuestoUncheckedCreateWithoutPersonalInput> | PersonalPuestoCreateWithoutPersonalInput[] | PersonalPuestoUncheckedCreateWithoutPersonalInput[]
+    connectOrCreate?: PersonalPuestoCreateOrConnectWithoutPersonalInput | PersonalPuestoCreateOrConnectWithoutPersonalInput[]
+    upsert?: PersonalPuestoUpsertWithWhereUniqueWithoutPersonalInput | PersonalPuestoUpsertWithWhereUniqueWithoutPersonalInput[]
+    createMany?: PersonalPuestoCreateManyPersonalInputEnvelope
+    set?: PersonalPuestoWhereUniqueInput | PersonalPuestoWhereUniqueInput[]
+    disconnect?: PersonalPuestoWhereUniqueInput | PersonalPuestoWhereUniqueInput[]
+    delete?: PersonalPuestoWhereUniqueInput | PersonalPuestoWhereUniqueInput[]
+    connect?: PersonalPuestoWhereUniqueInput | PersonalPuestoWhereUniqueInput[]
+    update?: PersonalPuestoUpdateWithWhereUniqueWithoutPersonalInput | PersonalPuestoUpdateWithWhereUniqueWithoutPersonalInput[]
+    updateMany?: PersonalPuestoUpdateManyWithWhereWithoutPersonalInput | PersonalPuestoUpdateManyWithWhereWithoutPersonalInput[]
+    deleteMany?: PersonalPuestoScalarWhereInput | PersonalPuestoScalarWhereInput[]
+  }
+
+  export type PersonalPuestoUncheckedUpdateManyWithoutPersonalNestedInput = {
+    create?: XOR<PersonalPuestoCreateWithoutPersonalInput, PersonalPuestoUncheckedCreateWithoutPersonalInput> | PersonalPuestoCreateWithoutPersonalInput[] | PersonalPuestoUncheckedCreateWithoutPersonalInput[]
+    connectOrCreate?: PersonalPuestoCreateOrConnectWithoutPersonalInput | PersonalPuestoCreateOrConnectWithoutPersonalInput[]
+    upsert?: PersonalPuestoUpsertWithWhereUniqueWithoutPersonalInput | PersonalPuestoUpsertWithWhereUniqueWithoutPersonalInput[]
+    createMany?: PersonalPuestoCreateManyPersonalInputEnvelope
+    set?: PersonalPuestoWhereUniqueInput | PersonalPuestoWhereUniqueInput[]
+    disconnect?: PersonalPuestoWhereUniqueInput | PersonalPuestoWhereUniqueInput[]
+    delete?: PersonalPuestoWhereUniqueInput | PersonalPuestoWhereUniqueInput[]
+    connect?: PersonalPuestoWhereUniqueInput | PersonalPuestoWhereUniqueInput[]
+    update?: PersonalPuestoUpdateWithWhereUniqueWithoutPersonalInput | PersonalPuestoUpdateWithWhereUniqueWithoutPersonalInput[]
+    updateMany?: PersonalPuestoUpdateManyWithWhereWithoutPersonalInput | PersonalPuestoUpdateManyWithWhereWithoutPersonalInput[]
+    deleteMany?: PersonalPuestoScalarWhereInput | PersonalPuestoScalarWhereInput[]
+  }
+
+  export type PersonalCreateNestedOneWithoutPuestosInput = {
+    create?: XOR<PersonalCreateWithoutPuestosInput, PersonalUncheckedCreateWithoutPuestosInput>
+    connectOrCreate?: PersonalCreateOrConnectWithoutPuestosInput
+    connect?: PersonalWhereUniqueInput
+  }
+
+  export type PuestoCreateNestedOneWithoutPersonalInput = {
+    create?: XOR<PuestoCreateWithoutPersonalInput, PuestoUncheckedCreateWithoutPersonalInput>
+    connectOrCreate?: PuestoCreateOrConnectWithoutPersonalInput
+    connect?: PuestoWhereUniqueInput
+  }
+
+  export type PersonalUpdateOneRequiredWithoutPuestosNestedInput = {
+    create?: XOR<PersonalCreateWithoutPuestosInput, PersonalUncheckedCreateWithoutPuestosInput>
+    connectOrCreate?: PersonalCreateOrConnectWithoutPuestosInput
+    upsert?: PersonalUpsertWithoutPuestosInput
+    connect?: PersonalWhereUniqueInput
+    update?: XOR<XOR<PersonalUpdateToOneWithWhereWithoutPuestosInput, PersonalUpdateWithoutPuestosInput>, PersonalUncheckedUpdateWithoutPuestosInput>
+  }
+
+  export type PuestoUpdateOneRequiredWithoutPersonalNestedInput = {
+    create?: XOR<PuestoCreateWithoutPersonalInput, PuestoUncheckedCreateWithoutPersonalInput>
+    connectOrCreate?: PuestoCreateOrConnectWithoutPersonalInput
+    upsert?: PuestoUpsertWithoutPersonalInput
+    connect?: PuestoWhereUniqueInput
+    update?: XOR<XOR<PuestoUpdateToOneWithWhereWithoutPersonalInput, PuestoUpdateWithoutPersonalInput>, PuestoUncheckedUpdateWithoutPersonalInput>
+  }
+
+  export type EquipoItemCreateNestedManyWithoutProveedorInput = {
+    create?: XOR<EquipoItemCreateWithoutProveedorInput, EquipoItemUncheckedCreateWithoutProveedorInput> | EquipoItemCreateWithoutProveedorInput[] | EquipoItemUncheckedCreateWithoutProveedorInput[]
+    connectOrCreate?: EquipoItemCreateOrConnectWithoutProveedorInput | EquipoItemCreateOrConnectWithoutProveedorInput[]
+    createMany?: EquipoItemCreateManyProveedorInputEnvelope
+    connect?: EquipoItemWhereUniqueInput | EquipoItemWhereUniqueInput[]
+  }
+
+  export type EquipoItemUncheckedCreateNestedManyWithoutProveedorInput = {
+    create?: XOR<EquipoItemCreateWithoutProveedorInput, EquipoItemUncheckedCreateWithoutProveedorInput> | EquipoItemCreateWithoutProveedorInput[] | EquipoItemUncheckedCreateWithoutProveedorInput[]
+    connectOrCreate?: EquipoItemCreateOrConnectWithoutProveedorInput | EquipoItemCreateOrConnectWithoutProveedorInput[]
+    createMany?: EquipoItemCreateManyProveedorInputEnvelope
+    connect?: EquipoItemWhereUniqueInput | EquipoItemWhereUniqueInput[]
+  }
+
+  export type EquipoItemUpdateManyWithoutProveedorNestedInput = {
+    create?: XOR<EquipoItemCreateWithoutProveedorInput, EquipoItemUncheckedCreateWithoutProveedorInput> | EquipoItemCreateWithoutProveedorInput[] | EquipoItemUncheckedCreateWithoutProveedorInput[]
+    connectOrCreate?: EquipoItemCreateOrConnectWithoutProveedorInput | EquipoItemCreateOrConnectWithoutProveedorInput[]
+    upsert?: EquipoItemUpsertWithWhereUniqueWithoutProveedorInput | EquipoItemUpsertWithWhereUniqueWithoutProveedorInput[]
+    createMany?: EquipoItemCreateManyProveedorInputEnvelope
+    set?: EquipoItemWhereUniqueInput | EquipoItemWhereUniqueInput[]
+    disconnect?: EquipoItemWhereUniqueInput | EquipoItemWhereUniqueInput[]
+    delete?: EquipoItemWhereUniqueInput | EquipoItemWhereUniqueInput[]
+    connect?: EquipoItemWhereUniqueInput | EquipoItemWhereUniqueInput[]
+    update?: EquipoItemUpdateWithWhereUniqueWithoutProveedorInput | EquipoItemUpdateWithWhereUniqueWithoutProveedorInput[]
+    updateMany?: EquipoItemUpdateManyWithWhereWithoutProveedorInput | EquipoItemUpdateManyWithWhereWithoutProveedorInput[]
+    deleteMany?: EquipoItemScalarWhereInput | EquipoItemScalarWhereInput[]
+  }
+
+  export type EquipoItemUncheckedUpdateManyWithoutProveedorNestedInput = {
+    create?: XOR<EquipoItemCreateWithoutProveedorInput, EquipoItemUncheckedCreateWithoutProveedorInput> | EquipoItemCreateWithoutProveedorInput[] | EquipoItemUncheckedCreateWithoutProveedorInput[]
+    connectOrCreate?: EquipoItemCreateOrConnectWithoutProveedorInput | EquipoItemCreateOrConnectWithoutProveedorInput[]
+    upsert?: EquipoItemUpsertWithWhereUniqueWithoutProveedorInput | EquipoItemUpsertWithWhereUniqueWithoutProveedorInput[]
+    createMany?: EquipoItemCreateManyProveedorInputEnvelope
+    set?: EquipoItemWhereUniqueInput | EquipoItemWhereUniqueInput[]
+    disconnect?: EquipoItemWhereUniqueInput | EquipoItemWhereUniqueInput[]
+    delete?: EquipoItemWhereUniqueInput | EquipoItemWhereUniqueInput[]
+    connect?: EquipoItemWhereUniqueInput | EquipoItemWhereUniqueInput[]
+    update?: EquipoItemUpdateWithWhereUniqueWithoutProveedorInput | EquipoItemUpdateWithWhereUniqueWithoutProveedorInput[]
+    updateMany?: EquipoItemUpdateManyWithWhereWithoutProveedorInput | EquipoItemUpdateManyWithWhereWithoutProveedorInput[]
+    deleteMany?: EquipoItemScalarWhereInput | EquipoItemScalarWhereInput[]
+  }
+
+  export type FacturaCreateNestedOneWithoutGastosTickeliaInput = {
+    create?: XOR<FacturaCreateWithoutGastosTickeliaInput, FacturaUncheckedCreateWithoutGastosTickeliaInput>
+    connectOrCreate?: FacturaCreateOrConnectWithoutGastosTickeliaInput
+    connect?: FacturaWhereUniqueInput
+  }
+
+  export type FacturaUpdateOneWithoutGastosTickeliaNestedInput = {
+    create?: XOR<FacturaCreateWithoutGastosTickeliaInput, FacturaUncheckedCreateWithoutGastosTickeliaInput>
+    connectOrCreate?: FacturaCreateOrConnectWithoutGastosTickeliaInput
+    upsert?: FacturaUpsertWithoutGastosTickeliaInput
+    disconnect?: FacturaWhereInput | boolean
+    delete?: FacturaWhereInput | boolean
+    connect?: FacturaWhereUniqueInput
+    update?: XOR<XOR<FacturaUpdateToOneWithWhereWithoutGastosTickeliaInput, FacturaUpdateWithoutGastosTickeliaInput>, FacturaUncheckedUpdateWithoutGastosTickeliaInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -20567,6 +27828,7 @@ export namespace Prisma {
     precioCompra?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    proveedor?: ProveedorCreateNestedOneWithoutEquiposInput
   }
 
   export type EquipoItemUncheckedCreateWithoutProductoInput = {
@@ -20576,6 +27838,7 @@ export namespace Prisma {
     estado?: $Enums.EstadoEquipo
     fechaCompra?: Date | string | null
     precioCompra?: number | null
+    proveedorId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -20735,6 +27998,7 @@ export namespace Prisma {
     estado?: EnumEstadoEquipoFilter<"EquipoItem"> | $Enums.EstadoEquipo
     fechaCompra?: DateTimeNullableFilter<"EquipoItem"> | Date | string | null
     precioCompra?: FloatNullableFilter<"EquipoItem"> | number | null
+    proveedorId?: StringNullableFilter<"EquipoItem"> | string | null
     createdAt?: DateTimeFilter<"EquipoItem"> | Date | string
     updatedAt?: DateTimeFilter<"EquipoItem"> | Date | string
   }
@@ -20776,6 +28040,37 @@ export namespace Prisma {
   export type ProductoCreateOrConnectWithoutEquipoItemsInput = {
     where: ProductoWhereUniqueInput
     create: XOR<ProductoCreateWithoutEquipoItemsInput, ProductoUncheckedCreateWithoutEquipoItemsInput>
+  }
+
+  export type ProveedorCreateWithoutEquiposInput = {
+    id?: string
+    nombre: string
+    nif?: string | null
+    direccion?: string | null
+    email?: string | null
+    telefono?: string | null
+    contacto?: string | null
+    notas?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ProveedorUncheckedCreateWithoutEquiposInput = {
+    id?: string
+    nombre: string
+    nif?: string | null
+    direccion?: string | null
+    email?: string | null
+    telefono?: string | null
+    contacto?: string | null
+    notas?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ProveedorCreateOrConnectWithoutEquiposInput = {
+    where: ProveedorWhereUniqueInput
+    create: XOR<ProveedorCreateWithoutEquiposInput, ProveedorUncheckedCreateWithoutEquiposInput>
   }
 
   export type ProductoUpsertWithoutEquipoItemsInput = {
@@ -20821,6 +28116,43 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     itemsPresupuesto?: ItemPresupuestoUncheckedUpdateManyWithoutProductoNestedInput
     itemsFactura?: ItemFacturaUncheckedUpdateManyWithoutProductoNestedInput
+  }
+
+  export type ProveedorUpsertWithoutEquiposInput = {
+    update: XOR<ProveedorUpdateWithoutEquiposInput, ProveedorUncheckedUpdateWithoutEquiposInput>
+    create: XOR<ProveedorCreateWithoutEquiposInput, ProveedorUncheckedCreateWithoutEquiposInput>
+    where?: ProveedorWhereInput
+  }
+
+  export type ProveedorUpdateToOneWithWhereWithoutEquiposInput = {
+    where?: ProveedorWhereInput
+    data: XOR<ProveedorUpdateWithoutEquiposInput, ProveedorUncheckedUpdateWithoutEquiposInput>
+  }
+
+  export type ProveedorUpdateWithoutEquiposInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    nif?: NullableStringFieldUpdateOperationsInput | string | null
+    direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    contacto?: NullableStringFieldUpdateOperationsInput | string | null
+    notas?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ProveedorUncheckedUpdateWithoutEquiposInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    nif?: NullableStringFieldUpdateOperationsInput | string | null
+    direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    contacto?: NullableStringFieldUpdateOperationsInput | string | null
+    notas?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PresupuestoCreateWithoutClienteInput = {
@@ -20889,6 +28221,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     items?: ItemFacturaCreateNestedManyWithoutFacturaInput
     presupuestos?: PresupuestoCreateNestedManyWithoutFacturaInput
+    gastosTickelia?: TikeliaCreateNestedManyWithoutFacturaInput
   }
 
   export type FacturaUncheckedCreateWithoutClienteInput = {
@@ -20905,6 +28238,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     items?: ItemFacturaUncheckedCreateNestedManyWithoutFacturaInput
     presupuestos?: PresupuestoUncheckedCreateNestedManyWithoutFacturaInput
+    gastosTickelia?: TikeliaUncheckedCreateNestedManyWithoutFacturaInput
   }
 
   export type FacturaCreateOrConnectWithoutClienteInput = {
@@ -21136,6 +28470,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     cliente: ClienteCreateNestedOneWithoutFacturasInput
     items?: ItemFacturaCreateNestedManyWithoutFacturaInput
+    gastosTickelia?: TikeliaCreateNestedManyWithoutFacturaInput
   }
 
   export type FacturaUncheckedCreateWithoutPresupuestosInput = {
@@ -21152,6 +28487,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     items?: ItemFacturaUncheckedCreateNestedManyWithoutFacturaInput
+    gastosTickelia?: TikeliaUncheckedCreateNestedManyWithoutFacturaInput
   }
 
   export type FacturaCreateOrConnectWithoutPresupuestosInput = {
@@ -21237,6 +28573,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     cliente?: ClienteUpdateOneRequiredWithoutFacturasNestedInput
     items?: ItemFacturaUpdateManyWithoutFacturaNestedInput
+    gastosTickelia?: TikeliaUpdateManyWithoutFacturaNestedInput
   }
 
   export type FacturaUncheckedUpdateWithoutPresupuestosInput = {
@@ -21253,6 +28590,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: ItemFacturaUncheckedUpdateManyWithoutFacturaNestedInput
+    gastosTickelia?: TikeliaUncheckedUpdateManyWithoutFacturaNestedInput
   }
 
   export type PresupuestoCreateWithoutItemsInput = {
@@ -21604,6 +28942,34 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type TikeliaCreateWithoutFacturaInput = {
+    id?: string
+    nombre: string
+    importe: number
+    fecha?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TikeliaUncheckedCreateWithoutFacturaInput = {
+    id?: string
+    nombre: string
+    importe: number
+    fecha?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type TikeliaCreateOrConnectWithoutFacturaInput = {
+    where: TikeliaWhereUniqueInput
+    create: XOR<TikeliaCreateWithoutFacturaInput, TikeliaUncheckedCreateWithoutFacturaInput>
+  }
+
+  export type TikeliaCreateManyFacturaInputEnvelope = {
+    data: TikeliaCreateManyFacturaInput | TikeliaCreateManyFacturaInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ClienteUpsertWithoutFacturasInput = {
     update: XOR<ClienteUpdateWithoutFacturasInput, ClienteUncheckedUpdateWithoutFacturasInput>
     create: XOR<ClienteCreateWithoutFacturasInput, ClienteUncheckedCreateWithoutFacturasInput>
@@ -21673,6 +29039,35 @@ export namespace Prisma {
     data: XOR<PresupuestoUpdateManyMutationInput, PresupuestoUncheckedUpdateManyWithoutFacturaInput>
   }
 
+  export type TikeliaUpsertWithWhereUniqueWithoutFacturaInput = {
+    where: TikeliaWhereUniqueInput
+    update: XOR<TikeliaUpdateWithoutFacturaInput, TikeliaUncheckedUpdateWithoutFacturaInput>
+    create: XOR<TikeliaCreateWithoutFacturaInput, TikeliaUncheckedCreateWithoutFacturaInput>
+  }
+
+  export type TikeliaUpdateWithWhereUniqueWithoutFacturaInput = {
+    where: TikeliaWhereUniqueInput
+    data: XOR<TikeliaUpdateWithoutFacturaInput, TikeliaUncheckedUpdateWithoutFacturaInput>
+  }
+
+  export type TikeliaUpdateManyWithWhereWithoutFacturaInput = {
+    where: TikeliaScalarWhereInput
+    data: XOR<TikeliaUpdateManyMutationInput, TikeliaUncheckedUpdateManyWithoutFacturaInput>
+  }
+
+  export type TikeliaScalarWhereInput = {
+    AND?: TikeliaScalarWhereInput | TikeliaScalarWhereInput[]
+    OR?: TikeliaScalarWhereInput[]
+    NOT?: TikeliaScalarWhereInput | TikeliaScalarWhereInput[]
+    id?: StringFilter<"Tikelia"> | string
+    nombre?: StringFilter<"Tikelia"> | string
+    importe?: FloatFilter<"Tikelia"> | number
+    fecha?: DateTimeFilter<"Tikelia"> | Date | string
+    facturaId?: StringNullableFilter<"Tikelia"> | string | null
+    createdAt?: DateTimeFilter<"Tikelia"> | Date | string
+    updatedAt?: DateTimeFilter<"Tikelia"> | Date | string
+  }
+
   export type FacturaCreateWithoutItemsInput = {
     id?: string
     numero: string
@@ -21687,6 +29082,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     cliente: ClienteCreateNestedOneWithoutFacturasInput
     presupuestos?: PresupuestoCreateNestedManyWithoutFacturaInput
+    gastosTickelia?: TikeliaCreateNestedManyWithoutFacturaInput
   }
 
   export type FacturaUncheckedCreateWithoutItemsInput = {
@@ -21703,6 +29099,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     presupuestos?: PresupuestoUncheckedCreateNestedManyWithoutFacturaInput
+    gastosTickelia?: TikeliaUncheckedCreateNestedManyWithoutFacturaInput
   }
 
   export type FacturaCreateOrConnectWithoutItemsInput = {
@@ -21774,6 +29171,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     cliente?: ClienteUpdateOneRequiredWithoutFacturasNestedInput
     presupuestos?: PresupuestoUpdateManyWithoutFacturaNestedInput
+    gastosTickelia?: TikeliaUpdateManyWithoutFacturaNestedInput
   }
 
   export type FacturaUncheckedUpdateWithoutItemsInput = {
@@ -21790,6 +29188,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     presupuestos?: PresupuestoUncheckedUpdateManyWithoutFacturaNestedInput
+    gastosTickelia?: TikeliaUncheckedUpdateManyWithoutFacturaNestedInput
   }
 
   export type ProductoUpsertWithoutItemsFacturaInput = {
@@ -21835,6 +29234,325 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     itemsPresupuesto?: ItemPresupuestoUncheckedUpdateManyWithoutProductoNestedInput
     equipoItems?: EquipoItemUncheckedUpdateManyWithoutProductoNestedInput
+  }
+
+  export type PersonalPuestoCreateWithoutPuestoInput = {
+    asignadoEn?: Date | string
+    personal: PersonalCreateNestedOneWithoutPuestosInput
+  }
+
+  export type PersonalPuestoUncheckedCreateWithoutPuestoInput = {
+    personalId: string
+    asignadoEn?: Date | string
+  }
+
+  export type PersonalPuestoCreateOrConnectWithoutPuestoInput = {
+    where: PersonalPuestoWhereUniqueInput
+    create: XOR<PersonalPuestoCreateWithoutPuestoInput, PersonalPuestoUncheckedCreateWithoutPuestoInput>
+  }
+
+  export type PersonalPuestoCreateManyPuestoInputEnvelope = {
+    data: PersonalPuestoCreateManyPuestoInput | PersonalPuestoCreateManyPuestoInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PersonalPuestoUpsertWithWhereUniqueWithoutPuestoInput = {
+    where: PersonalPuestoWhereUniqueInput
+    update: XOR<PersonalPuestoUpdateWithoutPuestoInput, PersonalPuestoUncheckedUpdateWithoutPuestoInput>
+    create: XOR<PersonalPuestoCreateWithoutPuestoInput, PersonalPuestoUncheckedCreateWithoutPuestoInput>
+  }
+
+  export type PersonalPuestoUpdateWithWhereUniqueWithoutPuestoInput = {
+    where: PersonalPuestoWhereUniqueInput
+    data: XOR<PersonalPuestoUpdateWithoutPuestoInput, PersonalPuestoUncheckedUpdateWithoutPuestoInput>
+  }
+
+  export type PersonalPuestoUpdateManyWithWhereWithoutPuestoInput = {
+    where: PersonalPuestoScalarWhereInput
+    data: XOR<PersonalPuestoUpdateManyMutationInput, PersonalPuestoUncheckedUpdateManyWithoutPuestoInput>
+  }
+
+  export type PersonalPuestoScalarWhereInput = {
+    AND?: PersonalPuestoScalarWhereInput | PersonalPuestoScalarWhereInput[]
+    OR?: PersonalPuestoScalarWhereInput[]
+    NOT?: PersonalPuestoScalarWhereInput | PersonalPuestoScalarWhereInput[]
+    personalId?: StringFilter<"PersonalPuesto"> | string
+    puestoId?: StringFilter<"PersonalPuesto"> | string
+    asignadoEn?: DateTimeFilter<"PersonalPuesto"> | Date | string
+  }
+
+  export type PersonalPuestoCreateWithoutPersonalInput = {
+    asignadoEn?: Date | string
+    puesto: PuestoCreateNestedOneWithoutPersonalInput
+  }
+
+  export type PersonalPuestoUncheckedCreateWithoutPersonalInput = {
+    puestoId: string
+    asignadoEn?: Date | string
+  }
+
+  export type PersonalPuestoCreateOrConnectWithoutPersonalInput = {
+    where: PersonalPuestoWhereUniqueInput
+    create: XOR<PersonalPuestoCreateWithoutPersonalInput, PersonalPuestoUncheckedCreateWithoutPersonalInput>
+  }
+
+  export type PersonalPuestoCreateManyPersonalInputEnvelope = {
+    data: PersonalPuestoCreateManyPersonalInput | PersonalPuestoCreateManyPersonalInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PersonalPuestoUpsertWithWhereUniqueWithoutPersonalInput = {
+    where: PersonalPuestoWhereUniqueInput
+    update: XOR<PersonalPuestoUpdateWithoutPersonalInput, PersonalPuestoUncheckedUpdateWithoutPersonalInput>
+    create: XOR<PersonalPuestoCreateWithoutPersonalInput, PersonalPuestoUncheckedCreateWithoutPersonalInput>
+  }
+
+  export type PersonalPuestoUpdateWithWhereUniqueWithoutPersonalInput = {
+    where: PersonalPuestoWhereUniqueInput
+    data: XOR<PersonalPuestoUpdateWithoutPersonalInput, PersonalPuestoUncheckedUpdateWithoutPersonalInput>
+  }
+
+  export type PersonalPuestoUpdateManyWithWhereWithoutPersonalInput = {
+    where: PersonalPuestoScalarWhereInput
+    data: XOR<PersonalPuestoUpdateManyMutationInput, PersonalPuestoUncheckedUpdateManyWithoutPersonalInput>
+  }
+
+  export type PersonalCreateWithoutPuestosInput = {
+    id?: string
+    nombre: string
+    telefono?: string | null
+    email?: string | null
+    notas?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PersonalUncheckedCreateWithoutPuestosInput = {
+    id?: string
+    nombre: string
+    telefono?: string | null
+    email?: string | null
+    notas?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PersonalCreateOrConnectWithoutPuestosInput = {
+    where: PersonalWhereUniqueInput
+    create: XOR<PersonalCreateWithoutPuestosInput, PersonalUncheckedCreateWithoutPuestosInput>
+  }
+
+  export type PuestoCreateWithoutPersonalInput = {
+    id?: string
+    nombre: string
+    descripcion?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PuestoUncheckedCreateWithoutPersonalInput = {
+    id?: string
+    nombre: string
+    descripcion?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PuestoCreateOrConnectWithoutPersonalInput = {
+    where: PuestoWhereUniqueInput
+    create: XOR<PuestoCreateWithoutPersonalInput, PuestoUncheckedCreateWithoutPersonalInput>
+  }
+
+  export type PersonalUpsertWithoutPuestosInput = {
+    update: XOR<PersonalUpdateWithoutPuestosInput, PersonalUncheckedUpdateWithoutPuestosInput>
+    create: XOR<PersonalCreateWithoutPuestosInput, PersonalUncheckedCreateWithoutPuestosInput>
+    where?: PersonalWhereInput
+  }
+
+  export type PersonalUpdateToOneWithWhereWithoutPuestosInput = {
+    where?: PersonalWhereInput
+    data: XOR<PersonalUpdateWithoutPuestosInput, PersonalUncheckedUpdateWithoutPuestosInput>
+  }
+
+  export type PersonalUpdateWithoutPuestosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    notas?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PersonalUncheckedUpdateWithoutPuestosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    notas?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PuestoUpsertWithoutPersonalInput = {
+    update: XOR<PuestoUpdateWithoutPersonalInput, PuestoUncheckedUpdateWithoutPersonalInput>
+    create: XOR<PuestoCreateWithoutPersonalInput, PuestoUncheckedCreateWithoutPersonalInput>
+    where?: PuestoWhereInput
+  }
+
+  export type PuestoUpdateToOneWithWhereWithoutPersonalInput = {
+    where?: PuestoWhereInput
+    data: XOR<PuestoUpdateWithoutPersonalInput, PuestoUncheckedUpdateWithoutPersonalInput>
+  }
+
+  export type PuestoUpdateWithoutPersonalInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PuestoUncheckedUpdateWithoutPersonalInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EquipoItemCreateWithoutProveedorInput = {
+    id?: string
+    numeroSerie?: string | null
+    notasInternas?: string | null
+    estado?: $Enums.EstadoEquipo
+    fechaCompra?: Date | string | null
+    precioCompra?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    producto: ProductoCreateNestedOneWithoutEquipoItemsInput
+  }
+
+  export type EquipoItemUncheckedCreateWithoutProveedorInput = {
+    id?: string
+    productoId: string
+    numeroSerie?: string | null
+    notasInternas?: string | null
+    estado?: $Enums.EstadoEquipo
+    fechaCompra?: Date | string | null
+    precioCompra?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EquipoItemCreateOrConnectWithoutProveedorInput = {
+    where: EquipoItemWhereUniqueInput
+    create: XOR<EquipoItemCreateWithoutProveedorInput, EquipoItemUncheckedCreateWithoutProveedorInput>
+  }
+
+  export type EquipoItemCreateManyProveedorInputEnvelope = {
+    data: EquipoItemCreateManyProveedorInput | EquipoItemCreateManyProveedorInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type EquipoItemUpsertWithWhereUniqueWithoutProveedorInput = {
+    where: EquipoItemWhereUniqueInput
+    update: XOR<EquipoItemUpdateWithoutProveedorInput, EquipoItemUncheckedUpdateWithoutProveedorInput>
+    create: XOR<EquipoItemCreateWithoutProveedorInput, EquipoItemUncheckedCreateWithoutProveedorInput>
+  }
+
+  export type EquipoItemUpdateWithWhereUniqueWithoutProveedorInput = {
+    where: EquipoItemWhereUniqueInput
+    data: XOR<EquipoItemUpdateWithoutProveedorInput, EquipoItemUncheckedUpdateWithoutProveedorInput>
+  }
+
+  export type EquipoItemUpdateManyWithWhereWithoutProveedorInput = {
+    where: EquipoItemScalarWhereInput
+    data: XOR<EquipoItemUpdateManyMutationInput, EquipoItemUncheckedUpdateManyWithoutProveedorInput>
+  }
+
+  export type FacturaCreateWithoutGastosTickeliaInput = {
+    id?: string
+    numero: string
+    fecha?: Date | string
+    fechaVencimiento: Date | string
+    estado?: $Enums.EstadoFactura
+    observaciones?: string | null
+    subtotal: number
+    iva: number
+    total: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    cliente: ClienteCreateNestedOneWithoutFacturasInput
+    items?: ItemFacturaCreateNestedManyWithoutFacturaInput
+    presupuestos?: PresupuestoCreateNestedManyWithoutFacturaInput
+  }
+
+  export type FacturaUncheckedCreateWithoutGastosTickeliaInput = {
+    id?: string
+    numero: string
+    fecha?: Date | string
+    fechaVencimiento: Date | string
+    clienteId: string
+    estado?: $Enums.EstadoFactura
+    observaciones?: string | null
+    subtotal: number
+    iva: number
+    total: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    items?: ItemFacturaUncheckedCreateNestedManyWithoutFacturaInput
+    presupuestos?: PresupuestoUncheckedCreateNestedManyWithoutFacturaInput
+  }
+
+  export type FacturaCreateOrConnectWithoutGastosTickeliaInput = {
+    where: FacturaWhereUniqueInput
+    create: XOR<FacturaCreateWithoutGastosTickeliaInput, FacturaUncheckedCreateWithoutGastosTickeliaInput>
+  }
+
+  export type FacturaUpsertWithoutGastosTickeliaInput = {
+    update: XOR<FacturaUpdateWithoutGastosTickeliaInput, FacturaUncheckedUpdateWithoutGastosTickeliaInput>
+    create: XOR<FacturaCreateWithoutGastosTickeliaInput, FacturaUncheckedCreateWithoutGastosTickeliaInput>
+    where?: FacturaWhereInput
+  }
+
+  export type FacturaUpdateToOneWithWhereWithoutGastosTickeliaInput = {
+    where?: FacturaWhereInput
+    data: XOR<FacturaUpdateWithoutGastosTickeliaInput, FacturaUncheckedUpdateWithoutGastosTickeliaInput>
+  }
+
+  export type FacturaUpdateWithoutGastosTickeliaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaVencimiento?: DateTimeFieldUpdateOperationsInput | Date | string
+    estado?: EnumEstadoFacturaFieldUpdateOperationsInput | $Enums.EstadoFactura
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    subtotal?: FloatFieldUpdateOperationsInput | number
+    iva?: FloatFieldUpdateOperationsInput | number
+    total?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    cliente?: ClienteUpdateOneRequiredWithoutFacturasNestedInput
+    items?: ItemFacturaUpdateManyWithoutFacturaNestedInput
+    presupuestos?: PresupuestoUpdateManyWithoutFacturaNestedInput
+  }
+
+  export type FacturaUncheckedUpdateWithoutGastosTickeliaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaVencimiento?: DateTimeFieldUpdateOperationsInput | Date | string
+    clienteId?: StringFieldUpdateOperationsInput | string
+    estado?: EnumEstadoFacturaFieldUpdateOperationsInput | $Enums.EstadoFactura
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    subtotal?: FloatFieldUpdateOperationsInput | number
+    iva?: FloatFieldUpdateOperationsInput | number
+    total?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: ItemFacturaUncheckedUpdateManyWithoutFacturaNestedInput
+    presupuestos?: PresupuestoUncheckedUpdateManyWithoutFacturaNestedInput
   }
 
   export type ProductoCreateManyCategoriaInput = {
@@ -21996,6 +29714,7 @@ export namespace Prisma {
     estado?: $Enums.EstadoEquipo
     fechaCompra?: Date | string | null
     precioCompra?: number | null
+    proveedorId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -22093,6 +29812,7 @@ export namespace Prisma {
     precioCompra?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    proveedor?: ProveedorUpdateOneWithoutEquiposNestedInput
   }
 
   export type EquipoItemUncheckedUpdateWithoutProductoInput = {
@@ -22102,6 +29822,7 @@ export namespace Prisma {
     estado?: EnumEstadoEquipoFieldUpdateOperationsInput | $Enums.EstadoEquipo
     fechaCompra?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     precioCompra?: NullableFloatFieldUpdateOperationsInput | number | null
+    proveedorId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22113,6 +29834,7 @@ export namespace Prisma {
     estado?: EnumEstadoEquipoFieldUpdateOperationsInput | $Enums.EstadoEquipo
     fechaCompra?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     precioCompra?: NullableFloatFieldUpdateOperationsInput | number | null
+    proveedorId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -22227,6 +29949,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: ItemFacturaUpdateManyWithoutFacturaNestedInput
     presupuestos?: PresupuestoUpdateManyWithoutFacturaNestedInput
+    gastosTickelia?: TikeliaUpdateManyWithoutFacturaNestedInput
   }
 
   export type FacturaUncheckedUpdateWithoutClienteInput = {
@@ -22243,6 +29966,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: ItemFacturaUncheckedUpdateManyWithoutFacturaNestedInput
     presupuestos?: PresupuestoUncheckedUpdateManyWithoutFacturaNestedInput
+    gastosTickelia?: TikeliaUncheckedUpdateManyWithoutFacturaNestedInput
   }
 
   export type FacturaUncheckedUpdateManyWithoutClienteInput = {
@@ -22419,6 +30143,15 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type TikeliaCreateManyFacturaInput = {
+    id?: string
+    nombre: string
+    importe: number
+    fecha?: Date | string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type ItemFacturaUpdateWithoutFacturaInput = {
     id?: StringFieldUpdateOperationsInput | string
     cantidad?: IntFieldUpdateOperationsInput | number
@@ -22513,6 +30246,121 @@ export namespace Prisma {
     subtotal?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TikeliaUpdateWithoutFacturaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    importe?: FloatFieldUpdateOperationsInput | number
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TikeliaUncheckedUpdateWithoutFacturaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    importe?: FloatFieldUpdateOperationsInput | number
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TikeliaUncheckedUpdateManyWithoutFacturaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    importe?: FloatFieldUpdateOperationsInput | number
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PersonalPuestoCreateManyPuestoInput = {
+    personalId: string
+    asignadoEn?: Date | string
+  }
+
+  export type PersonalPuestoUpdateWithoutPuestoInput = {
+    asignadoEn?: DateTimeFieldUpdateOperationsInput | Date | string
+    personal?: PersonalUpdateOneRequiredWithoutPuestosNestedInput
+  }
+
+  export type PersonalPuestoUncheckedUpdateWithoutPuestoInput = {
+    personalId?: StringFieldUpdateOperationsInput | string
+    asignadoEn?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PersonalPuestoUncheckedUpdateManyWithoutPuestoInput = {
+    personalId?: StringFieldUpdateOperationsInput | string
+    asignadoEn?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PersonalPuestoCreateManyPersonalInput = {
+    puestoId: string
+    asignadoEn?: Date | string
+  }
+
+  export type PersonalPuestoUpdateWithoutPersonalInput = {
+    asignadoEn?: DateTimeFieldUpdateOperationsInput | Date | string
+    puesto?: PuestoUpdateOneRequiredWithoutPersonalNestedInput
+  }
+
+  export type PersonalPuestoUncheckedUpdateWithoutPersonalInput = {
+    puestoId?: StringFieldUpdateOperationsInput | string
+    asignadoEn?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PersonalPuestoUncheckedUpdateManyWithoutPersonalInput = {
+    puestoId?: StringFieldUpdateOperationsInput | string
+    asignadoEn?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EquipoItemCreateManyProveedorInput = {
+    id?: string
+    productoId: string
+    numeroSerie?: string | null
+    notasInternas?: string | null
+    estado?: $Enums.EstadoEquipo
+    fechaCompra?: Date | string | null
+    precioCompra?: number | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EquipoItemUpdateWithoutProveedorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numeroSerie?: NullableStringFieldUpdateOperationsInput | string | null
+    notasInternas?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: EnumEstadoEquipoFieldUpdateOperationsInput | $Enums.EstadoEquipo
+    fechaCompra?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    precioCompra?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    producto?: ProductoUpdateOneRequiredWithoutEquipoItemsNestedInput
+  }
+
+  export type EquipoItemUncheckedUpdateWithoutProveedorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    productoId?: StringFieldUpdateOperationsInput | string
+    numeroSerie?: NullableStringFieldUpdateOperationsInput | string | null
+    notasInternas?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: EnumEstadoEquipoFieldUpdateOperationsInput | $Enums.EstadoEquipo
+    fechaCompra?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    precioCompra?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EquipoItemUncheckedUpdateManyWithoutProveedorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    productoId?: StringFieldUpdateOperationsInput | string
+    numeroSerie?: NullableStringFieldUpdateOperationsInput | string | null
+    notasInternas?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: EnumEstadoEquipoFieldUpdateOperationsInput | $Enums.EstadoEquipo
+    fechaCompra?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    precioCompra?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

@@ -1,23 +1,22 @@
 import { prisma } from '@/lib/prisma'
 import { NextResponse } from 'next/server'
 
-// GET /api/presupuestos/[id]
+// GET /api/presupuestos/[id] - Obtener un presupuesto específico
 export async function GET(
   req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const resolvedParams = await params
-    const presupuestoId = resolvedParams.id
     
+    // Obtener el presupuesto completo con todos sus detalles
     const presupuesto = await prisma.presupuesto.findUnique({
-      where: { id: presupuestoId },
+      where: { id: resolvedParams.id },
       include: {
         cliente: true,
         items: {
           include: {
             producto: true,
-            partida: true,
           },
         },
       },
@@ -242,11 +241,10 @@ export async function DELETE(
 ) {
   try {
     const resolvedParams = await params
-    const presupuestoId = resolvedParams.id
     
     // Verificar que el presupuesto existe
     const presupuestoExistente = await prisma.presupuesto.findUnique({
-      where: { id: presupuestoId }
+      where: { id: resolvedParams.id },
     })
     
     if (!presupuestoExistente) {
@@ -266,12 +264,12 @@ export async function DELETE(
     
     // Eliminar los items del presupuesto primero
     await prisma.itemPresupuesto.deleteMany({
-      where: { presupuestoId }
+      where: { presupuestoId: resolvedParams.id }
     })
     
     // Eliminar el presupuesto
     await prisma.presupuesto.delete({
-      where: { id: presupuestoId }
+      where: { id: resolvedParams.id }
     })
     
     return NextResponse.json({ success: true })

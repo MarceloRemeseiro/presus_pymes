@@ -1,0 +1,181 @@
+"use client"
+
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { z } from "zod"
+import { Button } from "@/components/ui/button"
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
+import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
+import { Loader2 } from "lucide-react"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
+// Esquema de validación con Zod
+const clienteSchema = z.object({
+  nombre: z.string().min(1, { message: "El nombre es obligatorio" }),
+  nif: z.string().optional().nullable(),
+  direccion: z.string().optional().nullable(),
+  email: z.string().email({ message: "Introduzca un email válido" }).optional().nullable(),
+  telefono: z.string().optional().nullable(),
+  tipo: z.enum(["EMPRESA", "PARTICULAR"]),
+})
+
+type ClienteFormValues = z.infer<typeof clienteSchema>
+
+interface ClienteFormProps {
+  initialData?: {
+    id: string
+    nombre: string
+    nif?: string | null
+    direccion?: string | null
+    email?: string | null
+    telefono?: string | null
+    tipo: "EMPRESA" | "PARTICULAR"
+  } | null
+  onSubmit: (data: ClienteFormValues) => void
+  isSubmitting?: boolean
+}
+
+export function ClienteForm({ initialData, onSubmit, isSubmitting = false }: ClienteFormProps) {
+  // Inicializar el formulario con react-hook-form y zod
+  const form = useForm<ClienteFormValues>({
+    resolver: zodResolver(clienteSchema),
+    defaultValues: {
+      nombre: initialData?.nombre || "",
+      nif: initialData?.nif || "",
+      direccion: initialData?.direccion || "",
+      email: initialData?.email || "",
+      telefono: initialData?.telefono || "",
+      tipo: initialData?.tipo || "EMPRESA",
+    }
+  })
+
+  return (
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        {/* Nombre */}
+        <FormField
+          control={form.control}
+          name="nombre"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Nombre</FormLabel>
+              <FormControl>
+                <Input {...field} placeholder="Nombre del cliente" />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* Tipo de cliente */}
+        <FormField
+          control={form.control}
+          name="tipo"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Tipo de cliente</FormLabel>
+              <Select 
+                onValueChange={field.onChange} 
+                defaultValue={field.value}
+              >
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Seleccionar tipo" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="EMPRESA">Empresa</SelectItem>
+                  <SelectItem value="PARTICULAR">Autónomo</SelectItem>
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* NIF/CIF */}
+        <FormField
+          control={form.control}
+          name="nif"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>NIF/CIF</FormLabel>
+              <FormControl>
+                <Input {...field} placeholder="NIF o CIF" value={field.value || ""} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Email */}
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input {...field} placeholder="Email de contacto" value={field.value || ""} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {/* Teléfono */}
+          <FormField
+            control={form.control}
+            name="telefono"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Teléfono</FormLabel>
+                <FormControl>
+                  <Input {...field} placeholder="Teléfono de contacto" value={field.value || ""} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
+        {/* Dirección */}
+        <FormField
+          control={form.control}
+          name="direccion"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Dirección</FormLabel>
+              <FormControl>
+                <Input {...field} placeholder="Dirección completa" value={field.value || ""} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* Botón de enviar */}
+        <Button type="submit" className="w-full" disabled={isSubmitting}>
+          {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          {initialData ? "Actualizar cliente" : "Crear cliente"}
+        </Button>
+      </form>
+    </Form>
+  )
+} 

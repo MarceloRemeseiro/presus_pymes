@@ -2,7 +2,7 @@
 
 import React from "react"
 import Link from "next/link"
-import { FileText, Home, Package, Settings, ShoppingCart, Users, Receipt } from "lucide-react"
+import { FileText, Home, Package, Settings, ShoppingCart, Users, Receipt, UserCircle, ShoppingBag } from "lucide-react"
 
 import {
   Sidebar,
@@ -47,6 +47,22 @@ export function AppSidebar() {
                   <Link href="/inventario">
                     <Package className="w-4 h-4 mr-2" />
                     Inventario
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link href="/personal">
+                    <UserCircle className="w-4 h-4 mr-2" />
+                    Personal
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link href="/proveedores">
+                    <ShoppingBag className="w-4 h-4 mr-2" />
+                    Proveedores
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>

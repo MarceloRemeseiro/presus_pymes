@@ -166,6 +166,7 @@ exports.Prisma.EquipoItemScalarFieldEnum = {
   estado: 'estado',
   fechaCompra: 'fechaCompra',
   precioCompra: 'precioCompra',
+  proveedorId: 'proveedorId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -264,6 +265,53 @@ exports.Prisma.ConfiguracionScalarFieldEnum = {
   prefijoPresupuesto: 'prefijoPresupuesto'
 };
 
+exports.Prisma.PuestoScalarFieldEnum = {
+  id: 'id',
+  nombre: 'nombre',
+  descripcion: 'descripcion',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PersonalScalarFieldEnum = {
+  id: 'id',
+  nombre: 'nombre',
+  telefono: 'telefono',
+  email: 'email',
+  notas: 'notas',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PersonalPuestoScalarFieldEnum = {
+  personalId: 'personalId',
+  puestoId: 'puestoId',
+  asignadoEn: 'asignadoEn'
+};
+
+exports.Prisma.ProveedorScalarFieldEnum = {
+  id: 'id',
+  nombre: 'nombre',
+  nif: 'nif',
+  direccion: 'direccion',
+  email: 'email',
+  telefono: 'telefono',
+  contacto: 'contacto',
+  notas: 'notas',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.TikeliaScalarFieldEnum = {
+  id: 'id',
+  nombre: 'nombre',
+  importe: 'importe',
+  fecha: 'fecha',
+  facturaId: 'facturaId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -316,7 +364,12 @@ exports.Prisma.ModelName = {
   ItemPresupuesto: 'ItemPresupuesto',
   Factura: 'Factura',
   ItemFactura: 'ItemFactura',
-  Configuracion: 'Configuracion'
+  Configuracion: 'Configuracion',
+  Puesto: 'Puesto',
+  Personal: 'Personal',
+  PersonalPuesto: 'PersonalPuesto',
+  Proveedor: 'Proveedor',
+  Tikelia: 'Tikelia'
 };
 
 /**

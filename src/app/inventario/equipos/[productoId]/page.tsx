@@ -14,13 +14,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Badge } from "@/components/ui/badge"
 import { EliminarEquipoDialog } from "@/components/productos/eliminar-equipo-dialog"
 import { Toaster } from "@/components/ui/toaster"
 import { toast } from "sonner"
-import { Trash, Pencil, Loader2 } from "lucide-react"
+import { Trash2, Pencil, Loader2, ArrowLeft, Plus } from "lucide-react"
 
 interface EquipoItem {
   id: string
@@ -30,6 +32,11 @@ interface EquipoItem {
   estado: "DISPONIBLE" | "EN_USO" | "EN_REPARACION" | "BAJA"
   fechaCompra: string | null
   precioCompra: number | null
+  proveedorId: string | null
+  proveedor?: {
+    id: string
+    nombre: string
+  } | null
   createdAt: string
   updatedAt: string
   producto: {
@@ -53,18 +60,25 @@ interface Producto {
   stock: number
 }
 
+interface Proveedor {
+  id: string
+  nombre: string
+}
+
 export default function EquiposProductoPage({ params }: { params: Promise<{ productoId: string }> }) {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [producto, setProducto] = useState<Producto | null>(null)
   const [equipoItems, setEquipoItems] = useState<EquipoItem[]>([])
+  const [proveedores, setProveedores] = useState<Proveedor[]>([])
   
   // Estado para el diálogo de agregar
   const [showAddDialog, setShowAddDialog] = useState(false)
   const [newSerialNumber, setNewSerialNumber] = useState("")
   const [newPrecioCompra, setNewPrecioCompra] = useState("")
   const [newNotes, setNewNotes] = useState("")
+  const [newProveedorId, setNewProveedorId] = useState("")
   const [isSaving, setIsSaving] = useState(false)
   
   // Estado para el diálogo de editar
@@ -75,6 +89,7 @@ export default function EquiposProductoPage({ params }: { params: Promise<{ prod
   const [editPrecioCompra, setEditPrecioCompra] = useState("")
   const [editFechaCompra, setEditFechaCompra] = useState("")
   const [editNotas, setEditNotas] = useState("")
+  const [editProveedorId, setEditProveedorId] = useState("")
   const [isEditing, setIsEditing] = useState(false)
   
   const [productoId, setProductoId] = useState<string | null>(null)
@@ -115,6 +130,11 @@ export default function EquiposProductoPage({ params }: { params: Promise<{ prod
         const equipoItemsData = await equipoItemsResponse.json()
         setEquipoItems(equipoItemsData)
 
+        // Cargar los proveedores
+        const proveedoresResponse = await fetch('/api/proveedores')
+        const proveedoresData = await proveedoresResponse.json()
+        setProveedores(proveedoresData)
+
         setError(null)
       } catch (err) {
         console.error('Error al cargar datos:', err)
@@ -146,6 +166,7 @@ export default function EquiposProductoPage({ params }: { params: Promise<{ prod
           numeroSerie: newSerialNumber || null,
           precioCompra: newPrecioCompra ? parseFloat(newPrecioCompra) : null,
           notasInternas: newNotes || null,
+          proveedorId: newProveedorId || null,
           estado: "DISPONIBLE",
           fechaCompra: new Date().toISOString(),
         }),
@@ -168,6 +189,7 @@ export default function EquiposProductoPage({ params }: { params: Promise<{ prod
       setNewSerialNumber("")
       setNewPrecioCompra("")
       setNewNotes("")
+      setNewProveedorId("")
       setShowAddDialog(false)
       
       // Actualizar el stock del producto
@@ -197,6 +219,7 @@ export default function EquiposProductoPage({ params }: { params: Promise<{ prod
         : ""
     )
     setEditNotas(item.notasInternas || "")
+    setEditProveedorId(item.proveedorId || "")
     setShowEditDialog(true)
   }
 
@@ -218,6 +241,7 @@ export default function EquiposProductoPage({ params }: { params: Promise<{ prod
           estado: editEstado,
           precioCompra: editPrecioCompra ? parseFloat(editPrecioCompra) : null,
           fechaCompra: editFechaCompra ? new Date(editFechaCompra).toISOString() : null,
+          proveedorId: editProveedorId || null,
         }),
       })
 
@@ -248,11 +272,45 @@ export default function EquiposProductoPage({ params }: { params: Promise<{ prod
     }
   }
 
+  // Eliminar un elemento de equipo directamente
+  const handleDeleteEquipo = async (id: string, numeroSerie: string) => {
+    if (!window.confirm(`¿Estás seguro de eliminar el elemento ${numeroSerie}? Esta acción no se puede deshacer.`)) {
+      return
+    }
+    
+    try {
+      const response = await fetch(`/api/equipo-items/${id}`, {
+        method: "DELETE"
+      })
+      
+      if (!response.ok) {
+        const data = await response.json()
+        throw new Error(data.error || "Error al eliminar el elemento")
+      }
+      
+      // Actualizar la lista eliminando el elemento
+      setEquipoItems(equipoItems.filter(equipo => equipo.id !== id))
+      
+      // También actualizar el stock del producto
+      if (producto) {
+        setProducto({
+          ...producto,
+          stock: Math.max(0, (producto.stock || 0) - 1)
+        })
+      }
+      
+      toast.success("Elemento eliminado correctamente")
+    } catch (error) {
+      console.error("Error:", error)
+      toast.error(`Error: ${error instanceof Error ? error.message : "Error al eliminar el elemento"}`)
+    }
+  }
+
   if (isLoading) {
     return (
       <div className="py-10 flex justify-center">
         <div className="text-center">
-          <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"></div>
+          <Loader2 className="h-8 w-8 animate-spin mx-auto" />
           <p className="mt-2">Cargando elementos de equipo...</p>
         </div>
       </div>
@@ -285,27 +343,37 @@ export default function EquiposProductoPage({ params }: { params: Promise<{ prod
     )
   }
 
+  // Encontrar el nombre del proveedor según su ID
+  const getProveedorNombre = (proveedorId: string | null) => {
+    if (!proveedorId) return "-";
+    const proveedor = proveedores.find(p => p.id === proveedorId);
+    return proveedor ? proveedor.nombre : "-";
+  };
+
   return (
     <div className="py-10">
-      <div className="flex items-center mb-8">
-        <Button asChild variant="outline" className="mr-4">
-          <Link href="/inventario">
-            Volver al inventario
-          </Link>
-        </Button>
-        <h1 className="text-3xl font-bold flex-1">
-         {producto.nombre}
-          <span className="text-sm ml-2 font-normal text-gray-500">
-            {producto.marca && ` - ${producto.marca.nombre}`}
-            {producto.modelo && ` ${producto.modelo}`}
-          </span>
-        </h1>
-
+      <div className="flex justify-between items-center mb-6">
+        <div className="flex items-center">
+          <Button variant="outline" size="icon" asChild className="mr-4">
+            <Link href="/inventario">
+              <ArrowLeft className="h-4 w-4" />
+            </Link>
+          </Button>
+          <h1 className="text-3xl font-bold">
+            Elementos de {producto.nombre}
+            <span className="text-sm ml-2 font-normal text-muted-foreground">
+              {producto.marca && `${producto.marca.nombre}`}
+              {producto.modelo && ` - ${producto.modelo}`}
+            </span>
+          </h1>
+        </div>
         <Dialog open={showAddDialog} onOpenChange={setShowAddDialog}>
           <DialogTrigger asChild>
-            <Button>Agregar Elemento</Button>
+            <Button>
+              <Plus className="mr-2 h-4 w-4" /> Agregar Elemento
+            </Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="bg-gray-50 dark:bg-gray-900">
             <DialogHeader>
               <DialogTitle>Agregar nuevo elemento de equipo</DialogTitle>
               <DialogDescription>
@@ -335,6 +403,22 @@ export default function EquiposProductoPage({ params }: { params: Promise<{ prod
                 />
               </div>
               <div className="space-y-2">
+                <Label htmlFor="proveedor">Proveedor</Label>
+                <select
+                  id="proveedor"
+                  value={newProveedorId}
+                  onChange={(e) => setNewProveedorId(e.target.value)}
+                  className="flex h-10 w-full rounded-md border border-input px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  <option value="">Seleccionar proveedor</option>
+                  {proveedores.map((proveedor) => (
+                    <option key={proveedor.id} value={proveedor.id}>
+                      {proveedor.nombre}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="space-y-2">
                 <Label htmlFor="notas">Notas Internas</Label>
                 <Input
                   id="notas"
@@ -349,112 +433,111 @@ export default function EquiposProductoPage({ params }: { params: Promise<{ prod
                 Cancelar
               </Button>
               <Button onClick={handleAddEquipoItem} disabled={isSaving}>
-                {isSaving ? "Guardando..." : "Guardar Elemento"}
+                {isSaving ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Guardando...
+                  </>
+                ) : (
+                  "Guardar Elemento"
+                )}
               </Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
       </div>
 
-      <div className="border rounded-lg">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>ID</TableHead>
-              <TableHead>Número de Serie</TableHead>
-              <TableHead>Estado</TableHead>
-              <TableHead>Fecha de Compra</TableHead>
-              <TableHead className="text-right">Precio Compra</TableHead>
-              <TableHead className="text-right">Precio Alquiler</TableHead>
-              <TableHead>Notas</TableHead>
-              <TableHead className="text-right">Acciones</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {equipoItems.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan={8} className="text-center py-6 text-muted-foreground">
-                  No hay elementos de equipo para este producto. Agregue uno para comenzar.
-                </TableCell>
-              </TableRow>
-            ) : (
-              equipoItems.map((item) => (
-                <TableRow key={item.id}>
-                  <TableCell className="font-medium">{item.id.substring(0, 8)}</TableCell>
-                  <TableCell>{item.numeroSerie || "-"}</TableCell>
-                  <TableCell>
-                    <span className={`px-2 py-1 rounded-full text-xs ${
-                      item.estado === "DISPONIBLE" ? "bg-green-100 text-green-800" :
-                      item.estado === "EN_USO" ? "bg-blue-100 text-blue-800" :
-                      item.estado === "EN_REPARACION" ? "bg-yellow-100 text-yellow-800" :
-                      "bg-red-100 text-red-800"
-                    }`}>
-                      {item.estado === "DISPONIBLE" ? "Disponible" :
-                       item.estado === "EN_USO" ? "En uso" :
-                       item.estado === "EN_REPARACION" ? "En reparación" :
-                       "Baja"}
-                    </span>
-                  </TableCell>
-                  <TableCell>
-                    {item.fechaCompra 
-                      ? new Date(item.fechaCompra).toLocaleDateString() 
-                      : "-"}
-                  </TableCell>
-                  <TableCell className="text-right">
-                    {item.precioCompra !== null ? `$${item.precioCompra.toFixed(2)}` : "-"}
-                  </TableCell>
-                  <TableCell className="text-right">
-                    {producto.precioAlquiler !== null ? `$${producto.precioAlquiler.toFixed(2)}` : "-"}
-                  </TableCell>
-                  <TableCell>{item.notasInternas || "-"}</TableCell>
-                  <TableCell className="text-right">
-                    <div className="flex justify-end gap-2">
-                      <Button 
-                        variant="outline"
-                        size="icon"
-                        className="h-8 w-8 text-amber-600 hover:text-amber-700 hover:bg-amber-50 border-amber-200"
-                        onClick={() => handleOpenEditDialog(item)}
-                      >
-                        <Pencil className="h-4 w-4" />
-                        <span className="sr-only">Editar</span>
-                      </Button>
-                      <EliminarEquipoDialog
-                        equipoId={item.id}
-                        numeroSerie={item.numeroSerie || `Elemento #${item.id.substring(0, 8)}`}
-                        trigger={
-                          <Button 
-                            variant="outline"
-                            size="icon"
-                            className="h-8 w-8 text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200"
-                          >
-                            <Trash className="h-4 w-4" />
-                            <span className="sr-only">Eliminar</span>
-                          </Button>
-                        }
-                        onSuccess={() => {
-                          // Actualizar la lista eliminando el elemento
-                          setEquipoItems(equipoItems.filter(equipo => equipo.id !== item.id))
-                          // También actualizar el stock del producto
-                          if (producto) {
-                            setProducto({
-                              ...producto,
-                              stock: Math.max(0, (producto.stock || 0) - 1)
-                            })
+      <Card>
+        <CardHeader>
+          <CardTitle>Gestión de Elementos</CardTitle>
+          <CardDescription>
+            Administra los elementos de equipo para este producto
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          {equipoItems.length === 0 ? (
+            <div className="text-center py-8 text-muted-foreground">
+              No hay elementos de equipo para este producto. Agregue uno para comenzar.
+            </div>
+          ) : (
+            <div className="border rounded-lg">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Número de Serie</TableHead>
+                    <TableHead>Estado</TableHead>
+                    <TableHead>Fecha de Compra</TableHead>
+                    <TableHead className="text-right">Precio Compra</TableHead>
+                    <TableHead>Proveedor</TableHead>
+                    <TableHead>Notas</TableHead>
+                    <TableHead className="text-right">Acciones</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {equipoItems.map((item) => (
+                    <TableRow key={item.id}>
+                      <TableCell className="font-medium">
+                        {item.numeroSerie || <span className="text-muted-foreground italic">Sin número</span>}
+                      </TableCell>
+                      <TableCell>
+                        <Badge
+                          variant={
+                            item.estado === "DISPONIBLE" ? "default" :
+                            item.estado === "EN_USO" ? "secondary" :
+                            item.estado === "EN_REPARACION" ? "outline" :
+                            "destructive"
                           }
-                        }}
-                      />
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))
-            )}
-          </TableBody>
-        </Table>
-      </div>
+                        >
+                          {item.estado === "DISPONIBLE" ? "Disponible" :
+                          item.estado === "EN_USO" ? "En uso" :
+                          item.estado === "EN_REPARACION" ? "En reparación" :
+                          "Baja"}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        {item.fechaCompra 
+                          ? new Date(item.fechaCompra).toLocaleDateString() 
+                          : "-"}
+                      </TableCell>
+                      <TableCell className="text-right font-mono">
+                        {item.precioCompra !== null ? `$${item.precioCompra.toFixed(2)}` : "-"}
+                      </TableCell>
+                      <TableCell>
+                        {item.proveedor ? item.proveedor.nombre : getProveedorNombre(item.proveedorId)}
+                      </TableCell>
+                      <TableCell className="max-w-md truncate">
+                        {item.notasInternas || "-"}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <div className="flex justify-end gap-2">
+                          <Button 
+                            variant="ghost" 
+                            size="icon"
+                            onClick={() => handleOpenEditDialog(item)}
+                          >
+                            <Pencil className="h-4 w-4" />
+                          </Button>
+                          <Button 
+                            variant="ghost" 
+                            size="icon"
+                            onClick={() => handleDeleteEquipo(item.id, item.numeroSerie || `Elemento #${item.id.substring(0, 8)}`)}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          )}
+        </CardContent>
+      </Card>
       
       {/* Diálogo para editar elemento */}
       <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
-        <DialogContent>
+        <DialogContent className="bg-gray-50 dark:bg-gray-900">
           <DialogHeader>
             <DialogTitle>Editar elemento de equipo</DialogTitle>
             <DialogDescription>
@@ -478,7 +561,7 @@ export default function EquiposProductoPage({ params }: { params: Promise<{ prod
                 id="editEstado"
                 value={editEstado}
                 onChange={(e) => setEditEstado(e.target.value as "DISPONIBLE" | "EN_USO" | "EN_REPARACION" | "BAJA")}
-                className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                className="flex h-10 w-full rounded-md border border-input px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <option value="DISPONIBLE">Disponible</option>
                 <option value="EN_USO">En Uso</option>
@@ -511,6 +594,23 @@ export default function EquiposProductoPage({ params }: { params: Promise<{ prod
             </div>
             
             <div className="space-y-2">
+              <Label htmlFor="editProveedor">Proveedor</Label>
+              <select 
+                id="editProveedor"
+                value={editProveedorId}
+                onChange={(e) => setEditProveedorId(e.target.value)}
+                className="flex h-10 w-full rounded-md border border-input px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                <option value="">Seleccionar proveedor</option>
+                {proveedores.map((proveedor) => (
+                  <option key={proveedor.id} value={proveedor.id}>
+                    {proveedor.nombre}
+                  </option>
+                ))}
+              </select>
+            </div>
+            
+            <div className="space-y-2">
               <Label htmlFor="editNotas">Notas Internas</Label>
               <Input
                 id="editNotas"
@@ -538,7 +638,6 @@ export default function EquiposProductoPage({ params }: { params: Promise<{ prod
         </DialogContent>
       </Dialog>
       
-      {/* Agregar el toaster para notificaciones */}
       <Toaster />
     </div>
   )

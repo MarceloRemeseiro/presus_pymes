@@ -22,6 +22,7 @@ export async function GET(req: Request) {
               marca: true,
             }
           },
+          proveedor: true,
         },
         orderBy: {
           createdAt: 'desc',
@@ -37,6 +38,7 @@ export async function GET(req: Request) {
               marca: true,
             }
           },
+          proveedor: true,
         },
         orderBy: {
           createdAt: 'desc',
@@ -78,6 +80,7 @@ export async function POST(req: Request) {
       notasInternas: body.notasInternas,
       estado: body.estado || 'DISPONIBLE',
       fechaCompra: body.fechaCompra ? new Date(body.fechaCompra) : null,
+      proveedorId: body.proveedorId || null,
     }
     
     // Agregar precio de compra si existe
@@ -92,6 +95,7 @@ export async function POST(req: Request) {
         data: createData,
         include: {
           producto: true,
+          proveedor: true,
         }
       }),
       

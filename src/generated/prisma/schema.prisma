@@ -75,6 +75,8 @@ model EquipoItem {
   estado        EstadoEquipo @default(DISPONIBLE)
   fechaCompra   DateTime?
   precioCompra  Float? // Precio individual de compra de esta unidad
+  proveedorId   String? // Relación con el proveedor que vendió este equipo
+  proveedor     Proveedor?   @relation(fields: [proveedorId], references: [id])
   createdAt     DateTime     @default(now())
   updatedAt     DateTime     @updatedAt
 
@@ -166,6 +168,7 @@ model Factura {
   total            Float
   items            ItemFactura[]
   presupuestos     Presupuesto[]
+  gastosTickelia   Tikelia[] // Relación con gastos de Tikelia
   createdAt        DateTime      @default(now())
   updatedAt        DateTime      @updatedAt
 }
@@ -194,6 +197,66 @@ model Configuracion {
 
   // Solo existe un registro de configuración
   @@map("configuracion")
+}
+
+// Modelos nuevos para personal, proveedores y tikelia
+
+model Puesto {
+  id          String           @id @default(cuid())
+  nombre      String           @unique
+  descripcion String?
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  // Relación muchos a muchos con personal
+  personal    PersonalPuesto[]
+}
+
+model Personal {
+  id        String           @id @default(cuid())
+  nombre    String
+  telefono  String?
+  email     String?
+  notas     String?
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+  // Relación muchos a muchos con puestos
+  puestos   PersonalPuesto[]
+}
+
+// Tabla intermedia para la relación muchos a muchos entre Personal y Puesto
+model PersonalPuesto {
+  personalId String
+  puestoId   String
+  personal   Personal @relation(fields: [personalId], references: [id], onDelete: Cascade)
+  puesto     Puesto   @relation(fields: [puestoId], references: [id], onDelete: Cascade)
+  asignadoEn DateTime @default(now())
+
+  @@id([personalId, puestoId])
+}
+
+model Proveedor {
+  id        String       @id @default(cuid())
+  nombre    String
+  nif       String?      @unique
+  direccion String?
+  email     String?
+  telefono  String?
+  contacto  String? // Persona de contacto
+  notas     String?
+  equipos   EquipoItem[] // Relación con los equipos vendidos por este proveedor
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+}
+
+model Tikelia {
+  id        String   @id @default(cuid())
+  nombre    String
+  importe   Float
+  fecha     DateTime @default(now())
+  facturaId String?
+  factura   Factura? @relation(fields: [facturaId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 // Enumeraciones

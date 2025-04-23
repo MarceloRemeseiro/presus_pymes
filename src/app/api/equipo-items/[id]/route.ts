@@ -18,6 +18,7 @@ export async function GET(
             marca: true,
           }
         },
+        proveedor: true,
       },
     })
     
@@ -66,6 +67,7 @@ export async function PUT(
       notasInternas: body.notasInternas,
       estado: body.estado,
       fechaCompra: body.fechaCompra ? new Date(body.fechaCompra) : null,
+      proveedorId: body.proveedorId || null,
     }
     
     // Agregar precio de compra si existe
@@ -79,6 +81,7 @@ export async function PUT(
       data: updateData,
       include: {
         producto: true,
+        proveedor: true,
       }
     })
     

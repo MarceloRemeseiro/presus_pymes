@@ -30,9 +30,9 @@ export async function GET() {
 }
 
 // POST /api/presupuestos - Crear un nuevo presupuesto
-export async function POST(req: Request) {
+export async function POST(request: Request) {
   try {
-    const body = await req.json()
+    const body = await request.json()
     
     console.log('Datos recibidos:', JSON.stringify(body, null, 2))
     
@@ -248,7 +248,8 @@ export async function POST(req: Request) {
     })
     
     console.log('Presupuesto creado correctamente:', presupuesto.id)
-    return NextResponse.json(presupuesto, { status: 201 })
+    
+    return NextResponse.json(presupuesto)
   } catch (error) {
     console.error('Error al crear presupuesto:', error)
     return NextResponse.json(

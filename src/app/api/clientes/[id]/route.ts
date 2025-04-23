@@ -1,16 +1,15 @@
 import { prisma } from '@/lib/prisma'
 import { NextResponse } from 'next/server'
 
-// GET /api/clientes/[id] - Obtener un cliente por ID
+// GET /api/clientes/[id] - Obtener un cliente específico
 export async function GET(
   req: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
   try {
-    const resolvedParams = await params
     const cliente = await prisma.cliente.findUnique({
       where: {
-        id: resolvedParams.id,
+        id: params.id,
       },
     })
 
@@ -34,16 +33,15 @@ export async function GET(
 // PUT /api/clientes/[id] - Actualizar un cliente
 export async function PUT(
   req: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
   try {
-    const resolvedParams = await params
     const body = await req.json()
     
     // Verificar que el cliente existe
     const clienteExistente = await prisma.cliente.findUnique({
       where: {
-        id: resolvedParams.id,
+        id: params.id,
       },
     })
     
@@ -57,7 +55,7 @@ export async function PUT(
     // Actualizar el cliente
     const clienteActualizado = await prisma.cliente.update({
       where: {
-        id: resolvedParams.id,
+        id: params.id,
       },
       data: {
         nombre: body.nombre,
@@ -82,15 +80,13 @@ export async function PUT(
 // DELETE /api/clientes/[id] - Eliminar un cliente
 export async function DELETE(
   req: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: { id: string } }
 ) {
   try {
-    const resolvedParams = await params
-    
     // Verificar que el cliente existe
     const clienteExistente = await prisma.cliente.findUnique({
       where: {
-        id: resolvedParams.id,
+        id: params.id,
       },
     })
     
@@ -104,7 +100,7 @@ export async function DELETE(
     // Eliminar el cliente
     await prisma.cliente.delete({
       where: {
-        id: resolvedParams.id,
+        id: params.id,
       },
     })
 
