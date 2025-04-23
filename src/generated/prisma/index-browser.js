@@ -182,11 +182,24 @@ exports.Prisma.ClienteScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.PartidaPresupuestoScalarFieldEnum = {
+  id: 'id',
+  nombre: 'nombre',
+  descripcion: 'descripcion',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.PresupuestoScalarFieldEnum = {
   id: 'id',
   numero: 'numero',
+  nombre: 'nombre',
+  referencia: 'referencia',
   fecha: 'fecha',
   fechaValidez: 'fechaValidez',
+  fechaMontaje: 'fechaMontaje',
+  fechaInicio: 'fechaInicio',
+  fechaFin: 'fechaFin',
   clienteId: 'clienteId',
   estado: 'estado',
   observaciones: 'observaciones',
@@ -202,11 +215,15 @@ exports.Prisma.ItemPresupuestoScalarFieldEnum = {
   id: 'id',
   presupuestoId: 'presupuestoId',
   productoId: 'productoId',
+  tipo: 'tipo',
+  nombre: 'nombre',
   cantidad: 'cantidad',
   precioUnitario: 'precioUnitario',
   descuento: 'descuento',
   iva: 'iva',
   total: 'total',
+  dias: 'dias',
+  partidaId: 'partidaId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -294,6 +311,7 @@ exports.Prisma.ModelName = {
   Producto: 'Producto',
   EquipoItem: 'EquipoItem',
   Cliente: 'Cliente',
+  PartidaPresupuesto: 'PartidaPresupuesto',
   Presupuesto: 'Presupuesto',
   ItemPresupuesto: 'ItemPresupuesto',
   Factura: 'Factura',

@@ -96,13 +96,29 @@ model Cliente {
   facturas     Factura[]
 }
 
+model PartidaPresupuesto {
+  id          String            @id @default(cuid())
+  nombre      String
+  descripcion String?
+  items       ItemPresupuesto[]
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  @@map("partidas_presupuesto")
+}
+
 model Presupuesto {
   id            String            @id @default(cuid())
   numero        String            @unique
+  nombre        String? // Nombre descriptivo del presupuesto
+  referencia    String? // Campo para referencia externa
   fecha         DateTime          @default(now())
   fechaValidez  DateTime
-  clienteId     String
-  cliente       Cliente           @relation(fields: [clienteId], references: [id])
+  fechaMontaje  DateTime?
+  fechaInicio   DateTime?
+  fechaFin      DateTime?
+  clienteId     String? // Hacemos el campo opcional
+  cliente       Cliente?          @relation(fields: [clienteId], references: [id])
   estado        EstadoPresupuesto @default(PENDIENTE)
   observaciones String?
   subtotal      Float
@@ -116,18 +132,24 @@ model Presupuesto {
 }
 
 model ItemPresupuesto {
-  id             String      @id @default(cuid())
+  id             String              @id @default(cuid())
   presupuestoId  String
-  presupuesto    Presupuesto @relation(fields: [presupuestoId], references: [id], onDelete: Cascade)
+  presupuesto    Presupuesto         @relation(fields: [presupuestoId], references: [id], onDelete: Cascade)
   productoId     String
-  producto       Producto    @relation(fields: [productoId], references: [id])
+  producto       Producto            @relation(fields: [productoId], references: [id])
+  tipo           String? // CATEGORIA, EQUIPO, PERSONAL, SEPARADOR
+  nombre         String? // Nombre directo para categorías y separadores
   cantidad       Int
   precioUnitario Float
-  descuento      Float       @default(0)
+  descuento      Float               @default(0)
   iva            Float
   total          Float
-  createdAt      DateTime    @default(now())
-  updatedAt      DateTime    @updatedAt
+  dias           Int                 @default(1)
+  // Relación con la partida
+  partidaId      String?
+  partida        PartidaPresupuesto? @relation(fields: [partidaId], references: [id])
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
 }
 
 model Factura {

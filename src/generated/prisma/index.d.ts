@@ -44,6 +44,11 @@ export type EquipoItem = $Result.DefaultSelection<Prisma.$EquipoItemPayload>
  */
 export type Cliente = $Result.DefaultSelection<Prisma.$ClientePayload>
 /**
+ * Model PartidaPresupuesto
+ * 
+ */
+export type PartidaPresupuesto = $Result.DefaultSelection<Prisma.$PartidaPresupuestoPayload>
+/**
  * Model Presupuesto
  * 
  */
@@ -312,6 +317,16 @@ export class PrismaClient<
     * ```
     */
   get cliente(): Prisma.ClienteDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.partidaPresupuesto`: Exposes CRUD operations for the **PartidaPresupuesto** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PartidaPresupuestos
+    * const partidaPresupuestos = await prisma.partidaPresupuesto.findMany()
+    * ```
+    */
+  get partidaPresupuesto(): Prisma.PartidaPresupuestoDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.presupuesto`: Exposes CRUD operations for the **Presupuesto** model.
@@ -808,6 +823,7 @@ export namespace Prisma {
     Producto: 'Producto',
     EquipoItem: 'EquipoItem',
     Cliente: 'Cliente',
+    PartidaPresupuesto: 'PartidaPresupuesto',
     Presupuesto: 'Presupuesto',
     ItemPresupuesto: 'ItemPresupuesto',
     Factura: 'Factura',
@@ -831,7 +847,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "empresa" | "categoria" | "marca" | "producto" | "equipoItem" | "cliente" | "presupuesto" | "itemPresupuesto" | "factura" | "itemFactura" | "configuracion"
+      modelProps: "empresa" | "categoria" | "marca" | "producto" | "equipoItem" | "cliente" | "partidaPresupuesto" | "presupuesto" | "itemPresupuesto" | "factura" | "itemFactura" | "configuracion"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1276,6 +1292,80 @@ export namespace Prisma {
           count: {
             args: Prisma.ClienteCountArgs<ExtArgs>
             result: $Utils.Optional<ClienteCountAggregateOutputType> | number
+          }
+        }
+      }
+      PartidaPresupuesto: {
+        payload: Prisma.$PartidaPresupuestoPayload<ExtArgs>
+        fields: Prisma.PartidaPresupuestoFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PartidaPresupuestoFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PartidaPresupuestoPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PartidaPresupuestoFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PartidaPresupuestoPayload>
+          }
+          findFirst: {
+            args: Prisma.PartidaPresupuestoFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PartidaPresupuestoPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PartidaPresupuestoFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PartidaPresupuestoPayload>
+          }
+          findMany: {
+            args: Prisma.PartidaPresupuestoFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PartidaPresupuestoPayload>[]
+          }
+          create: {
+            args: Prisma.PartidaPresupuestoCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PartidaPresupuestoPayload>
+          }
+          createMany: {
+            args: Prisma.PartidaPresupuestoCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PartidaPresupuestoCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PartidaPresupuestoPayload>[]
+          }
+          delete: {
+            args: Prisma.PartidaPresupuestoDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PartidaPresupuestoPayload>
+          }
+          update: {
+            args: Prisma.PartidaPresupuestoUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PartidaPresupuestoPayload>
+          }
+          deleteMany: {
+            args: Prisma.PartidaPresupuestoDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PartidaPresupuestoUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PartidaPresupuestoUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PartidaPresupuestoPayload>[]
+          }
+          upsert: {
+            args: Prisma.PartidaPresupuestoUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PartidaPresupuestoPayload>
+          }
+          aggregate: {
+            args: Prisma.PartidaPresupuestoAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePartidaPresupuesto>
+          }
+          groupBy: {
+            args: Prisma.PartidaPresupuestoGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PartidaPresupuestoGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PartidaPresupuestoCountArgs<ExtArgs>
+            result: $Utils.Optional<PartidaPresupuestoCountAggregateOutputType> | number
           }
         }
       }
@@ -1739,6 +1829,7 @@ export namespace Prisma {
     producto?: ProductoOmit
     equipoItem?: EquipoItemOmit
     cliente?: ClienteOmit
+    partidaPresupuesto?: PartidaPresupuestoOmit
     presupuesto?: PresupuestoOmit
     itemPresupuesto?: ItemPresupuestoOmit
     factura?: FacturaOmit
@@ -1981,6 +2072,37 @@ export namespace Prisma {
    */
   export type ClienteCountOutputTypeCountFacturasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: FacturaWhereInput
+  }
+
+
+  /**
+   * Count Type PartidaPresupuestoCountOutputType
+   */
+
+  export type PartidaPresupuestoCountOutputType = {
+    items: number
+  }
+
+  export type PartidaPresupuestoCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    items?: boolean | PartidaPresupuestoCountOutputTypeCountItemsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * PartidaPresupuestoCountOutputType without action
+   */
+  export type PartidaPresupuestoCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PartidaPresupuestoCountOutputType
+     */
+    select?: PartidaPresupuestoCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * PartidaPresupuestoCountOutputType without action
+   */
+  export type PartidaPresupuestoCountOutputTypeCountItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ItemPresupuestoWhereInput
   }
 
 
@@ -8823,6 +8945,1076 @@ export namespace Prisma {
 
 
   /**
+   * Model PartidaPresupuesto
+   */
+
+  export type AggregatePartidaPresupuesto = {
+    _count: PartidaPresupuestoCountAggregateOutputType | null
+    _min: PartidaPresupuestoMinAggregateOutputType | null
+    _max: PartidaPresupuestoMaxAggregateOutputType | null
+  }
+
+  export type PartidaPresupuestoMinAggregateOutputType = {
+    id: string | null
+    nombre: string | null
+    descripcion: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PartidaPresupuestoMaxAggregateOutputType = {
+    id: string | null
+    nombre: string | null
+    descripcion: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PartidaPresupuestoCountAggregateOutputType = {
+    id: number
+    nombre: number
+    descripcion: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PartidaPresupuestoMinAggregateInputType = {
+    id?: true
+    nombre?: true
+    descripcion?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PartidaPresupuestoMaxAggregateInputType = {
+    id?: true
+    nombre?: true
+    descripcion?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PartidaPresupuestoCountAggregateInputType = {
+    id?: true
+    nombre?: true
+    descripcion?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PartidaPresupuestoAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PartidaPresupuesto to aggregate.
+     */
+    where?: PartidaPresupuestoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PartidaPresupuestos to fetch.
+     */
+    orderBy?: PartidaPresupuestoOrderByWithRelationInput | PartidaPresupuestoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PartidaPresupuestoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PartidaPresupuestos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PartidaPresupuestos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PartidaPresupuestos
+    **/
+    _count?: true | PartidaPresupuestoCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PartidaPresupuestoMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PartidaPresupuestoMaxAggregateInputType
+  }
+
+  export type GetPartidaPresupuestoAggregateType<T extends PartidaPresupuestoAggregateArgs> = {
+        [P in keyof T & keyof AggregatePartidaPresupuesto]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePartidaPresupuesto[P]>
+      : GetScalarType<T[P], AggregatePartidaPresupuesto[P]>
+  }
+
+
+
+
+  export type PartidaPresupuestoGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PartidaPresupuestoWhereInput
+    orderBy?: PartidaPresupuestoOrderByWithAggregationInput | PartidaPresupuestoOrderByWithAggregationInput[]
+    by: PartidaPresupuestoScalarFieldEnum[] | PartidaPresupuestoScalarFieldEnum
+    having?: PartidaPresupuestoScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PartidaPresupuestoCountAggregateInputType | true
+    _min?: PartidaPresupuestoMinAggregateInputType
+    _max?: PartidaPresupuestoMaxAggregateInputType
+  }
+
+  export type PartidaPresupuestoGroupByOutputType = {
+    id: string
+    nombre: string
+    descripcion: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: PartidaPresupuestoCountAggregateOutputType | null
+    _min: PartidaPresupuestoMinAggregateOutputType | null
+    _max: PartidaPresupuestoMaxAggregateOutputType | null
+  }
+
+  type GetPartidaPresupuestoGroupByPayload<T extends PartidaPresupuestoGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PartidaPresupuestoGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PartidaPresupuestoGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PartidaPresupuestoGroupByOutputType[P]>
+            : GetScalarType<T[P], PartidaPresupuestoGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PartidaPresupuestoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nombre?: boolean
+    descripcion?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    items?: boolean | PartidaPresupuesto$itemsArgs<ExtArgs>
+    _count?: boolean | PartidaPresupuestoCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["partidaPresupuesto"]>
+
+  export type PartidaPresupuestoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nombre?: boolean
+    descripcion?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["partidaPresupuesto"]>
+
+  export type PartidaPresupuestoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nombre?: boolean
+    descripcion?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["partidaPresupuesto"]>
+
+  export type PartidaPresupuestoSelectScalar = {
+    id?: boolean
+    nombre?: boolean
+    descripcion?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PartidaPresupuestoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "descripcion" | "createdAt" | "updatedAt", ExtArgs["result"]["partidaPresupuesto"]>
+  export type PartidaPresupuestoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    items?: boolean | PartidaPresupuesto$itemsArgs<ExtArgs>
+    _count?: boolean | PartidaPresupuestoCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type PartidaPresupuestoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type PartidaPresupuestoIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $PartidaPresupuestoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PartidaPresupuesto"
+    objects: {
+      items: Prisma.$ItemPresupuestoPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      nombre: string
+      descripcion: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["partidaPresupuesto"]>
+    composites: {}
+  }
+
+  type PartidaPresupuestoGetPayload<S extends boolean | null | undefined | PartidaPresupuestoDefaultArgs> = $Result.GetResult<Prisma.$PartidaPresupuestoPayload, S>
+
+  type PartidaPresupuestoCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PartidaPresupuestoFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PartidaPresupuestoCountAggregateInputType | true
+    }
+
+  export interface PartidaPresupuestoDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PartidaPresupuesto'], meta: { name: 'PartidaPresupuesto' } }
+    /**
+     * Find zero or one PartidaPresupuesto that matches the filter.
+     * @param {PartidaPresupuestoFindUniqueArgs} args - Arguments to find a PartidaPresupuesto
+     * @example
+     * // Get one PartidaPresupuesto
+     * const partidaPresupuesto = await prisma.partidaPresupuesto.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PartidaPresupuestoFindUniqueArgs>(args: SelectSubset<T, PartidaPresupuestoFindUniqueArgs<ExtArgs>>): Prisma__PartidaPresupuestoClient<$Result.GetResult<Prisma.$PartidaPresupuestoPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PartidaPresupuesto that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PartidaPresupuestoFindUniqueOrThrowArgs} args - Arguments to find a PartidaPresupuesto
+     * @example
+     * // Get one PartidaPresupuesto
+     * const partidaPresupuesto = await prisma.partidaPresupuesto.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PartidaPresupuestoFindUniqueOrThrowArgs>(args: SelectSubset<T, PartidaPresupuestoFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PartidaPresupuestoClient<$Result.GetResult<Prisma.$PartidaPresupuestoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PartidaPresupuesto that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PartidaPresupuestoFindFirstArgs} args - Arguments to find a PartidaPresupuesto
+     * @example
+     * // Get one PartidaPresupuesto
+     * const partidaPresupuesto = await prisma.partidaPresupuesto.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PartidaPresupuestoFindFirstArgs>(args?: SelectSubset<T, PartidaPresupuestoFindFirstArgs<ExtArgs>>): Prisma__PartidaPresupuestoClient<$Result.GetResult<Prisma.$PartidaPresupuestoPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PartidaPresupuesto that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PartidaPresupuestoFindFirstOrThrowArgs} args - Arguments to find a PartidaPresupuesto
+     * @example
+     * // Get one PartidaPresupuesto
+     * const partidaPresupuesto = await prisma.partidaPresupuesto.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PartidaPresupuestoFindFirstOrThrowArgs>(args?: SelectSubset<T, PartidaPresupuestoFindFirstOrThrowArgs<ExtArgs>>): Prisma__PartidaPresupuestoClient<$Result.GetResult<Prisma.$PartidaPresupuestoPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PartidaPresupuestos that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PartidaPresupuestoFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PartidaPresupuestos
+     * const partidaPresupuestos = await prisma.partidaPresupuesto.findMany()
+     * 
+     * // Get first 10 PartidaPresupuestos
+     * const partidaPresupuestos = await prisma.partidaPresupuesto.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const partidaPresupuestoWithIdOnly = await prisma.partidaPresupuesto.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PartidaPresupuestoFindManyArgs>(args?: SelectSubset<T, PartidaPresupuestoFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PartidaPresupuestoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PartidaPresupuesto.
+     * @param {PartidaPresupuestoCreateArgs} args - Arguments to create a PartidaPresupuesto.
+     * @example
+     * // Create one PartidaPresupuesto
+     * const PartidaPresupuesto = await prisma.partidaPresupuesto.create({
+     *   data: {
+     *     // ... data to create a PartidaPresupuesto
+     *   }
+     * })
+     * 
+     */
+    create<T extends PartidaPresupuestoCreateArgs>(args: SelectSubset<T, PartidaPresupuestoCreateArgs<ExtArgs>>): Prisma__PartidaPresupuestoClient<$Result.GetResult<Prisma.$PartidaPresupuestoPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PartidaPresupuestos.
+     * @param {PartidaPresupuestoCreateManyArgs} args - Arguments to create many PartidaPresupuestos.
+     * @example
+     * // Create many PartidaPresupuestos
+     * const partidaPresupuesto = await prisma.partidaPresupuesto.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PartidaPresupuestoCreateManyArgs>(args?: SelectSubset<T, PartidaPresupuestoCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PartidaPresupuestos and returns the data saved in the database.
+     * @param {PartidaPresupuestoCreateManyAndReturnArgs} args - Arguments to create many PartidaPresupuestos.
+     * @example
+     * // Create many PartidaPresupuestos
+     * const partidaPresupuesto = await prisma.partidaPresupuesto.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PartidaPresupuestos and only return the `id`
+     * const partidaPresupuestoWithIdOnly = await prisma.partidaPresupuesto.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PartidaPresupuestoCreateManyAndReturnArgs>(args?: SelectSubset<T, PartidaPresupuestoCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PartidaPresupuestoPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PartidaPresupuesto.
+     * @param {PartidaPresupuestoDeleteArgs} args - Arguments to delete one PartidaPresupuesto.
+     * @example
+     * // Delete one PartidaPresupuesto
+     * const PartidaPresupuesto = await prisma.partidaPresupuesto.delete({
+     *   where: {
+     *     // ... filter to delete one PartidaPresupuesto
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PartidaPresupuestoDeleteArgs>(args: SelectSubset<T, PartidaPresupuestoDeleteArgs<ExtArgs>>): Prisma__PartidaPresupuestoClient<$Result.GetResult<Prisma.$PartidaPresupuestoPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PartidaPresupuesto.
+     * @param {PartidaPresupuestoUpdateArgs} args - Arguments to update one PartidaPresupuesto.
+     * @example
+     * // Update one PartidaPresupuesto
+     * const partidaPresupuesto = await prisma.partidaPresupuesto.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PartidaPresupuestoUpdateArgs>(args: SelectSubset<T, PartidaPresupuestoUpdateArgs<ExtArgs>>): Prisma__PartidaPresupuestoClient<$Result.GetResult<Prisma.$PartidaPresupuestoPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PartidaPresupuestos.
+     * @param {PartidaPresupuestoDeleteManyArgs} args - Arguments to filter PartidaPresupuestos to delete.
+     * @example
+     * // Delete a few PartidaPresupuestos
+     * const { count } = await prisma.partidaPresupuesto.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PartidaPresupuestoDeleteManyArgs>(args?: SelectSubset<T, PartidaPresupuestoDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PartidaPresupuestos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PartidaPresupuestoUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PartidaPresupuestos
+     * const partidaPresupuesto = await prisma.partidaPresupuesto.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PartidaPresupuestoUpdateManyArgs>(args: SelectSubset<T, PartidaPresupuestoUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PartidaPresupuestos and returns the data updated in the database.
+     * @param {PartidaPresupuestoUpdateManyAndReturnArgs} args - Arguments to update many PartidaPresupuestos.
+     * @example
+     * // Update many PartidaPresupuestos
+     * const partidaPresupuesto = await prisma.partidaPresupuesto.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PartidaPresupuestos and only return the `id`
+     * const partidaPresupuestoWithIdOnly = await prisma.partidaPresupuesto.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PartidaPresupuestoUpdateManyAndReturnArgs>(args: SelectSubset<T, PartidaPresupuestoUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PartidaPresupuestoPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PartidaPresupuesto.
+     * @param {PartidaPresupuestoUpsertArgs} args - Arguments to update or create a PartidaPresupuesto.
+     * @example
+     * // Update or create a PartidaPresupuesto
+     * const partidaPresupuesto = await prisma.partidaPresupuesto.upsert({
+     *   create: {
+     *     // ... data to create a PartidaPresupuesto
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PartidaPresupuesto we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PartidaPresupuestoUpsertArgs>(args: SelectSubset<T, PartidaPresupuestoUpsertArgs<ExtArgs>>): Prisma__PartidaPresupuestoClient<$Result.GetResult<Prisma.$PartidaPresupuestoPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PartidaPresupuestos.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PartidaPresupuestoCountArgs} args - Arguments to filter PartidaPresupuestos to count.
+     * @example
+     * // Count the number of PartidaPresupuestos
+     * const count = await prisma.partidaPresupuesto.count({
+     *   where: {
+     *     // ... the filter for the PartidaPresupuestos we want to count
+     *   }
+     * })
+    **/
+    count<T extends PartidaPresupuestoCountArgs>(
+      args?: Subset<T, PartidaPresupuestoCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PartidaPresupuestoCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PartidaPresupuesto.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PartidaPresupuestoAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PartidaPresupuestoAggregateArgs>(args: Subset<T, PartidaPresupuestoAggregateArgs>): Prisma.PrismaPromise<GetPartidaPresupuestoAggregateType<T>>
+
+    /**
+     * Group by PartidaPresupuesto.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PartidaPresupuestoGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PartidaPresupuestoGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PartidaPresupuestoGroupByArgs['orderBy'] }
+        : { orderBy?: PartidaPresupuestoGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PartidaPresupuestoGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPartidaPresupuestoGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PartidaPresupuesto model
+   */
+  readonly fields: PartidaPresupuestoFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PartidaPresupuesto.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PartidaPresupuestoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    items<T extends PartidaPresupuesto$itemsArgs<ExtArgs> = {}>(args?: Subset<T, PartidaPresupuesto$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemPresupuestoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PartidaPresupuesto model
+   */
+  interface PartidaPresupuestoFieldRefs {
+    readonly id: FieldRef<"PartidaPresupuesto", 'String'>
+    readonly nombre: FieldRef<"PartidaPresupuesto", 'String'>
+    readonly descripcion: FieldRef<"PartidaPresupuesto", 'String'>
+    readonly createdAt: FieldRef<"PartidaPresupuesto", 'DateTime'>
+    readonly updatedAt: FieldRef<"PartidaPresupuesto", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PartidaPresupuesto findUnique
+   */
+  export type PartidaPresupuestoFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PartidaPresupuesto
+     */
+    select?: PartidaPresupuestoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PartidaPresupuesto
+     */
+    omit?: PartidaPresupuestoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PartidaPresupuestoInclude<ExtArgs> | null
+    /**
+     * Filter, which PartidaPresupuesto to fetch.
+     */
+    where: PartidaPresupuestoWhereUniqueInput
+  }
+
+  /**
+   * PartidaPresupuesto findUniqueOrThrow
+   */
+  export type PartidaPresupuestoFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PartidaPresupuesto
+     */
+    select?: PartidaPresupuestoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PartidaPresupuesto
+     */
+    omit?: PartidaPresupuestoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PartidaPresupuestoInclude<ExtArgs> | null
+    /**
+     * Filter, which PartidaPresupuesto to fetch.
+     */
+    where: PartidaPresupuestoWhereUniqueInput
+  }
+
+  /**
+   * PartidaPresupuesto findFirst
+   */
+  export type PartidaPresupuestoFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PartidaPresupuesto
+     */
+    select?: PartidaPresupuestoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PartidaPresupuesto
+     */
+    omit?: PartidaPresupuestoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PartidaPresupuestoInclude<ExtArgs> | null
+    /**
+     * Filter, which PartidaPresupuesto to fetch.
+     */
+    where?: PartidaPresupuestoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PartidaPresupuestos to fetch.
+     */
+    orderBy?: PartidaPresupuestoOrderByWithRelationInput | PartidaPresupuestoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PartidaPresupuestos.
+     */
+    cursor?: PartidaPresupuestoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PartidaPresupuestos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PartidaPresupuestos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PartidaPresupuestos.
+     */
+    distinct?: PartidaPresupuestoScalarFieldEnum | PartidaPresupuestoScalarFieldEnum[]
+  }
+
+  /**
+   * PartidaPresupuesto findFirstOrThrow
+   */
+  export type PartidaPresupuestoFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PartidaPresupuesto
+     */
+    select?: PartidaPresupuestoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PartidaPresupuesto
+     */
+    omit?: PartidaPresupuestoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PartidaPresupuestoInclude<ExtArgs> | null
+    /**
+     * Filter, which PartidaPresupuesto to fetch.
+     */
+    where?: PartidaPresupuestoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PartidaPresupuestos to fetch.
+     */
+    orderBy?: PartidaPresupuestoOrderByWithRelationInput | PartidaPresupuestoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PartidaPresupuestos.
+     */
+    cursor?: PartidaPresupuestoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PartidaPresupuestos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PartidaPresupuestos.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PartidaPresupuestos.
+     */
+    distinct?: PartidaPresupuestoScalarFieldEnum | PartidaPresupuestoScalarFieldEnum[]
+  }
+
+  /**
+   * PartidaPresupuesto findMany
+   */
+  export type PartidaPresupuestoFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PartidaPresupuesto
+     */
+    select?: PartidaPresupuestoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PartidaPresupuesto
+     */
+    omit?: PartidaPresupuestoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PartidaPresupuestoInclude<ExtArgs> | null
+    /**
+     * Filter, which PartidaPresupuestos to fetch.
+     */
+    where?: PartidaPresupuestoWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PartidaPresupuestos to fetch.
+     */
+    orderBy?: PartidaPresupuestoOrderByWithRelationInput | PartidaPresupuestoOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PartidaPresupuestos.
+     */
+    cursor?: PartidaPresupuestoWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PartidaPresupuestos from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PartidaPresupuestos.
+     */
+    skip?: number
+    distinct?: PartidaPresupuestoScalarFieldEnum | PartidaPresupuestoScalarFieldEnum[]
+  }
+
+  /**
+   * PartidaPresupuesto create
+   */
+  export type PartidaPresupuestoCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PartidaPresupuesto
+     */
+    select?: PartidaPresupuestoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PartidaPresupuesto
+     */
+    omit?: PartidaPresupuestoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PartidaPresupuestoInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PartidaPresupuesto.
+     */
+    data: XOR<PartidaPresupuestoCreateInput, PartidaPresupuestoUncheckedCreateInput>
+  }
+
+  /**
+   * PartidaPresupuesto createMany
+   */
+  export type PartidaPresupuestoCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PartidaPresupuestos.
+     */
+    data: PartidaPresupuestoCreateManyInput | PartidaPresupuestoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PartidaPresupuesto createManyAndReturn
+   */
+  export type PartidaPresupuestoCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PartidaPresupuesto
+     */
+    select?: PartidaPresupuestoSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PartidaPresupuesto
+     */
+    omit?: PartidaPresupuestoOmit<ExtArgs> | null
+    /**
+     * The data used to create many PartidaPresupuestos.
+     */
+    data: PartidaPresupuestoCreateManyInput | PartidaPresupuestoCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PartidaPresupuesto update
+   */
+  export type PartidaPresupuestoUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PartidaPresupuesto
+     */
+    select?: PartidaPresupuestoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PartidaPresupuesto
+     */
+    omit?: PartidaPresupuestoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PartidaPresupuestoInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PartidaPresupuesto.
+     */
+    data: XOR<PartidaPresupuestoUpdateInput, PartidaPresupuestoUncheckedUpdateInput>
+    /**
+     * Choose, which PartidaPresupuesto to update.
+     */
+    where: PartidaPresupuestoWhereUniqueInput
+  }
+
+  /**
+   * PartidaPresupuesto updateMany
+   */
+  export type PartidaPresupuestoUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PartidaPresupuestos.
+     */
+    data: XOR<PartidaPresupuestoUpdateManyMutationInput, PartidaPresupuestoUncheckedUpdateManyInput>
+    /**
+     * Filter which PartidaPresupuestos to update
+     */
+    where?: PartidaPresupuestoWhereInput
+    /**
+     * Limit how many PartidaPresupuestos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PartidaPresupuesto updateManyAndReturn
+   */
+  export type PartidaPresupuestoUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PartidaPresupuesto
+     */
+    select?: PartidaPresupuestoSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PartidaPresupuesto
+     */
+    omit?: PartidaPresupuestoOmit<ExtArgs> | null
+    /**
+     * The data used to update PartidaPresupuestos.
+     */
+    data: XOR<PartidaPresupuestoUpdateManyMutationInput, PartidaPresupuestoUncheckedUpdateManyInput>
+    /**
+     * Filter which PartidaPresupuestos to update
+     */
+    where?: PartidaPresupuestoWhereInput
+    /**
+     * Limit how many PartidaPresupuestos to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PartidaPresupuesto upsert
+   */
+  export type PartidaPresupuestoUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PartidaPresupuesto
+     */
+    select?: PartidaPresupuestoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PartidaPresupuesto
+     */
+    omit?: PartidaPresupuestoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PartidaPresupuestoInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PartidaPresupuesto to update in case it exists.
+     */
+    where: PartidaPresupuestoWhereUniqueInput
+    /**
+     * In case the PartidaPresupuesto found by the `where` argument doesn't exist, create a new PartidaPresupuesto with this data.
+     */
+    create: XOR<PartidaPresupuestoCreateInput, PartidaPresupuestoUncheckedCreateInput>
+    /**
+     * In case the PartidaPresupuesto was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PartidaPresupuestoUpdateInput, PartidaPresupuestoUncheckedUpdateInput>
+  }
+
+  /**
+   * PartidaPresupuesto delete
+   */
+  export type PartidaPresupuestoDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PartidaPresupuesto
+     */
+    select?: PartidaPresupuestoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PartidaPresupuesto
+     */
+    omit?: PartidaPresupuestoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PartidaPresupuestoInclude<ExtArgs> | null
+    /**
+     * Filter which PartidaPresupuesto to delete.
+     */
+    where: PartidaPresupuestoWhereUniqueInput
+  }
+
+  /**
+   * PartidaPresupuesto deleteMany
+   */
+  export type PartidaPresupuestoDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PartidaPresupuestos to delete
+     */
+    where?: PartidaPresupuestoWhereInput
+    /**
+     * Limit how many PartidaPresupuestos to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PartidaPresupuesto.items
+   */
+  export type PartidaPresupuesto$itemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemPresupuesto
+     */
+    select?: ItemPresupuestoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemPresupuesto
+     */
+    omit?: ItemPresupuestoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemPresupuestoInclude<ExtArgs> | null
+    where?: ItemPresupuestoWhereInput
+    orderBy?: ItemPresupuestoOrderByWithRelationInput | ItemPresupuestoOrderByWithRelationInput[]
+    cursor?: ItemPresupuestoWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ItemPresupuestoScalarFieldEnum | ItemPresupuestoScalarFieldEnum[]
+  }
+
+  /**
+   * PartidaPresupuesto without action
+   */
+  export type PartidaPresupuestoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PartidaPresupuesto
+     */
+    select?: PartidaPresupuestoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PartidaPresupuesto
+     */
+    omit?: PartidaPresupuestoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PartidaPresupuestoInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Model Presupuesto
    */
 
@@ -8849,8 +10041,13 @@ export namespace Prisma {
   export type PresupuestoMinAggregateOutputType = {
     id: string | null
     numero: string | null
+    nombre: string | null
+    referencia: string | null
     fecha: Date | null
     fechaValidez: Date | null
+    fechaMontaje: Date | null
+    fechaInicio: Date | null
+    fechaFin: Date | null
     clienteId: string | null
     estado: $Enums.EstadoPresupuesto | null
     observaciones: string | null
@@ -8865,8 +10062,13 @@ export namespace Prisma {
   export type PresupuestoMaxAggregateOutputType = {
     id: string | null
     numero: string | null
+    nombre: string | null
+    referencia: string | null
     fecha: Date | null
     fechaValidez: Date | null
+    fechaMontaje: Date | null
+    fechaInicio: Date | null
+    fechaFin: Date | null
     clienteId: string | null
     estado: $Enums.EstadoPresupuesto | null
     observaciones: string | null
@@ -8881,8 +10083,13 @@ export namespace Prisma {
   export type PresupuestoCountAggregateOutputType = {
     id: number
     numero: number
+    nombre: number
+    referencia: number
     fecha: number
     fechaValidez: number
+    fechaMontaje: number
+    fechaInicio: number
+    fechaFin: number
     clienteId: number
     estado: number
     observaciones: number
@@ -8911,8 +10118,13 @@ export namespace Prisma {
   export type PresupuestoMinAggregateInputType = {
     id?: true
     numero?: true
+    nombre?: true
+    referencia?: true
     fecha?: true
     fechaValidez?: true
+    fechaMontaje?: true
+    fechaInicio?: true
+    fechaFin?: true
     clienteId?: true
     estado?: true
     observaciones?: true
@@ -8927,8 +10139,13 @@ export namespace Prisma {
   export type PresupuestoMaxAggregateInputType = {
     id?: true
     numero?: true
+    nombre?: true
+    referencia?: true
     fecha?: true
     fechaValidez?: true
+    fechaMontaje?: true
+    fechaInicio?: true
+    fechaFin?: true
     clienteId?: true
     estado?: true
     observaciones?: true
@@ -8943,8 +10160,13 @@ export namespace Prisma {
   export type PresupuestoCountAggregateInputType = {
     id?: true
     numero?: true
+    nombre?: true
+    referencia?: true
     fecha?: true
     fechaValidez?: true
+    fechaMontaje?: true
+    fechaInicio?: true
+    fechaFin?: true
     clienteId?: true
     estado?: true
     observaciones?: true
@@ -9046,9 +10268,14 @@ export namespace Prisma {
   export type PresupuestoGroupByOutputType = {
     id: string
     numero: string
+    nombre: string | null
+    referencia: string | null
     fecha: Date
     fechaValidez: Date
-    clienteId: string
+    fechaMontaje: Date | null
+    fechaInicio: Date | null
+    fechaFin: Date | null
+    clienteId: string | null
     estado: $Enums.EstadoPresupuesto
     observaciones: string | null
     subtotal: number
@@ -9081,8 +10308,13 @@ export namespace Prisma {
   export type PresupuestoSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     numero?: boolean
+    nombre?: boolean
+    referencia?: boolean
     fecha?: boolean
     fechaValidez?: boolean
+    fechaMontaje?: boolean
+    fechaInicio?: boolean
+    fechaFin?: boolean
     clienteId?: boolean
     estado?: boolean
     observaciones?: boolean
@@ -9092,7 +10324,7 @@ export namespace Prisma {
     facturaId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    cliente?: boolean | ClienteDefaultArgs<ExtArgs>
+    cliente?: boolean | Presupuesto$clienteArgs<ExtArgs>
     items?: boolean | Presupuesto$itemsArgs<ExtArgs>
     factura?: boolean | Presupuesto$facturaArgs<ExtArgs>
     _count?: boolean | PresupuestoCountOutputTypeDefaultArgs<ExtArgs>
@@ -9101,8 +10333,13 @@ export namespace Prisma {
   export type PresupuestoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     numero?: boolean
+    nombre?: boolean
+    referencia?: boolean
     fecha?: boolean
     fechaValidez?: boolean
+    fechaMontaje?: boolean
+    fechaInicio?: boolean
+    fechaFin?: boolean
     clienteId?: boolean
     estado?: boolean
     observaciones?: boolean
@@ -9112,15 +10349,20 @@ export namespace Prisma {
     facturaId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    cliente?: boolean | ClienteDefaultArgs<ExtArgs>
+    cliente?: boolean | Presupuesto$clienteArgs<ExtArgs>
     factura?: boolean | Presupuesto$facturaArgs<ExtArgs>
   }, ExtArgs["result"]["presupuesto"]>
 
   export type PresupuestoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     numero?: boolean
+    nombre?: boolean
+    referencia?: boolean
     fecha?: boolean
     fechaValidez?: boolean
+    fechaMontaje?: boolean
+    fechaInicio?: boolean
+    fechaFin?: boolean
     clienteId?: boolean
     estado?: boolean
     observaciones?: boolean
@@ -9130,15 +10372,20 @@ export namespace Prisma {
     facturaId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    cliente?: boolean | ClienteDefaultArgs<ExtArgs>
+    cliente?: boolean | Presupuesto$clienteArgs<ExtArgs>
     factura?: boolean | Presupuesto$facturaArgs<ExtArgs>
   }, ExtArgs["result"]["presupuesto"]>
 
   export type PresupuestoSelectScalar = {
     id?: boolean
     numero?: boolean
+    nombre?: boolean
+    referencia?: boolean
     fecha?: boolean
     fechaValidez?: boolean
+    fechaMontaje?: boolean
+    fechaInicio?: boolean
+    fechaFin?: boolean
     clienteId?: boolean
     estado?: boolean
     observaciones?: boolean
@@ -9150,35 +10397,40 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type PresupuestoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "numero" | "fecha" | "fechaValidez" | "clienteId" | "estado" | "observaciones" | "subtotal" | "iva" | "total" | "facturaId" | "createdAt" | "updatedAt", ExtArgs["result"]["presupuesto"]>
+  export type PresupuestoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "numero" | "nombre" | "referencia" | "fecha" | "fechaValidez" | "fechaMontaje" | "fechaInicio" | "fechaFin" | "clienteId" | "estado" | "observaciones" | "subtotal" | "iva" | "total" | "facturaId" | "createdAt" | "updatedAt", ExtArgs["result"]["presupuesto"]>
   export type PresupuestoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    cliente?: boolean | ClienteDefaultArgs<ExtArgs>
+    cliente?: boolean | Presupuesto$clienteArgs<ExtArgs>
     items?: boolean | Presupuesto$itemsArgs<ExtArgs>
     factura?: boolean | Presupuesto$facturaArgs<ExtArgs>
     _count?: boolean | PresupuestoCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PresupuestoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    cliente?: boolean | ClienteDefaultArgs<ExtArgs>
+    cliente?: boolean | Presupuesto$clienteArgs<ExtArgs>
     factura?: boolean | Presupuesto$facturaArgs<ExtArgs>
   }
   export type PresupuestoIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    cliente?: boolean | ClienteDefaultArgs<ExtArgs>
+    cliente?: boolean | Presupuesto$clienteArgs<ExtArgs>
     factura?: boolean | Presupuesto$facturaArgs<ExtArgs>
   }
 
   export type $PresupuestoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Presupuesto"
     objects: {
-      cliente: Prisma.$ClientePayload<ExtArgs>
+      cliente: Prisma.$ClientePayload<ExtArgs> | null
       items: Prisma.$ItemPresupuestoPayload<ExtArgs>[]
       factura: Prisma.$FacturaPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       numero: string
+      nombre: string | null
+      referencia: string | null
       fecha: Date
       fechaValidez: Date
-      clienteId: string
+      fechaMontaje: Date | null
+      fechaInicio: Date | null
+      fechaFin: Date | null
+      clienteId: string | null
       estado: $Enums.EstadoPresupuesto
       observaciones: string | null
       subtotal: number
@@ -9581,7 +10833,7 @@ export namespace Prisma {
    */
   export interface Prisma__PresupuestoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    cliente<T extends ClienteDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ClienteDefaultArgs<ExtArgs>>): Prisma__ClienteClient<$Result.GetResult<Prisma.$ClientePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    cliente<T extends Presupuesto$clienteArgs<ExtArgs> = {}>(args?: Subset<T, Presupuesto$clienteArgs<ExtArgs>>): Prisma__ClienteClient<$Result.GetResult<Prisma.$ClientePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     items<T extends Presupuesto$itemsArgs<ExtArgs> = {}>(args?: Subset<T, Presupuesto$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemPresupuestoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     factura<T extends Presupuesto$facturaArgs<ExtArgs> = {}>(args?: Subset<T, Presupuesto$facturaArgs<ExtArgs>>): Prisma__FacturaClient<$Result.GetResult<Prisma.$FacturaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
@@ -9615,8 +10867,13 @@ export namespace Prisma {
   interface PresupuestoFieldRefs {
     readonly id: FieldRef<"Presupuesto", 'String'>
     readonly numero: FieldRef<"Presupuesto", 'String'>
+    readonly nombre: FieldRef<"Presupuesto", 'String'>
+    readonly referencia: FieldRef<"Presupuesto", 'String'>
     readonly fecha: FieldRef<"Presupuesto", 'DateTime'>
     readonly fechaValidez: FieldRef<"Presupuesto", 'DateTime'>
+    readonly fechaMontaje: FieldRef<"Presupuesto", 'DateTime'>
+    readonly fechaInicio: FieldRef<"Presupuesto", 'DateTime'>
+    readonly fechaFin: FieldRef<"Presupuesto", 'DateTime'>
     readonly clienteId: FieldRef<"Presupuesto", 'String'>
     readonly estado: FieldRef<"Presupuesto", 'EstadoPresupuesto'>
     readonly observaciones: FieldRef<"Presupuesto", 'String'>
@@ -10022,6 +11279,25 @@ export namespace Prisma {
   }
 
   /**
+   * Presupuesto.cliente
+   */
+  export type Presupuesto$clienteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cliente
+     */
+    select?: ClienteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cliente
+     */
+    omit?: ClienteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClienteInclude<ExtArgs> | null
+    where?: ClienteWhereInput
+  }
+
+  /**
    * Presupuesto.items
    */
   export type Presupuesto$itemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10101,6 +11377,7 @@ export namespace Prisma {
     descuento: number | null
     iva: number | null
     total: number | null
+    dias: number | null
   }
 
   export type ItemPresupuestoSumAggregateOutputType = {
@@ -10109,17 +11386,22 @@ export namespace Prisma {
     descuento: number | null
     iva: number | null
     total: number | null
+    dias: number | null
   }
 
   export type ItemPresupuestoMinAggregateOutputType = {
     id: string | null
     presupuestoId: string | null
     productoId: string | null
+    tipo: string | null
+    nombre: string | null
     cantidad: number | null
     precioUnitario: number | null
     descuento: number | null
     iva: number | null
     total: number | null
+    dias: number | null
+    partidaId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -10128,11 +11410,15 @@ export namespace Prisma {
     id: string | null
     presupuestoId: string | null
     productoId: string | null
+    tipo: string | null
+    nombre: string | null
     cantidad: number | null
     precioUnitario: number | null
     descuento: number | null
     iva: number | null
     total: number | null
+    dias: number | null
+    partidaId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -10141,11 +11427,15 @@ export namespace Prisma {
     id: number
     presupuestoId: number
     productoId: number
+    tipo: number
+    nombre: number
     cantidad: number
     precioUnitario: number
     descuento: number
     iva: number
     total: number
+    dias: number
+    partidaId: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -10158,6 +11448,7 @@ export namespace Prisma {
     descuento?: true
     iva?: true
     total?: true
+    dias?: true
   }
 
   export type ItemPresupuestoSumAggregateInputType = {
@@ -10166,17 +11457,22 @@ export namespace Prisma {
     descuento?: true
     iva?: true
     total?: true
+    dias?: true
   }
 
   export type ItemPresupuestoMinAggregateInputType = {
     id?: true
     presupuestoId?: true
     productoId?: true
+    tipo?: true
+    nombre?: true
     cantidad?: true
     precioUnitario?: true
     descuento?: true
     iva?: true
     total?: true
+    dias?: true
+    partidaId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -10185,11 +11481,15 @@ export namespace Prisma {
     id?: true
     presupuestoId?: true
     productoId?: true
+    tipo?: true
+    nombre?: true
     cantidad?: true
     precioUnitario?: true
     descuento?: true
     iva?: true
     total?: true
+    dias?: true
+    partidaId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -10198,11 +11498,15 @@ export namespace Prisma {
     id?: true
     presupuestoId?: true
     productoId?: true
+    tipo?: true
+    nombre?: true
     cantidad?: true
     precioUnitario?: true
     descuento?: true
     iva?: true
     total?: true
+    dias?: true
+    partidaId?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -10298,11 +11602,15 @@ export namespace Prisma {
     id: string
     presupuestoId: string
     productoId: string
+    tipo: string | null
+    nombre: string | null
     cantidad: number
     precioUnitario: number
     descuento: number
     iva: number
     total: number
+    dias: number
+    partidaId: string | null
     createdAt: Date
     updatedAt: Date
     _count: ItemPresupuestoCountAggregateOutputType | null
@@ -10330,72 +11638,94 @@ export namespace Prisma {
     id?: boolean
     presupuestoId?: boolean
     productoId?: boolean
+    tipo?: boolean
+    nombre?: boolean
     cantidad?: boolean
     precioUnitario?: boolean
     descuento?: boolean
     iva?: boolean
     total?: boolean
+    dias?: boolean
+    partidaId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     presupuesto?: boolean | PresupuestoDefaultArgs<ExtArgs>
     producto?: boolean | ProductoDefaultArgs<ExtArgs>
+    partida?: boolean | ItemPresupuesto$partidaArgs<ExtArgs>
   }, ExtArgs["result"]["itemPresupuesto"]>
 
   export type ItemPresupuestoSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     presupuestoId?: boolean
     productoId?: boolean
+    tipo?: boolean
+    nombre?: boolean
     cantidad?: boolean
     precioUnitario?: boolean
     descuento?: boolean
     iva?: boolean
     total?: boolean
+    dias?: boolean
+    partidaId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     presupuesto?: boolean | PresupuestoDefaultArgs<ExtArgs>
     producto?: boolean | ProductoDefaultArgs<ExtArgs>
+    partida?: boolean | ItemPresupuesto$partidaArgs<ExtArgs>
   }, ExtArgs["result"]["itemPresupuesto"]>
 
   export type ItemPresupuestoSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     presupuestoId?: boolean
     productoId?: boolean
+    tipo?: boolean
+    nombre?: boolean
     cantidad?: boolean
     precioUnitario?: boolean
     descuento?: boolean
     iva?: boolean
     total?: boolean
+    dias?: boolean
+    partidaId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     presupuesto?: boolean | PresupuestoDefaultArgs<ExtArgs>
     producto?: boolean | ProductoDefaultArgs<ExtArgs>
+    partida?: boolean | ItemPresupuesto$partidaArgs<ExtArgs>
   }, ExtArgs["result"]["itemPresupuesto"]>
 
   export type ItemPresupuestoSelectScalar = {
     id?: boolean
     presupuestoId?: boolean
     productoId?: boolean
+    tipo?: boolean
+    nombre?: boolean
     cantidad?: boolean
     precioUnitario?: boolean
     descuento?: boolean
     iva?: boolean
     total?: boolean
+    dias?: boolean
+    partidaId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ItemPresupuestoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "presupuestoId" | "productoId" | "cantidad" | "precioUnitario" | "descuento" | "iva" | "total" | "createdAt" | "updatedAt", ExtArgs["result"]["itemPresupuesto"]>
+  export type ItemPresupuestoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "presupuestoId" | "productoId" | "tipo" | "nombre" | "cantidad" | "precioUnitario" | "descuento" | "iva" | "total" | "dias" | "partidaId" | "createdAt" | "updatedAt", ExtArgs["result"]["itemPresupuesto"]>
   export type ItemPresupuestoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     presupuesto?: boolean | PresupuestoDefaultArgs<ExtArgs>
     producto?: boolean | ProductoDefaultArgs<ExtArgs>
+    partida?: boolean | ItemPresupuesto$partidaArgs<ExtArgs>
   }
   export type ItemPresupuestoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     presupuesto?: boolean | PresupuestoDefaultArgs<ExtArgs>
     producto?: boolean | ProductoDefaultArgs<ExtArgs>
+    partida?: boolean | ItemPresupuesto$partidaArgs<ExtArgs>
   }
   export type ItemPresupuestoIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     presupuesto?: boolean | PresupuestoDefaultArgs<ExtArgs>
     producto?: boolean | ProductoDefaultArgs<ExtArgs>
+    partida?: boolean | ItemPresupuesto$partidaArgs<ExtArgs>
   }
 
   export type $ItemPresupuestoPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10403,16 +11733,21 @@ export namespace Prisma {
     objects: {
       presupuesto: Prisma.$PresupuestoPayload<ExtArgs>
       producto: Prisma.$ProductoPayload<ExtArgs>
+      partida: Prisma.$PartidaPresupuestoPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       presupuestoId: string
       productoId: string
+      tipo: string | null
+      nombre: string | null
       cantidad: number
       precioUnitario: number
       descuento: number
       iva: number
       total: number
+      dias: number
+      partidaId: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["itemPresupuesto"]>
@@ -10811,6 +12146,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     presupuesto<T extends PresupuestoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PresupuestoDefaultArgs<ExtArgs>>): Prisma__PresupuestoClient<$Result.GetResult<Prisma.$PresupuestoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     producto<T extends ProductoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProductoDefaultArgs<ExtArgs>>): Prisma__ProductoClient<$Result.GetResult<Prisma.$ProductoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    partida<T extends ItemPresupuesto$partidaArgs<ExtArgs> = {}>(args?: Subset<T, ItemPresupuesto$partidaArgs<ExtArgs>>): Prisma__PartidaPresupuestoClient<$Result.GetResult<Prisma.$PartidaPresupuestoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10843,11 +12179,15 @@ export namespace Prisma {
     readonly id: FieldRef<"ItemPresupuesto", 'String'>
     readonly presupuestoId: FieldRef<"ItemPresupuesto", 'String'>
     readonly productoId: FieldRef<"ItemPresupuesto", 'String'>
+    readonly tipo: FieldRef<"ItemPresupuesto", 'String'>
+    readonly nombre: FieldRef<"ItemPresupuesto", 'String'>
     readonly cantidad: FieldRef<"ItemPresupuesto", 'Int'>
     readonly precioUnitario: FieldRef<"ItemPresupuesto", 'Float'>
     readonly descuento: FieldRef<"ItemPresupuesto", 'Float'>
     readonly iva: FieldRef<"ItemPresupuesto", 'Float'>
     readonly total: FieldRef<"ItemPresupuesto", 'Float'>
+    readonly dias: FieldRef<"ItemPresupuesto", 'Int'>
+    readonly partidaId: FieldRef<"ItemPresupuesto", 'String'>
     readonly createdAt: FieldRef<"ItemPresupuesto", 'DateTime'>
     readonly updatedAt: FieldRef<"ItemPresupuesto", 'DateTime'>
   }
@@ -11243,6 +12583,25 @@ export namespace Prisma {
      * Limit how many ItemPresupuestos to delete.
      */
     limit?: number
+  }
+
+  /**
+   * ItemPresupuesto.partida
+   */
+  export type ItemPresupuesto$partidaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PartidaPresupuesto
+     */
+    select?: PartidaPresupuestoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PartidaPresupuesto
+     */
+    omit?: PartidaPresupuestoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PartidaPresupuestoInclude<ExtArgs> | null
+    where?: PartidaPresupuestoWhereInput
   }
 
   /**
@@ -14820,11 +16179,27 @@ export namespace Prisma {
   export type ClienteScalarFieldEnum = (typeof ClienteScalarFieldEnum)[keyof typeof ClienteScalarFieldEnum]
 
 
+  export const PartidaPresupuestoScalarFieldEnum: {
+    id: 'id',
+    nombre: 'nombre',
+    descripcion: 'descripcion',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PartidaPresupuestoScalarFieldEnum = (typeof PartidaPresupuestoScalarFieldEnum)[keyof typeof PartidaPresupuestoScalarFieldEnum]
+
+
   export const PresupuestoScalarFieldEnum: {
     id: 'id',
     numero: 'numero',
+    nombre: 'nombre',
+    referencia: 'referencia',
     fecha: 'fecha',
     fechaValidez: 'fechaValidez',
+    fechaMontaje: 'fechaMontaje',
+    fechaInicio: 'fechaInicio',
+    fechaFin: 'fechaFin',
     clienteId: 'clienteId',
     estado: 'estado',
     observaciones: 'observaciones',
@@ -14843,11 +16218,15 @@ export namespace Prisma {
     id: 'id',
     presupuestoId: 'presupuestoId',
     productoId: 'productoId',
+    tipo: 'tipo',
+    nombre: 'nombre',
     cantidad: 'cantidad',
     precioUnitario: 'precioUnitario',
     descuento: 'descuento',
     iva: 'iva',
     total: 'total',
+    dias: 'dias',
+    partidaId: 'partidaId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -15476,15 +16855,75 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Cliente"> | Date | string
   }
 
+  export type PartidaPresupuestoWhereInput = {
+    AND?: PartidaPresupuestoWhereInput | PartidaPresupuestoWhereInput[]
+    OR?: PartidaPresupuestoWhereInput[]
+    NOT?: PartidaPresupuestoWhereInput | PartidaPresupuestoWhereInput[]
+    id?: StringFilter<"PartidaPresupuesto"> | string
+    nombre?: StringFilter<"PartidaPresupuesto"> | string
+    descripcion?: StringNullableFilter<"PartidaPresupuesto"> | string | null
+    createdAt?: DateTimeFilter<"PartidaPresupuesto"> | Date | string
+    updatedAt?: DateTimeFilter<"PartidaPresupuesto"> | Date | string
+    items?: ItemPresupuestoListRelationFilter
+  }
+
+  export type PartidaPresupuestoOrderByWithRelationInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    descripcion?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    items?: ItemPresupuestoOrderByRelationAggregateInput
+  }
+
+  export type PartidaPresupuestoWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: PartidaPresupuestoWhereInput | PartidaPresupuestoWhereInput[]
+    OR?: PartidaPresupuestoWhereInput[]
+    NOT?: PartidaPresupuestoWhereInput | PartidaPresupuestoWhereInput[]
+    nombre?: StringFilter<"PartidaPresupuesto"> | string
+    descripcion?: StringNullableFilter<"PartidaPresupuesto"> | string | null
+    createdAt?: DateTimeFilter<"PartidaPresupuesto"> | Date | string
+    updatedAt?: DateTimeFilter<"PartidaPresupuesto"> | Date | string
+    items?: ItemPresupuestoListRelationFilter
+  }, "id">
+
+  export type PartidaPresupuestoOrderByWithAggregationInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    descripcion?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PartidaPresupuestoCountOrderByAggregateInput
+    _max?: PartidaPresupuestoMaxOrderByAggregateInput
+    _min?: PartidaPresupuestoMinOrderByAggregateInput
+  }
+
+  export type PartidaPresupuestoScalarWhereWithAggregatesInput = {
+    AND?: PartidaPresupuestoScalarWhereWithAggregatesInput | PartidaPresupuestoScalarWhereWithAggregatesInput[]
+    OR?: PartidaPresupuestoScalarWhereWithAggregatesInput[]
+    NOT?: PartidaPresupuestoScalarWhereWithAggregatesInput | PartidaPresupuestoScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PartidaPresupuesto"> | string
+    nombre?: StringWithAggregatesFilter<"PartidaPresupuesto"> | string
+    descripcion?: StringNullableWithAggregatesFilter<"PartidaPresupuesto"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"PartidaPresupuesto"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"PartidaPresupuesto"> | Date | string
+  }
+
   export type PresupuestoWhereInput = {
     AND?: PresupuestoWhereInput | PresupuestoWhereInput[]
     OR?: PresupuestoWhereInput[]
     NOT?: PresupuestoWhereInput | PresupuestoWhereInput[]
     id?: StringFilter<"Presupuesto"> | string
     numero?: StringFilter<"Presupuesto"> | string
+    nombre?: StringNullableFilter<"Presupuesto"> | string | null
+    referencia?: StringNullableFilter<"Presupuesto"> | string | null
     fecha?: DateTimeFilter<"Presupuesto"> | Date | string
     fechaValidez?: DateTimeFilter<"Presupuesto"> | Date | string
-    clienteId?: StringFilter<"Presupuesto"> | string
+    fechaMontaje?: DateTimeNullableFilter<"Presupuesto"> | Date | string | null
+    fechaInicio?: DateTimeNullableFilter<"Presupuesto"> | Date | string | null
+    fechaFin?: DateTimeNullableFilter<"Presupuesto"> | Date | string | null
+    clienteId?: StringNullableFilter<"Presupuesto"> | string | null
     estado?: EnumEstadoPresupuestoFilter<"Presupuesto"> | $Enums.EstadoPresupuesto
     observaciones?: StringNullableFilter<"Presupuesto"> | string | null
     subtotal?: FloatFilter<"Presupuesto"> | number
@@ -15493,7 +16932,7 @@ export namespace Prisma {
     facturaId?: StringNullableFilter<"Presupuesto"> | string | null
     createdAt?: DateTimeFilter<"Presupuesto"> | Date | string
     updatedAt?: DateTimeFilter<"Presupuesto"> | Date | string
-    cliente?: XOR<ClienteScalarRelationFilter, ClienteWhereInput>
+    cliente?: XOR<ClienteNullableScalarRelationFilter, ClienteWhereInput> | null
     items?: ItemPresupuestoListRelationFilter
     factura?: XOR<FacturaNullableScalarRelationFilter, FacturaWhereInput> | null
   }
@@ -15501,9 +16940,14 @@ export namespace Prisma {
   export type PresupuestoOrderByWithRelationInput = {
     id?: SortOrder
     numero?: SortOrder
+    nombre?: SortOrderInput | SortOrder
+    referencia?: SortOrderInput | SortOrder
     fecha?: SortOrder
     fechaValidez?: SortOrder
-    clienteId?: SortOrder
+    fechaMontaje?: SortOrderInput | SortOrder
+    fechaInicio?: SortOrderInput | SortOrder
+    fechaFin?: SortOrderInput | SortOrder
+    clienteId?: SortOrderInput | SortOrder
     estado?: SortOrder
     observaciones?: SortOrderInput | SortOrder
     subtotal?: SortOrder
@@ -15523,9 +16967,14 @@ export namespace Prisma {
     AND?: PresupuestoWhereInput | PresupuestoWhereInput[]
     OR?: PresupuestoWhereInput[]
     NOT?: PresupuestoWhereInput | PresupuestoWhereInput[]
+    nombre?: StringNullableFilter<"Presupuesto"> | string | null
+    referencia?: StringNullableFilter<"Presupuesto"> | string | null
     fecha?: DateTimeFilter<"Presupuesto"> | Date | string
     fechaValidez?: DateTimeFilter<"Presupuesto"> | Date | string
-    clienteId?: StringFilter<"Presupuesto"> | string
+    fechaMontaje?: DateTimeNullableFilter<"Presupuesto"> | Date | string | null
+    fechaInicio?: DateTimeNullableFilter<"Presupuesto"> | Date | string | null
+    fechaFin?: DateTimeNullableFilter<"Presupuesto"> | Date | string | null
+    clienteId?: StringNullableFilter<"Presupuesto"> | string | null
     estado?: EnumEstadoPresupuestoFilter<"Presupuesto"> | $Enums.EstadoPresupuesto
     observaciones?: StringNullableFilter<"Presupuesto"> | string | null
     subtotal?: FloatFilter<"Presupuesto"> | number
@@ -15534,7 +16983,7 @@ export namespace Prisma {
     facturaId?: StringNullableFilter<"Presupuesto"> | string | null
     createdAt?: DateTimeFilter<"Presupuesto"> | Date | string
     updatedAt?: DateTimeFilter<"Presupuesto"> | Date | string
-    cliente?: XOR<ClienteScalarRelationFilter, ClienteWhereInput>
+    cliente?: XOR<ClienteNullableScalarRelationFilter, ClienteWhereInput> | null
     items?: ItemPresupuestoListRelationFilter
     factura?: XOR<FacturaNullableScalarRelationFilter, FacturaWhereInput> | null
   }, "id" | "numero">
@@ -15542,9 +16991,14 @@ export namespace Prisma {
   export type PresupuestoOrderByWithAggregationInput = {
     id?: SortOrder
     numero?: SortOrder
+    nombre?: SortOrderInput | SortOrder
+    referencia?: SortOrderInput | SortOrder
     fecha?: SortOrder
     fechaValidez?: SortOrder
-    clienteId?: SortOrder
+    fechaMontaje?: SortOrderInput | SortOrder
+    fechaInicio?: SortOrderInput | SortOrder
+    fechaFin?: SortOrderInput | SortOrder
+    clienteId?: SortOrderInput | SortOrder
     estado?: SortOrder
     observaciones?: SortOrderInput | SortOrder
     subtotal?: SortOrder
@@ -15566,9 +17020,14 @@ export namespace Prisma {
     NOT?: PresupuestoScalarWhereWithAggregatesInput | PresupuestoScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Presupuesto"> | string
     numero?: StringWithAggregatesFilter<"Presupuesto"> | string
+    nombre?: StringNullableWithAggregatesFilter<"Presupuesto"> | string | null
+    referencia?: StringNullableWithAggregatesFilter<"Presupuesto"> | string | null
     fecha?: DateTimeWithAggregatesFilter<"Presupuesto"> | Date | string
     fechaValidez?: DateTimeWithAggregatesFilter<"Presupuesto"> | Date | string
-    clienteId?: StringWithAggregatesFilter<"Presupuesto"> | string
+    fechaMontaje?: DateTimeNullableWithAggregatesFilter<"Presupuesto"> | Date | string | null
+    fechaInicio?: DateTimeNullableWithAggregatesFilter<"Presupuesto"> | Date | string | null
+    fechaFin?: DateTimeNullableWithAggregatesFilter<"Presupuesto"> | Date | string | null
+    clienteId?: StringNullableWithAggregatesFilter<"Presupuesto"> | string | null
     estado?: EnumEstadoPresupuestoWithAggregatesFilter<"Presupuesto"> | $Enums.EstadoPresupuesto
     observaciones?: StringNullableWithAggregatesFilter<"Presupuesto"> | string | null
     subtotal?: FloatWithAggregatesFilter<"Presupuesto"> | number
@@ -15586,30 +17045,40 @@ export namespace Prisma {
     id?: StringFilter<"ItemPresupuesto"> | string
     presupuestoId?: StringFilter<"ItemPresupuesto"> | string
     productoId?: StringFilter<"ItemPresupuesto"> | string
+    tipo?: StringNullableFilter<"ItemPresupuesto"> | string | null
+    nombre?: StringNullableFilter<"ItemPresupuesto"> | string | null
     cantidad?: IntFilter<"ItemPresupuesto"> | number
     precioUnitario?: FloatFilter<"ItemPresupuesto"> | number
     descuento?: FloatFilter<"ItemPresupuesto"> | number
     iva?: FloatFilter<"ItemPresupuesto"> | number
     total?: FloatFilter<"ItemPresupuesto"> | number
+    dias?: IntFilter<"ItemPresupuesto"> | number
+    partidaId?: StringNullableFilter<"ItemPresupuesto"> | string | null
     createdAt?: DateTimeFilter<"ItemPresupuesto"> | Date | string
     updatedAt?: DateTimeFilter<"ItemPresupuesto"> | Date | string
     presupuesto?: XOR<PresupuestoScalarRelationFilter, PresupuestoWhereInput>
     producto?: XOR<ProductoScalarRelationFilter, ProductoWhereInput>
+    partida?: XOR<PartidaPresupuestoNullableScalarRelationFilter, PartidaPresupuestoWhereInput> | null
   }
 
   export type ItemPresupuestoOrderByWithRelationInput = {
     id?: SortOrder
     presupuestoId?: SortOrder
     productoId?: SortOrder
+    tipo?: SortOrderInput | SortOrder
+    nombre?: SortOrderInput | SortOrder
     cantidad?: SortOrder
     precioUnitario?: SortOrder
     descuento?: SortOrder
     iva?: SortOrder
     total?: SortOrder
+    dias?: SortOrder
+    partidaId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     presupuesto?: PresupuestoOrderByWithRelationInput
     producto?: ProductoOrderByWithRelationInput
+    partida?: PartidaPresupuestoOrderByWithRelationInput
   }
 
   export type ItemPresupuestoWhereUniqueInput = Prisma.AtLeast<{
@@ -15619,26 +17088,35 @@ export namespace Prisma {
     NOT?: ItemPresupuestoWhereInput | ItemPresupuestoWhereInput[]
     presupuestoId?: StringFilter<"ItemPresupuesto"> | string
     productoId?: StringFilter<"ItemPresupuesto"> | string
+    tipo?: StringNullableFilter<"ItemPresupuesto"> | string | null
+    nombre?: StringNullableFilter<"ItemPresupuesto"> | string | null
     cantidad?: IntFilter<"ItemPresupuesto"> | number
     precioUnitario?: FloatFilter<"ItemPresupuesto"> | number
     descuento?: FloatFilter<"ItemPresupuesto"> | number
     iva?: FloatFilter<"ItemPresupuesto"> | number
     total?: FloatFilter<"ItemPresupuesto"> | number
+    dias?: IntFilter<"ItemPresupuesto"> | number
+    partidaId?: StringNullableFilter<"ItemPresupuesto"> | string | null
     createdAt?: DateTimeFilter<"ItemPresupuesto"> | Date | string
     updatedAt?: DateTimeFilter<"ItemPresupuesto"> | Date | string
     presupuesto?: XOR<PresupuestoScalarRelationFilter, PresupuestoWhereInput>
     producto?: XOR<ProductoScalarRelationFilter, ProductoWhereInput>
+    partida?: XOR<PartidaPresupuestoNullableScalarRelationFilter, PartidaPresupuestoWhereInput> | null
   }, "id">
 
   export type ItemPresupuestoOrderByWithAggregationInput = {
     id?: SortOrder
     presupuestoId?: SortOrder
     productoId?: SortOrder
+    tipo?: SortOrderInput | SortOrder
+    nombre?: SortOrderInput | SortOrder
     cantidad?: SortOrder
     precioUnitario?: SortOrder
     descuento?: SortOrder
     iva?: SortOrder
     total?: SortOrder
+    dias?: SortOrder
+    partidaId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ItemPresupuestoCountOrderByAggregateInput
@@ -15655,11 +17133,15 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"ItemPresupuesto"> | string
     presupuestoId?: StringWithAggregatesFilter<"ItemPresupuesto"> | string
     productoId?: StringWithAggregatesFilter<"ItemPresupuesto"> | string
+    tipo?: StringNullableWithAggregatesFilter<"ItemPresupuesto"> | string | null
+    nombre?: StringNullableWithAggregatesFilter<"ItemPresupuesto"> | string | null
     cantidad?: IntWithAggregatesFilter<"ItemPresupuesto"> | number
     precioUnitario?: FloatWithAggregatesFilter<"ItemPresupuesto"> | number
     descuento?: FloatWithAggregatesFilter<"ItemPresupuesto"> | number
     iva?: FloatWithAggregatesFilter<"ItemPresupuesto"> | number
     total?: FloatWithAggregatesFilter<"ItemPresupuesto"> | number
+    dias?: IntWithAggregatesFilter<"ItemPresupuesto"> | number
+    partidaId?: StringNullableWithAggregatesFilter<"ItemPresupuesto"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"ItemPresupuesto"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ItemPresupuesto"> | Date | string
   }
@@ -16381,11 +17863,76 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PartidaPresupuestoCreateInput = {
+    id?: string
+    nombre: string
+    descripcion?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    items?: ItemPresupuestoCreateNestedManyWithoutPartidaInput
+  }
+
+  export type PartidaPresupuestoUncheckedCreateInput = {
+    id?: string
+    nombre: string
+    descripcion?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    items?: ItemPresupuestoUncheckedCreateNestedManyWithoutPartidaInput
+  }
+
+  export type PartidaPresupuestoUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: ItemPresupuestoUpdateManyWithoutPartidaNestedInput
+  }
+
+  export type PartidaPresupuestoUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: ItemPresupuestoUncheckedUpdateManyWithoutPartidaNestedInput
+  }
+
+  export type PartidaPresupuestoCreateManyInput = {
+    id?: string
+    nombre: string
+    descripcion?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PartidaPresupuestoUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PartidaPresupuestoUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type PresupuestoCreateInput = {
     id?: string
     numero: string
+    nombre?: string | null
+    referencia?: string | null
     fecha?: Date | string
     fechaValidez: Date | string
+    fechaMontaje?: Date | string | null
+    fechaInicio?: Date | string | null
+    fechaFin?: Date | string | null
     estado?: $Enums.EstadoPresupuesto
     observaciones?: string | null
     subtotal: number
@@ -16393,7 +17940,7 @@ export namespace Prisma {
     total: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    cliente: ClienteCreateNestedOneWithoutPresupuestosInput
+    cliente?: ClienteCreateNestedOneWithoutPresupuestosInput
     items?: ItemPresupuestoCreateNestedManyWithoutPresupuestoInput
     factura?: FacturaCreateNestedOneWithoutPresupuestosInput
   }
@@ -16401,9 +17948,14 @@ export namespace Prisma {
   export type PresupuestoUncheckedCreateInput = {
     id?: string
     numero: string
+    nombre?: string | null
+    referencia?: string | null
     fecha?: Date | string
     fechaValidez: Date | string
-    clienteId: string
+    fechaMontaje?: Date | string | null
+    fechaInicio?: Date | string | null
+    fechaFin?: Date | string | null
+    clienteId?: string | null
     estado?: $Enums.EstadoPresupuesto
     observaciones?: string | null
     subtotal: number
@@ -16418,8 +17970,13 @@ export namespace Prisma {
   export type PresupuestoUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    referencia?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaValidez?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaMontaje?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaInicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaFin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     estado?: EnumEstadoPresupuestoFieldUpdateOperationsInput | $Enums.EstadoPresupuesto
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
     subtotal?: FloatFieldUpdateOperationsInput | number
@@ -16427,7 +17984,7 @@ export namespace Prisma {
     total?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    cliente?: ClienteUpdateOneRequiredWithoutPresupuestosNestedInput
+    cliente?: ClienteUpdateOneWithoutPresupuestosNestedInput
     items?: ItemPresupuestoUpdateManyWithoutPresupuestoNestedInput
     factura?: FacturaUpdateOneWithoutPresupuestosNestedInput
   }
@@ -16435,9 +17992,14 @@ export namespace Prisma {
   export type PresupuestoUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    referencia?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaValidez?: DateTimeFieldUpdateOperationsInput | Date | string
-    clienteId?: StringFieldUpdateOperationsInput | string
+    fechaMontaje?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaInicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaFin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clienteId?: NullableStringFieldUpdateOperationsInput | string | null
     estado?: EnumEstadoPresupuestoFieldUpdateOperationsInput | $Enums.EstadoPresupuesto
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
     subtotal?: FloatFieldUpdateOperationsInput | number
@@ -16452,9 +18014,14 @@ export namespace Prisma {
   export type PresupuestoCreateManyInput = {
     id?: string
     numero: string
+    nombre?: string | null
+    referencia?: string | null
     fecha?: Date | string
     fechaValidez: Date | string
-    clienteId: string
+    fechaMontaje?: Date | string | null
+    fechaInicio?: Date | string | null
+    fechaFin?: Date | string | null
+    clienteId?: string | null
     estado?: $Enums.EstadoPresupuesto
     observaciones?: string | null
     subtotal: number
@@ -16468,8 +18035,13 @@ export namespace Prisma {
   export type PresupuestoUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    referencia?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaValidez?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaMontaje?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaInicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaFin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     estado?: EnumEstadoPresupuestoFieldUpdateOperationsInput | $Enums.EstadoPresupuesto
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
     subtotal?: FloatFieldUpdateOperationsInput | number
@@ -16482,9 +18054,14 @@ export namespace Prisma {
   export type PresupuestoUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    referencia?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaValidez?: DateTimeFieldUpdateOperationsInput | Date | string
-    clienteId?: StringFieldUpdateOperationsInput | string
+    fechaMontaje?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaInicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaFin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clienteId?: NullableStringFieldUpdateOperationsInput | string | null
     estado?: EnumEstadoPresupuestoFieldUpdateOperationsInput | $Enums.EstadoPresupuesto
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
     subtotal?: FloatFieldUpdateOperationsInput | number
@@ -16497,52 +18074,68 @@ export namespace Prisma {
 
   export type ItemPresupuestoCreateInput = {
     id?: string
+    tipo?: string | null
+    nombre?: string | null
     cantidad: number
     precioUnitario: number
     descuento?: number
     iva: number
     total: number
+    dias?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     presupuesto: PresupuestoCreateNestedOneWithoutItemsInput
     producto: ProductoCreateNestedOneWithoutItemsPresupuestoInput
+    partida?: PartidaPresupuestoCreateNestedOneWithoutItemsInput
   }
 
   export type ItemPresupuestoUncheckedCreateInput = {
     id?: string
     presupuestoId: string
     productoId: string
+    tipo?: string | null
+    nombre?: string | null
     cantidad: number
     precioUnitario: number
     descuento?: number
     iva: number
     total: number
+    dias?: number
+    partidaId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type ItemPresupuestoUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tipo?: NullableStringFieldUpdateOperationsInput | string | null
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
     cantidad?: IntFieldUpdateOperationsInput | number
     precioUnitario?: FloatFieldUpdateOperationsInput | number
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    dias?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     presupuesto?: PresupuestoUpdateOneRequiredWithoutItemsNestedInput
     producto?: ProductoUpdateOneRequiredWithoutItemsPresupuestoNestedInput
+    partida?: PartidaPresupuestoUpdateOneWithoutItemsNestedInput
   }
 
   export type ItemPresupuestoUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     presupuestoId?: StringFieldUpdateOperationsInput | string
     productoId?: StringFieldUpdateOperationsInput | string
+    tipo?: NullableStringFieldUpdateOperationsInput | string | null
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
     cantidad?: IntFieldUpdateOperationsInput | number
     precioUnitario?: FloatFieldUpdateOperationsInput | number
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    dias?: IntFieldUpdateOperationsInput | number
+    partidaId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -16551,22 +18144,29 @@ export namespace Prisma {
     id?: string
     presupuestoId: string
     productoId: string
+    tipo?: string | null
+    nombre?: string | null
     cantidad: number
     precioUnitario: number
     descuento?: number
     iva: number
     total: number
+    dias?: number
+    partidaId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type ItemPresupuestoUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tipo?: NullableStringFieldUpdateOperationsInput | string | null
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
     cantidad?: IntFieldUpdateOperationsInput | number
     precioUnitario?: FloatFieldUpdateOperationsInput | number
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    dias?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -16575,11 +18175,15 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     presupuestoId?: StringFieldUpdateOperationsInput | string
     productoId?: StringFieldUpdateOperationsInput | string
+    tipo?: NullableStringFieldUpdateOperationsInput | string | null
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
     cantidad?: IntFieldUpdateOperationsInput | number
     precioUnitario?: FloatFieldUpdateOperationsInput | number
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    dias?: IntFieldUpdateOperationsInput | number
+    partidaId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -17374,6 +18978,30 @@ export namespace Prisma {
     _max?: NestedEnumTipoClienteFilter<$PrismaModel>
   }
 
+  export type PartidaPresupuestoCountOrderByAggregateInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    descripcion?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PartidaPresupuestoMaxOrderByAggregateInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    descripcion?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PartidaPresupuestoMinOrderByAggregateInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    descripcion?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type EnumEstadoPresupuestoFilter<$PrismaModel = never> = {
     equals?: $Enums.EstadoPresupuesto | EnumEstadoPresupuestoFieldRefInput<$PrismaModel>
     in?: $Enums.EstadoPresupuesto[] | ListEnumEstadoPresupuestoFieldRefInput<$PrismaModel>
@@ -17381,9 +19009,9 @@ export namespace Prisma {
     not?: NestedEnumEstadoPresupuestoFilter<$PrismaModel> | $Enums.EstadoPresupuesto
   }
 
-  export type ClienteScalarRelationFilter = {
-    is?: ClienteWhereInput
-    isNot?: ClienteWhereInput
+  export type ClienteNullableScalarRelationFilter = {
+    is?: ClienteWhereInput | null
+    isNot?: ClienteWhereInput | null
   }
 
   export type FacturaNullableScalarRelationFilter = {
@@ -17394,8 +19022,13 @@ export namespace Prisma {
   export type PresupuestoCountOrderByAggregateInput = {
     id?: SortOrder
     numero?: SortOrder
+    nombre?: SortOrder
+    referencia?: SortOrder
     fecha?: SortOrder
     fechaValidez?: SortOrder
+    fechaMontaje?: SortOrder
+    fechaInicio?: SortOrder
+    fechaFin?: SortOrder
     clienteId?: SortOrder
     estado?: SortOrder
     observaciones?: SortOrder
@@ -17416,8 +19049,13 @@ export namespace Prisma {
   export type PresupuestoMaxOrderByAggregateInput = {
     id?: SortOrder
     numero?: SortOrder
+    nombre?: SortOrder
+    referencia?: SortOrder
     fecha?: SortOrder
     fechaValidez?: SortOrder
+    fechaMontaje?: SortOrder
+    fechaInicio?: SortOrder
+    fechaFin?: SortOrder
     clienteId?: SortOrder
     estado?: SortOrder
     observaciones?: SortOrder
@@ -17432,8 +19070,13 @@ export namespace Prisma {
   export type PresupuestoMinOrderByAggregateInput = {
     id?: SortOrder
     numero?: SortOrder
+    nombre?: SortOrder
+    referencia?: SortOrder
     fecha?: SortOrder
     fechaValidez?: SortOrder
+    fechaMontaje?: SortOrder
+    fechaInicio?: SortOrder
+    fechaFin?: SortOrder
     clienteId?: SortOrder
     estado?: SortOrder
     observaciones?: SortOrder
@@ -17466,15 +19109,24 @@ export namespace Prisma {
     isNot?: PresupuestoWhereInput
   }
 
+  export type PartidaPresupuestoNullableScalarRelationFilter = {
+    is?: PartidaPresupuestoWhereInput | null
+    isNot?: PartidaPresupuestoWhereInput | null
+  }
+
   export type ItemPresupuestoCountOrderByAggregateInput = {
     id?: SortOrder
     presupuestoId?: SortOrder
     productoId?: SortOrder
+    tipo?: SortOrder
+    nombre?: SortOrder
     cantidad?: SortOrder
     precioUnitario?: SortOrder
     descuento?: SortOrder
     iva?: SortOrder
     total?: SortOrder
+    dias?: SortOrder
+    partidaId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -17485,17 +19137,22 @@ export namespace Prisma {
     descuento?: SortOrder
     iva?: SortOrder
     total?: SortOrder
+    dias?: SortOrder
   }
 
   export type ItemPresupuestoMaxOrderByAggregateInput = {
     id?: SortOrder
     presupuestoId?: SortOrder
     productoId?: SortOrder
+    tipo?: SortOrder
+    nombre?: SortOrder
     cantidad?: SortOrder
     precioUnitario?: SortOrder
     descuento?: SortOrder
     iva?: SortOrder
     total?: SortOrder
+    dias?: SortOrder
+    partidaId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -17504,11 +19161,15 @@ export namespace Prisma {
     id?: SortOrder
     presupuestoId?: SortOrder
     productoId?: SortOrder
+    tipo?: SortOrder
+    nombre?: SortOrder
     cantidad?: SortOrder
     precioUnitario?: SortOrder
     descuento?: SortOrder
     iva?: SortOrder
     total?: SortOrder
+    dias?: SortOrder
+    partidaId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -17519,6 +19180,7 @@ export namespace Prisma {
     descuento?: SortOrder
     iva?: SortOrder
     total?: SortOrder
+    dias?: SortOrder
   }
 
   export type EnumEstadoFacturaFilter<$PrismaModel = never> = {
@@ -17526,6 +19188,11 @@ export namespace Prisma {
     in?: $Enums.EstadoFactura[] | ListEnumEstadoFacturaFieldRefInput<$PrismaModel>
     notIn?: $Enums.EstadoFactura[] | ListEnumEstadoFacturaFieldRefInput<$PrismaModel>
     not?: NestedEnumEstadoFacturaFilter<$PrismaModel> | $Enums.EstadoFactura
+  }
+
+  export type ClienteScalarRelationFilter = {
+    is?: ClienteWhereInput
+    isNot?: ClienteWhereInput
   }
 
   export type FacturaCountOrderByAggregateInput = {
@@ -18073,6 +19740,48 @@ export namespace Prisma {
     deleteMany?: FacturaScalarWhereInput | FacturaScalarWhereInput[]
   }
 
+  export type ItemPresupuestoCreateNestedManyWithoutPartidaInput = {
+    create?: XOR<ItemPresupuestoCreateWithoutPartidaInput, ItemPresupuestoUncheckedCreateWithoutPartidaInput> | ItemPresupuestoCreateWithoutPartidaInput[] | ItemPresupuestoUncheckedCreateWithoutPartidaInput[]
+    connectOrCreate?: ItemPresupuestoCreateOrConnectWithoutPartidaInput | ItemPresupuestoCreateOrConnectWithoutPartidaInput[]
+    createMany?: ItemPresupuestoCreateManyPartidaInputEnvelope
+    connect?: ItemPresupuestoWhereUniqueInput | ItemPresupuestoWhereUniqueInput[]
+  }
+
+  export type ItemPresupuestoUncheckedCreateNestedManyWithoutPartidaInput = {
+    create?: XOR<ItemPresupuestoCreateWithoutPartidaInput, ItemPresupuestoUncheckedCreateWithoutPartidaInput> | ItemPresupuestoCreateWithoutPartidaInput[] | ItemPresupuestoUncheckedCreateWithoutPartidaInput[]
+    connectOrCreate?: ItemPresupuestoCreateOrConnectWithoutPartidaInput | ItemPresupuestoCreateOrConnectWithoutPartidaInput[]
+    createMany?: ItemPresupuestoCreateManyPartidaInputEnvelope
+    connect?: ItemPresupuestoWhereUniqueInput | ItemPresupuestoWhereUniqueInput[]
+  }
+
+  export type ItemPresupuestoUpdateManyWithoutPartidaNestedInput = {
+    create?: XOR<ItemPresupuestoCreateWithoutPartidaInput, ItemPresupuestoUncheckedCreateWithoutPartidaInput> | ItemPresupuestoCreateWithoutPartidaInput[] | ItemPresupuestoUncheckedCreateWithoutPartidaInput[]
+    connectOrCreate?: ItemPresupuestoCreateOrConnectWithoutPartidaInput | ItemPresupuestoCreateOrConnectWithoutPartidaInput[]
+    upsert?: ItemPresupuestoUpsertWithWhereUniqueWithoutPartidaInput | ItemPresupuestoUpsertWithWhereUniqueWithoutPartidaInput[]
+    createMany?: ItemPresupuestoCreateManyPartidaInputEnvelope
+    set?: ItemPresupuestoWhereUniqueInput | ItemPresupuestoWhereUniqueInput[]
+    disconnect?: ItemPresupuestoWhereUniqueInput | ItemPresupuestoWhereUniqueInput[]
+    delete?: ItemPresupuestoWhereUniqueInput | ItemPresupuestoWhereUniqueInput[]
+    connect?: ItemPresupuestoWhereUniqueInput | ItemPresupuestoWhereUniqueInput[]
+    update?: ItemPresupuestoUpdateWithWhereUniqueWithoutPartidaInput | ItemPresupuestoUpdateWithWhereUniqueWithoutPartidaInput[]
+    updateMany?: ItemPresupuestoUpdateManyWithWhereWithoutPartidaInput | ItemPresupuestoUpdateManyWithWhereWithoutPartidaInput[]
+    deleteMany?: ItemPresupuestoScalarWhereInput | ItemPresupuestoScalarWhereInput[]
+  }
+
+  export type ItemPresupuestoUncheckedUpdateManyWithoutPartidaNestedInput = {
+    create?: XOR<ItemPresupuestoCreateWithoutPartidaInput, ItemPresupuestoUncheckedCreateWithoutPartidaInput> | ItemPresupuestoCreateWithoutPartidaInput[] | ItemPresupuestoUncheckedCreateWithoutPartidaInput[]
+    connectOrCreate?: ItemPresupuestoCreateOrConnectWithoutPartidaInput | ItemPresupuestoCreateOrConnectWithoutPartidaInput[]
+    upsert?: ItemPresupuestoUpsertWithWhereUniqueWithoutPartidaInput | ItemPresupuestoUpsertWithWhereUniqueWithoutPartidaInput[]
+    createMany?: ItemPresupuestoCreateManyPartidaInputEnvelope
+    set?: ItemPresupuestoWhereUniqueInput | ItemPresupuestoWhereUniqueInput[]
+    disconnect?: ItemPresupuestoWhereUniqueInput | ItemPresupuestoWhereUniqueInput[]
+    delete?: ItemPresupuestoWhereUniqueInput | ItemPresupuestoWhereUniqueInput[]
+    connect?: ItemPresupuestoWhereUniqueInput | ItemPresupuestoWhereUniqueInput[]
+    update?: ItemPresupuestoUpdateWithWhereUniqueWithoutPartidaInput | ItemPresupuestoUpdateWithWhereUniqueWithoutPartidaInput[]
+    updateMany?: ItemPresupuestoUpdateManyWithWhereWithoutPartidaInput | ItemPresupuestoUpdateManyWithWhereWithoutPartidaInput[]
+    deleteMany?: ItemPresupuestoScalarWhereInput | ItemPresupuestoScalarWhereInput[]
+  }
+
   export type ClienteCreateNestedOneWithoutPresupuestosInput = {
     create?: XOR<ClienteCreateWithoutPresupuestosInput, ClienteUncheckedCreateWithoutPresupuestosInput>
     connectOrCreate?: ClienteCreateOrConnectWithoutPresupuestosInput
@@ -18103,10 +19812,12 @@ export namespace Prisma {
     set?: $Enums.EstadoPresupuesto
   }
 
-  export type ClienteUpdateOneRequiredWithoutPresupuestosNestedInput = {
+  export type ClienteUpdateOneWithoutPresupuestosNestedInput = {
     create?: XOR<ClienteCreateWithoutPresupuestosInput, ClienteUncheckedCreateWithoutPresupuestosInput>
     connectOrCreate?: ClienteCreateOrConnectWithoutPresupuestosInput
     upsert?: ClienteUpsertWithoutPresupuestosInput
+    disconnect?: ClienteWhereInput | boolean
+    delete?: ClienteWhereInput | boolean
     connect?: ClienteWhereUniqueInput
     update?: XOR<XOR<ClienteUpdateToOneWithWhereWithoutPresupuestosInput, ClienteUpdateWithoutPresupuestosInput>, ClienteUncheckedUpdateWithoutPresupuestosInput>
   }
@@ -18161,6 +19872,12 @@ export namespace Prisma {
     connect?: ProductoWhereUniqueInput
   }
 
+  export type PartidaPresupuestoCreateNestedOneWithoutItemsInput = {
+    create?: XOR<PartidaPresupuestoCreateWithoutItemsInput, PartidaPresupuestoUncheckedCreateWithoutItemsInput>
+    connectOrCreate?: PartidaPresupuestoCreateOrConnectWithoutItemsInput
+    connect?: PartidaPresupuestoWhereUniqueInput
+  }
+
   export type PresupuestoUpdateOneRequiredWithoutItemsNestedInput = {
     create?: XOR<PresupuestoCreateWithoutItemsInput, PresupuestoUncheckedCreateWithoutItemsInput>
     connectOrCreate?: PresupuestoCreateOrConnectWithoutItemsInput
@@ -18175,6 +19892,16 @@ export namespace Prisma {
     upsert?: ProductoUpsertWithoutItemsPresupuestoInput
     connect?: ProductoWhereUniqueInput
     update?: XOR<XOR<ProductoUpdateToOneWithWhereWithoutItemsPresupuestoInput, ProductoUpdateWithoutItemsPresupuestoInput>, ProductoUncheckedUpdateWithoutItemsPresupuestoInput>
+  }
+
+  export type PartidaPresupuestoUpdateOneWithoutItemsNestedInput = {
+    create?: XOR<PartidaPresupuestoCreateWithoutItemsInput, PartidaPresupuestoUncheckedCreateWithoutItemsInput>
+    connectOrCreate?: PartidaPresupuestoCreateOrConnectWithoutItemsInput
+    upsert?: PartidaPresupuestoUpsertWithoutItemsInput
+    disconnect?: PartidaPresupuestoWhereInput | boolean
+    delete?: PartidaPresupuestoWhereInput | boolean
+    connect?: PartidaPresupuestoWhereUniqueInput
+    update?: XOR<XOR<PartidaPresupuestoUpdateToOneWithWhereWithoutItemsInput, PartidaPresupuestoUpdateWithoutItemsInput>, PartidaPresupuestoUncheckedUpdateWithoutItemsInput>
   }
 
   export type ClienteCreateNestedOneWithoutFacturasInput = {
@@ -18757,24 +20484,32 @@ export namespace Prisma {
 
   export type ItemPresupuestoCreateWithoutProductoInput = {
     id?: string
+    tipo?: string | null
+    nombre?: string | null
     cantidad: number
     precioUnitario: number
     descuento?: number
     iva: number
     total: number
+    dias?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     presupuesto: PresupuestoCreateNestedOneWithoutItemsInput
+    partida?: PartidaPresupuestoCreateNestedOneWithoutItemsInput
   }
 
   export type ItemPresupuestoUncheckedCreateWithoutProductoInput = {
     id?: string
     presupuestoId: string
+    tipo?: string | null
+    nombre?: string | null
     cantidad: number
     precioUnitario: number
     descuento?: number
     iva: number
     total: number
+    dias?: number
+    partidaId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -18928,11 +20663,15 @@ export namespace Prisma {
     id?: StringFilter<"ItemPresupuesto"> | string
     presupuestoId?: StringFilter<"ItemPresupuesto"> | string
     productoId?: StringFilter<"ItemPresupuesto"> | string
+    tipo?: StringNullableFilter<"ItemPresupuesto"> | string | null
+    nombre?: StringNullableFilter<"ItemPresupuesto"> | string | null
     cantidad?: IntFilter<"ItemPresupuesto"> | number
     precioUnitario?: FloatFilter<"ItemPresupuesto"> | number
     descuento?: FloatFilter<"ItemPresupuesto"> | number
     iva?: FloatFilter<"ItemPresupuesto"> | number
     total?: FloatFilter<"ItemPresupuesto"> | number
+    dias?: IntFilter<"ItemPresupuesto"> | number
+    partidaId?: StringNullableFilter<"ItemPresupuesto"> | string | null
     createdAt?: DateTimeFilter<"ItemPresupuesto"> | Date | string
     updatedAt?: DateTimeFilter<"ItemPresupuesto"> | Date | string
   }
@@ -19087,8 +20826,13 @@ export namespace Prisma {
   export type PresupuestoCreateWithoutClienteInput = {
     id?: string
     numero: string
+    nombre?: string | null
+    referencia?: string | null
     fecha?: Date | string
     fechaValidez: Date | string
+    fechaMontaje?: Date | string | null
+    fechaInicio?: Date | string | null
+    fechaFin?: Date | string | null
     estado?: $Enums.EstadoPresupuesto
     observaciones?: string | null
     subtotal: number
@@ -19103,8 +20847,13 @@ export namespace Prisma {
   export type PresupuestoUncheckedCreateWithoutClienteInput = {
     id?: string
     numero: string
+    nombre?: string | null
+    referencia?: string | null
     fecha?: Date | string
     fechaValidez: Date | string
+    fechaMontaje?: Date | string | null
+    fechaInicio?: Date | string | null
+    fechaFin?: Date | string | null
     estado?: $Enums.EstadoPresupuesto
     observaciones?: string | null
     subtotal: number
@@ -19190,9 +20939,14 @@ export namespace Prisma {
     NOT?: PresupuestoScalarWhereInput | PresupuestoScalarWhereInput[]
     id?: StringFilter<"Presupuesto"> | string
     numero?: StringFilter<"Presupuesto"> | string
+    nombre?: StringNullableFilter<"Presupuesto"> | string | null
+    referencia?: StringNullableFilter<"Presupuesto"> | string | null
     fecha?: DateTimeFilter<"Presupuesto"> | Date | string
     fechaValidez?: DateTimeFilter<"Presupuesto"> | Date | string
-    clienteId?: StringFilter<"Presupuesto"> | string
+    fechaMontaje?: DateTimeNullableFilter<"Presupuesto"> | Date | string | null
+    fechaInicio?: DateTimeNullableFilter<"Presupuesto"> | Date | string | null
+    fechaFin?: DateTimeNullableFilter<"Presupuesto"> | Date | string | null
+    clienteId?: StringNullableFilter<"Presupuesto"> | string | null
     estado?: EnumEstadoPresupuestoFilter<"Presupuesto"> | $Enums.EstadoPresupuesto
     observaciones?: StringNullableFilter<"Presupuesto"> | string | null
     subtotal?: FloatFilter<"Presupuesto"> | number
@@ -19237,6 +20991,64 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Factura"> | Date | string
   }
 
+  export type ItemPresupuestoCreateWithoutPartidaInput = {
+    id?: string
+    tipo?: string | null
+    nombre?: string | null
+    cantidad: number
+    precioUnitario: number
+    descuento?: number
+    iva: number
+    total: number
+    dias?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    presupuesto: PresupuestoCreateNestedOneWithoutItemsInput
+    producto: ProductoCreateNestedOneWithoutItemsPresupuestoInput
+  }
+
+  export type ItemPresupuestoUncheckedCreateWithoutPartidaInput = {
+    id?: string
+    presupuestoId: string
+    productoId: string
+    tipo?: string | null
+    nombre?: string | null
+    cantidad: number
+    precioUnitario: number
+    descuento?: number
+    iva: number
+    total: number
+    dias?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ItemPresupuestoCreateOrConnectWithoutPartidaInput = {
+    where: ItemPresupuestoWhereUniqueInput
+    create: XOR<ItemPresupuestoCreateWithoutPartidaInput, ItemPresupuestoUncheckedCreateWithoutPartidaInput>
+  }
+
+  export type ItemPresupuestoCreateManyPartidaInputEnvelope = {
+    data: ItemPresupuestoCreateManyPartidaInput | ItemPresupuestoCreateManyPartidaInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ItemPresupuestoUpsertWithWhereUniqueWithoutPartidaInput = {
+    where: ItemPresupuestoWhereUniqueInput
+    update: XOR<ItemPresupuestoUpdateWithoutPartidaInput, ItemPresupuestoUncheckedUpdateWithoutPartidaInput>
+    create: XOR<ItemPresupuestoCreateWithoutPartidaInput, ItemPresupuestoUncheckedCreateWithoutPartidaInput>
+  }
+
+  export type ItemPresupuestoUpdateWithWhereUniqueWithoutPartidaInput = {
+    where: ItemPresupuestoWhereUniqueInput
+    data: XOR<ItemPresupuestoUpdateWithoutPartidaInput, ItemPresupuestoUncheckedUpdateWithoutPartidaInput>
+  }
+
+  export type ItemPresupuestoUpdateManyWithWhereWithoutPartidaInput = {
+    where: ItemPresupuestoScalarWhereInput
+    data: XOR<ItemPresupuestoUpdateManyMutationInput, ItemPresupuestoUncheckedUpdateManyWithoutPartidaInput>
+  }
+
   export type ClienteCreateWithoutPresupuestosInput = {
     id?: string
     nombre: string
@@ -19270,24 +21082,32 @@ export namespace Prisma {
 
   export type ItemPresupuestoCreateWithoutPresupuestoInput = {
     id?: string
+    tipo?: string | null
+    nombre?: string | null
     cantidad: number
     precioUnitario: number
     descuento?: number
     iva: number
     total: number
+    dias?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     producto: ProductoCreateNestedOneWithoutItemsPresupuestoInput
+    partida?: PartidaPresupuestoCreateNestedOneWithoutItemsInput
   }
 
   export type ItemPresupuestoUncheckedCreateWithoutPresupuestoInput = {
     id?: string
     productoId: string
+    tipo?: string | null
+    nombre?: string | null
     cantidad: number
     precioUnitario: number
     descuento?: number
     iva: number
     total: number
+    dias?: number
+    partidaId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -19438,8 +21258,13 @@ export namespace Prisma {
   export type PresupuestoCreateWithoutItemsInput = {
     id?: string
     numero: string
+    nombre?: string | null
+    referencia?: string | null
     fecha?: Date | string
     fechaValidez: Date | string
+    fechaMontaje?: Date | string | null
+    fechaInicio?: Date | string | null
+    fechaFin?: Date | string | null
     estado?: $Enums.EstadoPresupuesto
     observaciones?: string | null
     subtotal: number
@@ -19447,16 +21272,21 @@ export namespace Prisma {
     total: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    cliente: ClienteCreateNestedOneWithoutPresupuestosInput
+    cliente?: ClienteCreateNestedOneWithoutPresupuestosInput
     factura?: FacturaCreateNestedOneWithoutPresupuestosInput
   }
 
   export type PresupuestoUncheckedCreateWithoutItemsInput = {
     id?: string
     numero: string
+    nombre?: string | null
+    referencia?: string | null
     fecha?: Date | string
     fechaValidez: Date | string
-    clienteId: string
+    fechaMontaje?: Date | string | null
+    fechaInicio?: Date | string | null
+    fechaFin?: Date | string | null
+    clienteId?: string | null
     estado?: $Enums.EstadoPresupuesto
     observaciones?: string | null
     subtotal: number
@@ -19511,6 +21341,27 @@ export namespace Prisma {
     create: XOR<ProductoCreateWithoutItemsPresupuestoInput, ProductoUncheckedCreateWithoutItemsPresupuestoInput>
   }
 
+  export type PartidaPresupuestoCreateWithoutItemsInput = {
+    id?: string
+    nombre: string
+    descripcion?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PartidaPresupuestoUncheckedCreateWithoutItemsInput = {
+    id?: string
+    nombre: string
+    descripcion?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PartidaPresupuestoCreateOrConnectWithoutItemsInput = {
+    where: PartidaPresupuestoWhereUniqueInput
+    create: XOR<PartidaPresupuestoCreateWithoutItemsInput, PartidaPresupuestoUncheckedCreateWithoutItemsInput>
+  }
+
   export type PresupuestoUpsertWithoutItemsInput = {
     update: XOR<PresupuestoUpdateWithoutItemsInput, PresupuestoUncheckedUpdateWithoutItemsInput>
     create: XOR<PresupuestoCreateWithoutItemsInput, PresupuestoUncheckedCreateWithoutItemsInput>
@@ -19525,8 +21376,13 @@ export namespace Prisma {
   export type PresupuestoUpdateWithoutItemsInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    referencia?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaValidez?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaMontaje?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaInicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaFin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     estado?: EnumEstadoPresupuestoFieldUpdateOperationsInput | $Enums.EstadoPresupuesto
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
     subtotal?: FloatFieldUpdateOperationsInput | number
@@ -19534,16 +21390,21 @@ export namespace Prisma {
     total?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    cliente?: ClienteUpdateOneRequiredWithoutPresupuestosNestedInput
+    cliente?: ClienteUpdateOneWithoutPresupuestosNestedInput
     factura?: FacturaUpdateOneWithoutPresupuestosNestedInput
   }
 
   export type PresupuestoUncheckedUpdateWithoutItemsInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    referencia?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaValidez?: DateTimeFieldUpdateOperationsInput | Date | string
-    clienteId?: StringFieldUpdateOperationsInput | string
+    fechaMontaje?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaInicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaFin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clienteId?: NullableStringFieldUpdateOperationsInput | string | null
     estado?: EnumEstadoPresupuestoFieldUpdateOperationsInput | $Enums.EstadoPresupuesto
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
     subtotal?: FloatFieldUpdateOperationsInput | number
@@ -19597,6 +21458,33 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     itemsFactura?: ItemFacturaUncheckedUpdateManyWithoutProductoNestedInput
     equipoItems?: EquipoItemUncheckedUpdateManyWithoutProductoNestedInput
+  }
+
+  export type PartidaPresupuestoUpsertWithoutItemsInput = {
+    update: XOR<PartidaPresupuestoUpdateWithoutItemsInput, PartidaPresupuestoUncheckedUpdateWithoutItemsInput>
+    create: XOR<PartidaPresupuestoCreateWithoutItemsInput, PartidaPresupuestoUncheckedCreateWithoutItemsInput>
+    where?: PartidaPresupuestoWhereInput
+  }
+
+  export type PartidaPresupuestoUpdateToOneWithWhereWithoutItemsInput = {
+    where?: PartidaPresupuestoWhereInput
+    data: XOR<PartidaPresupuestoUpdateWithoutItemsInput, PartidaPresupuestoUncheckedUpdateWithoutItemsInput>
+  }
+
+  export type PartidaPresupuestoUpdateWithoutItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PartidaPresupuestoUncheckedUpdateWithoutItemsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ClienteCreateWithoutFacturasInput = {
@@ -19667,8 +21555,13 @@ export namespace Prisma {
   export type PresupuestoCreateWithoutFacturaInput = {
     id?: string
     numero: string
+    nombre?: string | null
+    referencia?: string | null
     fecha?: Date | string
     fechaValidez: Date | string
+    fechaMontaje?: Date | string | null
+    fechaInicio?: Date | string | null
+    fechaFin?: Date | string | null
     estado?: $Enums.EstadoPresupuesto
     observaciones?: string | null
     subtotal: number
@@ -19676,16 +21569,21 @@ export namespace Prisma {
     total: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    cliente: ClienteCreateNestedOneWithoutPresupuestosInput
+    cliente?: ClienteCreateNestedOneWithoutPresupuestosInput
     items?: ItemPresupuestoCreateNestedManyWithoutPresupuestoInput
   }
 
   export type PresupuestoUncheckedCreateWithoutFacturaInput = {
     id?: string
     numero: string
+    nombre?: string | null
+    referencia?: string | null
     fecha?: Date | string
     fechaValidez: Date | string
-    clienteId: string
+    fechaMontaje?: Date | string | null
+    fechaInicio?: Date | string | null
+    fechaFin?: Date | string | null
+    clienteId?: string | null
     estado?: $Enums.EstadoPresupuesto
     observaciones?: string | null
     subtotal: number
@@ -20066,11 +21964,15 @@ export namespace Prisma {
   export type ItemPresupuestoCreateManyProductoInput = {
     id?: string
     presupuestoId: string
+    tipo?: string | null
+    nombre?: string | null
     cantidad: number
     precioUnitario: number
     descuento?: number
     iva: number
     total: number
+    dias?: number
+    partidaId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -20100,24 +22002,32 @@ export namespace Prisma {
 
   export type ItemPresupuestoUpdateWithoutProductoInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tipo?: NullableStringFieldUpdateOperationsInput | string | null
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
     cantidad?: IntFieldUpdateOperationsInput | number
     precioUnitario?: FloatFieldUpdateOperationsInput | number
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    dias?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     presupuesto?: PresupuestoUpdateOneRequiredWithoutItemsNestedInput
+    partida?: PartidaPresupuestoUpdateOneWithoutItemsNestedInput
   }
 
   export type ItemPresupuestoUncheckedUpdateWithoutProductoInput = {
     id?: StringFieldUpdateOperationsInput | string
     presupuestoId?: StringFieldUpdateOperationsInput | string
+    tipo?: NullableStringFieldUpdateOperationsInput | string | null
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
     cantidad?: IntFieldUpdateOperationsInput | number
     precioUnitario?: FloatFieldUpdateOperationsInput | number
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    dias?: IntFieldUpdateOperationsInput | number
+    partidaId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -20125,11 +22035,15 @@ export namespace Prisma {
   export type ItemPresupuestoUncheckedUpdateManyWithoutProductoInput = {
     id?: StringFieldUpdateOperationsInput | string
     presupuestoId?: StringFieldUpdateOperationsInput | string
+    tipo?: NullableStringFieldUpdateOperationsInput | string | null
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
     cantidad?: IntFieldUpdateOperationsInput | number
     precioUnitario?: FloatFieldUpdateOperationsInput | number
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    dias?: IntFieldUpdateOperationsInput | number
+    partidaId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -20206,8 +22120,13 @@ export namespace Prisma {
   export type PresupuestoCreateManyClienteInput = {
     id?: string
     numero: string
+    nombre?: string | null
+    referencia?: string | null
     fecha?: Date | string
     fechaValidez: Date | string
+    fechaMontaje?: Date | string | null
+    fechaInicio?: Date | string | null
+    fechaFin?: Date | string | null
     estado?: $Enums.EstadoPresupuesto
     observaciones?: string | null
     subtotal: number
@@ -20235,8 +22154,13 @@ export namespace Prisma {
   export type PresupuestoUpdateWithoutClienteInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    referencia?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaValidez?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaMontaje?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaInicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaFin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     estado?: EnumEstadoPresupuestoFieldUpdateOperationsInput | $Enums.EstadoPresupuesto
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
     subtotal?: FloatFieldUpdateOperationsInput | number
@@ -20251,8 +22175,13 @@ export namespace Prisma {
   export type PresupuestoUncheckedUpdateWithoutClienteInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    referencia?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaValidez?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaMontaje?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaInicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaFin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     estado?: EnumEstadoPresupuestoFieldUpdateOperationsInput | $Enums.EstadoPresupuesto
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
     subtotal?: FloatFieldUpdateOperationsInput | number
@@ -20267,8 +22196,13 @@ export namespace Prisma {
   export type PresupuestoUncheckedUpdateManyWithoutClienteInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    referencia?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaValidez?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaMontaje?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaInicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaFin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     estado?: EnumEstadoPresupuestoFieldUpdateOperationsInput | $Enums.EstadoPresupuesto
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
     subtotal?: FloatFieldUpdateOperationsInput | number
@@ -20325,38 +22259,114 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type ItemPresupuestoCreateManyPresupuestoInput = {
+  export type ItemPresupuestoCreateManyPartidaInput = {
     id?: string
+    presupuestoId: string
     productoId: string
+    tipo?: string | null
+    nombre?: string | null
     cantidad: number
     precioUnitario: number
     descuento?: number
     iva: number
     total: number
+    dias?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ItemPresupuestoUpdateWithoutPartidaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    tipo?: NullableStringFieldUpdateOperationsInput | string | null
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    cantidad?: IntFieldUpdateOperationsInput | number
+    precioUnitario?: FloatFieldUpdateOperationsInput | number
+    descuento?: FloatFieldUpdateOperationsInput | number
+    iva?: FloatFieldUpdateOperationsInput | number
+    total?: FloatFieldUpdateOperationsInput | number
+    dias?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    presupuesto?: PresupuestoUpdateOneRequiredWithoutItemsNestedInput
+    producto?: ProductoUpdateOneRequiredWithoutItemsPresupuestoNestedInput
+  }
+
+  export type ItemPresupuestoUncheckedUpdateWithoutPartidaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    presupuestoId?: StringFieldUpdateOperationsInput | string
+    productoId?: StringFieldUpdateOperationsInput | string
+    tipo?: NullableStringFieldUpdateOperationsInput | string | null
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    cantidad?: IntFieldUpdateOperationsInput | number
+    precioUnitario?: FloatFieldUpdateOperationsInput | number
+    descuento?: FloatFieldUpdateOperationsInput | number
+    iva?: FloatFieldUpdateOperationsInput | number
+    total?: FloatFieldUpdateOperationsInput | number
+    dias?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ItemPresupuestoUncheckedUpdateManyWithoutPartidaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    presupuestoId?: StringFieldUpdateOperationsInput | string
+    productoId?: StringFieldUpdateOperationsInput | string
+    tipo?: NullableStringFieldUpdateOperationsInput | string | null
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    cantidad?: IntFieldUpdateOperationsInput | number
+    precioUnitario?: FloatFieldUpdateOperationsInput | number
+    descuento?: FloatFieldUpdateOperationsInput | number
+    iva?: FloatFieldUpdateOperationsInput | number
+    total?: FloatFieldUpdateOperationsInput | number
+    dias?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ItemPresupuestoCreateManyPresupuestoInput = {
+    id?: string
+    productoId: string
+    tipo?: string | null
+    nombre?: string | null
+    cantidad: number
+    precioUnitario: number
+    descuento?: number
+    iva: number
+    total: number
+    dias?: number
+    partidaId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type ItemPresupuestoUpdateWithoutPresupuestoInput = {
     id?: StringFieldUpdateOperationsInput | string
+    tipo?: NullableStringFieldUpdateOperationsInput | string | null
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
     cantidad?: IntFieldUpdateOperationsInput | number
     precioUnitario?: FloatFieldUpdateOperationsInput | number
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    dias?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     producto?: ProductoUpdateOneRequiredWithoutItemsPresupuestoNestedInput
+    partida?: PartidaPresupuestoUpdateOneWithoutItemsNestedInput
   }
 
   export type ItemPresupuestoUncheckedUpdateWithoutPresupuestoInput = {
     id?: StringFieldUpdateOperationsInput | string
     productoId?: StringFieldUpdateOperationsInput | string
+    tipo?: NullableStringFieldUpdateOperationsInput | string | null
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
     cantidad?: IntFieldUpdateOperationsInput | number
     precioUnitario?: FloatFieldUpdateOperationsInput | number
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    dias?: IntFieldUpdateOperationsInput | number
+    partidaId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -20364,11 +22374,15 @@ export namespace Prisma {
   export type ItemPresupuestoUncheckedUpdateManyWithoutPresupuestoInput = {
     id?: StringFieldUpdateOperationsInput | string
     productoId?: StringFieldUpdateOperationsInput | string
+    tipo?: NullableStringFieldUpdateOperationsInput | string | null
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
     cantidad?: IntFieldUpdateOperationsInput | number
     precioUnitario?: FloatFieldUpdateOperationsInput | number
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    dias?: IntFieldUpdateOperationsInput | number
+    partidaId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -20388,9 +22402,14 @@ export namespace Prisma {
   export type PresupuestoCreateManyFacturaInput = {
     id?: string
     numero: string
+    nombre?: string | null
+    referencia?: string | null
     fecha?: Date | string
     fechaValidez: Date | string
-    clienteId: string
+    fechaMontaje?: Date | string | null
+    fechaInicio?: Date | string | null
+    fechaFin?: Date | string | null
+    clienteId?: string | null
     estado?: $Enums.EstadoPresupuesto
     observaciones?: string | null
     subtotal: number
@@ -20439,8 +22458,13 @@ export namespace Prisma {
   export type PresupuestoUpdateWithoutFacturaInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    referencia?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaValidez?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaMontaje?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaInicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaFin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     estado?: EnumEstadoPresupuestoFieldUpdateOperationsInput | $Enums.EstadoPresupuesto
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
     subtotal?: FloatFieldUpdateOperationsInput | number
@@ -20448,16 +22472,21 @@ export namespace Prisma {
     total?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    cliente?: ClienteUpdateOneRequiredWithoutPresupuestosNestedInput
+    cliente?: ClienteUpdateOneWithoutPresupuestosNestedInput
     items?: ItemPresupuestoUpdateManyWithoutPresupuestoNestedInput
   }
 
   export type PresupuestoUncheckedUpdateWithoutFacturaInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    referencia?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaValidez?: DateTimeFieldUpdateOperationsInput | Date | string
-    clienteId?: StringFieldUpdateOperationsInput | string
+    fechaMontaje?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaInicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaFin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clienteId?: NullableStringFieldUpdateOperationsInput | string | null
     estado?: EnumEstadoPresupuestoFieldUpdateOperationsInput | $Enums.EstadoPresupuesto
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
     subtotal?: FloatFieldUpdateOperationsInput | number
@@ -20471,9 +22500,14 @@ export namespace Prisma {
   export type PresupuestoUncheckedUpdateManyWithoutFacturaInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    referencia?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaValidez?: DateTimeFieldUpdateOperationsInput | Date | string
-    clienteId?: StringFieldUpdateOperationsInput | string
+    fechaMontaje?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaInicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaFin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clienteId?: NullableStringFieldUpdateOperationsInput | string | null
     estado?: EnumEstadoPresupuestoFieldUpdateOperationsInput | $Enums.EstadoPresupuesto
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
     subtotal?: FloatFieldUpdateOperationsInput | number
