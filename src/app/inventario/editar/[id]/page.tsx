@@ -22,7 +22,6 @@ interface Marca {
 interface Producto {
   id: string;
   nombre: string;
-  codigo: string;
   descripcion: string | null;
   stock: number;
   precio: number;

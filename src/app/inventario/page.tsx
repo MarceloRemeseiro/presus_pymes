@@ -18,7 +18,6 @@ import { Plus, Search, Eye, Pencil, Trash2, LayoutList, Loader2 } from "lucide-r
 
 interface Producto {
   id: string
-  codigo: string
   nombre: string
   descripcion: string | null
   stock: number
@@ -76,7 +75,7 @@ export default function InventarioPage() {
   const filteredProductos = productos.filter(
     (producto) =>
       producto.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      producto.codigo.toLowerCase().includes(searchTerm.toLowerCase()) ||
+     
       (producto.marca?.nombre && producto.marca.nombre.toLowerCase().includes(searchTerm.toLowerCase())) ||
       (producto.modelo && producto.modelo.toLowerCase().includes(searchTerm.toLowerCase())) ||
       producto.categoria.nombre.toLowerCase().includes(searchTerm.toLowerCase())

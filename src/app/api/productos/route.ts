@@ -53,7 +53,6 @@ export async function POST(req: Request) {
     
     // Usar any para evitar problemas de tipo
     const createData: any = {
-      codigo: body.codigo,
       nombre: body.nombre,
       stock: parseInt(body.stock),
       precio: parseFloat(body.precio),

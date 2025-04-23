@@ -29,7 +29,6 @@ interface Categoria {
 
 interface Producto {
   id: string
-  codigo?: string
   nombre: string
   descripcion?: string | null
   categoriaId: string

@@ -10,8 +10,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
 import { toast, Toaster } from "sonner"
-import { PlusCircle, Loader2 } from "lucide-react"
+import { PlusCircle, Loader2, Search } from "lucide-react"
 import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
 
@@ -36,6 +38,7 @@ export default function PersonalPage() {
   const [personal, setPersonal] = useState<Personal[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [searchTerm, setSearchTerm] = useState("")
   
   useEffect(() => {
     fetchPersonal()
@@ -61,6 +64,17 @@ export default function PersonalPage() {
       setIsLoading(false)
     }
   }
+
+  // Filtrar personal basado en el término de búsqueda
+  const filteredPersonal = personal.filter(
+    (persona) =>
+      persona.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (persona.email && persona.email.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (persona.telefono && persona.telefono.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      persona.puestos.some(puesto => 
+        puesto.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+  )
 
   if (isLoading) {
     return (
@@ -88,7 +102,9 @@ export default function PersonalPage() {
 
   return (
     <div className="py-10">
-      <div className="flex justify-between items-center mb-8">
+      <Toaster />
+      
+      <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Personal</h1>
         <Button asChild>
           <Link href="/personal/nuevo">
@@ -98,67 +114,98 @@ export default function PersonalPage() {
         </Button>
       </div>
 
-      <div className="border rounded-lg">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Nombre</TableHead>
-              <TableHead>Contacto</TableHead>
-              <TableHead>Puestos</TableHead>
-              <TableHead className="text-right">Acciones</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {personal.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan={4} className="text-center py-6 text-muted-foreground">
-                  No hay personal registrado. Agrega uno para empezar.
-                </TableCell>
-              </TableRow>
-            ) : (
-              personal.map((persona) => (
-                <TableRow key={persona.id}>
-                  <TableCell className="font-medium">{persona.nombre}</TableCell>
-                  <TableCell>
-                    <div className="text-sm">
-                      {persona.email && <div className="mb-1">{persona.email}</div>}
-                      {persona.telefono && <div>{persona.telefono}</div>}
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex flex-wrap gap-1">
-                      {persona.puestos.map(puesto => (
-                        <Badge key={puesto.id} variant="secondary">
-                          {puesto.nombre}
-                        </Badge>
-                      ))}
-                      {persona.puestos.length === 0 && (
-                        <span className="text-muted-foreground text-sm">Sin puesto asignado</span>
-                      )}
-                    </div>
-                  </TableCell>
-                  <TableCell className="text-right">
-                    <div className="flex justify-end gap-2">
-                      <Button variant="outline" size="sm" asChild>
-                        <Link href={`/personal/${persona.id}`}>
-                          Ver
-                        </Link>
-                      </Button>
-                      <Button variant="outline" size="sm" asChild>
-                        <Link href={`/personal/editar/${persona.id}`}>
-                          Editar
-                        </Link>
-                      </Button>
-                    </div>
-                  </TableCell>
+      <Card>
+        <CardHeader>
+          <CardTitle>Gestión de Personal</CardTitle>
+          <CardDescription>
+            Administra todo tu personal desde aquí
+          </CardDescription>
+          
+          <div className="flex items-center mt-4">
+            <Search className="h-4 w-4 mr-2 opacity-50" />
+            <Input
+              placeholder="Buscar por nombre, email, teléfono o puesto..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="max-w-sm"
+            />
+          </div>
+        </CardHeader>
+        <CardContent>
+          {isLoading ? (
+            <div className="flex justify-center items-center py-8">
+              <Loader2 className="h-8 w-8 animate-spin opacity-70" />
+            </div>
+          ) : error ? (
+            <div className="bg-red-50 text-red-800 p-4 rounded-md">
+              {error}
+            </div>
+          ) : filteredPersonal.length === 0 ? (
+            <div className="text-center py-8 text-muted-foreground">
+              {searchTerm 
+                ? "No se encontró personal que coincida con tu búsqueda" 
+                : "No hay personal registrado. Agrega uno para empezar."}
+            </div>
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Nombre</TableHead>
+                  <TableHead>Contacto</TableHead>
+                  <TableHead>Puestos</TableHead>
+                  <TableHead className="text-right">Acciones</TableHead>
                 </TableRow>
-              ))
-            )}
-          </TableBody>
-        </Table>
-      </div>
-      
-      <Toaster />
+              </TableHeader>
+              <TableBody>
+                {filteredPersonal.map((persona) => (
+                  <TableRow key={persona.id}>
+                    <TableCell className="font-medium">
+                      <Link 
+                        href={`/personal/${persona.id}`} 
+                        className="hover:underline"
+                      >
+                        {persona.nombre}
+                      </Link>
+                    </TableCell>
+                    <TableCell>
+                      <div className="text-sm">
+                        {persona.email && <div className="mb-1">{persona.email}</div>}
+                        {persona.telefono && <div>{persona.telefono}</div>}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex flex-wrap gap-1">
+                        {persona.puestos.map(puesto => (
+                          <Badge key={puesto.id} variant="secondary">
+                            {puesto.nombre}
+                          </Badge>
+                        ))}
+                        {persona.puestos.length === 0 && (
+                          <span className="text-muted-foreground text-sm">Sin puesto asignado</span>
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <div className="flex justify-end gap-2">
+                        <Button variant="outline" size="sm" asChild>
+                          <Link href={`/personal/${persona.id}`}>
+                            Ver
+                          </Link>
+                        </Button>
+                        <Button variant="outline" size="sm" asChild>
+                          <Link href={`/personal/editar/${persona.id}`}>
+                            Editar
+                          </Link>
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
+        </CardContent>
+      </Card>
     </div>
   )
 } 

@@ -11,7 +11,6 @@ import { Separator } from "@/components/ui/separator"
 
 interface Producto {
   id: string;
-  codigo: string;
   nombre: string;
   descripcion: string | null;
   stock: number;
@@ -193,7 +192,6 @@ export default function DetalleProductoPage({ params }: { params: { id: string }
             <div className="flex items-center">
               <Box className="h-4 w-4 mr-2 text-muted-foreground" />
               <span className="text-muted-foreground mr-2">Código:</span>
-              <span>{producto.codigo}</span>
             </div>
             
             <div className="flex items-center">

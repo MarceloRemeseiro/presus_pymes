@@ -11,8 +11,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
 import { toast, Toaster } from "sonner"
-import { PlusCircle, Loader2 } from "lucide-react"
+import { PlusCircle, Loader2, Search } from "lucide-react"
 import { EstadoBadge } from "@/components/presupuestos/estado-badge"
 import { useRouter } from "next/navigation"
 
@@ -38,6 +40,7 @@ export default function PresupuestosPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [isCreating, setIsCreating] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [searchTerm, setSearchTerm] = useState("")
   const router = useRouter()
   
   useEffect(() => {
@@ -64,6 +67,15 @@ export default function PresupuestosPage() {
 
     fetchPresupuestos()
   }, [])
+
+  // Filtrar presupuestos basados en el término de búsqueda
+  const filteredPresupuestos = presupuestos.filter(
+    (presupuesto) =>
+      presupuesto.numero.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      (presupuesto.nombre && presupuesto.nombre.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (presupuesto.referencia && presupuesto.referencia.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (presupuesto.cliente?.nombre && presupuesto.cliente.nombre.toLowerCase().includes(searchTerm.toLowerCase()))
+  )
 
   const formatCurrency = (value: number) => {
     return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(value)
@@ -155,7 +167,9 @@ export default function PresupuestosPage() {
 
   return (
     <div className="py-10">
-      <div className="flex justify-between items-center mb-8">
+      <Toaster />
+      
+      <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Presupuestos</h1>
         <Button onClick={crearNuevoPresupuesto} disabled={isCreating}>
           {isCreating ? (
@@ -172,63 +186,94 @@ export default function PresupuestosPage() {
         </Button>
       </div>
 
-      <div className="border rounded-lg">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead>Número</TableHead>
-              <TableHead>Nombre</TableHead>
-              <TableHead>Referencia</TableHead>
-              <TableHead>Cliente</TableHead>
-              <TableHead>Fecha</TableHead>
-              <TableHead>Válido hasta</TableHead>
-              <TableHead>Estado</TableHead>
-              <TableHead className="text-right">Total</TableHead>
-              <TableHead className="text-right">Acciones</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {presupuestos.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan={9} className="text-center py-6 text-muted-foreground">
-                  No hay presupuestos registrados. Crea uno para empezar.
-                </TableCell>
-              </TableRow>
-            ) : (
-              presupuestos.map((presupuesto) => (
-                <TableRow key={presupuesto.id}>
-                  <TableCell className="font-medium">{presupuesto.numero}</TableCell>
-                  <TableCell>{presupuesto.nombre || '-'}</TableCell>
-                  <TableCell>{presupuesto.referencia || '-'}</TableCell>
-                  <TableCell>{presupuesto.cliente?.nombre || 'Sin cliente'}</TableCell>
-                  <TableCell>{new Date(presupuesto.fecha).toLocaleDateString()}</TableCell>
-                  <TableCell>{new Date(presupuesto.fechaValidez).toLocaleDateString()}</TableCell>
-                  <TableCell>
-                    <EstadoBadge estado={presupuesto.estado} />
-                  </TableCell>
-                  <TableCell className="text-right">{formatCurrency(presupuesto.total)}</TableCell>
-                  <TableCell className="text-right">
-                    <div className="flex justify-end gap-2">
-                      <Button variant="outline" size="sm" asChild>
-                        <Link href={`/presupuestos/${presupuesto.id}`}>
-                          Ver
-                        </Link>
-                      </Button>
-                      <Button variant="outline" size="sm" asChild>
-                        <Link href={`/presupuestos/editar/${presupuesto.id}`}>
-                          Editar
-                        </Link>
-                      </Button>
-                    </div>
-                  </TableCell>
+      <Card>
+        <CardHeader>
+          <CardTitle>Gestión de Presupuestos</CardTitle>
+          <CardDescription>
+            Administra todos tus presupuestos desde aquí
+          </CardDescription>
+          
+          <div className="flex items-center mt-4">
+            <Search className="h-4 w-4 mr-2 opacity-50" />
+            <Input
+              placeholder="Buscar por número, nombre, referencia o cliente..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="max-w-sm"
+            />
+          </div>
+        </CardHeader>
+        <CardContent>
+          {isLoading ? (
+            <div className="flex justify-center items-center py-8">
+              <Loader2 className="h-8 w-8 animate-spin opacity-70" />
+            </div>
+          ) : error ? (
+            <div className="bg-red-50 text-red-800 p-4 rounded-md">
+              {error}
+            </div>
+          ) : filteredPresupuestos.length === 0 ? (
+            <div className="text-center py-8 text-muted-foreground">
+              {searchTerm 
+                ? "No se encontraron presupuestos que coincidan con tu búsqueda" 
+                : "No hay presupuestos registrados aún"}
+            </div>
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Número</TableHead>
+                  <TableHead>Nombre</TableHead>
+                  <TableHead>Referencia</TableHead>
+                  <TableHead>Cliente</TableHead>
+                  <TableHead>Fecha</TableHead>
+                  <TableHead>Válido hasta</TableHead>
+                  <TableHead>Estado</TableHead>
+                  <TableHead className="text-right">Total</TableHead>
+                  <TableHead className="text-right">Acciones</TableHead>
                 </TableRow>
-              ))
-            )}
-          </TableBody>
-        </Table>
-      </div>
-      
-      <Toaster />
+              </TableHeader>
+              <TableBody>
+                {filteredPresupuestos.map((presupuesto) => (
+                  <TableRow key={presupuesto.id}>
+                    <TableCell className="font-medium">
+                      <Link 
+                        href={`/presupuestos/${presupuesto.id}`}
+                        className="hover:underline"
+                      >
+                        {presupuesto.numero}
+                      </Link>
+                    </TableCell>
+                    <TableCell>{presupuesto.nombre || '-'}</TableCell>
+                    <TableCell>{presupuesto.referencia || '-'}</TableCell>
+                    <TableCell>{presupuesto.cliente?.nombre || 'Sin cliente'}</TableCell>
+                    <TableCell>{new Date(presupuesto.fecha).toLocaleDateString()}</TableCell>
+                    <TableCell>{new Date(presupuesto.fechaValidez).toLocaleDateString()}</TableCell>
+                    <TableCell>
+                      <EstadoBadge estado={presupuesto.estado} />
+                    </TableCell>
+                    <TableCell className="text-right">{formatCurrency(presupuesto.total)}</TableCell>
+                    <TableCell className="text-right">
+                      <div className="flex justify-end gap-2">
+                        <Button variant="outline" size="sm" asChild>
+                          <Link href={`/presupuestos/${presupuesto.id}`}>
+                            Ver
+                          </Link>
+                        </Button>
+                        <Button variant="outline" size="sm" asChild>
+                          <Link href={`/presupuestos/editar/${presupuesto.id}`}>
+                            Editar
+                          </Link>
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
+        </CardContent>
+      </Card>
     </div>
   )
 } 
