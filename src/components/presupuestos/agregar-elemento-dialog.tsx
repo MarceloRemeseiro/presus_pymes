@@ -19,7 +19,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Input } from "@/components/ui/input"
 import { toast } from "sonner"
-import { Loader2, PlusCircle, BookmarkPlus, UserPlus, SplitSquareHorizontal, Calculator } from "lucide-react"
+import { Loader2, PlusCircle, BookmarkPlus, UserPlus, SplitSquareHorizontal, Calculator, Edit } from "lucide-react"
 import { v4 as uuidv4 } from 'uuid'
 
 interface Categoria {
@@ -56,14 +56,25 @@ interface EquipoItem {
 interface Personal {
   id: string
   nombre: string
-  rol: string
-  tarifaDiaria?: number | null
-  tarifaHora?: number | null
+  email?: string | null
+  telefono?: string | null
+  notas?: string | null
+  puestos: {
+    id: string
+    nombre: string
+    asignadoEn: Date
+  }[]
+}
+
+interface Puesto {
+  id: string
+  nombre: string
+  descripcion?: string | null
 }
 
 interface ItemPresupuesto {
   id: string  // ID local temporal
-  tipo: "CATEGORIA" | "EQUIPO" | "PERSONAL" | "SEPARADOR"
+  tipo: "CATEGORIA" | "EQUIPO" | "PERSONAL" | "SEPARADOR" | "PERSONALIZADO"
   nombre: string
   descripcion?: string | null
   cantidad: number
@@ -76,6 +87,7 @@ interface ItemPresupuesto {
   productoId?: string
   equipoItemId?: string
   personalId?: string
+  partidaId?: string | null  // ID de la partida a la que pertenece
   // Campos adicionales según el tipo
   datosExtra?: any
 }
@@ -101,11 +113,11 @@ export function AgregarElementoDialog({
   const [categorias, setCategorias] = useState<Categoria[]>([])
   const [productos, setProductos] = useState<Producto[]>([])
   const [equipoItems, setEquipoItems] = useState<EquipoItem[]>([])
-  const [personal, setPersonal] = useState<Personal[]>([])
+  const [puestos, setPuestos] = useState<Puesto[]>([])
   const [categoriasLoading, setCategoriasLoading] = useState(false)
   const [productosLoading, setProductosLoading] = useState(false)
   const [equiposLoading, setEquiposLoading] = useState(false)
-  const [personalLoading, setPersonalLoading] = useState(false)
+  const [puestosLoading, setPuestosLoading] = useState(false)
   
   // Estados para filtros
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState<string>("all")
@@ -117,12 +129,22 @@ export function AgregarElementoDialog({
   const [nombreCategoria, setNombreCategoria] = useState("")
   const [nombreSeparador, setNombreSeparador] = useState("")
   
+  // Estados para puestos
+  const [puestoSeleccionado, setPuestoSeleccionado] = useState<string>("")
+  const [nombrePuesto, setNombrePuesto] = useState("")
+  const [descripcionPuesto, setDescripcionPuesto] = useState("")
+  const [mostrarFormPuesto, setMostrarFormPuesto] = useState(false)
+  
   // Campos comunes para todos los tipos
   const [cantidad, setCantidad] = useState(1)
   const [precioUnitario, setPrecioUnitario] = useState(0)
   const [descuento, setDescuento] = useState(0)
   const [iva, setIva] = useState(21) // Valor por defecto
   const [dias, setDias] = useState(1) // Valor por defecto para días
+  
+  // Estados para elemento personalizado
+  const [nombrePersonalizado, setNombrePersonalizado] = useState("")
+  const [descripcionPersonalizada, setDescripcionPersonalizada] = useState("")
   
   // Cargar categorías
   useEffect(() => {
@@ -213,32 +235,24 @@ export function AgregarElementoDialog({
     fetchEquipoItems()
   }, [productoSeleccionado, productos])
   
-  // Cargar personal
+  // Cargar puestos
   useEffect(() => {
-    const fetchPersonal = async () => {
+    const fetchPuestos = async () => {
       try {
-        setPersonalLoading(true)
-        // Implementar cuando tengamos el endpoint de personal
-        // const response = await fetch('/api/personal')
-        // if (!response.ok) throw new Error('Error al cargar personal')
-        // const data = await response.json()
-        // setPersonal(data)
-        
-        // Por ahora usamos datos de ejemplo
-        setPersonal([
-          { id: '1', nombre: 'Técnico de Sonido', rol: 'Técnico', tarifaDiaria: 150, tarifaHora: 25 },
-          { id: '2', nombre: 'Técnico de Iluminación', rol: 'Técnico', tarifaDiaria: 150, tarifaHora: 25 },
-          { id: '3', nombre: 'Auxiliar', rol: 'Ayudante', tarifaDiaria: 100, tarifaHora: 15 },
-        ])
+        setPuestosLoading(true)
+        const response = await fetch('/api/puestos')
+        if (!response.ok) throw new Error('Error al cargar puestos')
+        const data = await response.json()
+        setPuestos(data)
       } catch (error) {
         console.error(error)
-        toast.error('Error al cargar personal')
+        toast.error('Error al cargar puestos')
       } finally {
-        setPersonalLoading(false)
+        setPuestosLoading(false)
       }
     }
     
-    fetchPersonal()
+    fetchPuestos()
   }, [])
   
   // Función para calcular el subtotal y total
@@ -273,6 +287,7 @@ export function AgregarElementoDialog({
         total: 0,
         dias: 0,
         productoId: "categoria", // Valor temporal, se asignará correctamente en backend
+        partidaId,
         datosExtra: { partidaId }
       }
       
@@ -330,6 +345,7 @@ export function AgregarElementoDialog({
         total,
         dias,
         productoId: producto.id, // Asegurarnos de que se asigna el ID del producto
+        partidaId,
         datosExtra: {
           categoria: producto.categoria.nombre,
           stock: producto.stock
@@ -359,33 +375,89 @@ export function AgregarElementoDialog({
     }
   }
   
-  // Función para agregar personal
-  const agregarPersonal = (personalId: string) => {
-    if (!personalId) {
-      toast.error('Debe seleccionar un personal')
+  // Función para crear un nuevo puesto
+  const crearPuesto = async () => {
+    if (!nombrePuesto.trim()) {
+      toast.error('El nombre del puesto es obligatorio')
       return
     }
     
     try {
       setIsLoading(true)
       
-      const personalSeleccionado = personal.find(p => p.id === personalId)
-      if (!personalSeleccionado) {
-        toast.error('Personal no encontrado')
+      const response = await fetch('/api/puestos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          nombre: nombrePuesto,
+          descripcion: descripcionPuesto || null,
+        }),
+      })
+      
+      if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.error || 'Error al crear puesto')
+      }
+      
+      const nuevoPuesto = await response.json()
+      
+      // Actualizar la lista de puestos
+      setPuestos([...puestos, nuevoPuesto])
+      
+      // Limpiar el formulario
+      setNombrePuesto('')
+      setDescripcionPuesto('')
+      setMostrarFormPuesto(false)
+      
+      toast.success('Puesto creado correctamente')
+    } catch (error: any) {
+      console.error('Error al crear puesto:', error)
+      toast.error(error.message || 'Error al crear puesto')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+  
+  // Función para agregar puesto
+  const agregarPuesto = async () => {
+    if (!puestoSeleccionado) {
+      toast.error('Debe seleccionar un puesto')
+      return
+    }
+    
+    try {
+      setIsLoading(true)
+      
+      const puestoSeleccionadoObj = puestos.find(p => p.id === puestoSeleccionado)
+      if (!puestoSeleccionadoObj) {
+        toast.error('Puesto no encontrado')
         return
       }
       
-      // Usar tarifa diaria por defecto
-      const precioDefault = personalSeleccionado.tarifaDiaria || 0
-      const precioFinal = precioUnitario > 0 ? precioUnitario : precioDefault
+      // Primero obtenemos el productoId para personal del sistema
+      const response = await fetch('/api/presupuestos/items-especiales?tipo=PERSONAL')
+      if (!response.ok) {
+        throw new Error('Error al obtener ID de producto para personal')
+      }
+      const data = await response.json()
+      const productoId = data.productoId
+      
+      if (!productoId) {
+        throw new Error('No se pudo obtener el ID de producto para personal')
+      }
+      
+      // Usar precio ingresado o valor por defecto
+      const precioFinal = precioUnitario > 0 ? precioUnitario : 150 // Valor por defecto
       
       const { subtotal, total } = calcularTotal(cantidad, precioFinal, descuento, iva, dias)
       
       const nuevoItem: ItemPresupuesto = {
         id: uuidv4(),
         tipo: "PERSONAL",
-        nombre: personalSeleccionado.nombre,
-        descripcion: personalSeleccionado.rol,
+        nombre: puestoSeleccionadoObj.nombre,
+        descripcion: puestoSeleccionadoObj.descripcion || 'Puesto de trabajo',
         cantidad,
         precioUnitario: precioFinal,
         descuento,
@@ -393,18 +465,21 @@ export function AgregarElementoDialog({
         subtotal,
         total,
         dias,
-        personalId: personalSeleccionado.id,
+        // Usamos el ID del producto del sistema para personal
+        productoId,
+        partidaId,
+        // El ID del puesto lo guardamos en datosExtra
         datosExtra: {
-          tarifaDiaria: personalSeleccionado.tarifaDiaria,
-          tarifaHora: personalSeleccionado.tarifaHora
+          puestoId: puestoSeleccionadoObj.id
         }
       }
       
-      console.log('Agregando personal:', nuevoItem);
+      console.log('Agregando puesto:', nuevoItem);
       onElementoAgregado(nuevoItem)
-      toast.success('Personal agregado correctamente')
+      toast.success('Puesto agregado correctamente')
       
       // Limpiar formulario y cerrar diálogo
+      setPuestoSeleccionado('')
       setCantidad(1)
       setPrecioUnitario(0)
       setDescuento(0)
@@ -414,7 +489,7 @@ export function AgregarElementoDialog({
       
     } catch (error) {
       console.error(error)
-      toast.error('Error al agregar personal')
+      toast.error('Error al agregar puesto')
     } finally {
       setIsLoading(false)
     }
@@ -457,6 +532,7 @@ export function AgregarElementoDialog({
         total: 0,
         dias: 0,
         productoId, // Asignamos el productoId del sistema
+        partidaId,
         datosExtra: {}
       }
       
@@ -480,6 +556,68 @@ export function AgregarElementoDialog({
     }
   }
   
+  // Función para agregar un elemento personalizado
+  const agregarElementoPersonalizado = async () => {
+    try {
+      setIsLoading(true)
+      
+      // Primero obtenemos el productoId para elementos personalizados del sistema
+      const response = await fetch('/api/presupuestos/items-especiales?tipo=PERSONALIZADO')
+      if (!response.ok) {
+        throw new Error('Error al obtener ID de producto para elemento personalizado')
+      }
+      const data = await response.json()
+      const productoId = data.productoId
+      
+      if (!productoId) {
+        throw new Error('No se pudo obtener el ID de producto para elemento personalizado')
+      }
+      
+      // Usamos valores por defecto o los introducidos por el usuario
+      const precioFinal = precioUnitario || 0
+      const { subtotal, total } = calcularTotal(cantidad, precioFinal, descuento, iva, dias)
+      
+      const nuevoItem: ItemPresupuesto = {
+        id: uuidv4(),
+        tipo: "PERSONALIZADO",
+        nombre: nombrePersonalizado || "Elemento personalizado",
+        descripcion: descripcionPersonalizada || null,
+        cantidad,
+        precioUnitario: precioFinal,
+        descuento,
+        iva,
+        subtotal,
+        total,
+        dias,
+        productoId, // Asignamos el productoId del sistema
+        partidaId,
+        datosExtra: {
+          editable: true
+        }
+      }
+      
+      console.log('Agregando elemento personalizado:', nuevoItem);
+      onElementoAgregado(nuevoItem)
+      toast.success('Elemento personalizado agregado correctamente')
+      
+      // Limpiar formulario y cerrar diálogo
+      setNombrePersonalizado('')
+      setDescripcionPersonalizada('')
+      setCantidad(1)
+      setPrecioUnitario(0)
+      setDescuento(0)
+      setIva(21)
+      setDias(1)
+      setIsOpen(false)
+      
+    } catch (error) {
+      console.error(error)
+      toast.error('Error al agregar elemento personalizado')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+  
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
@@ -494,7 +632,7 @@ export function AgregarElementoDialog({
         </DialogHeader>
         
         <Tabs value={activeTab} onValueChange={setActiveTab} className="mt-2">
-          <TabsList className="grid grid-cols-4">
+          <TabsList className="grid grid-cols-5">
             <TabsTrigger value="categoria" className="flex items-center gap-1">
               <BookmarkPlus className="h-4 w-4" />
               <span className="hidden sm:inline">Categoría</span>
@@ -510,6 +648,10 @@ export function AgregarElementoDialog({
             <TabsTrigger value="separador" className="flex items-center gap-1">
               <SplitSquareHorizontal className="h-4 w-4" />
               <span className="hidden sm:inline">Separador</span>
+            </TabsTrigger>
+            <TabsTrigger value="personalizado" className="flex items-center gap-1">
+              <Edit className="h-4 w-4" />
+              <span className="hidden sm:inline">Personalizado</span>
             </TabsTrigger>
           </TabsList>
           
@@ -563,11 +705,13 @@ export function AgregarElementoDialog({
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">Todas las categorías</SelectItem>
-                  {categorias.map((cat) => (
-                    <SelectItem key={cat.id} value={cat.id}>
-                      {cat.nombre}
-                    </SelectItem>
-                  ))}
+                  {categorias
+                    .filter((cat) => cat.nombre !== "__SISTEMA__")
+                    .map((cat) => (
+                      <SelectItem key={cat.id} value={cat.id}>
+                        {cat.nombre}
+                      </SelectItem>
+                    ))}
                 </SelectContent>
               </Select>
             </div>
@@ -642,18 +786,6 @@ export function AgregarElementoDialog({
               </div>
             </div>
             
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="block text-sm font-medium mb-1">IVA (%)</label>
-                <Input 
-                  type="number"
-                  min="0"
-                  value={iva}
-                  onChange={(e) => setIva(parseFloat(e.target.value) || 0)}
-                />
-              </div>
-            </div>
-            
             <div className="pt-3">
               <Button 
                 onClick={agregarEquipo} 
@@ -674,115 +806,154 @@ export function AgregarElementoDialog({
           
           {/* Contenido para Personal */}
           <TabsContent value="personal" className="mt-4 space-y-4">
-            <div>
-              <label className="block text-sm font-medium mb-1">Personal</label>
-              <Select 
-                disabled={personalLoading || personal.length === 0}
-                onValueChange={(personalId: string) => {
-                  // Al seleccionar personal, actualizar precio unitario
-                  const personalSeleccionado = personal.find(p => p.id === personalId)
-                  if (personalSeleccionado) {
-                    setPrecioUnitario(personalSeleccionado.tarifaDiaria || 0)
-                  }
-                }}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder={
-                    personalLoading 
-                      ? "Cargando personal..." 
-                      : personal.length === 0 
-                      ? "No hay personal disponible" 
-                      : "Seleccionar personal"
-                  } />
-                </SelectTrigger>
-                <SelectContent>
-                  {personal.map((p) => (
-                    <SelectItem 
-                      key={p.id} 
-                      value={p.id}
-                    >
-                      {p.nombre} - {p.rol}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-            
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="block text-sm font-medium mb-1">Cantidad (personas)</label>
-                <Input 
-                  type="number"
-                  min="1"
-                  value={cantidad}
-                  onChange={(e) => setCantidad(parseInt(e.target.value, 10) || 1)}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Días</label>
-                <Input 
-                  type="number"
-                  min="1"
-                  value={dias}
-                  onChange={(e) => setDias(parseInt(e.target.value, 10) || 1)}
-                />
-              </div>
-            </div>
-            
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="block text-sm font-medium mb-1">Precio por día</label>
-                <Input 
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  value={precioUnitario}
-                  onChange={(e) => setPrecioUnitario(parseFloat(e.target.value) || 0)}
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium mb-1">Descuento (%)</label>
-                <Input 
-                  type="number"
-                  min="0"
-                  max="100"
-                  value={descuento}
-                  onChange={(e) => setDescuento(parseFloat(e.target.value) || 0)}
-                />
-              </div>
-            </div>
-            
-            <div className="grid grid-cols-2 gap-3">
-              <div>
-                <label className="block text-sm font-medium mb-1">IVA (%)</label>
-                <Input 
-                  type="number"
-                  min="0"
-                  value={iva}
-                  onChange={(e) => setIva(parseFloat(e.target.value) || 0)}
-                />
-              </div>
-            </div>
-            
-            <div className="pt-3">
-              {personal.map((p) => (
-                <Button 
-                  key={p.id}
-                  onClick={() => agregarPersonal(p.id)} 
-                  disabled={isLoading}
-                  className="w-full mb-2"
-                >
-                  {isLoading ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Agregando...
-                    </>
-                  ) : (
-                    <>Agregar {p.nombre} ({p.rol})</>
-                  )}
-                </Button>
-              ))}
-            </div>
+            {!mostrarFormPuesto ? (
+              <>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Puesto</label>
+                  <Select 
+                    value={puestoSeleccionado}
+                    onValueChange={setPuestoSeleccionado}
+                    disabled={puestosLoading || puestos.length === 0}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder={
+                        puestosLoading 
+                          ? "Cargando puestos..." 
+                          : puestos.length === 0 
+                          ? "No hay puestos disponibles" 
+                          : "Seleccionar puesto"
+                      } />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {puestos.map((p) => (
+                        <SelectItem 
+                          key={p.id} 
+                          value={p.id}
+                        >
+                          {p.nombre} {p.descripcion ? `- ${p.descripcion}` : ''}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                
+                <div className="flex justify-end">
+                  <Button 
+                    type="button" 
+                    variant="outline" 
+                    onClick={() => setMostrarFormPuesto(true)}
+                    size="sm"
+                  >
+                    Crear nuevo puesto
+                  </Button>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-sm font-medium mb-1">Cantidad (personas)</label>
+                    <Input 
+                      type="number"
+                      min="1"
+                      value={cantidad}
+                      onChange={(e) => setCantidad(parseInt(e.target.value, 10) || 1)}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-1">Días</label>
+                    <Input 
+                      type="number"
+                      min="1"
+                      value={dias}
+                      onChange={(e) => setDias(parseInt(e.target.value, 10) || 1)}
+                    />
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-sm font-medium mb-1">Precio por día</label>
+                    <Input 
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      value={precioUnitario}
+                      onChange={(e) => setPrecioUnitario(parseFloat(e.target.value) || 0)}
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium mb-1">Descuento (%)</label>
+                    <Input 
+                      type="number"
+                      min="0"
+                      max="100"
+                      value={descuento}
+                      onChange={(e) => setDescuento(parseFloat(e.target.value) || 0)}
+                    />
+                  </div>
+                </div>
+                
+                <div className="pt-3">
+                  <Button 
+                    onClick={agregarPuesto} 
+                    disabled={isLoading || !puestoSeleccionado}
+                    className="w-full"
+                  >
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Agregando...
+                      </>
+                    ) : (
+                      'Agregar Puesto'
+                    )}
+                  </Button>
+                </div>
+              </>
+            ) : (
+              // Formulario para crear nuevo puesto
+              <>
+                <h3 className="text-lg font-medium">Crear nuevo puesto</h3>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Nombre del puesto *</label>
+                  <Input 
+                    value={nombrePuesto}
+                    onChange={(e) => setNombrePuesto(e.target.value)}
+                    placeholder="Ej: Técnico de Iluminación"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Descripción</label>
+                  <Input 
+                    value={descripcionPuesto}
+                    onChange={(e) => setDescripcionPuesto(e.target.value)}
+                    placeholder="Breve descripción del puesto"
+                  />
+                </div>
+                <div className="pt-3 flex justify-between space-x-3">
+                  <Button 
+                    variant="outline" 
+                    onClick={() => setMostrarFormPuesto(false)}
+                    className="w-1/2"
+                  >
+                    Cancelar
+                  </Button>
+                  <Button 
+                    onClick={crearPuesto} 
+                    disabled={isLoading || !nombrePuesto.trim()}
+                    className="w-1/2"
+                  >
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Creando...
+                      </>
+                    ) : (
+                      'Crear Puesto'
+                    )}
+                  </Button>
+                </div>
+              </>
+            )}
           </TabsContent>
           
           {/* Contenido para Separador */}
@@ -816,6 +987,95 @@ export function AgregarElementoDialog({
                   </>
                 ) : (
                   'Agregar Separador'
+                )}
+              </Button>
+            </div>
+          </TabsContent>
+          
+          {/* Contenido para Elemento Personalizado */}
+          <TabsContent value="personalizado" className="mt-4 space-y-4">
+            <div>
+              <label className="block text-sm font-medium mb-1">Nombre (opcional)</label>
+              <Input 
+                value={nombrePersonalizado}
+                onChange={(e) => setNombrePersonalizado(e.target.value)}
+                placeholder="Nombre del elemento (podrá editarse después)"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-medium mb-1">Descripción (opcional)</label>
+              <Input 
+                value={descripcionPersonalizada}
+                onChange={(e) => setDescripcionPersonalizada(e.target.value)}
+                placeholder="Descripción del elemento (podrá editarse después)"
+              />
+            </div>
+            
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-sm font-medium mb-1">Cantidad</label>
+                <Input 
+                  type="number"
+                  min="0"
+                  value={cantidad}
+                  onChange={(e) => setCantidad(parseInt(e.target.value, 10) || 0)}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Días</label>
+                <Input 
+                  type="number"
+                  min="0"
+                  value={dias}
+                  onChange={(e) => setDias(parseInt(e.target.value, 10) || 0)}
+                />
+              </div>
+            </div>
+            
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-sm font-medium mb-1">Precio Unitario</label>
+                <Input 
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  value={precioUnitario}
+                  onChange={(e) => setPrecioUnitario(parseFloat(e.target.value) || 0)}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-1">Descuento (%)</label>
+                <Input 
+                  type="number"
+                  min="0"
+                  max="100"
+                  value={descuento}
+                  onChange={(e) => setDescuento(parseFloat(e.target.value) || 0)}
+                />
+              </div>
+            </div>
+            
+            <div>
+              <p className="text-sm text-muted-foreground italic">
+                Este elemento podrá editarse completamente desde la tabla del presupuesto.
+                Podrá modificar el nombre, descripción, cantidad y otros valores directamente.
+              </p>
+            </div>
+            
+            <div className="pt-3">
+              <Button 
+                onClick={agregarElementoPersonalizado} 
+                disabled={isLoading}
+                className="w-full"
+              >
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Agregando...
+                  </>
+                ) : (
+                  'Agregar Elemento Personalizado'
                 )}
               </Button>
             </div>

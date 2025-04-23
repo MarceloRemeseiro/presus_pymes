@@ -406,7 +406,7 @@ export default function PresupuestoDetallePage({ params }: { params: Promise<{ i
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Producto</TableHead>
+                    <TableHead>Descripción</TableHead>
                     <TableHead>Días</TableHead>
                     <TableHead>Cantidad</TableHead>
                     <TableHead>Precio</TableHead>
@@ -434,7 +434,7 @@ export default function PresupuestoDetallePage({ params }: { params: Promise<{ i
                       </TableRow>
                     ) : (
                       <TableRow key={item.id}>
-                        <TableCell className="font-medium">{item.producto.nombre}</TableCell>
+                        <TableCell className="font-medium w-1/3">{item.tipo === "PERSONAL" || item.tipo === "PERSONALIZADO" ? item.nombre : item.producto.nombre}</TableCell>
                         <TableCell>{item.dias || 1}</TableCell>
                         <TableCell>{item.cantidad}</TableCell>
                         <TableCell>{formatCurrency(item.precioUnitario)}</TableCell>

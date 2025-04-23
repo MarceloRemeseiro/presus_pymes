@@ -17,6 +17,7 @@ export async function GET(
         items: {
           include: {
             producto: true,
+            partida: true,
           },
         },
       },

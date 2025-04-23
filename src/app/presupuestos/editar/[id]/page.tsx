@@ -73,7 +73,7 @@ interface PartidaLocalState {
 
 interface ItemPartidaLocalState {
   id: string // ID local temporal para manejo en UI
-  tipo?: "CATEGORIA" | "EQUIPO" | "PERSONAL" | "SEPARADOR" // Nuevo campo para identificar tipo de elemento
+  tipo?: "CATEGORIA" | "EQUIPO" | "PERSONAL" | "SEPARADOR" | "PERSONALIZADO" // Nuevo campo para identificar tipo de elemento
   productoId?: string
   nombre: string
   descripcion?: string | null
@@ -85,6 +85,7 @@ interface ItemPartidaLocalState {
   total: number
   dias: number // Nuevo campo para días
   datosExtra?: any // Campos adicionales según el tipo
+  partidaId?: string | null // ID de la partida a la que pertenece
 }
 
 interface Presupuesto {
@@ -321,7 +322,7 @@ export default function EditarPresupuestoPage({ params }: { params: Promise<{ id
                   productoId: item.productoId,
                   tipo: item.tipo, // Asegurarnos de preservar el tipo
                   nombre: item.nombre || item.producto.nombre, // Preservar el nombre original para categorías
-                  descripcion: item.producto.descripcion,
+                  descripcion: item.descripcion || item.producto.descripcion,
                   cantidad: item.cantidad,
                   precioUnitario: item.precioUnitario,
                   descuento: item.descuento,
@@ -329,7 +330,8 @@ export default function EditarPresupuestoPage({ params }: { params: Promise<{ id
                   subtotal: item.cantidad * item.precioUnitario * (1 - item.descuento / 100),
                   total: item.total,
                   dias: item.dias || 1, // Asegurarnos de tener un valor para días
-                  datosExtra: {}
+                  datosExtra: {},
+                  partidaId: partidaId // Asegurar que guardamos el ID de la partida con cada item
                 }))
               })
             }
@@ -345,7 +347,7 @@ export default function EditarPresupuestoPage({ params }: { params: Promise<{ id
                 productoId: item.productoId,
                 tipo: item.tipo, // Asegurarnos de preservar el tipo
                 nombre: item.nombre || item.producto.nombre, // Preservar el nombre original para categorías
-                descripcion: item.producto.descripcion,
+                descripcion: item.descripcion || item.producto.descripcion,
                 cantidad: item.cantidad,
                 precioUnitario: item.precioUnitario,
                 descuento: item.descuento,
@@ -353,7 +355,8 @@ export default function EditarPresupuestoPage({ params }: { params: Promise<{ id
                 subtotal: item.cantidad * item.precioUnitario * (1 - item.descuento / 100),
                 total: item.total,
                 dias: item.dias || 1, // Asegurarnos de tener un valor para días
-                datosExtra: {}
+                datosExtra: {},
+                partidaId: null // No hay partida asociada
               }))
             })
           }
@@ -444,11 +447,14 @@ export default function EditarPresupuestoPage({ params }: { params: Promise<{ id
 
   // Verificar si todos los campos obligatorios están completos
   const isFormValid = (): boolean => {
-    // Permitimos guardar sin cliente para un borrador
-    if (!fechaPresupuesto || !fechaValidez) return false
+    // Verificamos que haya una fecha y que el cliente sea válido
+    if (!fechaPresupuesto || !fechaValidez) return false;
+    
+    // Verificamos que el cliente sea válido (no puede ser cadena vacía)
+    if (!clienteId) return false;
     
     // No es necesario que haya partidas para guardar
-    return true
+    return true;
   }
 
   // Agregar función para agregar partida al presupuesto
@@ -491,6 +497,10 @@ export default function EditarPresupuestoPage({ params }: { params: Promise<{ id
     console.log("Agregando elemento con datos:", nuevoItem);
     
     const nuevasPartidas = [...partidasPresupuesto];
+    
+    // Asignar el partidaId del item según la partida donde se está agregando
+    nuevoItem.partidaId = nuevasPartidas[partidaIndex].id;
+    
     nuevasPartidas[partidaIndex].items.push(nuevoItem);
     setPartidasPresupuesto(nuevasPartidas);
     toast.success(`Elemento agregado a ${nuevasPartidas[partidaIndex].nombre}`);
@@ -585,7 +595,12 @@ export default function EditarPresupuestoPage({ params }: { params: Promise<{ id
   const handleGuardarPresupuesto = async (isAutoSave = false) => {
     if (!isFormValid()) {
       if (!isAutoSave) {
-        toast.error('Debe completar todos los campos obligatorios')
+        // Mensaje de error específico
+        if (!clienteId) {
+          toast.error('Debe seleccionar un cliente para el presupuesto')
+        } else {
+          toast.error('Debe completar todos los campos obligatorios')
+        }
       }
       return
     }
@@ -630,7 +645,7 @@ export default function EditarPresupuestoPage({ params }: { params: Promise<{ id
         fechaMontaje: fechaMontaje ? new Date(fechaMontaje).toISOString() : null,
         fechaInicio: fechaInicio ? new Date(fechaInicio).toISOString() : null,
         fechaFin: fechaFin ? new Date(fechaFin).toISOString() : null,
-        clienteId,
+        clienteId: clienteId || undefined, // Si es cadena vacía, enviar undefined para que Prisma no lo actualice
         observaciones,
         estado: estado || "PENDIENTE",
         items: itemsArray
@@ -1024,7 +1039,7 @@ export default function EditarPresupuestoPage({ params }: { params: Promise<{ id
                           <TableHeader>
                             <TableRow>
                               <TableHead className="w-0 p-0"></TableHead>
-                              <TableHead>Producto/Elemento</TableHead>
+                              <TableHead>Descripción</TableHead>
                               <TableHead>Días</TableHead>
                               <TableHead>Cantidad</TableHead>
                               <TableHead>Precio</TableHead>
@@ -1075,10 +1090,159 @@ export default function EditarPresupuestoPage({ params }: { params: Promise<{ id
                                       </Button>
                                     </TableCell>
                                   </SortableItem>
+                                ) : item.tipo === "PERSONALIZADO" ? (
+                                  // Elemento personalizado - completamente editable
+                                  <SortableItem key={item.id} id={item.id}>
+                                    <TableCell className="w-1/3">
+                                      <Input
+                                        className="w-full h-8"
+                                        value={item.nombre}
+                                        onChange={(e) => {
+                                          const nuevasPartidas = [...partidasPresupuesto];
+                                          nuevasPartidas[index].items[itemIndex].nombre = e.target.value;
+                                          setPartidasPresupuesto(nuevasPartidas);
+                                          setChangesNotSaved(true);
+                                        }}
+                                      />
+                                    </TableCell>
+                                    <TableCell>
+                                      <Input
+                                        type="number"
+                                        min="0"
+                                        className="w-16 h-8"
+                                        value={item.dias}
+                                        onChange={(e) => {
+                                          const nuevasPartidas = [...partidasPresupuesto];
+                                          nuevasPartidas[index].items[itemIndex].dias = parseInt(e.target.value) || 0;
+                                          
+                                          // Recalcular subtotal
+                                          const cantidad = nuevasPartidas[index].items[itemIndex].cantidad;
+                                          const precio = nuevasPartidas[index].items[itemIndex].precioUnitario;
+                                          const descuento = nuevasPartidas[index].items[itemIndex].descuento;
+                                          const dias = nuevasPartidas[index].items[itemIndex].dias;
+                                          
+                                          nuevasPartidas[index].items[itemIndex].subtotal = 
+                                            cantidad * precio * dias * (1 - descuento / 100);
+                                          
+                                          const iva = nuevasPartidas[index].items[itemIndex].iva;
+                                          nuevasPartidas[index].items[itemIndex].total = 
+                                            nuevasPartidas[index].items[itemIndex].subtotal * (1 + iva / 100);
+                                          
+                                          setPartidasPresupuesto(nuevasPartidas);
+                                          setChangesNotSaved(true);
+                                        }}
+                                      />
+                                    </TableCell>
+                                    <TableCell>
+                                      <Input
+                                        type="number"
+                                        min="0"
+                                        className="w-16 h-8"
+                                        value={item.cantidad}
+                                        onChange={(e) => {
+                                          const nuevasPartidas = [...partidasPresupuesto];
+                                          nuevasPartidas[index].items[itemIndex].cantidad = parseInt(e.target.value) || 0;
+                                          
+                                          // Recalcular subtotal
+                                          const cantidad = nuevasPartidas[index].items[itemIndex].cantidad;
+                                          const precio = nuevasPartidas[index].items[itemIndex].precioUnitario;
+                                          const descuento = nuevasPartidas[index].items[itemIndex].descuento;
+                                          const dias = nuevasPartidas[index].items[itemIndex].dias;
+                                          
+                                          nuevasPartidas[index].items[itemIndex].subtotal = 
+                                            cantidad * precio * dias * (1 - descuento / 100);
+                                          
+                                          const iva = nuevasPartidas[index].items[itemIndex].iva;
+                                          nuevasPartidas[index].items[itemIndex].total = 
+                                            nuevasPartidas[index].items[itemIndex].subtotal * (1 + iva / 100);
+                                          
+                                          setPartidasPresupuesto(nuevasPartidas);
+                                          setChangesNotSaved(true);
+                                        }}
+                                      />
+                                    </TableCell>
+                                    <TableCell>
+                                      <div className="flex items-center">
+                                        <Input
+                                          type="number"
+                                          min="0"
+                                          step="0.01"
+                                          className="w-20 h-8"
+                                          value={item.precioUnitario}
+                                          onChange={(e) => {
+                                            const nuevasPartidas = [...partidasPresupuesto];
+                                            nuevasPartidas[index].items[itemIndex].precioUnitario = parseFloat(e.target.value) || 0;
+                                            
+                                            // Recalcular subtotal
+                                            const cantidad = nuevasPartidas[index].items[itemIndex].cantidad;
+                                            const precio = nuevasPartidas[index].items[itemIndex].precioUnitario;
+                                            const descuento = nuevasPartidas[index].items[itemIndex].descuento;
+                                            const dias = nuevasPartidas[index].items[itemIndex].dias;
+                                            
+                                            nuevasPartidas[index].items[itemIndex].subtotal = 
+                                              cantidad * precio * dias * (1 - descuento / 100);
+                                            
+                                            const iva = nuevasPartidas[index].items[itemIndex].iva;
+                                            nuevasPartidas[index].items[itemIndex].total = 
+                                              nuevasPartidas[index].items[itemIndex].subtotal * (1 + iva / 100);
+                                            
+                                            setPartidasPresupuesto(nuevasPartidas);
+                                            setChangesNotSaved(true);
+                                          }}
+                                        />
+                                        <span className="ml-1">€</span>
+                                      </div>
+                                    </TableCell>
+                                    <TableCell>
+                                      <div className="flex items-center">
+                                        <Input
+                                          type="number"
+                                          min="0"
+                                          max="100"
+                                          className="w-16 h-8"
+                                          value={item.descuento}
+                                          onChange={(e) => {
+                                            const nuevasPartidas = [...partidasPresupuesto];
+                                            nuevasPartidas[index].items[itemIndex].descuento = parseFloat(e.target.value) || 0;
+                                            
+                                            // Recalcular subtotal
+                                            const cantidad = nuevasPartidas[index].items[itemIndex].cantidad;
+                                            const precio = nuevasPartidas[index].items[itemIndex].precioUnitario;
+                                            const descuento = nuevasPartidas[index].items[itemIndex].descuento;
+                                            const dias = nuevasPartidas[index].items[itemIndex].dias;
+                                            
+                                            nuevasPartidas[index].items[itemIndex].subtotal = 
+                                              cantidad * precio * dias * (1 - descuento / 100);
+                                            
+                                            const iva = nuevasPartidas[index].items[itemIndex].iva;
+                                            nuevasPartidas[index].items[itemIndex].total = 
+                                              nuevasPartidas[index].items[itemIndex].subtotal * (1 + iva / 100);
+                                            
+                                            setPartidasPresupuesto(nuevasPartidas);
+                                            setChangesNotSaved(true);
+                                          }}
+                                        />
+                                        <span className="ml-1">%</span>
+                                      </div>
+                                    </TableCell>
+                                    <TableCell className="font-medium">
+                                      {`${item.subtotal.toFixed(2)}€`}
+                                    </TableCell>
+                                    <TableCell>
+                                      <Button 
+                                        variant="ghost" 
+                                        size="sm"
+                                        className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                                        onClick={() => handleEliminarElemento(index, itemIndex)}
+                                      >
+                                        <Trash className="h-4 w-4" />
+                                      </Button>
+                                    </TableCell>
+                                  </SortableItem>
                                 ) : (
                                   // Resto de elementos (Equipo, Personal, etc.)
                                   <SortableItem key={item.id} id={item.id}>
-                                    <TableCell className="font-medium">
+                                    <TableCell className="font-medium w-1/3">
                                       {item.nombre}
                                     </TableCell>
                                     <TableCell>
@@ -1197,7 +1361,7 @@ export default function EditarPresupuestoPage({ params }: { params: Promise<{ id
                                         <span className="ml-1">%</span>
                                       </div>
                                     </TableCell>
-                                    <TableCell className="font-medium">
+                                    <TableCell className="font-medium ">
                                       {`${item.subtotal.toFixed(2)}€`}
                                     </TableCell>
                                     <TableCell>
