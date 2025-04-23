@@ -12,6 +12,23 @@ import { toast, Toaster } from "sonner"
 import { PlusCircle, Trash, ArrowLeft, Save, Loader2, Check } from "lucide-react"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { AgregarElementoDialog } from "@/components/presupuestos/agregar-elemento-dialog"
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 
 // Definición del componente Textarea inline para evitar problemas de importación
 const Textarea = React.forwardRef<
@@ -114,9 +131,72 @@ interface Presupuesto {
   }[]
 }
 
+// Componente SortableItem para hacer que las filas sean arrastrables
+interface SortableItemProps {
+  id: string;
+  children: React.ReactNode;
+}
+
+function SortableItem({ id, children }: SortableItemProps) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging
+  } = useSortable({ id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    opacity: isDragging ? 0.5 : 1,
+    zIndex: isDragging ? 10 : 0,
+  };
+
+  return (
+    <tr
+      ref={setNodeRef}
+      style={style}
+      className={`${isDragging ? 'bg-muted shadow-lg' : ''}`}
+      {...attributes}
+    >
+      {/* Control para arrastrar */}
+      <td className="w-0 p-0">
+        <div 
+          className="w-8 h-full flex items-center justify-center cursor-grab active:cursor-grabbing"
+          {...listeners}
+        >
+          <div className="w-4 h-10 flex flex-col items-center justify-center">
+            <div className="w-4 h-0.5 bg-gray-400 my-0.5"></div>
+            <div className="w-4 h-0.5 bg-gray-400 my-0.5"></div>
+            <div className="w-4 h-0.5 bg-gray-400 my-0.5"></div>
+          </div>
+        </div>
+      </td>
+      {/* Contenido de la fila */}
+      {children}
+    </tr>
+  );
+}
+
 export default function EditarPresupuestoPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter()
   const [presupuestoId, setPresupuestoId] = useState<string | null>(null)
+  
+  // Configuración de sensores para el arrastre (movido al nivel principal)
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 5, // Reducir la distancia para activar
+        tolerance: 5, // Tolerancia para el movimiento
+        delay: 150, // Pequeño retraso para evitar activaciones accidentales
+      },
+    }),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
   
   // Estados para datos de referencia
   const [clientes, setClientes] = useState<Cliente[]>([])
@@ -418,11 +498,37 @@ export default function EditarPresupuestoPage({ params }: { params: Promise<{ id
 
   // Eliminar un elemento de una partida
   const handleEliminarElemento = (partidaIndex: number, itemIndex: number) => {
-    const nuevasPartidas = [...partidasPresupuesto]
-    nuevasPartidas[partidaIndex].items.splice(itemIndex, 1)
-    setPartidasPresupuesto(nuevasPartidas)
-    toast.success('Elemento eliminado correctamente')
+    const nuevasPartidas = [...partidasPresupuesto];
+    nuevasPartidas[partidaIndex].items.splice(itemIndex, 1);
+    setPartidasPresupuesto(nuevasPartidas);
+    setChangesNotSaved(true);
   }
+
+  // Función para manejar el reordenamiento cuando un elemento es arrastrado
+  const handleDragEnd = (event: DragEndEvent, partidaIndex: number) => {
+    const { active, over } = event;
+    
+    if (!over) return;
+    
+    if (active.id !== over.id) {
+      const nuevasPartidas = [...partidasPresupuesto];
+      const partida = nuevasPartidas[partidaIndex];
+      
+      // Encontrar los índices de los elementos que están siendo reordenados
+      const activeIndex = partida.items.findIndex(item => item.id === active.id);
+      const overIndex = partida.items.findIndex(item => item.id === over.id);
+      
+      // Reordenar los elementos
+      nuevasPartidas[partidaIndex].items = arrayMove(
+        partida.items,
+        activeIndex,
+        overIndex
+      );
+      
+      setPartidasPresupuesto(nuevasPartidas);
+      setChangesNotSaved(true);
+    }
+  };
 
   // Función para guardar cambios cuando se modifican campos
   const handleFieldChange = useCallback((field: string, value: any) => {
@@ -891,211 +997,242 @@ export default function EditarPresupuestoPage({ params }: { params: Promise<{ id
                     <Trash className="h-4 w-4" />
                   </Button>
                 </div>
-                <div>
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Producto/Elemento</TableHead>
-                        <TableHead>Días</TableHead>
-                        <TableHead>Cantidad</TableHead>
-                        <TableHead>Precio</TableHead>
-                        <TableHead>Descuento</TableHead>
-                        <TableHead>Subtotal</TableHead>
-                        <TableHead></TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {partida.items.map((item, itemIndex) => (
-                        item.tipo === "CATEGORIA" ? (
-                          // Categoría como subcabecera
-                          <TableRow key={item.id} className="bg-muted/40">
-                            <TableCell colSpan={6} className="font-semibold">
-                              {item.nombre}
-                            </TableCell>
-                            <TableCell>
-                              <Button 
-                                variant="ghost" 
-                                size="sm"
-                                className="text-red-500 hover:text-red-700 hover:bg-red-50"
-                                onClick={() => handleEliminarElemento(index, itemIndex)}
-                              >
-                                <Trash className="h-4 w-4" />
-                              </Button>
-                            </TableCell>
-                          </TableRow>
-                        ) : item.tipo === "SEPARADOR" ? (
-                          // Separador igual que categoría pero con texto centrado
-                          <TableRow key={item.id} className="bg-muted/40">
-                            <TableCell colSpan={6} className="py-2 text-center">
-                              <div className="text-sm">
-                                {item.nombre}
-                              </div>
-                            </TableCell>
-                            <TableCell>
-                              <Button 
-                                variant="ghost" 
-                                size="sm"
-                                className="text-red-500 hover:text-red-700 hover:bg-red-50"
-                                onClick={() => handleEliminarElemento(index, itemIndex)}
-                              >
-                                <Trash className="h-4 w-4" />
-                              </Button>
-                            </TableCell>
-                          </TableRow>
-                        ) : (
-                          // Resto de elementos (Equipo, Personal, etc.)
-                          <TableRow key={item.id}>
-                            <TableCell className="font-medium">
-                              {item.nombre}
-                            </TableCell>
-                            <TableCell>
-                              <Input
-                                type="number"
-                                min="0"
-                                className="w-16 h-8"
-                                value={item.dias}
-                                onChange={(e) => {
-                                  const nuevasPartidas = [...partidasPresupuesto];
-                                  nuevasPartidas[index].items[itemIndex].dias = parseInt(e.target.value) || 0;
-                                  
-                                  // Recalcular subtotal
-                                  const cantidad = nuevasPartidas[index].items[itemIndex].cantidad;
-                                  const precio = nuevasPartidas[index].items[itemIndex].precioUnitario;
-                                  const descuento = nuevasPartidas[index].items[itemIndex].descuento;
-                                  const dias = nuevasPartidas[index].items[itemIndex].dias;
-                                  
-                                  nuevasPartidas[index].items[itemIndex].subtotal = 
-                                    cantidad * precio * dias * (1 - descuento / 100);
-                                  
-                                  const iva = nuevasPartidas[index].items[itemIndex].iva;
-                                  nuevasPartidas[index].items[itemIndex].total = 
-                                    nuevasPartidas[index].items[itemIndex].subtotal * (1 + iva / 100);
-                                  
-                                  setPartidasPresupuesto(nuevasPartidas);
-                                }}
-                              />
-                            </TableCell>
-                            <TableCell>
-                              <Input
-                                type="number"
-                                min="0"
-                                className="w-16 h-8"
-                                value={item.cantidad}
-                                onChange={(e) => {
-                                  const nuevasPartidas = [...partidasPresupuesto];
-                                  nuevasPartidas[index].items[itemIndex].cantidad = parseInt(e.target.value) || 0;
-                                  
-                                  // Recalcular subtotal
-                                  const cantidad = nuevasPartidas[index].items[itemIndex].cantidad;
-                                  const precio = nuevasPartidas[index].items[itemIndex].precioUnitario;
-                                  const descuento = nuevasPartidas[index].items[itemIndex].descuento;
-                                  const dias = nuevasPartidas[index].items[itemIndex].dias;
-                                  
-                                  nuevasPartidas[index].items[itemIndex].subtotal = 
-                                    cantidad * precio * dias * (1 - descuento / 100);
-                                  
-                                  const iva = nuevasPartidas[index].items[itemIndex].iva;
-                                  nuevasPartidas[index].items[itemIndex].total = 
-                                    nuevasPartidas[index].items[itemIndex].subtotal * (1 + iva / 100);
-                                  
-                                  setPartidasPresupuesto(nuevasPartidas);
-                                }}
-                              />
-                            </TableCell>
-                            <TableCell>
-                              <div className="flex items-center">
-                                <Input
-                                  type="number"
-                                  min="0"
-                                  step="0.01"
-                                  className="w-20 h-8"
-                                  value={item.precioUnitario}
-                                  onChange={(e) => {
-                                    const nuevasPartidas = [...partidasPresupuesto];
-                                    nuevasPartidas[index].items[itemIndex].precioUnitario = parseFloat(e.target.value) || 0;
-                                    
-                                    // Recalcular subtotal
-                                    const cantidad = nuevasPartidas[index].items[itemIndex].cantidad;
-                                    const precio = nuevasPartidas[index].items[itemIndex].precioUnitario;
-                                    const descuento = nuevasPartidas[index].items[itemIndex].descuento;
-                                    const dias = nuevasPartidas[index].items[itemIndex].dias;
-                                    
-                                    nuevasPartidas[index].items[itemIndex].subtotal = 
-                                      cantidad * precio * dias * (1 - descuento / 100);
-                                    
-                                    const iva = nuevasPartidas[index].items[itemIndex].iva;
-                                    nuevasPartidas[index].items[itemIndex].total = 
-                                      nuevasPartidas[index].items[itemIndex].subtotal * (1 + iva / 100);
-                                    
-                                    setPartidasPresupuesto(nuevasPartidas);
-                                  }}
-                                />
-                                <span className="ml-1">€</span>
-                              </div>
-                            </TableCell>
-                            <TableCell>
-                              <div className="flex items-center">
-                                <Input
-                                  type="number"
-                                  min="0"
-                                  max="100"
-                                  className="w-16 h-8"
-                                  value={item.descuento}
-                                  onChange={(e) => {
-                                    const nuevasPartidas = [...partidasPresupuesto];
-                                    nuevasPartidas[index].items[itemIndex].descuento = parseFloat(e.target.value) || 0;
-                                    
-                                    // Recalcular subtotal
-                                    const cantidad = nuevasPartidas[index].items[itemIndex].cantidad;
-                                    const precio = nuevasPartidas[index].items[itemIndex].precioUnitario;
-                                    const descuento = nuevasPartidas[index].items[itemIndex].descuento;
-                                    const dias = nuevasPartidas[index].items[itemIndex].dias;
-                                    
-                                    nuevasPartidas[index].items[itemIndex].subtotal = 
-                                      cantidad * precio * dias * (1 - descuento / 100);
-                                    
-                                    const iva = nuevasPartidas[index].items[itemIndex].iva;
-                                    nuevasPartidas[index].items[itemIndex].total = 
-                                      nuevasPartidas[index].items[itemIndex].subtotal * (1 + iva / 100);
-                                    
-                                    setPartidasPresupuesto(nuevasPartidas);
-                                  }}
-                                />
-                                <span className="ml-1">%</span>
-                              </div>
-                            </TableCell>
-                            <TableCell className="font-medium">
-                              {`${item.subtotal.toFixed(2)}€`}
-                            </TableCell>
-                            <TableCell>
-                              <Button 
-                                variant="ghost" 
-                                size="sm"
-                                className="text-red-500 hover:text-red-700 hover:bg-red-50"
-                                onClick={() => handleEliminarElemento(index, itemIndex)}
-                              >
-                                <Trash className="h-4 w-4" />
-                              </Button>
-                            </TableCell>
-                          </TableRow>
-                        )
-                      ))}
-                    </TableBody>
-                  </Table>
-                  <div className="mt-4 flex justify-end">
+                {partida.items.length === 0 ? (
+                  <div className="text-center py-6 text-muted-foreground">
+                    <p>No hay elementos en esta partida.</p>
                     <AgregarElementoDialog
                       partidaId={partida.id}
                       partidaNombre={partida.nombre}
                       onElementoAgregado={(nuevoItem) => handleAgregarElemento(index, nuevoItem)}
                       trigger={
-                        <Button variant="outline" size="sm">
+                        <Button className="mt-2" variant="outline" size="sm">
                           <PlusCircle className="mr-2 h-4 w-4" />
                           Agregar Elemento
                         </Button>
                       }
                     />
                   </div>
-                </div>
+                ) : (
+                  <div>
+                    <DndContext
+                      sensors={sensors}
+                      collisionDetection={closestCenter}
+                      onDragEnd={(event) => handleDragEnd(event, index)}
+                    >
+                      <div className="relative pl-8"> {/* Añadir padding left para dejar espacio para los controles de arrastrar */}
+                        <Table>
+                          <TableHeader>
+                            <TableRow>
+                              <TableHead className="w-0 p-0"></TableHead>
+                              <TableHead>Producto/Elemento</TableHead>
+                              <TableHead>Días</TableHead>
+                              <TableHead>Cantidad</TableHead>
+                              <TableHead>Precio</TableHead>
+                              <TableHead>Descuento</TableHead>
+                              <TableHead>Subtotal</TableHead>
+                              <TableHead></TableHead>
+                            </TableRow>
+                          </TableHeader>
+                          <TableBody>
+                            <SortableContext
+                              items={partida.items.map((item) => item.id)}
+                              strategy={verticalListSortingStrategy}
+                            >
+                              {partida.items.map((item, itemIndex) => (
+                                item.tipo === "CATEGORIA" ? (
+                                  // Categoría como subcabecera
+                                  <SortableItem key={item.id} id={item.id}>
+                                    <TableCell colSpan={6} className="font-semibold">
+                                      {item.nombre}
+                                    </TableCell>
+                                    <TableCell>
+                                      <Button 
+                                        variant="ghost" 
+                                        size="sm"
+                                        className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                                        onClick={() => handleEliminarElemento(index, itemIndex)}
+                                      >
+                                        <Trash className="h-4 w-4" />
+                                      </Button>
+                                    </TableCell>
+                                  </SortableItem>
+                                ) : item.tipo === "SEPARADOR" ? (
+                                  // Separador igual que categoría pero con texto centrado
+                                  <SortableItem key={item.id} id={item.id}>
+                                    <TableCell colSpan={6} className="py-2 text-center">
+                                      <div className="text-sm">
+                                        {item.nombre}
+                                      </div>
+                                    </TableCell>
+                                    <TableCell>
+                                      <Button 
+                                        variant="ghost" 
+                                        size="sm"
+                                        className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                                        onClick={() => handleEliminarElemento(index, itemIndex)}
+                                      >
+                                        <Trash className="h-4 w-4" />
+                                      </Button>
+                                    </TableCell>
+                                  </SortableItem>
+                                ) : (
+                                  // Resto de elementos (Equipo, Personal, etc.)
+                                  <SortableItem key={item.id} id={item.id}>
+                                    <TableCell className="font-medium">
+                                      {item.nombre}
+                                    </TableCell>
+                                    <TableCell>
+                                      <Input
+                                        type="number"
+                                        min="0"
+                                        className="w-16 h-8"
+                                        value={item.dias}
+                                        onChange={(e) => {
+                                          const nuevasPartidas = [...partidasPresupuesto];
+                                          nuevasPartidas[index].items[itemIndex].dias = parseInt(e.target.value) || 0;
+                                          
+                                          // Recalcular subtotal
+                                          const cantidad = nuevasPartidas[index].items[itemIndex].cantidad;
+                                          const precio = nuevasPartidas[index].items[itemIndex].precioUnitario;
+                                          const descuento = nuevasPartidas[index].items[itemIndex].descuento;
+                                          const dias = nuevasPartidas[index].items[itemIndex].dias;
+                                          
+                                          nuevasPartidas[index].items[itemIndex].subtotal = 
+                                            cantidad * precio * dias * (1 - descuento / 100);
+                                          
+                                          const iva = nuevasPartidas[index].items[itemIndex].iva;
+                                          nuevasPartidas[index].items[itemIndex].total = 
+                                            nuevasPartidas[index].items[itemIndex].subtotal * (1 + iva / 100);
+                                          
+                                          setPartidasPresupuesto(nuevasPartidas);
+                                        }}
+                                      />
+                                    </TableCell>
+                                    <TableCell>
+                                      <Input
+                                        type="number"
+                                        min="0"
+                                        className="w-16 h-8"
+                                        value={item.cantidad}
+                                        onChange={(e) => {
+                                          const nuevasPartidas = [...partidasPresupuesto];
+                                          nuevasPartidas[index].items[itemIndex].cantidad = parseInt(e.target.value) || 0;
+                                          
+                                          // Recalcular subtotal
+                                          const cantidad = nuevasPartidas[index].items[itemIndex].cantidad;
+                                          const precio = nuevasPartidas[index].items[itemIndex].precioUnitario;
+                                          const descuento = nuevasPartidas[index].items[itemIndex].descuento;
+                                          const dias = nuevasPartidas[index].items[itemIndex].dias;
+                                          
+                                          nuevasPartidas[index].items[itemIndex].subtotal = 
+                                            cantidad * precio * dias * (1 - descuento / 100);
+                                          
+                                          const iva = nuevasPartidas[index].items[itemIndex].iva;
+                                          nuevasPartidas[index].items[itemIndex].total = 
+                                            nuevasPartidas[index].items[itemIndex].subtotal * (1 + iva / 100);
+                                          
+                                          setPartidasPresupuesto(nuevasPartidas);
+                                        }}
+                                      />
+                                    </TableCell>
+                                    <TableCell>
+                                      <div className="flex items-center">
+                                        <Input
+                                          type="number"
+                                          min="0"
+                                          step="0.01"
+                                          className="w-20 h-8"
+                                          value={item.precioUnitario}
+                                          onChange={(e) => {
+                                            const nuevasPartidas = [...partidasPresupuesto];
+                                            nuevasPartidas[index].items[itemIndex].precioUnitario = parseFloat(e.target.value) || 0;
+                                            
+                                            // Recalcular subtotal
+                                            const cantidad = nuevasPartidas[index].items[itemIndex].cantidad;
+                                            const precio = nuevasPartidas[index].items[itemIndex].precioUnitario;
+                                            const descuento = nuevasPartidas[index].items[itemIndex].descuento;
+                                            const dias = nuevasPartidas[index].items[itemIndex].dias;
+                                            
+                                            nuevasPartidas[index].items[itemIndex].subtotal = 
+                                              cantidad * precio * dias * (1 - descuento / 100);
+                                            
+                                            const iva = nuevasPartidas[index].items[itemIndex].iva;
+                                            nuevasPartidas[index].items[itemIndex].total = 
+                                              nuevasPartidas[index].items[itemIndex].subtotal * (1 + iva / 100);
+                                            
+                                            setPartidasPresupuesto(nuevasPartidas);
+                                          }}
+                                        />
+                                        <span className="ml-1">€</span>
+                                      </div>
+                                    </TableCell>
+                                    <TableCell>
+                                      <div className="flex items-center">
+                                        <Input
+                                          type="number"
+                                          min="0"
+                                          max="100"
+                                          className="w-16 h-8"
+                                          value={item.descuento}
+                                          onChange={(e) => {
+                                            const nuevasPartidas = [...partidasPresupuesto];
+                                            nuevasPartidas[index].items[itemIndex].descuento = parseFloat(e.target.value) || 0;
+                                            
+                                            // Recalcular subtotal
+                                            const cantidad = nuevasPartidas[index].items[itemIndex].cantidad;
+                                            const precio = nuevasPartidas[index].items[itemIndex].precioUnitario;
+                                            const descuento = nuevasPartidas[index].items[itemIndex].descuento;
+                                            const dias = nuevasPartidas[index].items[itemIndex].dias;
+                                            
+                                            nuevasPartidas[index].items[itemIndex].subtotal = 
+                                              cantidad * precio * dias * (1 - descuento / 100);
+                                            
+                                            const iva = nuevasPartidas[index].items[itemIndex].iva;
+                                            nuevasPartidas[index].items[itemIndex].total = 
+                                              nuevasPartidas[index].items[itemIndex].subtotal * (1 + iva / 100);
+                                            
+                                            setPartidasPresupuesto(nuevasPartidas);
+                                          }}
+                                        />
+                                        <span className="ml-1">%</span>
+                                      </div>
+                                    </TableCell>
+                                    <TableCell className="font-medium">
+                                      {`${item.subtotal.toFixed(2)}€`}
+                                    </TableCell>
+                                    <TableCell>
+                                      <Button 
+                                        variant="ghost" 
+                                        size="sm"
+                                        className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                                        onClick={() => handleEliminarElemento(index, itemIndex)}
+                                      >
+                                        <Trash className="h-4 w-4" />
+                                      </Button>
+                                    </TableCell>
+                                  </SortableItem>
+                                )
+                              ))}
+                            </SortableContext>
+                          </TableBody>
+                        </Table>
+                      </div>
+                    </DndContext>
+                    <div className="mt-4 flex justify-end">
+                      <AgregarElementoDialog
+                        partidaId={partida.id}
+                        partidaNombre={partida.nombre}
+                        onElementoAgregado={(nuevoItem) => handleAgregarElemento(index, nuevoItem)}
+                        trigger={
+                          <Button variant="outline" size="sm">
+                            <PlusCircle className="mr-2 h-4 w-4" />
+                            Agregar Elemento
+                          </Button>
+                        }
+                      />
+                    </div>
+                  </div>
+                )}
               </CardContent>
             </Card>
           ))}
