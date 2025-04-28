@@ -98,6 +98,11 @@ export type Proveedor = $Result.DefaultSelection<Prisma.$ProveedorPayload>
  * 
  */
 export type Tikelia = $Result.DefaultSelection<Prisma.$TikeliaPayload>
+/**
+ * Model PresupuestoProveedor
+ * 
+ */
+export type PresupuestoProveedor = $Result.DefaultSelection<Prisma.$PresupuestoProveedorPayload>
 
 /**
  * Enums
@@ -452,6 +457,16 @@ export class PrismaClient<
     * ```
     */
   get tikelia(): Prisma.TikeliaDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.presupuestoProveedor`: Exposes CRUD operations for the **PresupuestoProveedor** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PresupuestoProveedors
+    * const presupuestoProveedors = await prisma.presupuestoProveedor.findMany()
+    * ```
+    */
+  get presupuestoProveedor(): Prisma.PresupuestoProveedorDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -908,7 +923,8 @@ export namespace Prisma {
     Personal: 'Personal',
     PersonalPuesto: 'PersonalPuesto',
     Proveedor: 'Proveedor',
-    Tikelia: 'Tikelia'
+    Tikelia: 'Tikelia',
+    PresupuestoProveedor: 'PresupuestoProveedor'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -927,7 +943,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "empresa" | "categoria" | "marca" | "producto" | "equipoItem" | "cliente" | "partidaPresupuesto" | "presupuesto" | "itemPresupuesto" | "factura" | "itemFactura" | "configuracion" | "puesto" | "personal" | "personalPuesto" | "proveedor" | "tikelia"
+      modelProps: "empresa" | "categoria" | "marca" | "producto" | "equipoItem" | "cliente" | "partidaPresupuesto" | "presupuesto" | "itemPresupuesto" | "factura" | "itemFactura" | "configuracion" | "puesto" | "personal" | "personalPuesto" | "proveedor" | "tikelia" | "presupuestoProveedor"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2189,6 +2205,80 @@ export namespace Prisma {
           }
         }
       }
+      PresupuestoProveedor: {
+        payload: Prisma.$PresupuestoProveedorPayload<ExtArgs>
+        fields: Prisma.PresupuestoProveedorFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PresupuestoProveedorFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PresupuestoProveedorPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PresupuestoProveedorFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PresupuestoProveedorPayload>
+          }
+          findFirst: {
+            args: Prisma.PresupuestoProveedorFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PresupuestoProveedorPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PresupuestoProveedorFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PresupuestoProveedorPayload>
+          }
+          findMany: {
+            args: Prisma.PresupuestoProveedorFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PresupuestoProveedorPayload>[]
+          }
+          create: {
+            args: Prisma.PresupuestoProveedorCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PresupuestoProveedorPayload>
+          }
+          createMany: {
+            args: Prisma.PresupuestoProveedorCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PresupuestoProveedorCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PresupuestoProveedorPayload>[]
+          }
+          delete: {
+            args: Prisma.PresupuestoProveedorDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PresupuestoProveedorPayload>
+          }
+          update: {
+            args: Prisma.PresupuestoProveedorUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PresupuestoProveedorPayload>
+          }
+          deleteMany: {
+            args: Prisma.PresupuestoProveedorDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PresupuestoProveedorUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PresupuestoProveedorUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PresupuestoProveedorPayload>[]
+          }
+          upsert: {
+            args: Prisma.PresupuestoProveedorUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PresupuestoProveedorPayload>
+          }
+          aggregate: {
+            args: Prisma.PresupuestoProveedorAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePresupuestoProveedor>
+          }
+          groupBy: {
+            args: Prisma.PresupuestoProveedorGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PresupuestoProveedorGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PresupuestoProveedorCountArgs<ExtArgs>
+            result: $Utils.Optional<PresupuestoProveedorCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2290,6 +2380,7 @@ export namespace Prisma {
     personalPuesto?: PersonalPuestoOmit
     proveedor?: ProveedorOmit
     tikelia?: TikeliaOmit
+    presupuestoProveedor?: PresupuestoProveedorOmit
   }
 
   /* Types for Logging */
@@ -2536,10 +2627,12 @@ export namespace Prisma {
 
   export type PartidaPresupuestoCountOutputType = {
     items: number
+    presupuestosProveedores: number
   }
 
   export type PartidaPresupuestoCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     items?: boolean | PartidaPresupuestoCountOutputTypeCountItemsArgs
+    presupuestosProveedores?: boolean | PartidaPresupuestoCountOutputTypeCountPresupuestosProveedoresArgs
   }
 
   // Custom InputTypes
@@ -2560,6 +2653,13 @@ export namespace Prisma {
     where?: ItemPresupuestoWhereInput
   }
 
+  /**
+   * PartidaPresupuestoCountOutputType without action
+   */
+  export type PartidaPresupuestoCountOutputTypeCountPresupuestosProveedoresArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PresupuestoProveedorWhereInput
+  }
+
 
   /**
    * Count Type PresupuestoCountOutputType
@@ -2567,10 +2667,12 @@ export namespace Prisma {
 
   export type PresupuestoCountOutputType = {
     items: number
+    presupuestosProveedores: number
   }
 
   export type PresupuestoCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     items?: boolean | PresupuestoCountOutputTypeCountItemsArgs
+    presupuestosProveedores?: boolean | PresupuestoCountOutputTypeCountPresupuestosProveedoresArgs
   }
 
   // Custom InputTypes
@@ -2589,6 +2691,13 @@ export namespace Prisma {
    */
   export type PresupuestoCountOutputTypeCountItemsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ItemPresupuestoWhereInput
+  }
+
+  /**
+   * PresupuestoCountOutputType without action
+   */
+  export type PresupuestoCountOutputTypeCountPresupuestosProveedoresArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PresupuestoProveedorWhereInput
   }
 
 
@@ -2709,10 +2818,12 @@ export namespace Prisma {
 
   export type ProveedorCountOutputType = {
     equipos: number
+    presupuestos: number
   }
 
   export type ProveedorCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     equipos?: boolean | ProveedorCountOutputTypeCountEquiposArgs
+    presupuestos?: boolean | ProveedorCountOutputTypeCountPresupuestosArgs
   }
 
   // Custom InputTypes
@@ -2731,6 +2842,13 @@ export namespace Prisma {
    */
   export type ProveedorCountOutputTypeCountEquiposArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: EquipoItemWhereInput
+  }
+
+  /**
+   * ProveedorCountOutputType without action
+   */
+  export type ProveedorCountOutputTypeCountPresupuestosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PresupuestoProveedorWhereInput
   }
 
 
@@ -9706,6 +9824,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     items?: boolean | PartidaPresupuesto$itemsArgs<ExtArgs>
+    presupuestosProveedores?: boolean | PartidaPresupuesto$presupuestosProveedoresArgs<ExtArgs>
     _count?: boolean | PartidaPresupuestoCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["partidaPresupuesto"]>
 
@@ -9736,6 +9855,7 @@ export namespace Prisma {
   export type PartidaPresupuestoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "descripcion" | "createdAt" | "updatedAt", ExtArgs["result"]["partidaPresupuesto"]>
   export type PartidaPresupuestoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     items?: boolean | PartidaPresupuesto$itemsArgs<ExtArgs>
+    presupuestosProveedores?: boolean | PartidaPresupuesto$presupuestosProveedoresArgs<ExtArgs>
     _count?: boolean | PartidaPresupuestoCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PartidaPresupuestoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -9745,6 +9865,7 @@ export namespace Prisma {
     name: "PartidaPresupuesto"
     objects: {
       items: Prisma.$ItemPresupuestoPayload<ExtArgs>[]
+      presupuestosProveedores: Prisma.$PresupuestoProveedorPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -10147,6 +10268,7 @@ export namespace Prisma {
   export interface Prisma__PartidaPresupuestoClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     items<T extends PartidaPresupuesto$itemsArgs<ExtArgs> = {}>(args?: Subset<T, PartidaPresupuesto$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemPresupuestoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    presupuestosProveedores<T extends PartidaPresupuesto$presupuestosProveedoresArgs<ExtArgs> = {}>(args?: Subset<T, PartidaPresupuesto$presupuestosProveedoresArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PresupuestoProveedorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10593,6 +10715,30 @@ export namespace Prisma {
   }
 
   /**
+   * PartidaPresupuesto.presupuestosProveedores
+   */
+  export type PartidaPresupuesto$presupuestosProveedoresArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PresupuestoProveedor
+     */
+    select?: PresupuestoProveedorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PresupuestoProveedor
+     */
+    omit?: PresupuestoProveedorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PresupuestoProveedorInclude<ExtArgs> | null
+    where?: PresupuestoProveedorWhereInput
+    orderBy?: PresupuestoProveedorOrderByWithRelationInput | PresupuestoProveedorOrderByWithRelationInput[]
+    cursor?: PresupuestoProveedorWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PresupuestoProveedorScalarFieldEnum | PresupuestoProveedorScalarFieldEnum[]
+  }
+
+  /**
    * PartidaPresupuesto without action
    */
   export type PartidaPresupuestoDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -10923,6 +11069,7 @@ export namespace Prisma {
     updatedAt?: boolean
     cliente?: boolean | Presupuesto$clienteArgs<ExtArgs>
     items?: boolean | Presupuesto$itemsArgs<ExtArgs>
+    presupuestosProveedores?: boolean | Presupuesto$presupuestosProveedoresArgs<ExtArgs>
     factura?: boolean | Presupuesto$facturaArgs<ExtArgs>
     _count?: boolean | PresupuestoCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["presupuesto"]>
@@ -10998,6 +11145,7 @@ export namespace Prisma {
   export type PresupuestoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     cliente?: boolean | Presupuesto$clienteArgs<ExtArgs>
     items?: boolean | Presupuesto$itemsArgs<ExtArgs>
+    presupuestosProveedores?: boolean | Presupuesto$presupuestosProveedoresArgs<ExtArgs>
     factura?: boolean | Presupuesto$facturaArgs<ExtArgs>
     _count?: boolean | PresupuestoCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -11015,6 +11163,7 @@ export namespace Prisma {
     objects: {
       cliente: Prisma.$ClientePayload<ExtArgs> | null
       items: Prisma.$ItemPresupuestoPayload<ExtArgs>[]
+      presupuestosProveedores: Prisma.$PresupuestoProveedorPayload<ExtArgs>[]
       factura: Prisma.$FacturaPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -11432,6 +11581,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     cliente<T extends Presupuesto$clienteArgs<ExtArgs> = {}>(args?: Subset<T, Presupuesto$clienteArgs<ExtArgs>>): Prisma__ClienteClient<$Result.GetResult<Prisma.$ClientePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     items<T extends Presupuesto$itemsArgs<ExtArgs> = {}>(args?: Subset<T, Presupuesto$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemPresupuestoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    presupuestosProveedores<T extends Presupuesto$presupuestosProveedoresArgs<ExtArgs> = {}>(args?: Subset<T, Presupuesto$presupuestosProveedoresArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PresupuestoProveedorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     factura<T extends Presupuesto$facturaArgs<ExtArgs> = {}>(args?: Subset<T, Presupuesto$facturaArgs<ExtArgs>>): Prisma__FacturaClient<$Result.GetResult<Prisma.$FacturaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -11916,6 +12066,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: ItemPresupuestoScalarFieldEnum | ItemPresupuestoScalarFieldEnum[]
+  }
+
+  /**
+   * Presupuesto.presupuestosProveedores
+   */
+  export type Presupuesto$presupuestosProveedoresArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PresupuestoProveedor
+     */
+    select?: PresupuestoProveedorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PresupuestoProveedor
+     */
+    omit?: PresupuestoProveedorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PresupuestoProveedorInclude<ExtArgs> | null
+    where?: PresupuestoProveedorWhereInput
+    orderBy?: PresupuestoProveedorOrderByWithRelationInput | PresupuestoProveedorOrderByWithRelationInput[]
+    cursor?: PresupuestoProveedorWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PresupuestoProveedorScalarFieldEnum | PresupuestoProveedorScalarFieldEnum[]
   }
 
   /**
@@ -20118,6 +20292,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     equipos?: boolean | Proveedor$equiposArgs<ExtArgs>
+    presupuestos?: boolean | Proveedor$presupuestosArgs<ExtArgs>
     _count?: boolean | ProveedorCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["proveedor"]>
 
@@ -20163,6 +20338,7 @@ export namespace Prisma {
   export type ProveedorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "nif" | "direccion" | "email" | "telefono" | "contacto" | "notas" | "createdAt" | "updatedAt", ExtArgs["result"]["proveedor"]>
   export type ProveedorInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     equipos?: boolean | Proveedor$equiposArgs<ExtArgs>
+    presupuestos?: boolean | Proveedor$presupuestosArgs<ExtArgs>
     _count?: boolean | ProveedorCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ProveedorIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -20172,6 +20348,7 @@ export namespace Prisma {
     name: "Proveedor"
     objects: {
       equipos: Prisma.$EquipoItemPayload<ExtArgs>[]
+      presupuestos: Prisma.$PresupuestoProveedorPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -20579,6 +20756,7 @@ export namespace Prisma {
   export interface Prisma__ProveedorClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     equipos<T extends Proveedor$equiposArgs<ExtArgs> = {}>(args?: Subset<T, Proveedor$equiposArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EquipoItemPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    presupuestos<T extends Proveedor$presupuestosArgs<ExtArgs> = {}>(args?: Subset<T, Proveedor$presupuestosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PresupuestoProveedorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -21027,6 +21205,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: EquipoItemScalarFieldEnum | EquipoItemScalarFieldEnum[]
+  }
+
+  /**
+   * Proveedor.presupuestos
+   */
+  export type Proveedor$presupuestosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PresupuestoProveedor
+     */
+    select?: PresupuestoProveedorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PresupuestoProveedor
+     */
+    omit?: PresupuestoProveedorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PresupuestoProveedorInclude<ExtArgs> | null
+    where?: PresupuestoProveedorWhereInput
+    orderBy?: PresupuestoProveedorOrderByWithRelationInput | PresupuestoProveedorOrderByWithRelationInput[]
+    cursor?: PresupuestoProveedorWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PresupuestoProveedorScalarFieldEnum | PresupuestoProveedorScalarFieldEnum[]
   }
 
   /**
@@ -22186,6 +22388,1243 @@ export namespace Prisma {
 
 
   /**
+   * Model PresupuestoProveedor
+   */
+
+  export type AggregatePresupuestoProveedor = {
+    _count: PresupuestoProveedorCountAggregateOutputType | null
+    _avg: PresupuestoProveedorAvgAggregateOutputType | null
+    _sum: PresupuestoProveedorSumAggregateOutputType | null
+    _min: PresupuestoProveedorMinAggregateOutputType | null
+    _max: PresupuestoProveedorMaxAggregateOutputType | null
+  }
+
+  export type PresupuestoProveedorAvgAggregateOutputType = {
+    precio: number | null
+  }
+
+  export type PresupuestoProveedorSumAggregateOutputType = {
+    precio: number | null
+  }
+
+  export type PresupuestoProveedorMinAggregateOutputType = {
+    id: string | null
+    presupuestoId: string | null
+    nombre: string | null
+    descripcion: string | null
+    precio: number | null
+    precioConIVA: boolean | null
+    proveedorId: string | null
+    partidaId: string | null
+    tipoEspecial: string | null
+    archivoUrl: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PresupuestoProveedorMaxAggregateOutputType = {
+    id: string | null
+    presupuestoId: string | null
+    nombre: string | null
+    descripcion: string | null
+    precio: number | null
+    precioConIVA: boolean | null
+    proveedorId: string | null
+    partidaId: string | null
+    tipoEspecial: string | null
+    archivoUrl: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type PresupuestoProveedorCountAggregateOutputType = {
+    id: number
+    presupuestoId: number
+    nombre: number
+    descripcion: number
+    precio: number
+    precioConIVA: number
+    proveedorId: number
+    partidaId: number
+    tipoEspecial: number
+    archivoUrl: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type PresupuestoProveedorAvgAggregateInputType = {
+    precio?: true
+  }
+
+  export type PresupuestoProveedorSumAggregateInputType = {
+    precio?: true
+  }
+
+  export type PresupuestoProveedorMinAggregateInputType = {
+    id?: true
+    presupuestoId?: true
+    nombre?: true
+    descripcion?: true
+    precio?: true
+    precioConIVA?: true
+    proveedorId?: true
+    partidaId?: true
+    tipoEspecial?: true
+    archivoUrl?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PresupuestoProveedorMaxAggregateInputType = {
+    id?: true
+    presupuestoId?: true
+    nombre?: true
+    descripcion?: true
+    precio?: true
+    precioConIVA?: true
+    proveedorId?: true
+    partidaId?: true
+    tipoEspecial?: true
+    archivoUrl?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type PresupuestoProveedorCountAggregateInputType = {
+    id?: true
+    presupuestoId?: true
+    nombre?: true
+    descripcion?: true
+    precio?: true
+    precioConIVA?: true
+    proveedorId?: true
+    partidaId?: true
+    tipoEspecial?: true
+    archivoUrl?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type PresupuestoProveedorAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PresupuestoProveedor to aggregate.
+     */
+    where?: PresupuestoProveedorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PresupuestoProveedors to fetch.
+     */
+    orderBy?: PresupuestoProveedorOrderByWithRelationInput | PresupuestoProveedorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PresupuestoProveedorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PresupuestoProveedors from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PresupuestoProveedors.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PresupuestoProveedors
+    **/
+    _count?: true | PresupuestoProveedorCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: PresupuestoProveedorAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PresupuestoProveedorSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PresupuestoProveedorMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PresupuestoProveedorMaxAggregateInputType
+  }
+
+  export type GetPresupuestoProveedorAggregateType<T extends PresupuestoProveedorAggregateArgs> = {
+        [P in keyof T & keyof AggregatePresupuestoProveedor]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePresupuestoProveedor[P]>
+      : GetScalarType<T[P], AggregatePresupuestoProveedor[P]>
+  }
+
+
+
+
+  export type PresupuestoProveedorGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PresupuestoProveedorWhereInput
+    orderBy?: PresupuestoProveedorOrderByWithAggregationInput | PresupuestoProveedorOrderByWithAggregationInput[]
+    by: PresupuestoProveedorScalarFieldEnum[] | PresupuestoProveedorScalarFieldEnum
+    having?: PresupuestoProveedorScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PresupuestoProveedorCountAggregateInputType | true
+    _avg?: PresupuestoProveedorAvgAggregateInputType
+    _sum?: PresupuestoProveedorSumAggregateInputType
+    _min?: PresupuestoProveedorMinAggregateInputType
+    _max?: PresupuestoProveedorMaxAggregateInputType
+  }
+
+  export type PresupuestoProveedorGroupByOutputType = {
+    id: string
+    presupuestoId: string
+    nombre: string
+    descripcion: string | null
+    precio: number
+    precioConIVA: boolean
+    proveedorId: string | null
+    partidaId: string | null
+    tipoEspecial: string | null
+    archivoUrl: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: PresupuestoProveedorCountAggregateOutputType | null
+    _avg: PresupuestoProveedorAvgAggregateOutputType | null
+    _sum: PresupuestoProveedorSumAggregateOutputType | null
+    _min: PresupuestoProveedorMinAggregateOutputType | null
+    _max: PresupuestoProveedorMaxAggregateOutputType | null
+  }
+
+  type GetPresupuestoProveedorGroupByPayload<T extends PresupuestoProveedorGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PresupuestoProveedorGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PresupuestoProveedorGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PresupuestoProveedorGroupByOutputType[P]>
+            : GetScalarType<T[P], PresupuestoProveedorGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PresupuestoProveedorSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    presupuestoId?: boolean
+    nombre?: boolean
+    descripcion?: boolean
+    precio?: boolean
+    precioConIVA?: boolean
+    proveedorId?: boolean
+    partidaId?: boolean
+    tipoEspecial?: boolean
+    archivoUrl?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    presupuesto?: boolean | PresupuestoDefaultArgs<ExtArgs>
+    proveedor?: boolean | PresupuestoProveedor$proveedorArgs<ExtArgs>
+    partida?: boolean | PresupuestoProveedor$partidaArgs<ExtArgs>
+  }, ExtArgs["result"]["presupuestoProveedor"]>
+
+  export type PresupuestoProveedorSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    presupuestoId?: boolean
+    nombre?: boolean
+    descripcion?: boolean
+    precio?: boolean
+    precioConIVA?: boolean
+    proveedorId?: boolean
+    partidaId?: boolean
+    tipoEspecial?: boolean
+    archivoUrl?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    presupuesto?: boolean | PresupuestoDefaultArgs<ExtArgs>
+    proveedor?: boolean | PresupuestoProveedor$proveedorArgs<ExtArgs>
+    partida?: boolean | PresupuestoProveedor$partidaArgs<ExtArgs>
+  }, ExtArgs["result"]["presupuestoProveedor"]>
+
+  export type PresupuestoProveedorSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    presupuestoId?: boolean
+    nombre?: boolean
+    descripcion?: boolean
+    precio?: boolean
+    precioConIVA?: boolean
+    proveedorId?: boolean
+    partidaId?: boolean
+    tipoEspecial?: boolean
+    archivoUrl?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    presupuesto?: boolean | PresupuestoDefaultArgs<ExtArgs>
+    proveedor?: boolean | PresupuestoProveedor$proveedorArgs<ExtArgs>
+    partida?: boolean | PresupuestoProveedor$partidaArgs<ExtArgs>
+  }, ExtArgs["result"]["presupuestoProveedor"]>
+
+  export type PresupuestoProveedorSelectScalar = {
+    id?: boolean
+    presupuestoId?: boolean
+    nombre?: boolean
+    descripcion?: boolean
+    precio?: boolean
+    precioConIVA?: boolean
+    proveedorId?: boolean
+    partidaId?: boolean
+    tipoEspecial?: boolean
+    archivoUrl?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type PresupuestoProveedorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "presupuestoId" | "nombre" | "descripcion" | "precio" | "precioConIVA" | "proveedorId" | "partidaId" | "tipoEspecial" | "archivoUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["presupuestoProveedor"]>
+  export type PresupuestoProveedorInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    presupuesto?: boolean | PresupuestoDefaultArgs<ExtArgs>
+    proveedor?: boolean | PresupuestoProveedor$proveedorArgs<ExtArgs>
+    partida?: boolean | PresupuestoProveedor$partidaArgs<ExtArgs>
+  }
+  export type PresupuestoProveedorIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    presupuesto?: boolean | PresupuestoDefaultArgs<ExtArgs>
+    proveedor?: boolean | PresupuestoProveedor$proveedorArgs<ExtArgs>
+    partida?: boolean | PresupuestoProveedor$partidaArgs<ExtArgs>
+  }
+  export type PresupuestoProveedorIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    presupuesto?: boolean | PresupuestoDefaultArgs<ExtArgs>
+    proveedor?: boolean | PresupuestoProveedor$proveedorArgs<ExtArgs>
+    partida?: boolean | PresupuestoProveedor$partidaArgs<ExtArgs>
+  }
+
+  export type $PresupuestoProveedorPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PresupuestoProveedor"
+    objects: {
+      presupuesto: Prisma.$PresupuestoPayload<ExtArgs>
+      proveedor: Prisma.$ProveedorPayload<ExtArgs> | null
+      partida: Prisma.$PartidaPresupuestoPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      presupuestoId: string
+      nombre: string
+      descripcion: string | null
+      precio: number
+      precioConIVA: boolean
+      proveedorId: string | null
+      partidaId: string | null
+      tipoEspecial: string | null
+      archivoUrl: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["presupuestoProveedor"]>
+    composites: {}
+  }
+
+  type PresupuestoProveedorGetPayload<S extends boolean | null | undefined | PresupuestoProveedorDefaultArgs> = $Result.GetResult<Prisma.$PresupuestoProveedorPayload, S>
+
+  type PresupuestoProveedorCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PresupuestoProveedorFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PresupuestoProveedorCountAggregateInputType | true
+    }
+
+  export interface PresupuestoProveedorDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PresupuestoProveedor'], meta: { name: 'PresupuestoProveedor' } }
+    /**
+     * Find zero or one PresupuestoProveedor that matches the filter.
+     * @param {PresupuestoProveedorFindUniqueArgs} args - Arguments to find a PresupuestoProveedor
+     * @example
+     * // Get one PresupuestoProveedor
+     * const presupuestoProveedor = await prisma.presupuestoProveedor.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PresupuestoProveedorFindUniqueArgs>(args: SelectSubset<T, PresupuestoProveedorFindUniqueArgs<ExtArgs>>): Prisma__PresupuestoProveedorClient<$Result.GetResult<Prisma.$PresupuestoProveedorPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PresupuestoProveedor that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PresupuestoProveedorFindUniqueOrThrowArgs} args - Arguments to find a PresupuestoProveedor
+     * @example
+     * // Get one PresupuestoProveedor
+     * const presupuestoProveedor = await prisma.presupuestoProveedor.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PresupuestoProveedorFindUniqueOrThrowArgs>(args: SelectSubset<T, PresupuestoProveedorFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PresupuestoProveedorClient<$Result.GetResult<Prisma.$PresupuestoProveedorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PresupuestoProveedor that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PresupuestoProveedorFindFirstArgs} args - Arguments to find a PresupuestoProveedor
+     * @example
+     * // Get one PresupuestoProveedor
+     * const presupuestoProveedor = await prisma.presupuestoProveedor.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PresupuestoProveedorFindFirstArgs>(args?: SelectSubset<T, PresupuestoProveedorFindFirstArgs<ExtArgs>>): Prisma__PresupuestoProveedorClient<$Result.GetResult<Prisma.$PresupuestoProveedorPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PresupuestoProveedor that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PresupuestoProveedorFindFirstOrThrowArgs} args - Arguments to find a PresupuestoProveedor
+     * @example
+     * // Get one PresupuestoProveedor
+     * const presupuestoProveedor = await prisma.presupuestoProveedor.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PresupuestoProveedorFindFirstOrThrowArgs>(args?: SelectSubset<T, PresupuestoProveedorFindFirstOrThrowArgs<ExtArgs>>): Prisma__PresupuestoProveedorClient<$Result.GetResult<Prisma.$PresupuestoProveedorPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PresupuestoProveedors that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PresupuestoProveedorFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PresupuestoProveedors
+     * const presupuestoProveedors = await prisma.presupuestoProveedor.findMany()
+     * 
+     * // Get first 10 PresupuestoProveedors
+     * const presupuestoProveedors = await prisma.presupuestoProveedor.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const presupuestoProveedorWithIdOnly = await prisma.presupuestoProveedor.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends PresupuestoProveedorFindManyArgs>(args?: SelectSubset<T, PresupuestoProveedorFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PresupuestoProveedorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PresupuestoProveedor.
+     * @param {PresupuestoProveedorCreateArgs} args - Arguments to create a PresupuestoProveedor.
+     * @example
+     * // Create one PresupuestoProveedor
+     * const PresupuestoProveedor = await prisma.presupuestoProveedor.create({
+     *   data: {
+     *     // ... data to create a PresupuestoProveedor
+     *   }
+     * })
+     * 
+     */
+    create<T extends PresupuestoProveedorCreateArgs>(args: SelectSubset<T, PresupuestoProveedorCreateArgs<ExtArgs>>): Prisma__PresupuestoProveedorClient<$Result.GetResult<Prisma.$PresupuestoProveedorPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PresupuestoProveedors.
+     * @param {PresupuestoProveedorCreateManyArgs} args - Arguments to create many PresupuestoProveedors.
+     * @example
+     * // Create many PresupuestoProveedors
+     * const presupuestoProveedor = await prisma.presupuestoProveedor.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PresupuestoProveedorCreateManyArgs>(args?: SelectSubset<T, PresupuestoProveedorCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PresupuestoProveedors and returns the data saved in the database.
+     * @param {PresupuestoProveedorCreateManyAndReturnArgs} args - Arguments to create many PresupuestoProveedors.
+     * @example
+     * // Create many PresupuestoProveedors
+     * const presupuestoProveedor = await prisma.presupuestoProveedor.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PresupuestoProveedors and only return the `id`
+     * const presupuestoProveedorWithIdOnly = await prisma.presupuestoProveedor.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PresupuestoProveedorCreateManyAndReturnArgs>(args?: SelectSubset<T, PresupuestoProveedorCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PresupuestoProveedorPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PresupuestoProveedor.
+     * @param {PresupuestoProveedorDeleteArgs} args - Arguments to delete one PresupuestoProveedor.
+     * @example
+     * // Delete one PresupuestoProveedor
+     * const PresupuestoProveedor = await prisma.presupuestoProveedor.delete({
+     *   where: {
+     *     // ... filter to delete one PresupuestoProveedor
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PresupuestoProveedorDeleteArgs>(args: SelectSubset<T, PresupuestoProveedorDeleteArgs<ExtArgs>>): Prisma__PresupuestoProveedorClient<$Result.GetResult<Prisma.$PresupuestoProveedorPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PresupuestoProveedor.
+     * @param {PresupuestoProveedorUpdateArgs} args - Arguments to update one PresupuestoProveedor.
+     * @example
+     * // Update one PresupuestoProveedor
+     * const presupuestoProveedor = await prisma.presupuestoProveedor.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PresupuestoProveedorUpdateArgs>(args: SelectSubset<T, PresupuestoProveedorUpdateArgs<ExtArgs>>): Prisma__PresupuestoProveedorClient<$Result.GetResult<Prisma.$PresupuestoProveedorPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PresupuestoProveedors.
+     * @param {PresupuestoProveedorDeleteManyArgs} args - Arguments to filter PresupuestoProveedors to delete.
+     * @example
+     * // Delete a few PresupuestoProveedors
+     * const { count } = await prisma.presupuestoProveedor.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PresupuestoProveedorDeleteManyArgs>(args?: SelectSubset<T, PresupuestoProveedorDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PresupuestoProveedors.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PresupuestoProveedorUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PresupuestoProveedors
+     * const presupuestoProveedor = await prisma.presupuestoProveedor.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PresupuestoProveedorUpdateManyArgs>(args: SelectSubset<T, PresupuestoProveedorUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PresupuestoProveedors and returns the data updated in the database.
+     * @param {PresupuestoProveedorUpdateManyAndReturnArgs} args - Arguments to update many PresupuestoProveedors.
+     * @example
+     * // Update many PresupuestoProveedors
+     * const presupuestoProveedor = await prisma.presupuestoProveedor.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PresupuestoProveedors and only return the `id`
+     * const presupuestoProveedorWithIdOnly = await prisma.presupuestoProveedor.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PresupuestoProveedorUpdateManyAndReturnArgs>(args: SelectSubset<T, PresupuestoProveedorUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PresupuestoProveedorPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PresupuestoProveedor.
+     * @param {PresupuestoProveedorUpsertArgs} args - Arguments to update or create a PresupuestoProveedor.
+     * @example
+     * // Update or create a PresupuestoProveedor
+     * const presupuestoProveedor = await prisma.presupuestoProveedor.upsert({
+     *   create: {
+     *     // ... data to create a PresupuestoProveedor
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PresupuestoProveedor we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PresupuestoProveedorUpsertArgs>(args: SelectSubset<T, PresupuestoProveedorUpsertArgs<ExtArgs>>): Prisma__PresupuestoProveedorClient<$Result.GetResult<Prisma.$PresupuestoProveedorPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PresupuestoProveedors.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PresupuestoProveedorCountArgs} args - Arguments to filter PresupuestoProveedors to count.
+     * @example
+     * // Count the number of PresupuestoProveedors
+     * const count = await prisma.presupuestoProveedor.count({
+     *   where: {
+     *     // ... the filter for the PresupuestoProveedors we want to count
+     *   }
+     * })
+    **/
+    count<T extends PresupuestoProveedorCountArgs>(
+      args?: Subset<T, PresupuestoProveedorCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PresupuestoProveedorCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PresupuestoProveedor.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PresupuestoProveedorAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PresupuestoProveedorAggregateArgs>(args: Subset<T, PresupuestoProveedorAggregateArgs>): Prisma.PrismaPromise<GetPresupuestoProveedorAggregateType<T>>
+
+    /**
+     * Group by PresupuestoProveedor.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PresupuestoProveedorGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PresupuestoProveedorGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PresupuestoProveedorGroupByArgs['orderBy'] }
+        : { orderBy?: PresupuestoProveedorGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PresupuestoProveedorGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPresupuestoProveedorGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PresupuestoProveedor model
+   */
+  readonly fields: PresupuestoProveedorFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PresupuestoProveedor.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PresupuestoProveedorClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    presupuesto<T extends PresupuestoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PresupuestoDefaultArgs<ExtArgs>>): Prisma__PresupuestoClient<$Result.GetResult<Prisma.$PresupuestoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    proveedor<T extends PresupuestoProveedor$proveedorArgs<ExtArgs> = {}>(args?: Subset<T, PresupuestoProveedor$proveedorArgs<ExtArgs>>): Prisma__ProveedorClient<$Result.GetResult<Prisma.$ProveedorPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    partida<T extends PresupuestoProveedor$partidaArgs<ExtArgs> = {}>(args?: Subset<T, PresupuestoProveedor$partidaArgs<ExtArgs>>): Prisma__PartidaPresupuestoClient<$Result.GetResult<Prisma.$PartidaPresupuestoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PresupuestoProveedor model
+   */
+  interface PresupuestoProveedorFieldRefs {
+    readonly id: FieldRef<"PresupuestoProveedor", 'String'>
+    readonly presupuestoId: FieldRef<"PresupuestoProveedor", 'String'>
+    readonly nombre: FieldRef<"PresupuestoProveedor", 'String'>
+    readonly descripcion: FieldRef<"PresupuestoProveedor", 'String'>
+    readonly precio: FieldRef<"PresupuestoProveedor", 'Float'>
+    readonly precioConIVA: FieldRef<"PresupuestoProveedor", 'Boolean'>
+    readonly proveedorId: FieldRef<"PresupuestoProveedor", 'String'>
+    readonly partidaId: FieldRef<"PresupuestoProveedor", 'String'>
+    readonly tipoEspecial: FieldRef<"PresupuestoProveedor", 'String'>
+    readonly archivoUrl: FieldRef<"PresupuestoProveedor", 'String'>
+    readonly createdAt: FieldRef<"PresupuestoProveedor", 'DateTime'>
+    readonly updatedAt: FieldRef<"PresupuestoProveedor", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PresupuestoProveedor findUnique
+   */
+  export type PresupuestoProveedorFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PresupuestoProveedor
+     */
+    select?: PresupuestoProveedorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PresupuestoProveedor
+     */
+    omit?: PresupuestoProveedorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PresupuestoProveedorInclude<ExtArgs> | null
+    /**
+     * Filter, which PresupuestoProveedor to fetch.
+     */
+    where: PresupuestoProveedorWhereUniqueInput
+  }
+
+  /**
+   * PresupuestoProveedor findUniqueOrThrow
+   */
+  export type PresupuestoProveedorFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PresupuestoProveedor
+     */
+    select?: PresupuestoProveedorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PresupuestoProveedor
+     */
+    omit?: PresupuestoProveedorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PresupuestoProveedorInclude<ExtArgs> | null
+    /**
+     * Filter, which PresupuestoProveedor to fetch.
+     */
+    where: PresupuestoProveedorWhereUniqueInput
+  }
+
+  /**
+   * PresupuestoProveedor findFirst
+   */
+  export type PresupuestoProveedorFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PresupuestoProveedor
+     */
+    select?: PresupuestoProveedorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PresupuestoProveedor
+     */
+    omit?: PresupuestoProveedorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PresupuestoProveedorInclude<ExtArgs> | null
+    /**
+     * Filter, which PresupuestoProveedor to fetch.
+     */
+    where?: PresupuestoProveedorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PresupuestoProveedors to fetch.
+     */
+    orderBy?: PresupuestoProveedorOrderByWithRelationInput | PresupuestoProveedorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PresupuestoProveedors.
+     */
+    cursor?: PresupuestoProveedorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PresupuestoProveedors from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PresupuestoProveedors.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PresupuestoProveedors.
+     */
+    distinct?: PresupuestoProveedorScalarFieldEnum | PresupuestoProveedorScalarFieldEnum[]
+  }
+
+  /**
+   * PresupuestoProveedor findFirstOrThrow
+   */
+  export type PresupuestoProveedorFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PresupuestoProveedor
+     */
+    select?: PresupuestoProveedorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PresupuestoProveedor
+     */
+    omit?: PresupuestoProveedorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PresupuestoProveedorInclude<ExtArgs> | null
+    /**
+     * Filter, which PresupuestoProveedor to fetch.
+     */
+    where?: PresupuestoProveedorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PresupuestoProveedors to fetch.
+     */
+    orderBy?: PresupuestoProveedorOrderByWithRelationInput | PresupuestoProveedorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PresupuestoProveedors.
+     */
+    cursor?: PresupuestoProveedorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PresupuestoProveedors from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PresupuestoProveedors.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PresupuestoProveedors.
+     */
+    distinct?: PresupuestoProveedorScalarFieldEnum | PresupuestoProveedorScalarFieldEnum[]
+  }
+
+  /**
+   * PresupuestoProveedor findMany
+   */
+  export type PresupuestoProveedorFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PresupuestoProveedor
+     */
+    select?: PresupuestoProveedorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PresupuestoProveedor
+     */
+    omit?: PresupuestoProveedorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PresupuestoProveedorInclude<ExtArgs> | null
+    /**
+     * Filter, which PresupuestoProveedors to fetch.
+     */
+    where?: PresupuestoProveedorWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PresupuestoProveedors to fetch.
+     */
+    orderBy?: PresupuestoProveedorOrderByWithRelationInput | PresupuestoProveedorOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PresupuestoProveedors.
+     */
+    cursor?: PresupuestoProveedorWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PresupuestoProveedors from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PresupuestoProveedors.
+     */
+    skip?: number
+    distinct?: PresupuestoProveedorScalarFieldEnum | PresupuestoProveedorScalarFieldEnum[]
+  }
+
+  /**
+   * PresupuestoProveedor create
+   */
+  export type PresupuestoProveedorCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PresupuestoProveedor
+     */
+    select?: PresupuestoProveedorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PresupuestoProveedor
+     */
+    omit?: PresupuestoProveedorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PresupuestoProveedorInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PresupuestoProveedor.
+     */
+    data: XOR<PresupuestoProveedorCreateInput, PresupuestoProveedorUncheckedCreateInput>
+  }
+
+  /**
+   * PresupuestoProveedor createMany
+   */
+  export type PresupuestoProveedorCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PresupuestoProveedors.
+     */
+    data: PresupuestoProveedorCreateManyInput | PresupuestoProveedorCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PresupuestoProveedor createManyAndReturn
+   */
+  export type PresupuestoProveedorCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PresupuestoProveedor
+     */
+    select?: PresupuestoProveedorSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PresupuestoProveedor
+     */
+    omit?: PresupuestoProveedorOmit<ExtArgs> | null
+    /**
+     * The data used to create many PresupuestoProveedors.
+     */
+    data: PresupuestoProveedorCreateManyInput | PresupuestoProveedorCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PresupuestoProveedorIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PresupuestoProveedor update
+   */
+  export type PresupuestoProveedorUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PresupuestoProveedor
+     */
+    select?: PresupuestoProveedorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PresupuestoProveedor
+     */
+    omit?: PresupuestoProveedorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PresupuestoProveedorInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PresupuestoProveedor.
+     */
+    data: XOR<PresupuestoProveedorUpdateInput, PresupuestoProveedorUncheckedUpdateInput>
+    /**
+     * Choose, which PresupuestoProveedor to update.
+     */
+    where: PresupuestoProveedorWhereUniqueInput
+  }
+
+  /**
+   * PresupuestoProveedor updateMany
+   */
+  export type PresupuestoProveedorUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PresupuestoProveedors.
+     */
+    data: XOR<PresupuestoProveedorUpdateManyMutationInput, PresupuestoProveedorUncheckedUpdateManyInput>
+    /**
+     * Filter which PresupuestoProveedors to update
+     */
+    where?: PresupuestoProveedorWhereInput
+    /**
+     * Limit how many PresupuestoProveedors to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PresupuestoProveedor updateManyAndReturn
+   */
+  export type PresupuestoProveedorUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PresupuestoProveedor
+     */
+    select?: PresupuestoProveedorSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PresupuestoProveedor
+     */
+    omit?: PresupuestoProveedorOmit<ExtArgs> | null
+    /**
+     * The data used to update PresupuestoProveedors.
+     */
+    data: XOR<PresupuestoProveedorUpdateManyMutationInput, PresupuestoProveedorUncheckedUpdateManyInput>
+    /**
+     * Filter which PresupuestoProveedors to update
+     */
+    where?: PresupuestoProveedorWhereInput
+    /**
+     * Limit how many PresupuestoProveedors to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PresupuestoProveedorIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PresupuestoProveedor upsert
+   */
+  export type PresupuestoProveedorUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PresupuestoProveedor
+     */
+    select?: PresupuestoProveedorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PresupuestoProveedor
+     */
+    omit?: PresupuestoProveedorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PresupuestoProveedorInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PresupuestoProveedor to update in case it exists.
+     */
+    where: PresupuestoProveedorWhereUniqueInput
+    /**
+     * In case the PresupuestoProveedor found by the `where` argument doesn't exist, create a new PresupuestoProveedor with this data.
+     */
+    create: XOR<PresupuestoProveedorCreateInput, PresupuestoProveedorUncheckedCreateInput>
+    /**
+     * In case the PresupuestoProveedor was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PresupuestoProveedorUpdateInput, PresupuestoProveedorUncheckedUpdateInput>
+  }
+
+  /**
+   * PresupuestoProveedor delete
+   */
+  export type PresupuestoProveedorDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PresupuestoProveedor
+     */
+    select?: PresupuestoProveedorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PresupuestoProveedor
+     */
+    omit?: PresupuestoProveedorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PresupuestoProveedorInclude<ExtArgs> | null
+    /**
+     * Filter which PresupuestoProveedor to delete.
+     */
+    where: PresupuestoProveedorWhereUniqueInput
+  }
+
+  /**
+   * PresupuestoProveedor deleteMany
+   */
+  export type PresupuestoProveedorDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PresupuestoProveedors to delete
+     */
+    where?: PresupuestoProveedorWhereInput
+    /**
+     * Limit how many PresupuestoProveedors to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PresupuestoProveedor.proveedor
+   */
+  export type PresupuestoProveedor$proveedorArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Proveedor
+     */
+    select?: ProveedorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Proveedor
+     */
+    omit?: ProveedorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ProveedorInclude<ExtArgs> | null
+    where?: ProveedorWhereInput
+  }
+
+  /**
+   * PresupuestoProveedor.partida
+   */
+  export type PresupuestoProveedor$partidaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PartidaPresupuesto
+     */
+    select?: PartidaPresupuestoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PartidaPresupuesto
+     */
+    omit?: PartidaPresupuestoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PartidaPresupuestoInclude<ExtArgs> | null
+    where?: PartidaPresupuestoWhereInput
+  }
+
+  /**
+   * PresupuestoProveedor without action
+   */
+  export type PresupuestoProveedorDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PresupuestoProveedor
+     */
+    select?: PresupuestoProveedorSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PresupuestoProveedor
+     */
+    omit?: PresupuestoProveedorOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PresupuestoProveedorInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -22445,6 +23884,24 @@ export namespace Prisma {
   export type TikeliaScalarFieldEnum = (typeof TikeliaScalarFieldEnum)[keyof typeof TikeliaScalarFieldEnum]
 
 
+  export const PresupuestoProveedorScalarFieldEnum: {
+    id: 'id',
+    presupuestoId: 'presupuestoId',
+    nombre: 'nombre',
+    descripcion: 'descripcion',
+    precio: 'precio',
+    precioConIVA: 'precioConIVA',
+    proveedorId: 'proveedorId',
+    partidaId: 'partidaId',
+    tipoEspecial: 'tipoEspecial',
+    archivoUrl: 'archivoUrl',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type PresupuestoProveedorScalarFieldEnum = (typeof PresupuestoProveedorScalarFieldEnum)[keyof typeof PresupuestoProveedorScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -22583,6 +24040,13 @@ export namespace Prisma {
    * Reference to a field of type 'EstadoFactura[]'
    */
   export type ListEnumEstadoFacturaFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EstadoFactura[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
   /**
    * Deep Input Types
@@ -23039,6 +24503,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"PartidaPresupuesto"> | Date | string
     updatedAt?: DateTimeFilter<"PartidaPresupuesto"> | Date | string
     items?: ItemPresupuestoListRelationFilter
+    presupuestosProveedores?: PresupuestoProveedorListRelationFilter
   }
 
   export type PartidaPresupuestoOrderByWithRelationInput = {
@@ -23048,6 +24513,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     items?: ItemPresupuestoOrderByRelationAggregateInput
+    presupuestosProveedores?: PresupuestoProveedorOrderByRelationAggregateInput
   }
 
   export type PartidaPresupuestoWhereUniqueInput = Prisma.AtLeast<{
@@ -23060,6 +24526,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"PartidaPresupuesto"> | Date | string
     updatedAt?: DateTimeFilter<"PartidaPresupuesto"> | Date | string
     items?: ItemPresupuestoListRelationFilter
+    presupuestosProveedores?: PresupuestoProveedorListRelationFilter
   }, "id">
 
   export type PartidaPresupuestoOrderByWithAggregationInput = {
@@ -23108,6 +24575,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Presupuesto"> | Date | string
     cliente?: XOR<ClienteNullableScalarRelationFilter, ClienteWhereInput> | null
     items?: ItemPresupuestoListRelationFilter
+    presupuestosProveedores?: PresupuestoProveedorListRelationFilter
     factura?: XOR<FacturaNullableScalarRelationFilter, FacturaWhereInput> | null
   }
 
@@ -23132,6 +24600,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     cliente?: ClienteOrderByWithRelationInput
     items?: ItemPresupuestoOrderByRelationAggregateInput
+    presupuestosProveedores?: PresupuestoProveedorOrderByRelationAggregateInput
     factura?: FacturaOrderByWithRelationInput
   }
 
@@ -23159,6 +24628,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Presupuesto"> | Date | string
     cliente?: XOR<ClienteNullableScalarRelationFilter, ClienteWhereInput> | null
     items?: ItemPresupuestoListRelationFilter
+    presupuestosProveedores?: PresupuestoProveedorListRelationFilter
     factura?: XOR<FacturaNullableScalarRelationFilter, FacturaWhereInput> | null
   }, "id" | "numero">
 
@@ -23744,6 +25214,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Proveedor"> | Date | string
     updatedAt?: DateTimeFilter<"Proveedor"> | Date | string
     equipos?: EquipoItemListRelationFilter
+    presupuestos?: PresupuestoProveedorListRelationFilter
   }
 
   export type ProveedorOrderByWithRelationInput = {
@@ -23758,6 +25229,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     equipos?: EquipoItemOrderByRelationAggregateInput
+    presupuestos?: PresupuestoProveedorOrderByRelationAggregateInput
   }
 
   export type ProveedorWhereUniqueInput = Prisma.AtLeast<{
@@ -23775,6 +25247,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Proveedor"> | Date | string
     updatedAt?: DateTimeFilter<"Proveedor"> | Date | string
     equipos?: EquipoItemListRelationFilter
+    presupuestos?: PresupuestoProveedorListRelationFilter
   }, "id" | "nif">
 
   export type ProveedorOrderByWithAggregationInput = {
@@ -23874,6 +25347,104 @@ export namespace Prisma {
     facturaId?: StringNullableWithAggregatesFilter<"Tikelia"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Tikelia"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Tikelia"> | Date | string
+  }
+
+  export type PresupuestoProveedorWhereInput = {
+    AND?: PresupuestoProveedorWhereInput | PresupuestoProveedorWhereInput[]
+    OR?: PresupuestoProveedorWhereInput[]
+    NOT?: PresupuestoProveedorWhereInput | PresupuestoProveedorWhereInput[]
+    id?: StringFilter<"PresupuestoProveedor"> | string
+    presupuestoId?: StringFilter<"PresupuestoProveedor"> | string
+    nombre?: StringFilter<"PresupuestoProveedor"> | string
+    descripcion?: StringNullableFilter<"PresupuestoProveedor"> | string | null
+    precio?: FloatFilter<"PresupuestoProveedor"> | number
+    precioConIVA?: BoolFilter<"PresupuestoProveedor"> | boolean
+    proveedorId?: StringNullableFilter<"PresupuestoProveedor"> | string | null
+    partidaId?: StringNullableFilter<"PresupuestoProveedor"> | string | null
+    tipoEspecial?: StringNullableFilter<"PresupuestoProveedor"> | string | null
+    archivoUrl?: StringNullableFilter<"PresupuestoProveedor"> | string | null
+    createdAt?: DateTimeFilter<"PresupuestoProveedor"> | Date | string
+    updatedAt?: DateTimeFilter<"PresupuestoProveedor"> | Date | string
+    presupuesto?: XOR<PresupuestoScalarRelationFilter, PresupuestoWhereInput>
+    proveedor?: XOR<ProveedorNullableScalarRelationFilter, ProveedorWhereInput> | null
+    partida?: XOR<PartidaPresupuestoNullableScalarRelationFilter, PartidaPresupuestoWhereInput> | null
+  }
+
+  export type PresupuestoProveedorOrderByWithRelationInput = {
+    id?: SortOrder
+    presupuestoId?: SortOrder
+    nombre?: SortOrder
+    descripcion?: SortOrderInput | SortOrder
+    precio?: SortOrder
+    precioConIVA?: SortOrder
+    proveedorId?: SortOrderInput | SortOrder
+    partidaId?: SortOrderInput | SortOrder
+    tipoEspecial?: SortOrderInput | SortOrder
+    archivoUrl?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    presupuesto?: PresupuestoOrderByWithRelationInput
+    proveedor?: ProveedorOrderByWithRelationInput
+    partida?: PartidaPresupuestoOrderByWithRelationInput
+  }
+
+  export type PresupuestoProveedorWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: PresupuestoProveedorWhereInput | PresupuestoProveedorWhereInput[]
+    OR?: PresupuestoProveedorWhereInput[]
+    NOT?: PresupuestoProveedorWhereInput | PresupuestoProveedorWhereInput[]
+    presupuestoId?: StringFilter<"PresupuestoProveedor"> | string
+    nombre?: StringFilter<"PresupuestoProveedor"> | string
+    descripcion?: StringNullableFilter<"PresupuestoProveedor"> | string | null
+    precio?: FloatFilter<"PresupuestoProveedor"> | number
+    precioConIVA?: BoolFilter<"PresupuestoProveedor"> | boolean
+    proveedorId?: StringNullableFilter<"PresupuestoProveedor"> | string | null
+    partidaId?: StringNullableFilter<"PresupuestoProveedor"> | string | null
+    tipoEspecial?: StringNullableFilter<"PresupuestoProveedor"> | string | null
+    archivoUrl?: StringNullableFilter<"PresupuestoProveedor"> | string | null
+    createdAt?: DateTimeFilter<"PresupuestoProveedor"> | Date | string
+    updatedAt?: DateTimeFilter<"PresupuestoProveedor"> | Date | string
+    presupuesto?: XOR<PresupuestoScalarRelationFilter, PresupuestoWhereInput>
+    proveedor?: XOR<ProveedorNullableScalarRelationFilter, ProveedorWhereInput> | null
+    partida?: XOR<PartidaPresupuestoNullableScalarRelationFilter, PartidaPresupuestoWhereInput> | null
+  }, "id">
+
+  export type PresupuestoProveedorOrderByWithAggregationInput = {
+    id?: SortOrder
+    presupuestoId?: SortOrder
+    nombre?: SortOrder
+    descripcion?: SortOrderInput | SortOrder
+    precio?: SortOrder
+    precioConIVA?: SortOrder
+    proveedorId?: SortOrderInput | SortOrder
+    partidaId?: SortOrderInput | SortOrder
+    tipoEspecial?: SortOrderInput | SortOrder
+    archivoUrl?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: PresupuestoProveedorCountOrderByAggregateInput
+    _avg?: PresupuestoProveedorAvgOrderByAggregateInput
+    _max?: PresupuestoProveedorMaxOrderByAggregateInput
+    _min?: PresupuestoProveedorMinOrderByAggregateInput
+    _sum?: PresupuestoProveedorSumOrderByAggregateInput
+  }
+
+  export type PresupuestoProveedorScalarWhereWithAggregatesInput = {
+    AND?: PresupuestoProveedorScalarWhereWithAggregatesInput | PresupuestoProveedorScalarWhereWithAggregatesInput[]
+    OR?: PresupuestoProveedorScalarWhereWithAggregatesInput[]
+    NOT?: PresupuestoProveedorScalarWhereWithAggregatesInput | PresupuestoProveedorScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"PresupuestoProveedor"> | string
+    presupuestoId?: StringWithAggregatesFilter<"PresupuestoProveedor"> | string
+    nombre?: StringWithAggregatesFilter<"PresupuestoProveedor"> | string
+    descripcion?: StringNullableWithAggregatesFilter<"PresupuestoProveedor"> | string | null
+    precio?: FloatWithAggregatesFilter<"PresupuestoProveedor"> | number
+    precioConIVA?: BoolWithAggregatesFilter<"PresupuestoProveedor"> | boolean
+    proveedorId?: StringNullableWithAggregatesFilter<"PresupuestoProveedor"> | string | null
+    partidaId?: StringNullableWithAggregatesFilter<"PresupuestoProveedor"> | string | null
+    tipoEspecial?: StringNullableWithAggregatesFilter<"PresupuestoProveedor"> | string | null
+    archivoUrl?: StringNullableWithAggregatesFilter<"PresupuestoProveedor"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"PresupuestoProveedor"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"PresupuestoProveedor"> | Date | string
   }
 
   export type EmpresaCreateInput = {
@@ -24369,6 +25940,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     items?: ItemPresupuestoCreateNestedManyWithoutPartidaInput
+    presupuestosProveedores?: PresupuestoProveedorCreateNestedManyWithoutPartidaInput
   }
 
   export type PartidaPresupuestoUncheckedCreateInput = {
@@ -24378,6 +25950,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     items?: ItemPresupuestoUncheckedCreateNestedManyWithoutPartidaInput
+    presupuestosProveedores?: PresupuestoProveedorUncheckedCreateNestedManyWithoutPartidaInput
   }
 
   export type PartidaPresupuestoUpdateInput = {
@@ -24387,6 +25960,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: ItemPresupuestoUpdateManyWithoutPartidaNestedInput
+    presupuestosProveedores?: PresupuestoProveedorUpdateManyWithoutPartidaNestedInput
   }
 
   export type PartidaPresupuestoUncheckedUpdateInput = {
@@ -24396,6 +25970,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: ItemPresupuestoUncheckedUpdateManyWithoutPartidaNestedInput
+    presupuestosProveedores?: PresupuestoProveedorUncheckedUpdateManyWithoutPartidaNestedInput
   }
 
   export type PartidaPresupuestoCreateManyInput = {
@@ -24441,6 +26016,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     cliente?: ClienteCreateNestedOneWithoutPresupuestosInput
     items?: ItemPresupuestoCreateNestedManyWithoutPresupuestoInput
+    presupuestosProveedores?: PresupuestoProveedorCreateNestedManyWithoutPresupuestoInput
     factura?: FacturaCreateNestedOneWithoutPresupuestosInput
   }
 
@@ -24464,6 +26040,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     items?: ItemPresupuestoUncheckedCreateNestedManyWithoutPresupuestoInput
+    presupuestosProveedores?: PresupuestoProveedorUncheckedCreateNestedManyWithoutPresupuestoInput
   }
 
   export type PresupuestoUpdateInput = {
@@ -24485,6 +26062,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     cliente?: ClienteUpdateOneWithoutPresupuestosNestedInput
     items?: ItemPresupuestoUpdateManyWithoutPresupuestoNestedInput
+    presupuestosProveedores?: PresupuestoProveedorUpdateManyWithoutPresupuestoNestedInput
     factura?: FacturaUpdateOneWithoutPresupuestosNestedInput
   }
 
@@ -24508,6 +26086,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: ItemPresupuestoUncheckedUpdateManyWithoutPresupuestoNestedInput
+    presupuestosProveedores?: PresupuestoProveedorUncheckedUpdateManyWithoutPresupuestoNestedInput
   }
 
   export type PresupuestoCreateManyInput = {
@@ -25134,6 +26713,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     equipos?: EquipoItemCreateNestedManyWithoutProveedorInput
+    presupuestos?: PresupuestoProveedorCreateNestedManyWithoutProveedorInput
   }
 
   export type ProveedorUncheckedCreateInput = {
@@ -25148,6 +26728,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     equipos?: EquipoItemUncheckedCreateNestedManyWithoutProveedorInput
+    presupuestos?: PresupuestoProveedorUncheckedCreateNestedManyWithoutProveedorInput
   }
 
   export type ProveedorUpdateInput = {
@@ -25162,6 +26743,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     equipos?: EquipoItemUpdateManyWithoutProveedorNestedInput
+    presupuestos?: PresupuestoProveedorUpdateManyWithoutProveedorNestedInput
   }
 
   export type ProveedorUncheckedUpdateInput = {
@@ -25176,6 +26758,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     equipos?: EquipoItemUncheckedUpdateManyWithoutProveedorNestedInput
+    presupuestos?: PresupuestoProveedorUncheckedUpdateManyWithoutProveedorNestedInput
   }
 
   export type ProveedorCreateManyInput = {
@@ -25282,6 +26865,108 @@ export namespace Prisma {
     importe?: FloatFieldUpdateOperationsInput | number
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     facturaId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PresupuestoProveedorCreateInput = {
+    id?: string
+    nombre: string
+    descripcion?: string | null
+    precio: number
+    precioConIVA: boolean
+    tipoEspecial?: string | null
+    archivoUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    presupuesto: PresupuestoCreateNestedOneWithoutPresupuestosProveedoresInput
+    proveedor?: ProveedorCreateNestedOneWithoutPresupuestosInput
+    partida?: PartidaPresupuestoCreateNestedOneWithoutPresupuestosProveedoresInput
+  }
+
+  export type PresupuestoProveedorUncheckedCreateInput = {
+    id?: string
+    presupuestoId: string
+    nombre: string
+    descripcion?: string | null
+    precio: number
+    precioConIVA: boolean
+    proveedorId?: string | null
+    partidaId?: string | null
+    tipoEspecial?: string | null
+    archivoUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PresupuestoProveedorUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    precio?: FloatFieldUpdateOperationsInput | number
+    precioConIVA?: BoolFieldUpdateOperationsInput | boolean
+    tipoEspecial?: NullableStringFieldUpdateOperationsInput | string | null
+    archivoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    presupuesto?: PresupuestoUpdateOneRequiredWithoutPresupuestosProveedoresNestedInput
+    proveedor?: ProveedorUpdateOneWithoutPresupuestosNestedInput
+    partida?: PartidaPresupuestoUpdateOneWithoutPresupuestosProveedoresNestedInput
+  }
+
+  export type PresupuestoProveedorUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    presupuestoId?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    precio?: FloatFieldUpdateOperationsInput | number
+    precioConIVA?: BoolFieldUpdateOperationsInput | boolean
+    proveedorId?: NullableStringFieldUpdateOperationsInput | string | null
+    partidaId?: NullableStringFieldUpdateOperationsInput | string | null
+    tipoEspecial?: NullableStringFieldUpdateOperationsInput | string | null
+    archivoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PresupuestoProveedorCreateManyInput = {
+    id?: string
+    presupuestoId: string
+    nombre: string
+    descripcion?: string | null
+    precio: number
+    precioConIVA: boolean
+    proveedorId?: string | null
+    partidaId?: string | null
+    tipoEspecial?: string | null
+    archivoUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PresupuestoProveedorUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    precio?: FloatFieldUpdateOperationsInput | number
+    precioConIVA?: BoolFieldUpdateOperationsInput | boolean
+    tipoEspecial?: NullableStringFieldUpdateOperationsInput | string | null
+    archivoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PresupuestoProveedorUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    presupuestoId?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    precio?: FloatFieldUpdateOperationsInput | number
+    precioConIVA?: BoolFieldUpdateOperationsInput | boolean
+    proveedorId?: NullableStringFieldUpdateOperationsInput | string | null
+    partidaId?: NullableStringFieldUpdateOperationsInput | string | null
+    tipoEspecial?: NullableStringFieldUpdateOperationsInput | string | null
+    archivoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -25825,6 +27510,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumTipoClienteFilter<$PrismaModel>
     _max?: NestedEnumTipoClienteFilter<$PrismaModel>
+  }
+
+  export type PresupuestoProveedorListRelationFilter = {
+    every?: PresupuestoProveedorWhereInput
+    some?: PresupuestoProveedorWhereInput
+    none?: PresupuestoProveedorWhereInput
+  }
+
+  export type PresupuestoProveedorOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type PartidaPresupuestoCountOrderByAggregateInput = {
@@ -26387,6 +28082,72 @@ export namespace Prisma {
     importe?: SortOrder
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type PresupuestoProveedorCountOrderByAggregateInput = {
+    id?: SortOrder
+    presupuestoId?: SortOrder
+    nombre?: SortOrder
+    descripcion?: SortOrder
+    precio?: SortOrder
+    precioConIVA?: SortOrder
+    proveedorId?: SortOrder
+    partidaId?: SortOrder
+    tipoEspecial?: SortOrder
+    archivoUrl?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PresupuestoProveedorAvgOrderByAggregateInput = {
+    precio?: SortOrder
+  }
+
+  export type PresupuestoProveedorMaxOrderByAggregateInput = {
+    id?: SortOrder
+    presupuestoId?: SortOrder
+    nombre?: SortOrder
+    descripcion?: SortOrder
+    precio?: SortOrder
+    precioConIVA?: SortOrder
+    proveedorId?: SortOrder
+    partidaId?: SortOrder
+    tipoEspecial?: SortOrder
+    archivoUrl?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PresupuestoProveedorMinOrderByAggregateInput = {
+    id?: SortOrder
+    presupuestoId?: SortOrder
+    nombre?: SortOrder
+    descripcion?: SortOrder
+    precio?: SortOrder
+    precioConIVA?: SortOrder
+    proveedorId?: SortOrder
+    partidaId?: SortOrder
+    tipoEspecial?: SortOrder
+    archivoUrl?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type PresupuestoProveedorSumOrderByAggregateInput = {
+    precio?: SortOrder
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
@@ -26796,11 +28557,25 @@ export namespace Prisma {
     connect?: ItemPresupuestoWhereUniqueInput | ItemPresupuestoWhereUniqueInput[]
   }
 
+  export type PresupuestoProveedorCreateNestedManyWithoutPartidaInput = {
+    create?: XOR<PresupuestoProveedorCreateWithoutPartidaInput, PresupuestoProveedorUncheckedCreateWithoutPartidaInput> | PresupuestoProveedorCreateWithoutPartidaInput[] | PresupuestoProveedorUncheckedCreateWithoutPartidaInput[]
+    connectOrCreate?: PresupuestoProveedorCreateOrConnectWithoutPartidaInput | PresupuestoProveedorCreateOrConnectWithoutPartidaInput[]
+    createMany?: PresupuestoProveedorCreateManyPartidaInputEnvelope
+    connect?: PresupuestoProveedorWhereUniqueInput | PresupuestoProveedorWhereUniqueInput[]
+  }
+
   export type ItemPresupuestoUncheckedCreateNestedManyWithoutPartidaInput = {
     create?: XOR<ItemPresupuestoCreateWithoutPartidaInput, ItemPresupuestoUncheckedCreateWithoutPartidaInput> | ItemPresupuestoCreateWithoutPartidaInput[] | ItemPresupuestoUncheckedCreateWithoutPartidaInput[]
     connectOrCreate?: ItemPresupuestoCreateOrConnectWithoutPartidaInput | ItemPresupuestoCreateOrConnectWithoutPartidaInput[]
     createMany?: ItemPresupuestoCreateManyPartidaInputEnvelope
     connect?: ItemPresupuestoWhereUniqueInput | ItemPresupuestoWhereUniqueInput[]
+  }
+
+  export type PresupuestoProveedorUncheckedCreateNestedManyWithoutPartidaInput = {
+    create?: XOR<PresupuestoProveedorCreateWithoutPartidaInput, PresupuestoProveedorUncheckedCreateWithoutPartidaInput> | PresupuestoProveedorCreateWithoutPartidaInput[] | PresupuestoProveedorUncheckedCreateWithoutPartidaInput[]
+    connectOrCreate?: PresupuestoProveedorCreateOrConnectWithoutPartidaInput | PresupuestoProveedorCreateOrConnectWithoutPartidaInput[]
+    createMany?: PresupuestoProveedorCreateManyPartidaInputEnvelope
+    connect?: PresupuestoProveedorWhereUniqueInput | PresupuestoProveedorWhereUniqueInput[]
   }
 
   export type ItemPresupuestoUpdateManyWithoutPartidaNestedInput = {
@@ -26817,6 +28592,20 @@ export namespace Prisma {
     deleteMany?: ItemPresupuestoScalarWhereInput | ItemPresupuestoScalarWhereInput[]
   }
 
+  export type PresupuestoProveedorUpdateManyWithoutPartidaNestedInput = {
+    create?: XOR<PresupuestoProveedorCreateWithoutPartidaInput, PresupuestoProveedorUncheckedCreateWithoutPartidaInput> | PresupuestoProveedorCreateWithoutPartidaInput[] | PresupuestoProveedorUncheckedCreateWithoutPartidaInput[]
+    connectOrCreate?: PresupuestoProveedorCreateOrConnectWithoutPartidaInput | PresupuestoProveedorCreateOrConnectWithoutPartidaInput[]
+    upsert?: PresupuestoProveedorUpsertWithWhereUniqueWithoutPartidaInput | PresupuestoProveedorUpsertWithWhereUniqueWithoutPartidaInput[]
+    createMany?: PresupuestoProveedorCreateManyPartidaInputEnvelope
+    set?: PresupuestoProveedorWhereUniqueInput | PresupuestoProveedorWhereUniqueInput[]
+    disconnect?: PresupuestoProveedorWhereUniqueInput | PresupuestoProveedorWhereUniqueInput[]
+    delete?: PresupuestoProveedorWhereUniqueInput | PresupuestoProveedorWhereUniqueInput[]
+    connect?: PresupuestoProveedorWhereUniqueInput | PresupuestoProveedorWhereUniqueInput[]
+    update?: PresupuestoProveedorUpdateWithWhereUniqueWithoutPartidaInput | PresupuestoProveedorUpdateWithWhereUniqueWithoutPartidaInput[]
+    updateMany?: PresupuestoProveedorUpdateManyWithWhereWithoutPartidaInput | PresupuestoProveedorUpdateManyWithWhereWithoutPartidaInput[]
+    deleteMany?: PresupuestoProveedorScalarWhereInput | PresupuestoProveedorScalarWhereInput[]
+  }
+
   export type ItemPresupuestoUncheckedUpdateManyWithoutPartidaNestedInput = {
     create?: XOR<ItemPresupuestoCreateWithoutPartidaInput, ItemPresupuestoUncheckedCreateWithoutPartidaInput> | ItemPresupuestoCreateWithoutPartidaInput[] | ItemPresupuestoUncheckedCreateWithoutPartidaInput[]
     connectOrCreate?: ItemPresupuestoCreateOrConnectWithoutPartidaInput | ItemPresupuestoCreateOrConnectWithoutPartidaInput[]
@@ -26829,6 +28618,20 @@ export namespace Prisma {
     update?: ItemPresupuestoUpdateWithWhereUniqueWithoutPartidaInput | ItemPresupuestoUpdateWithWhereUniqueWithoutPartidaInput[]
     updateMany?: ItemPresupuestoUpdateManyWithWhereWithoutPartidaInput | ItemPresupuestoUpdateManyWithWhereWithoutPartidaInput[]
     deleteMany?: ItemPresupuestoScalarWhereInput | ItemPresupuestoScalarWhereInput[]
+  }
+
+  export type PresupuestoProveedorUncheckedUpdateManyWithoutPartidaNestedInput = {
+    create?: XOR<PresupuestoProveedorCreateWithoutPartidaInput, PresupuestoProveedorUncheckedCreateWithoutPartidaInput> | PresupuestoProveedorCreateWithoutPartidaInput[] | PresupuestoProveedorUncheckedCreateWithoutPartidaInput[]
+    connectOrCreate?: PresupuestoProveedorCreateOrConnectWithoutPartidaInput | PresupuestoProveedorCreateOrConnectWithoutPartidaInput[]
+    upsert?: PresupuestoProveedorUpsertWithWhereUniqueWithoutPartidaInput | PresupuestoProveedorUpsertWithWhereUniqueWithoutPartidaInput[]
+    createMany?: PresupuestoProveedorCreateManyPartidaInputEnvelope
+    set?: PresupuestoProveedorWhereUniqueInput | PresupuestoProveedorWhereUniqueInput[]
+    disconnect?: PresupuestoProveedorWhereUniqueInput | PresupuestoProveedorWhereUniqueInput[]
+    delete?: PresupuestoProveedorWhereUniqueInput | PresupuestoProveedorWhereUniqueInput[]
+    connect?: PresupuestoProveedorWhereUniqueInput | PresupuestoProveedorWhereUniqueInput[]
+    update?: PresupuestoProveedorUpdateWithWhereUniqueWithoutPartidaInput | PresupuestoProveedorUpdateWithWhereUniqueWithoutPartidaInput[]
+    updateMany?: PresupuestoProveedorUpdateManyWithWhereWithoutPartidaInput | PresupuestoProveedorUpdateManyWithWhereWithoutPartidaInput[]
+    deleteMany?: PresupuestoProveedorScalarWhereInput | PresupuestoProveedorScalarWhereInput[]
   }
 
   export type ClienteCreateNestedOneWithoutPresupuestosInput = {
@@ -26844,6 +28647,13 @@ export namespace Prisma {
     connect?: ItemPresupuestoWhereUniqueInput | ItemPresupuestoWhereUniqueInput[]
   }
 
+  export type PresupuestoProveedorCreateNestedManyWithoutPresupuestoInput = {
+    create?: XOR<PresupuestoProveedorCreateWithoutPresupuestoInput, PresupuestoProveedorUncheckedCreateWithoutPresupuestoInput> | PresupuestoProveedorCreateWithoutPresupuestoInput[] | PresupuestoProveedorUncheckedCreateWithoutPresupuestoInput[]
+    connectOrCreate?: PresupuestoProveedorCreateOrConnectWithoutPresupuestoInput | PresupuestoProveedorCreateOrConnectWithoutPresupuestoInput[]
+    createMany?: PresupuestoProveedorCreateManyPresupuestoInputEnvelope
+    connect?: PresupuestoProveedorWhereUniqueInput | PresupuestoProveedorWhereUniqueInput[]
+  }
+
   export type FacturaCreateNestedOneWithoutPresupuestosInput = {
     create?: XOR<FacturaCreateWithoutPresupuestosInput, FacturaUncheckedCreateWithoutPresupuestosInput>
     connectOrCreate?: FacturaCreateOrConnectWithoutPresupuestosInput
@@ -26855,6 +28665,13 @@ export namespace Prisma {
     connectOrCreate?: ItemPresupuestoCreateOrConnectWithoutPresupuestoInput | ItemPresupuestoCreateOrConnectWithoutPresupuestoInput[]
     createMany?: ItemPresupuestoCreateManyPresupuestoInputEnvelope
     connect?: ItemPresupuestoWhereUniqueInput | ItemPresupuestoWhereUniqueInput[]
+  }
+
+  export type PresupuestoProveedorUncheckedCreateNestedManyWithoutPresupuestoInput = {
+    create?: XOR<PresupuestoProveedorCreateWithoutPresupuestoInput, PresupuestoProveedorUncheckedCreateWithoutPresupuestoInput> | PresupuestoProveedorCreateWithoutPresupuestoInput[] | PresupuestoProveedorUncheckedCreateWithoutPresupuestoInput[]
+    connectOrCreate?: PresupuestoProveedorCreateOrConnectWithoutPresupuestoInput | PresupuestoProveedorCreateOrConnectWithoutPresupuestoInput[]
+    createMany?: PresupuestoProveedorCreateManyPresupuestoInputEnvelope
+    connect?: PresupuestoProveedorWhereUniqueInput | PresupuestoProveedorWhereUniqueInput[]
   }
 
   export type EnumEstadoPresupuestoFieldUpdateOperationsInput = {
@@ -26885,6 +28702,20 @@ export namespace Prisma {
     deleteMany?: ItemPresupuestoScalarWhereInput | ItemPresupuestoScalarWhereInput[]
   }
 
+  export type PresupuestoProveedorUpdateManyWithoutPresupuestoNestedInput = {
+    create?: XOR<PresupuestoProveedorCreateWithoutPresupuestoInput, PresupuestoProveedorUncheckedCreateWithoutPresupuestoInput> | PresupuestoProveedorCreateWithoutPresupuestoInput[] | PresupuestoProveedorUncheckedCreateWithoutPresupuestoInput[]
+    connectOrCreate?: PresupuestoProveedorCreateOrConnectWithoutPresupuestoInput | PresupuestoProveedorCreateOrConnectWithoutPresupuestoInput[]
+    upsert?: PresupuestoProveedorUpsertWithWhereUniqueWithoutPresupuestoInput | PresupuestoProveedorUpsertWithWhereUniqueWithoutPresupuestoInput[]
+    createMany?: PresupuestoProveedorCreateManyPresupuestoInputEnvelope
+    set?: PresupuestoProveedorWhereUniqueInput | PresupuestoProveedorWhereUniqueInput[]
+    disconnect?: PresupuestoProveedorWhereUniqueInput | PresupuestoProveedorWhereUniqueInput[]
+    delete?: PresupuestoProveedorWhereUniqueInput | PresupuestoProveedorWhereUniqueInput[]
+    connect?: PresupuestoProveedorWhereUniqueInput | PresupuestoProveedorWhereUniqueInput[]
+    update?: PresupuestoProveedorUpdateWithWhereUniqueWithoutPresupuestoInput | PresupuestoProveedorUpdateWithWhereUniqueWithoutPresupuestoInput[]
+    updateMany?: PresupuestoProveedorUpdateManyWithWhereWithoutPresupuestoInput | PresupuestoProveedorUpdateManyWithWhereWithoutPresupuestoInput[]
+    deleteMany?: PresupuestoProveedorScalarWhereInput | PresupuestoProveedorScalarWhereInput[]
+  }
+
   export type FacturaUpdateOneWithoutPresupuestosNestedInput = {
     create?: XOR<FacturaCreateWithoutPresupuestosInput, FacturaUncheckedCreateWithoutPresupuestosInput>
     connectOrCreate?: FacturaCreateOrConnectWithoutPresupuestosInput
@@ -26907,6 +28738,20 @@ export namespace Prisma {
     update?: ItemPresupuestoUpdateWithWhereUniqueWithoutPresupuestoInput | ItemPresupuestoUpdateWithWhereUniqueWithoutPresupuestoInput[]
     updateMany?: ItemPresupuestoUpdateManyWithWhereWithoutPresupuestoInput | ItemPresupuestoUpdateManyWithWhereWithoutPresupuestoInput[]
     deleteMany?: ItemPresupuestoScalarWhereInput | ItemPresupuestoScalarWhereInput[]
+  }
+
+  export type PresupuestoProveedorUncheckedUpdateManyWithoutPresupuestoNestedInput = {
+    create?: XOR<PresupuestoProveedorCreateWithoutPresupuestoInput, PresupuestoProveedorUncheckedCreateWithoutPresupuestoInput> | PresupuestoProveedorCreateWithoutPresupuestoInput[] | PresupuestoProveedorUncheckedCreateWithoutPresupuestoInput[]
+    connectOrCreate?: PresupuestoProveedorCreateOrConnectWithoutPresupuestoInput | PresupuestoProveedorCreateOrConnectWithoutPresupuestoInput[]
+    upsert?: PresupuestoProveedorUpsertWithWhereUniqueWithoutPresupuestoInput | PresupuestoProveedorUpsertWithWhereUniqueWithoutPresupuestoInput[]
+    createMany?: PresupuestoProveedorCreateManyPresupuestoInputEnvelope
+    set?: PresupuestoProveedorWhereUniqueInput | PresupuestoProveedorWhereUniqueInput[]
+    disconnect?: PresupuestoProveedorWhereUniqueInput | PresupuestoProveedorWhereUniqueInput[]
+    delete?: PresupuestoProveedorWhereUniqueInput | PresupuestoProveedorWhereUniqueInput[]
+    connect?: PresupuestoProveedorWhereUniqueInput | PresupuestoProveedorWhereUniqueInput[]
+    update?: PresupuestoProveedorUpdateWithWhereUniqueWithoutPresupuestoInput | PresupuestoProveedorUpdateWithWhereUniqueWithoutPresupuestoInput[]
+    updateMany?: PresupuestoProveedorUpdateManyWithWhereWithoutPresupuestoInput | PresupuestoProveedorUpdateManyWithWhereWithoutPresupuestoInput[]
+    deleteMany?: PresupuestoProveedorScalarWhereInput | PresupuestoProveedorScalarWhereInput[]
   }
 
   export type PresupuestoCreateNestedOneWithoutItemsInput = {
@@ -27244,11 +29089,25 @@ export namespace Prisma {
     connect?: EquipoItemWhereUniqueInput | EquipoItemWhereUniqueInput[]
   }
 
+  export type PresupuestoProveedorCreateNestedManyWithoutProveedorInput = {
+    create?: XOR<PresupuestoProveedorCreateWithoutProveedorInput, PresupuestoProveedorUncheckedCreateWithoutProveedorInput> | PresupuestoProveedorCreateWithoutProveedorInput[] | PresupuestoProveedorUncheckedCreateWithoutProveedorInput[]
+    connectOrCreate?: PresupuestoProveedorCreateOrConnectWithoutProveedorInput | PresupuestoProveedorCreateOrConnectWithoutProveedorInput[]
+    createMany?: PresupuestoProveedorCreateManyProveedorInputEnvelope
+    connect?: PresupuestoProveedorWhereUniqueInput | PresupuestoProveedorWhereUniqueInput[]
+  }
+
   export type EquipoItemUncheckedCreateNestedManyWithoutProveedorInput = {
     create?: XOR<EquipoItemCreateWithoutProveedorInput, EquipoItemUncheckedCreateWithoutProveedorInput> | EquipoItemCreateWithoutProveedorInput[] | EquipoItemUncheckedCreateWithoutProveedorInput[]
     connectOrCreate?: EquipoItemCreateOrConnectWithoutProveedorInput | EquipoItemCreateOrConnectWithoutProveedorInput[]
     createMany?: EquipoItemCreateManyProveedorInputEnvelope
     connect?: EquipoItemWhereUniqueInput | EquipoItemWhereUniqueInput[]
+  }
+
+  export type PresupuestoProveedorUncheckedCreateNestedManyWithoutProveedorInput = {
+    create?: XOR<PresupuestoProveedorCreateWithoutProveedorInput, PresupuestoProveedorUncheckedCreateWithoutProveedorInput> | PresupuestoProveedorCreateWithoutProveedorInput[] | PresupuestoProveedorUncheckedCreateWithoutProveedorInput[]
+    connectOrCreate?: PresupuestoProveedorCreateOrConnectWithoutProveedorInput | PresupuestoProveedorCreateOrConnectWithoutProveedorInput[]
+    createMany?: PresupuestoProveedorCreateManyProveedorInputEnvelope
+    connect?: PresupuestoProveedorWhereUniqueInput | PresupuestoProveedorWhereUniqueInput[]
   }
 
   export type EquipoItemUpdateManyWithoutProveedorNestedInput = {
@@ -27265,6 +29124,20 @@ export namespace Prisma {
     deleteMany?: EquipoItemScalarWhereInput | EquipoItemScalarWhereInput[]
   }
 
+  export type PresupuestoProveedorUpdateManyWithoutProveedorNestedInput = {
+    create?: XOR<PresupuestoProveedorCreateWithoutProveedorInput, PresupuestoProveedorUncheckedCreateWithoutProveedorInput> | PresupuestoProveedorCreateWithoutProveedorInput[] | PresupuestoProveedorUncheckedCreateWithoutProveedorInput[]
+    connectOrCreate?: PresupuestoProveedorCreateOrConnectWithoutProveedorInput | PresupuestoProveedorCreateOrConnectWithoutProveedorInput[]
+    upsert?: PresupuestoProveedorUpsertWithWhereUniqueWithoutProveedorInput | PresupuestoProveedorUpsertWithWhereUniqueWithoutProveedorInput[]
+    createMany?: PresupuestoProveedorCreateManyProveedorInputEnvelope
+    set?: PresupuestoProveedorWhereUniqueInput | PresupuestoProveedorWhereUniqueInput[]
+    disconnect?: PresupuestoProveedorWhereUniqueInput | PresupuestoProveedorWhereUniqueInput[]
+    delete?: PresupuestoProveedorWhereUniqueInput | PresupuestoProveedorWhereUniqueInput[]
+    connect?: PresupuestoProveedorWhereUniqueInput | PresupuestoProveedorWhereUniqueInput[]
+    update?: PresupuestoProveedorUpdateWithWhereUniqueWithoutProveedorInput | PresupuestoProveedorUpdateWithWhereUniqueWithoutProveedorInput[]
+    updateMany?: PresupuestoProveedorUpdateManyWithWhereWithoutProveedorInput | PresupuestoProveedorUpdateManyWithWhereWithoutProveedorInput[]
+    deleteMany?: PresupuestoProveedorScalarWhereInput | PresupuestoProveedorScalarWhereInput[]
+  }
+
   export type EquipoItemUncheckedUpdateManyWithoutProveedorNestedInput = {
     create?: XOR<EquipoItemCreateWithoutProveedorInput, EquipoItemUncheckedCreateWithoutProveedorInput> | EquipoItemCreateWithoutProveedorInput[] | EquipoItemUncheckedCreateWithoutProveedorInput[]
     connectOrCreate?: EquipoItemCreateOrConnectWithoutProveedorInput | EquipoItemCreateOrConnectWithoutProveedorInput[]
@@ -27277,6 +29150,20 @@ export namespace Prisma {
     update?: EquipoItemUpdateWithWhereUniqueWithoutProveedorInput | EquipoItemUpdateWithWhereUniqueWithoutProveedorInput[]
     updateMany?: EquipoItemUpdateManyWithWhereWithoutProveedorInput | EquipoItemUpdateManyWithWhereWithoutProveedorInput[]
     deleteMany?: EquipoItemScalarWhereInput | EquipoItemScalarWhereInput[]
+  }
+
+  export type PresupuestoProveedorUncheckedUpdateManyWithoutProveedorNestedInput = {
+    create?: XOR<PresupuestoProveedorCreateWithoutProveedorInput, PresupuestoProveedorUncheckedCreateWithoutProveedorInput> | PresupuestoProveedorCreateWithoutProveedorInput[] | PresupuestoProveedorUncheckedCreateWithoutProveedorInput[]
+    connectOrCreate?: PresupuestoProveedorCreateOrConnectWithoutProveedorInput | PresupuestoProveedorCreateOrConnectWithoutProveedorInput[]
+    upsert?: PresupuestoProveedorUpsertWithWhereUniqueWithoutProveedorInput | PresupuestoProveedorUpsertWithWhereUniqueWithoutProveedorInput[]
+    createMany?: PresupuestoProveedorCreateManyProveedorInputEnvelope
+    set?: PresupuestoProveedorWhereUniqueInput | PresupuestoProveedorWhereUniqueInput[]
+    disconnect?: PresupuestoProveedorWhereUniqueInput | PresupuestoProveedorWhereUniqueInput[]
+    delete?: PresupuestoProveedorWhereUniqueInput | PresupuestoProveedorWhereUniqueInput[]
+    connect?: PresupuestoProveedorWhereUniqueInput | PresupuestoProveedorWhereUniqueInput[]
+    update?: PresupuestoProveedorUpdateWithWhereUniqueWithoutProveedorInput | PresupuestoProveedorUpdateWithWhereUniqueWithoutProveedorInput[]
+    updateMany?: PresupuestoProveedorUpdateManyWithWhereWithoutProveedorInput | PresupuestoProveedorUpdateManyWithWhereWithoutProveedorInput[]
+    deleteMany?: PresupuestoProveedorScalarWhereInput | PresupuestoProveedorScalarWhereInput[]
   }
 
   export type FacturaCreateNestedOneWithoutGastosTickeliaInput = {
@@ -27293,6 +29180,56 @@ export namespace Prisma {
     delete?: FacturaWhereInput | boolean
     connect?: FacturaWhereUniqueInput
     update?: XOR<XOR<FacturaUpdateToOneWithWhereWithoutGastosTickeliaInput, FacturaUpdateWithoutGastosTickeliaInput>, FacturaUncheckedUpdateWithoutGastosTickeliaInput>
+  }
+
+  export type PresupuestoCreateNestedOneWithoutPresupuestosProveedoresInput = {
+    create?: XOR<PresupuestoCreateWithoutPresupuestosProveedoresInput, PresupuestoUncheckedCreateWithoutPresupuestosProveedoresInput>
+    connectOrCreate?: PresupuestoCreateOrConnectWithoutPresupuestosProveedoresInput
+    connect?: PresupuestoWhereUniqueInput
+  }
+
+  export type ProveedorCreateNestedOneWithoutPresupuestosInput = {
+    create?: XOR<ProveedorCreateWithoutPresupuestosInput, ProveedorUncheckedCreateWithoutPresupuestosInput>
+    connectOrCreate?: ProveedorCreateOrConnectWithoutPresupuestosInput
+    connect?: ProveedorWhereUniqueInput
+  }
+
+  export type PartidaPresupuestoCreateNestedOneWithoutPresupuestosProveedoresInput = {
+    create?: XOR<PartidaPresupuestoCreateWithoutPresupuestosProveedoresInput, PartidaPresupuestoUncheckedCreateWithoutPresupuestosProveedoresInput>
+    connectOrCreate?: PartidaPresupuestoCreateOrConnectWithoutPresupuestosProveedoresInput
+    connect?: PartidaPresupuestoWhereUniqueInput
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
+  export type PresupuestoUpdateOneRequiredWithoutPresupuestosProveedoresNestedInput = {
+    create?: XOR<PresupuestoCreateWithoutPresupuestosProveedoresInput, PresupuestoUncheckedCreateWithoutPresupuestosProveedoresInput>
+    connectOrCreate?: PresupuestoCreateOrConnectWithoutPresupuestosProveedoresInput
+    upsert?: PresupuestoUpsertWithoutPresupuestosProveedoresInput
+    connect?: PresupuestoWhereUniqueInput
+    update?: XOR<XOR<PresupuestoUpdateToOneWithWhereWithoutPresupuestosProveedoresInput, PresupuestoUpdateWithoutPresupuestosProveedoresInput>, PresupuestoUncheckedUpdateWithoutPresupuestosProveedoresInput>
+  }
+
+  export type ProveedorUpdateOneWithoutPresupuestosNestedInput = {
+    create?: XOR<ProveedorCreateWithoutPresupuestosInput, ProveedorUncheckedCreateWithoutPresupuestosInput>
+    connectOrCreate?: ProveedorCreateOrConnectWithoutPresupuestosInput
+    upsert?: ProveedorUpsertWithoutPresupuestosInput
+    disconnect?: ProveedorWhereInput | boolean
+    delete?: ProveedorWhereInput | boolean
+    connect?: ProveedorWhereUniqueInput
+    update?: XOR<XOR<ProveedorUpdateToOneWithWhereWithoutPresupuestosInput, ProveedorUpdateWithoutPresupuestosInput>, ProveedorUncheckedUpdateWithoutPresupuestosInput>
+  }
+
+  export type PartidaPresupuestoUpdateOneWithoutPresupuestosProveedoresNestedInput = {
+    create?: XOR<PartidaPresupuestoCreateWithoutPresupuestosProveedoresInput, PartidaPresupuestoUncheckedCreateWithoutPresupuestosProveedoresInput>
+    connectOrCreate?: PartidaPresupuestoCreateOrConnectWithoutPresupuestosProveedoresInput
+    upsert?: PartidaPresupuestoUpsertWithoutPresupuestosProveedoresInput
+    disconnect?: PartidaPresupuestoWhereInput | boolean
+    delete?: PartidaPresupuestoWhereInput | boolean
+    connect?: PartidaPresupuestoWhereUniqueInput
+    update?: XOR<XOR<PartidaPresupuestoUpdateToOneWithWhereWithoutPresupuestosProveedoresInput, PartidaPresupuestoUpdateWithoutPresupuestosProveedoresInput>, PartidaPresupuestoUncheckedUpdateWithoutPresupuestosProveedoresInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -27565,6 +29502,19 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumEstadoFacturaFilter<$PrismaModel>
     _max?: NestedEnumEstadoFacturaFilter<$PrismaModel>
+  }
+
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type ProductoCreateWithoutCategoriaInput = {
@@ -28053,6 +30003,7 @@ export namespace Prisma {
     notas?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    presupuestos?: PresupuestoProveedorCreateNestedManyWithoutProveedorInput
   }
 
   export type ProveedorUncheckedCreateWithoutEquiposInput = {
@@ -28066,6 +30017,7 @@ export namespace Prisma {
     notas?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    presupuestos?: PresupuestoProveedorUncheckedCreateNestedManyWithoutProveedorInput
   }
 
   export type ProveedorCreateOrConnectWithoutEquiposInput = {
@@ -28140,6 +30092,7 @@ export namespace Prisma {
     notas?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    presupuestos?: PresupuestoProveedorUpdateManyWithoutProveedorNestedInput
   }
 
   export type ProveedorUncheckedUpdateWithoutEquiposInput = {
@@ -28153,6 +30106,7 @@ export namespace Prisma {
     notas?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    presupuestos?: PresupuestoProveedorUncheckedUpdateManyWithoutProveedorNestedInput
   }
 
   export type PresupuestoCreateWithoutClienteInput = {
@@ -28173,6 +30127,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     items?: ItemPresupuestoCreateNestedManyWithoutPresupuestoInput
+    presupuestosProveedores?: PresupuestoProveedorCreateNestedManyWithoutPresupuestoInput
     factura?: FacturaCreateNestedOneWithoutPresupuestosInput
   }
 
@@ -28195,6 +30150,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     items?: ItemPresupuestoUncheckedCreateNestedManyWithoutPresupuestoInput
+    presupuestosProveedores?: PresupuestoProveedorUncheckedCreateNestedManyWithoutPresupuestoInput
   }
 
   export type PresupuestoCreateOrConnectWithoutClienteInput = {
@@ -28367,6 +30323,44 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type PresupuestoProveedorCreateWithoutPartidaInput = {
+    id?: string
+    nombre: string
+    descripcion?: string | null
+    precio: number
+    precioConIVA: boolean
+    tipoEspecial?: string | null
+    archivoUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    presupuesto: PresupuestoCreateNestedOneWithoutPresupuestosProveedoresInput
+    proveedor?: ProveedorCreateNestedOneWithoutPresupuestosInput
+  }
+
+  export type PresupuestoProveedorUncheckedCreateWithoutPartidaInput = {
+    id?: string
+    presupuestoId: string
+    nombre: string
+    descripcion?: string | null
+    precio: number
+    precioConIVA: boolean
+    proveedorId?: string | null
+    tipoEspecial?: string | null
+    archivoUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PresupuestoProveedorCreateOrConnectWithoutPartidaInput = {
+    where: PresupuestoProveedorWhereUniqueInput
+    create: XOR<PresupuestoProveedorCreateWithoutPartidaInput, PresupuestoProveedorUncheckedCreateWithoutPartidaInput>
+  }
+
+  export type PresupuestoProveedorCreateManyPartidaInputEnvelope = {
+    data: PresupuestoProveedorCreateManyPartidaInput | PresupuestoProveedorCreateManyPartidaInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ItemPresupuestoUpsertWithWhereUniqueWithoutPartidaInput = {
     where: ItemPresupuestoWhereUniqueInput
     update: XOR<ItemPresupuestoUpdateWithoutPartidaInput, ItemPresupuestoUncheckedUpdateWithoutPartidaInput>
@@ -28381,6 +30375,40 @@ export namespace Prisma {
   export type ItemPresupuestoUpdateManyWithWhereWithoutPartidaInput = {
     where: ItemPresupuestoScalarWhereInput
     data: XOR<ItemPresupuestoUpdateManyMutationInput, ItemPresupuestoUncheckedUpdateManyWithoutPartidaInput>
+  }
+
+  export type PresupuestoProveedorUpsertWithWhereUniqueWithoutPartidaInput = {
+    where: PresupuestoProveedorWhereUniqueInput
+    update: XOR<PresupuestoProveedorUpdateWithoutPartidaInput, PresupuestoProveedorUncheckedUpdateWithoutPartidaInput>
+    create: XOR<PresupuestoProveedorCreateWithoutPartidaInput, PresupuestoProveedorUncheckedCreateWithoutPartidaInput>
+  }
+
+  export type PresupuestoProveedorUpdateWithWhereUniqueWithoutPartidaInput = {
+    where: PresupuestoProveedorWhereUniqueInput
+    data: XOR<PresupuestoProveedorUpdateWithoutPartidaInput, PresupuestoProveedorUncheckedUpdateWithoutPartidaInput>
+  }
+
+  export type PresupuestoProveedorUpdateManyWithWhereWithoutPartidaInput = {
+    where: PresupuestoProveedorScalarWhereInput
+    data: XOR<PresupuestoProveedorUpdateManyMutationInput, PresupuestoProveedorUncheckedUpdateManyWithoutPartidaInput>
+  }
+
+  export type PresupuestoProveedorScalarWhereInput = {
+    AND?: PresupuestoProveedorScalarWhereInput | PresupuestoProveedorScalarWhereInput[]
+    OR?: PresupuestoProveedorScalarWhereInput[]
+    NOT?: PresupuestoProveedorScalarWhereInput | PresupuestoProveedorScalarWhereInput[]
+    id?: StringFilter<"PresupuestoProveedor"> | string
+    presupuestoId?: StringFilter<"PresupuestoProveedor"> | string
+    nombre?: StringFilter<"PresupuestoProveedor"> | string
+    descripcion?: StringNullableFilter<"PresupuestoProveedor"> | string | null
+    precio?: FloatFilter<"PresupuestoProveedor"> | number
+    precioConIVA?: BoolFilter<"PresupuestoProveedor"> | boolean
+    proveedorId?: StringNullableFilter<"PresupuestoProveedor"> | string | null
+    partidaId?: StringNullableFilter<"PresupuestoProveedor"> | string | null
+    tipoEspecial?: StringNullableFilter<"PresupuestoProveedor"> | string | null
+    archivoUrl?: StringNullableFilter<"PresupuestoProveedor"> | string | null
+    createdAt?: DateTimeFilter<"PresupuestoProveedor"> | Date | string
+    updatedAt?: DateTimeFilter<"PresupuestoProveedor"> | Date | string
   }
 
   export type ClienteCreateWithoutPresupuestosInput = {
@@ -28453,6 +30481,44 @@ export namespace Prisma {
 
   export type ItemPresupuestoCreateManyPresupuestoInputEnvelope = {
     data: ItemPresupuestoCreateManyPresupuestoInput | ItemPresupuestoCreateManyPresupuestoInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PresupuestoProveedorCreateWithoutPresupuestoInput = {
+    id?: string
+    nombre: string
+    descripcion?: string | null
+    precio: number
+    precioConIVA: boolean
+    tipoEspecial?: string | null
+    archivoUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    proveedor?: ProveedorCreateNestedOneWithoutPresupuestosInput
+    partida?: PartidaPresupuestoCreateNestedOneWithoutPresupuestosProveedoresInput
+  }
+
+  export type PresupuestoProveedorUncheckedCreateWithoutPresupuestoInput = {
+    id?: string
+    nombre: string
+    descripcion?: string | null
+    precio: number
+    precioConIVA: boolean
+    proveedorId?: string | null
+    partidaId?: string | null
+    tipoEspecial?: string | null
+    archivoUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PresupuestoProveedorCreateOrConnectWithoutPresupuestoInput = {
+    where: PresupuestoProveedorWhereUniqueInput
+    create: XOR<PresupuestoProveedorCreateWithoutPresupuestoInput, PresupuestoProveedorUncheckedCreateWithoutPresupuestoInput>
+  }
+
+  export type PresupuestoProveedorCreateManyPresupuestoInputEnvelope = {
+    data: PresupuestoProveedorCreateManyPresupuestoInput | PresupuestoProveedorCreateManyPresupuestoInput[]
     skipDuplicates?: boolean
   }
 
@@ -28548,6 +30614,22 @@ export namespace Prisma {
     data: XOR<ItemPresupuestoUpdateManyMutationInput, ItemPresupuestoUncheckedUpdateManyWithoutPresupuestoInput>
   }
 
+  export type PresupuestoProveedorUpsertWithWhereUniqueWithoutPresupuestoInput = {
+    where: PresupuestoProveedorWhereUniqueInput
+    update: XOR<PresupuestoProveedorUpdateWithoutPresupuestoInput, PresupuestoProveedorUncheckedUpdateWithoutPresupuestoInput>
+    create: XOR<PresupuestoProveedorCreateWithoutPresupuestoInput, PresupuestoProveedorUncheckedCreateWithoutPresupuestoInput>
+  }
+
+  export type PresupuestoProveedorUpdateWithWhereUniqueWithoutPresupuestoInput = {
+    where: PresupuestoProveedorWhereUniqueInput
+    data: XOR<PresupuestoProveedorUpdateWithoutPresupuestoInput, PresupuestoProveedorUncheckedUpdateWithoutPresupuestoInput>
+  }
+
+  export type PresupuestoProveedorUpdateManyWithWhereWithoutPresupuestoInput = {
+    where: PresupuestoProveedorScalarWhereInput
+    data: XOR<PresupuestoProveedorUpdateManyMutationInput, PresupuestoProveedorUncheckedUpdateManyWithoutPresupuestoInput>
+  }
+
   export type FacturaUpsertWithoutPresupuestosInput = {
     update: XOR<FacturaUpdateWithoutPresupuestosInput, FacturaUncheckedUpdateWithoutPresupuestosInput>
     create: XOR<FacturaCreateWithoutPresupuestosInput, FacturaUncheckedCreateWithoutPresupuestosInput>
@@ -28611,6 +30693,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     cliente?: ClienteCreateNestedOneWithoutPresupuestosInput
+    presupuestosProveedores?: PresupuestoProveedorCreateNestedManyWithoutPresupuestoInput
     factura?: FacturaCreateNestedOneWithoutPresupuestosInput
   }
 
@@ -28633,6 +30716,7 @@ export namespace Prisma {
     facturaId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    presupuestosProveedores?: PresupuestoProveedorUncheckedCreateNestedManyWithoutPresupuestoInput
   }
 
   export type PresupuestoCreateOrConnectWithoutItemsInput = {
@@ -28685,6 +30769,7 @@ export namespace Prisma {
     descripcion?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    presupuestosProveedores?: PresupuestoProveedorCreateNestedManyWithoutPartidaInput
   }
 
   export type PartidaPresupuestoUncheckedCreateWithoutItemsInput = {
@@ -28693,6 +30778,7 @@ export namespace Prisma {
     descripcion?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    presupuestosProveedores?: PresupuestoProveedorUncheckedCreateNestedManyWithoutPartidaInput
   }
 
   export type PartidaPresupuestoCreateOrConnectWithoutItemsInput = {
@@ -28729,6 +30815,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     cliente?: ClienteUpdateOneWithoutPresupuestosNestedInput
+    presupuestosProveedores?: PresupuestoProveedorUpdateManyWithoutPresupuestoNestedInput
     factura?: FacturaUpdateOneWithoutPresupuestosNestedInput
   }
 
@@ -28751,6 +30838,7 @@ export namespace Prisma {
     facturaId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    presupuestosProveedores?: PresupuestoProveedorUncheckedUpdateManyWithoutPresupuestoNestedInput
   }
 
   export type ProductoUpsertWithoutItemsPresupuestoInput = {
@@ -28815,6 +30903,7 @@ export namespace Prisma {
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    presupuestosProveedores?: PresupuestoProveedorUpdateManyWithoutPartidaNestedInput
   }
 
   export type PartidaPresupuestoUncheckedUpdateWithoutItemsInput = {
@@ -28823,6 +30912,7 @@ export namespace Prisma {
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    presupuestosProveedores?: PresupuestoProveedorUncheckedUpdateManyWithoutPartidaNestedInput
   }
 
   export type ClienteCreateWithoutFacturasInput = {
@@ -28909,6 +30999,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     cliente?: ClienteCreateNestedOneWithoutPresupuestosInput
     items?: ItemPresupuestoCreateNestedManyWithoutPresupuestoInput
+    presupuestosProveedores?: PresupuestoProveedorCreateNestedManyWithoutPresupuestoInput
   }
 
   export type PresupuestoUncheckedCreateWithoutFacturaInput = {
@@ -28930,6 +31021,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     items?: ItemPresupuestoUncheckedCreateNestedManyWithoutPresupuestoInput
+    presupuestosProveedores?: PresupuestoProveedorUncheckedCreateNestedManyWithoutPresupuestoInput
   }
 
   export type PresupuestoCreateOrConnectWithoutFacturaInput = {
@@ -29455,6 +31547,44 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type PresupuestoProveedorCreateWithoutProveedorInput = {
+    id?: string
+    nombre: string
+    descripcion?: string | null
+    precio: number
+    precioConIVA: boolean
+    tipoEspecial?: string | null
+    archivoUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    presupuesto: PresupuestoCreateNestedOneWithoutPresupuestosProveedoresInput
+    partida?: PartidaPresupuestoCreateNestedOneWithoutPresupuestosProveedoresInput
+  }
+
+  export type PresupuestoProveedorUncheckedCreateWithoutProveedorInput = {
+    id?: string
+    presupuestoId: string
+    nombre: string
+    descripcion?: string | null
+    precio: number
+    precioConIVA: boolean
+    partidaId?: string | null
+    tipoEspecial?: string | null
+    archivoUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PresupuestoProveedorCreateOrConnectWithoutProveedorInput = {
+    where: PresupuestoProveedorWhereUniqueInput
+    create: XOR<PresupuestoProveedorCreateWithoutProveedorInput, PresupuestoProveedorUncheckedCreateWithoutProveedorInput>
+  }
+
+  export type PresupuestoProveedorCreateManyProveedorInputEnvelope = {
+    data: PresupuestoProveedorCreateManyProveedorInput | PresupuestoProveedorCreateManyProveedorInput[]
+    skipDuplicates?: boolean
+  }
+
   export type EquipoItemUpsertWithWhereUniqueWithoutProveedorInput = {
     where: EquipoItemWhereUniqueInput
     update: XOR<EquipoItemUpdateWithoutProveedorInput, EquipoItemUncheckedUpdateWithoutProveedorInput>
@@ -29469,6 +31599,22 @@ export namespace Prisma {
   export type EquipoItemUpdateManyWithWhereWithoutProveedorInput = {
     where: EquipoItemScalarWhereInput
     data: XOR<EquipoItemUpdateManyMutationInput, EquipoItemUncheckedUpdateManyWithoutProveedorInput>
+  }
+
+  export type PresupuestoProveedorUpsertWithWhereUniqueWithoutProveedorInput = {
+    where: PresupuestoProveedorWhereUniqueInput
+    update: XOR<PresupuestoProveedorUpdateWithoutProveedorInput, PresupuestoProveedorUncheckedUpdateWithoutProveedorInput>
+    create: XOR<PresupuestoProveedorCreateWithoutProveedorInput, PresupuestoProveedorUncheckedCreateWithoutProveedorInput>
+  }
+
+  export type PresupuestoProveedorUpdateWithWhereUniqueWithoutProveedorInput = {
+    where: PresupuestoProveedorWhereUniqueInput
+    data: XOR<PresupuestoProveedorUpdateWithoutProveedorInput, PresupuestoProveedorUncheckedUpdateWithoutProveedorInput>
+  }
+
+  export type PresupuestoProveedorUpdateManyWithWhereWithoutProveedorInput = {
+    where: PresupuestoProveedorScalarWhereInput
+    data: XOR<PresupuestoProveedorUpdateManyMutationInput, PresupuestoProveedorUncheckedUpdateManyWithoutProveedorInput>
   }
 
   export type FacturaCreateWithoutGastosTickeliaInput = {
@@ -29553,6 +31699,234 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: ItemFacturaUncheckedUpdateManyWithoutFacturaNestedInput
     presupuestos?: PresupuestoUncheckedUpdateManyWithoutFacturaNestedInput
+  }
+
+  export type PresupuestoCreateWithoutPresupuestosProveedoresInput = {
+    id?: string
+    numero: string
+    nombre?: string | null
+    referencia?: string | null
+    fecha?: Date | string
+    fechaValidez: Date | string
+    fechaMontaje?: Date | string | null
+    fechaInicio?: Date | string | null
+    fechaFin?: Date | string | null
+    estado?: $Enums.EstadoPresupuesto
+    observaciones?: string | null
+    subtotal: number
+    iva: number
+    total: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    cliente?: ClienteCreateNestedOneWithoutPresupuestosInput
+    items?: ItemPresupuestoCreateNestedManyWithoutPresupuestoInput
+    factura?: FacturaCreateNestedOneWithoutPresupuestosInput
+  }
+
+  export type PresupuestoUncheckedCreateWithoutPresupuestosProveedoresInput = {
+    id?: string
+    numero: string
+    nombre?: string | null
+    referencia?: string | null
+    fecha?: Date | string
+    fechaValidez: Date | string
+    fechaMontaje?: Date | string | null
+    fechaInicio?: Date | string | null
+    fechaFin?: Date | string | null
+    clienteId?: string | null
+    estado?: $Enums.EstadoPresupuesto
+    observaciones?: string | null
+    subtotal: number
+    iva: number
+    total: number
+    facturaId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    items?: ItemPresupuestoUncheckedCreateNestedManyWithoutPresupuestoInput
+  }
+
+  export type PresupuestoCreateOrConnectWithoutPresupuestosProveedoresInput = {
+    where: PresupuestoWhereUniqueInput
+    create: XOR<PresupuestoCreateWithoutPresupuestosProveedoresInput, PresupuestoUncheckedCreateWithoutPresupuestosProveedoresInput>
+  }
+
+  export type ProveedorCreateWithoutPresupuestosInput = {
+    id?: string
+    nombre: string
+    nif?: string | null
+    direccion?: string | null
+    email?: string | null
+    telefono?: string | null
+    contacto?: string | null
+    notas?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    equipos?: EquipoItemCreateNestedManyWithoutProveedorInput
+  }
+
+  export type ProveedorUncheckedCreateWithoutPresupuestosInput = {
+    id?: string
+    nombre: string
+    nif?: string | null
+    direccion?: string | null
+    email?: string | null
+    telefono?: string | null
+    contacto?: string | null
+    notas?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    equipos?: EquipoItemUncheckedCreateNestedManyWithoutProveedorInput
+  }
+
+  export type ProveedorCreateOrConnectWithoutPresupuestosInput = {
+    where: ProveedorWhereUniqueInput
+    create: XOR<ProveedorCreateWithoutPresupuestosInput, ProveedorUncheckedCreateWithoutPresupuestosInput>
+  }
+
+  export type PartidaPresupuestoCreateWithoutPresupuestosProveedoresInput = {
+    id?: string
+    nombre: string
+    descripcion?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    items?: ItemPresupuestoCreateNestedManyWithoutPartidaInput
+  }
+
+  export type PartidaPresupuestoUncheckedCreateWithoutPresupuestosProveedoresInput = {
+    id?: string
+    nombre: string
+    descripcion?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    items?: ItemPresupuestoUncheckedCreateNestedManyWithoutPartidaInput
+  }
+
+  export type PartidaPresupuestoCreateOrConnectWithoutPresupuestosProveedoresInput = {
+    where: PartidaPresupuestoWhereUniqueInput
+    create: XOR<PartidaPresupuestoCreateWithoutPresupuestosProveedoresInput, PartidaPresupuestoUncheckedCreateWithoutPresupuestosProveedoresInput>
+  }
+
+  export type PresupuestoUpsertWithoutPresupuestosProveedoresInput = {
+    update: XOR<PresupuestoUpdateWithoutPresupuestosProveedoresInput, PresupuestoUncheckedUpdateWithoutPresupuestosProveedoresInput>
+    create: XOR<PresupuestoCreateWithoutPresupuestosProveedoresInput, PresupuestoUncheckedCreateWithoutPresupuestosProveedoresInput>
+    where?: PresupuestoWhereInput
+  }
+
+  export type PresupuestoUpdateToOneWithWhereWithoutPresupuestosProveedoresInput = {
+    where?: PresupuestoWhereInput
+    data: XOR<PresupuestoUpdateWithoutPresupuestosProveedoresInput, PresupuestoUncheckedUpdateWithoutPresupuestosProveedoresInput>
+  }
+
+  export type PresupuestoUpdateWithoutPresupuestosProveedoresInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    referencia?: NullableStringFieldUpdateOperationsInput | string | null
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaValidez?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaMontaje?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaInicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaFin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    estado?: EnumEstadoPresupuestoFieldUpdateOperationsInput | $Enums.EstadoPresupuesto
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    subtotal?: FloatFieldUpdateOperationsInput | number
+    iva?: FloatFieldUpdateOperationsInput | number
+    total?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    cliente?: ClienteUpdateOneWithoutPresupuestosNestedInput
+    items?: ItemPresupuestoUpdateManyWithoutPresupuestoNestedInput
+    factura?: FacturaUpdateOneWithoutPresupuestosNestedInput
+  }
+
+  export type PresupuestoUncheckedUpdateWithoutPresupuestosProveedoresInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    numero?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    referencia?: NullableStringFieldUpdateOperationsInput | string | null
+    fecha?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaValidez?: DateTimeFieldUpdateOperationsInput | Date | string
+    fechaMontaje?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaInicio?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    fechaFin?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    clienteId?: NullableStringFieldUpdateOperationsInput | string | null
+    estado?: EnumEstadoPresupuestoFieldUpdateOperationsInput | $Enums.EstadoPresupuesto
+    observaciones?: NullableStringFieldUpdateOperationsInput | string | null
+    subtotal?: FloatFieldUpdateOperationsInput | number
+    iva?: FloatFieldUpdateOperationsInput | number
+    total?: FloatFieldUpdateOperationsInput | number
+    facturaId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: ItemPresupuestoUncheckedUpdateManyWithoutPresupuestoNestedInput
+  }
+
+  export type ProveedorUpsertWithoutPresupuestosInput = {
+    update: XOR<ProveedorUpdateWithoutPresupuestosInput, ProveedorUncheckedUpdateWithoutPresupuestosInput>
+    create: XOR<ProveedorCreateWithoutPresupuestosInput, ProveedorUncheckedCreateWithoutPresupuestosInput>
+    where?: ProveedorWhereInput
+  }
+
+  export type ProveedorUpdateToOneWithWhereWithoutPresupuestosInput = {
+    where?: ProveedorWhereInput
+    data: XOR<ProveedorUpdateWithoutPresupuestosInput, ProveedorUncheckedUpdateWithoutPresupuestosInput>
+  }
+
+  export type ProveedorUpdateWithoutPresupuestosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    nif?: NullableStringFieldUpdateOperationsInput | string | null
+    direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    contacto?: NullableStringFieldUpdateOperationsInput | string | null
+    notas?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    equipos?: EquipoItemUpdateManyWithoutProveedorNestedInput
+  }
+
+  export type ProveedorUncheckedUpdateWithoutPresupuestosInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    nif?: NullableStringFieldUpdateOperationsInput | string | null
+    direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    contacto?: NullableStringFieldUpdateOperationsInput | string | null
+    notas?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    equipos?: EquipoItemUncheckedUpdateManyWithoutProveedorNestedInput
+  }
+
+  export type PartidaPresupuestoUpsertWithoutPresupuestosProveedoresInput = {
+    update: XOR<PartidaPresupuestoUpdateWithoutPresupuestosProveedoresInput, PartidaPresupuestoUncheckedUpdateWithoutPresupuestosProveedoresInput>
+    create: XOR<PartidaPresupuestoCreateWithoutPresupuestosProveedoresInput, PartidaPresupuestoUncheckedCreateWithoutPresupuestosProveedoresInput>
+    where?: PartidaPresupuestoWhereInput
+  }
+
+  export type PartidaPresupuestoUpdateToOneWithWhereWithoutPresupuestosProveedoresInput = {
+    where?: PartidaPresupuestoWhereInput
+    data: XOR<PartidaPresupuestoUpdateWithoutPresupuestosProveedoresInput, PartidaPresupuestoUncheckedUpdateWithoutPresupuestosProveedoresInput>
+  }
+
+  export type PartidaPresupuestoUpdateWithoutPresupuestosProveedoresInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: ItemPresupuestoUpdateManyWithoutPartidaNestedInput
+  }
+
+  export type PartidaPresupuestoUncheckedUpdateWithoutPresupuestosProveedoresInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: ItemPresupuestoUncheckedUpdateManyWithoutPartidaNestedInput
   }
 
   export type ProductoCreateManyCategoriaInput = {
@@ -29891,6 +32265,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: ItemPresupuestoUpdateManyWithoutPresupuestoNestedInput
+    presupuestosProveedores?: PresupuestoProveedorUpdateManyWithoutPresupuestoNestedInput
     factura?: FacturaUpdateOneWithoutPresupuestosNestedInput
   }
 
@@ -29913,6 +32288,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: ItemPresupuestoUncheckedUpdateManyWithoutPresupuestoNestedInput
+    presupuestosProveedores?: PresupuestoProveedorUncheckedUpdateManyWithoutPresupuestoNestedInput
   }
 
   export type PresupuestoUncheckedUpdateManyWithoutClienteInput = {
@@ -29999,6 +32375,20 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type PresupuestoProveedorCreateManyPartidaInput = {
+    id?: string
+    presupuestoId: string
+    nombre: string
+    descripcion?: string | null
+    precio: number
+    precioConIVA: boolean
+    proveedorId?: string | null
+    tipoEspecial?: string | null
+    archivoUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type ItemPresupuestoUpdateWithoutPartidaInput = {
     id?: StringFieldUpdateOperationsInput | string
     tipo?: NullableStringFieldUpdateOperationsInput | string | null
@@ -30047,6 +32437,48 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type PresupuestoProveedorUpdateWithoutPartidaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    precio?: FloatFieldUpdateOperationsInput | number
+    precioConIVA?: BoolFieldUpdateOperationsInput | boolean
+    tipoEspecial?: NullableStringFieldUpdateOperationsInput | string | null
+    archivoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    presupuesto?: PresupuestoUpdateOneRequiredWithoutPresupuestosProveedoresNestedInput
+    proveedor?: ProveedorUpdateOneWithoutPresupuestosNestedInput
+  }
+
+  export type PresupuestoProveedorUncheckedUpdateWithoutPartidaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    presupuestoId?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    precio?: FloatFieldUpdateOperationsInput | number
+    precioConIVA?: BoolFieldUpdateOperationsInput | boolean
+    proveedorId?: NullableStringFieldUpdateOperationsInput | string | null
+    tipoEspecial?: NullableStringFieldUpdateOperationsInput | string | null
+    archivoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PresupuestoProveedorUncheckedUpdateManyWithoutPartidaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    presupuestoId?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    precio?: FloatFieldUpdateOperationsInput | number
+    precioConIVA?: BoolFieldUpdateOperationsInput | boolean
+    proveedorId?: NullableStringFieldUpdateOperationsInput | string | null
+    tipoEspecial?: NullableStringFieldUpdateOperationsInput | string | null
+    archivoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type ItemPresupuestoCreateManyPresupuestoInput = {
     id?: string
     productoId: string
@@ -30059,6 +32491,20 @@ export namespace Prisma {
     total: number
     dias?: number
     partidaId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type PresupuestoProveedorCreateManyPresupuestoInput = {
+    id?: string
+    nombre: string
+    descripcion?: string | null
+    precio: number
+    precioConIVA: boolean
+    proveedorId?: string | null
+    partidaId?: string | null
+    tipoEspecial?: string | null
+    archivoUrl?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -30107,6 +32553,48 @@ export namespace Prisma {
     total?: FloatFieldUpdateOperationsInput | number
     dias?: IntFieldUpdateOperationsInput | number
     partidaId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PresupuestoProveedorUpdateWithoutPresupuestoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    precio?: FloatFieldUpdateOperationsInput | number
+    precioConIVA?: BoolFieldUpdateOperationsInput | boolean
+    tipoEspecial?: NullableStringFieldUpdateOperationsInput | string | null
+    archivoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    proveedor?: ProveedorUpdateOneWithoutPresupuestosNestedInput
+    partida?: PartidaPresupuestoUpdateOneWithoutPresupuestosProveedoresNestedInput
+  }
+
+  export type PresupuestoProveedorUncheckedUpdateWithoutPresupuestoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    precio?: FloatFieldUpdateOperationsInput | number
+    precioConIVA?: BoolFieldUpdateOperationsInput | boolean
+    proveedorId?: NullableStringFieldUpdateOperationsInput | string | null
+    partidaId?: NullableStringFieldUpdateOperationsInput | string | null
+    tipoEspecial?: NullableStringFieldUpdateOperationsInput | string | null
+    archivoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PresupuestoProveedorUncheckedUpdateManyWithoutPresupuestoInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    precio?: FloatFieldUpdateOperationsInput | number
+    precioConIVA?: BoolFieldUpdateOperationsInput | boolean
+    proveedorId?: NullableStringFieldUpdateOperationsInput | string | null
+    partidaId?: NullableStringFieldUpdateOperationsInput | string | null
+    tipoEspecial?: NullableStringFieldUpdateOperationsInput | string | null
+    archivoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -30207,6 +32695,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     cliente?: ClienteUpdateOneWithoutPresupuestosNestedInput
     items?: ItemPresupuestoUpdateManyWithoutPresupuestoNestedInput
+    presupuestosProveedores?: PresupuestoProveedorUpdateManyWithoutPresupuestoNestedInput
   }
 
   export type PresupuestoUncheckedUpdateWithoutFacturaInput = {
@@ -30228,6 +32717,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: ItemPresupuestoUncheckedUpdateManyWithoutPresupuestoNestedInput
+    presupuestosProveedores?: PresupuestoProveedorUncheckedUpdateManyWithoutPresupuestoNestedInput
   }
 
   export type PresupuestoUncheckedUpdateManyWithoutFacturaInput = {
@@ -30329,6 +32819,20 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type PresupuestoProveedorCreateManyProveedorInput = {
+    id?: string
+    presupuestoId: string
+    nombre: string
+    descripcion?: string | null
+    precio: number
+    precioConIVA: boolean
+    partidaId?: string | null
+    tipoEspecial?: string | null
+    archivoUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
   export type EquipoItemUpdateWithoutProveedorInput = {
     id?: StringFieldUpdateOperationsInput | string
     numeroSerie?: NullableStringFieldUpdateOperationsInput | string | null
@@ -30361,6 +32865,48 @@ export namespace Prisma {
     estado?: EnumEstadoEquipoFieldUpdateOperationsInput | $Enums.EstadoEquipo
     fechaCompra?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     precioCompra?: NullableFloatFieldUpdateOperationsInput | number | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PresupuestoProveedorUpdateWithoutProveedorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    precio?: FloatFieldUpdateOperationsInput | number
+    precioConIVA?: BoolFieldUpdateOperationsInput | boolean
+    tipoEspecial?: NullableStringFieldUpdateOperationsInput | string | null
+    archivoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    presupuesto?: PresupuestoUpdateOneRequiredWithoutPresupuestosProveedoresNestedInput
+    partida?: PartidaPresupuestoUpdateOneWithoutPresupuestosProveedoresNestedInput
+  }
+
+  export type PresupuestoProveedorUncheckedUpdateWithoutProveedorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    presupuestoId?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    precio?: FloatFieldUpdateOperationsInput | number
+    precioConIVA?: BoolFieldUpdateOperationsInput | boolean
+    partidaId?: NullableStringFieldUpdateOperationsInput | string | null
+    tipoEspecial?: NullableStringFieldUpdateOperationsInput | string | null
+    archivoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PresupuestoProveedorUncheckedUpdateManyWithoutProveedorInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    presupuestoId?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    precio?: FloatFieldUpdateOperationsInput | number
+    precioConIVA?: BoolFieldUpdateOperationsInput | boolean
+    partidaId?: NullableStringFieldUpdateOperationsInput | string | null
+    tipoEspecial?: NullableStringFieldUpdateOperationsInput | string | null
+    archivoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

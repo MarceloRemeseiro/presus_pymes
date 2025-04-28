@@ -103,6 +103,7 @@ model PartidaPresupuesto {
   nombre       String
   descripcion  String?
   items        ItemPresupuesto[]
+  presupuestosProveedores PresupuestoProveedor[] // Relación con presupuestos de proveedores
   createdAt    DateTime          @default(now())
   updatedAt    DateTime          @updatedAt
   
@@ -127,6 +128,7 @@ model Presupuesto {
   iva             Float
   total           Float
   items           ItemPresupuesto[]
+  presupuestosProveedores PresupuestoProveedor[] // Relación con presupuestos de proveedores
   facturaId       String?
   factura         Factura?          @relation(fields: [facturaId], references: [id])
   createdAt       DateTime          @default(now())
@@ -243,6 +245,7 @@ model Proveedor {
   contacto    String?       // Persona de contacto
   notas       String?
   equipos     EquipoItem[]  // Relación con los equipos vendidos por este proveedor
+  presupuestos PresupuestoProveedor[] // Relación con presupuestos de proveedores
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
 }
@@ -256,6 +259,25 @@ model Tikelia {
   factura     Factura?      @relation(fields: [facturaId], references: [id])
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
+}
+
+// Nuevo modelo para presupuestos de proveedores
+model PresupuestoProveedor {
+  id             String     @id @default(cuid())
+  presupuestoId  String     // Relación con el presupuesto principal
+  presupuesto    Presupuesto @relation(fields: [presupuestoId], references: [id], onDelete: Cascade)
+  nombre         String     // Nombre o concepto del presupuesto/gasto
+  descripcion    String?    // Descripción opcional
+  precio         Float      // Precio del presupuesto/gasto
+  precioConIVA   Boolean    // Indica si el precio incluye IVA
+  proveedorId    String?    // Relación opcional con proveedor
+  proveedor      Proveedor? @relation(fields: [proveedorId], references: [id])
+  partidaId      String?    // Relación opcional con partida de presupuesto
+  partida        PartidaPresupuesto? @relation(fields: [partidaId], references: [id])
+  tipoEspecial   String?    // Campo para identificar tipos especiales (gastos-generales, freelance)
+  archivoUrl     String?    // URL del archivo adjunto (implementación futura)
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
 }
 
 // Enumeraciones

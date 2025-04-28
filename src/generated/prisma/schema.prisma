@@ -99,38 +99,40 @@ model Cliente {
 }
 
 model PartidaPresupuesto {
-  id          String            @id @default(cuid())
-  nombre      String
-  descripcion String?
-  items       ItemPresupuesto[]
-  createdAt   DateTime          @default(now())
-  updatedAt   DateTime          @updatedAt
+  id                      String                 @id @default(cuid())
+  nombre                  String
+  descripcion             String?
+  items                   ItemPresupuesto[]
+  presupuestosProveedores PresupuestoProveedor[] // Relación con presupuestos de proveedores
+  createdAt               DateTime               @default(now())
+  updatedAt               DateTime               @updatedAt
 
   @@map("partidas_presupuesto")
 }
 
 model Presupuesto {
-  id            String            @id @default(cuid())
-  numero        String            @unique
-  nombre        String? // Nombre descriptivo del presupuesto
-  referencia    String? // Campo para referencia externa
-  fecha         DateTime          @default(now())
-  fechaValidez  DateTime
-  fechaMontaje  DateTime?
-  fechaInicio   DateTime?
-  fechaFin      DateTime?
-  clienteId     String? // Hacemos el campo opcional
-  cliente       Cliente?          @relation(fields: [clienteId], references: [id])
-  estado        EstadoPresupuesto @default(PENDIENTE)
-  observaciones String?
-  subtotal      Float
-  iva           Float
-  total         Float
-  items         ItemPresupuesto[]
-  facturaId     String?
-  factura       Factura?          @relation(fields: [facturaId], references: [id])
-  createdAt     DateTime          @default(now())
-  updatedAt     DateTime          @updatedAt
+  id                      String                 @id @default(cuid())
+  numero                  String                 @unique
+  nombre                  String? // Nombre descriptivo del presupuesto
+  referencia              String? // Campo para referencia externa
+  fecha                   DateTime               @default(now())
+  fechaValidez            DateTime
+  fechaMontaje            DateTime?
+  fechaInicio             DateTime?
+  fechaFin                DateTime?
+  clienteId               String? // Hacemos el campo opcional
+  cliente                 Cliente?               @relation(fields: [clienteId], references: [id])
+  estado                  EstadoPresupuesto      @default(PENDIENTE)
+  observaciones           String?
+  subtotal                Float
+  iva                     Float
+  total                   Float
+  items                   ItemPresupuesto[]
+  presupuestosProveedores PresupuestoProveedor[] // Relación con presupuestos de proveedores
+  facturaId               String?
+  factura                 Factura?               @relation(fields: [facturaId], references: [id])
+  createdAt               DateTime               @default(now())
+  updatedAt               DateTime               @updatedAt
 }
 
 model ItemPresupuesto {
@@ -235,17 +237,18 @@ model PersonalPuesto {
 }
 
 model Proveedor {
-  id        String       @id @default(cuid())
-  nombre    String
-  nif       String?      @unique
-  direccion String?
-  email     String?
-  telefono  String?
-  contacto  String? // Persona de contacto
-  notas     String?
-  equipos   EquipoItem[] // Relación con los equipos vendidos por este proveedor
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
+  id           String                 @id @default(cuid())
+  nombre       String
+  nif          String?                @unique
+  direccion    String?
+  email        String?
+  telefono     String?
+  contacto     String? // Persona de contacto
+  notas        String?
+  equipos      EquipoItem[] // Relación con los equipos vendidos por este proveedor
+  presupuestos PresupuestoProveedor[] // Relación con presupuestos de proveedores
+  createdAt    DateTime               @default(now())
+  updatedAt    DateTime               @updatedAt
 }
 
 model Tikelia {
@@ -257,6 +260,25 @@ model Tikelia {
   factura   Factura? @relation(fields: [facturaId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+// Nuevo modelo para presupuestos de proveedores
+model PresupuestoProveedor {
+  id            String              @id @default(cuid())
+  presupuestoId String // Relación con el presupuesto principal
+  presupuesto   Presupuesto         @relation(fields: [presupuestoId], references: [id], onDelete: Cascade)
+  nombre        String // Nombre o concepto del presupuesto/gasto
+  descripcion   String? // Descripción opcional
+  precio        Float // Precio del presupuesto/gasto
+  precioConIVA  Boolean // Indica si el precio incluye IVA
+  proveedorId   String? // Relación opcional con proveedor
+  proveedor     Proveedor?          @relation(fields: [proveedorId], references: [id])
+  partidaId     String? // Relación opcional con partida de presupuesto
+  partida       PartidaPresupuesto? @relation(fields: [partidaId], references: [id])
+  tipoEspecial  String? // Campo para identificar tipos especiales (gastos-generales, freelance)
+  archivoUrl    String? // URL del archivo adjunto (implementación futura)
+  createdAt     DateTime            @default(now())
+  updatedAt     DateTime            @updatedAt
 }
 
 // Enumeraciones

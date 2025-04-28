@@ -312,6 +312,21 @@ exports.Prisma.TikeliaScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.PresupuestoProveedorScalarFieldEnum = {
+  id: 'id',
+  presupuestoId: 'presupuestoId',
+  nombre: 'nombre',
+  descripcion: 'descripcion',
+  precio: 'precio',
+  precioConIVA: 'precioConIVA',
+  proveedorId: 'proveedorId',
+  partidaId: 'partidaId',
+  tipoEspecial: 'tipoEspecial',
+  archivoUrl: 'archivoUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -369,7 +384,8 @@ exports.Prisma.ModelName = {
   Personal: 'Personal',
   PersonalPuesto: 'PersonalPuesto',
   Proveedor: 'Proveedor',
-  Tikelia: 'Tikelia'
+  Tikelia: 'Tikelia',
+  PresupuestoProveedor: 'PresupuestoProveedor'
 };
 
 /**

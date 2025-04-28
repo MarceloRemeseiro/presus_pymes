@@ -15,7 +15,8 @@ import {
   Clock,
   ClipboardList,
   Printer,
-  Trash
+  Trash,
+  PlusCircle
 } from "lucide-react"
 import {
   Table,
@@ -31,6 +32,8 @@ import { formatCurrency } from '@/lib/utils'
 import { EliminarPresupuestoDialog } from '@/components/presupuestos/eliminar-presupuesto-dialog'
 import { EstadoBadge } from '@/components/presupuestos/estado-badge'
 import { CambiarEstadoDialog } from '@/components/presupuestos/cambiar-estado-dialog'
+import { PresupuestoProveedorDialog } from '@/components/presupuestos/presupuesto-proveedor-dialog'
+import { MargenCard } from "@/components/presupuestos/margen-card"
 
 interface Presupuesto {
   id: string
@@ -56,6 +59,7 @@ interface Presupuesto {
   iva: number
   total: number
   items: ItemPresupuesto[]
+  presupuestosProveedores?: PresupuestoProveedor[]
 }
 
 interface ItemPresupuesto {
@@ -79,6 +83,23 @@ interface ItemPresupuesto {
   } | null
   tipo?: string | null
   nombre?: string
+}
+
+interface PresupuestoProveedor {
+  id: string
+  proveedorId: string
+  proveedor: {
+    id: string
+    nombre: string
+  }
+  nombre: string
+  descripcion?: string | null
+  precio: number
+  precioConIVA: boolean
+  tipoEspecial?: string | null
+  partidaId?: string | null
+  createdAt: string
+  updatedAt: string
 }
 
 export default function PresupuestoDetallePage({ params }: { params: Promise<{ id: string }> }) {
@@ -307,48 +328,46 @@ export default function PresupuestoDetallePage({ params }: { params: Promise<{ i
         </div>
       </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {/* Información del cliente */}
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 mb-6">
+        {/* Datos del presupuesto - columna 1 */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-sm">Cliente</CardTitle>
+            <CardTitle className="text-lg">Datos de presupuesto</CardTitle>
           </CardHeader>
           <CardContent className="space-y-2">
-            {presupuesto.cliente ? (
-              <>
-                <p className="font-medium">{presupuesto.cliente.nombre}</p>
-                {presupuesto.cliente.direccion && <p>{presupuesto.cliente.direccion}</p>}
-                {presupuesto.cliente.email && <p>Email: {presupuesto.cliente.email}</p>}
-                {presupuesto.cliente.telefono && <p>Tel: {presupuesto.cliente.telefono}</p>}
-              </>
-            ) : (
-              <div className="text-muted-foreground italic">
-                <p>No hay cliente seleccionado</p>
-                <p className="text-xs mt-2">Edite el presupuesto para asignar un cliente</p>
-              </div>
-            )}
-            {presupuesto.referencia && (
-              <div className="mt-4 pt-4 border-t border-border">
-                <p><span className="text-muted-foreground">Ref: </span>{presupuesto.referencia}</p>
-              </div>
-            )}
+            <div className="flex justify-between">
+              <span className="font-medium">Número:</span>
+              <span>{presupuesto.numero}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="font-medium">Fecha:</span>
+              <span>{formatDate(presupuesto.fecha)}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="font-medium">Válido hasta:</span>
+              <span>{formatDate(presupuesto.fechaValidez)}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="font-medium">Estado:</span>
+              <EstadoBadge estado={presupuesto.estado} />
+            </div>
+            <div className="flex justify-between">
+              <span className="font-medium">Cliente:</span>
+              <span>{presupuesto.cliente?.nombre || "Sin cliente"}</span>
+            </div>
+            <div className="flex justify-between">
+              <span className="font-medium">Referencia:</span>
+              <span>{presupuesto.referencia || "-"}</span>
+            </div>
           </CardContent>
         </Card>
         
-        {/* Fechas */}
+        {/* Fechas y datos adicionales - columna 2 */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">Fechas</CardTitle>
+            <CardTitle className="text-lg">Fechas de servicio</CardTitle>
           </CardHeader>
           <CardContent className="space-y-2">
-            <div className="flex items-center gap-2">
-              <Calendar className="h-4 w-4 text-muted-foreground" />
-              <span className="font-medium">Emisión:</span> {formatDate(presupuesto.fecha)}
-            </div>
-            <div className="flex items-center gap-2">
-              <Calendar className="h-4 w-4 text-muted-foreground" />
-              <span className="font-medium">Validez:</span> {formatDate(presupuesto.fechaValidez)}
-            </div>
             {presupuesto.fechaMontaje && (
               <div className="flex items-center gap-2">
                 <Calendar className="h-4 w-4 text-muted-foreground" />
@@ -370,7 +389,7 @@ export default function PresupuestoDetallePage({ params }: { params: Promise<{ i
           </CardContent>
         </Card>
         
-        {/* Totales */}
+        {/* Totales - columna 3 */}
         <Card>
           <CardHeader>
             <CardTitle className="text-lg">Resumen</CardTitle>
@@ -392,6 +411,7 @@ export default function PresupuestoDetallePage({ params }: { params: Promise<{ i
           </CardContent>
         </Card>
       </div>
+
       
       {/* Detalles del presupuesto */}
       <Card>
@@ -462,6 +482,114 @@ export default function PresupuestoDetallePage({ params }: { params: Promise<{ i
             <p className="whitespace-pre-line">{presupuesto.observaciones}</p>
           </CardContent>
         </Card>
+      )}
+      
+      {/* Presupuestos de Proveedores */}
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between">
+          <CardTitle className="text-lg">Presupuestos de Proveedores</CardTitle>
+          <PresupuestoProveedorDialog
+            presupuestoId={presupuesto.id}
+            onSuccess={() => {
+              // Recargar los datos del presupuesto
+              if (presupuestoId) {
+                fetch(`/api/presupuestos/${presupuestoId}`)
+                .then(response => {
+                  if (response.ok) return response.json()
+                    throw new Error("Error al recargar el presupuesto")
+                })
+                .then(data => setPresupuesto(data))
+                .catch(err => {
+                  console.error(err)
+                  toast.error("Error al actualizar la información")
+                })
+              }
+            }}
+            trigger={
+              <Button variant="outline" size="sm">
+                <PlusCircle className="h-4 w-4 mr-2" />
+                Añadir presupuesto de proveedor
+              </Button>
+            }
+            />
+        </CardHeader>
+        <CardContent>
+          {presupuesto.presupuestosProveedores && presupuesto.presupuestosProveedores.length > 0 ? (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Proveedor</TableHead>
+                  <TableHead>Monto</TableHead>
+                  <TableHead>Fecha</TableHead>
+                  <TableHead>Notas</TableHead>
+                  <TableHead className="text-right">Acciones</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {presupuesto.presupuestosProveedores.map((presupuestoProveedor) => (
+                  <TableRow key={presupuestoProveedor.id}>
+                    <TableCell className="font-medium">
+                      {presupuestoProveedor.proveedor?.nombre || 
+                       (presupuestoProveedor.nombre && presupuestoProveedor.nombre.includes('GASTOS GENERALES') ? 'GASTOS GENERALES' : 
+                        (presupuestoProveedor.nombre && presupuestoProveedor.nombre.includes('FREELANCE') ? 'FREELANCE' : 
+                         (presupuestoProveedor.nombre && presupuestoProveedor.nombre.includes('DIETAS') ? 'DIETAS' : 
+                          (presupuestoProveedor.tipoEspecial === 'dietas' ? 'DIETAS' : 'Sin proveedor'))))}
+                    </TableCell>
+                    <TableCell>{formatCurrency(presupuestoProveedor.precio)}</TableCell>
+                    <TableCell>{formatDate(presupuestoProveedor.createdAt)}</TableCell>
+                    <TableCell>{presupuestoProveedor.descripcion || '-'}</TableCell>
+                    <TableCell className="text-right">
+                      <PresupuestoProveedorDialog
+                        presupuestoId={presupuesto.id}
+                        presupuestoProveedorId={presupuestoProveedor.id}
+                        proveedorIdInicial={presupuestoProveedor.proveedorId || presupuestoProveedor.tipoEspecial || ""}
+                        partidaIdInicial={presupuestoProveedor.partidaId || "sin-partida"}
+                        montoInicial={presupuestoProveedor.precio}
+                        notasIniciales={presupuestoProveedor.descripcion || ''}
+                        onSuccess={() => {
+                          // Recargar los datos del presupuesto
+                          if (presupuestoId) {
+                            fetch(`/api/presupuestos/${presupuestoId}`)
+                            .then(response => {
+                              if (response.ok) return response.json()
+                                throw new Error("Error al recargar el presupuesto")
+                            })
+                            .then(data => setPresupuesto(data))
+                            .catch(err => {
+                              console.error(err)
+                              toast.error("Error al actualizar la información")
+                            })
+                          }
+                        }}
+                        trigger={
+                          <Button variant="ghost" size="sm">
+                            <FileEdit className="h-4 w-4" />
+                          </Button>
+                        }
+                        />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          ) : (
+            <div className="text-center py-6 text-muted-foreground">
+              No hay presupuestos de proveedores registrados
+            </div>
+          )}
+        </CardContent>
+      </Card>
+      {/* Análisis de Margen */}
+      {presupuesto.presupuestosProveedores && presupuesto.presupuestosProveedores.length > 0 && (
+        <div className="mb-6">
+          <MargenCard 
+            subtotalPresupuesto={presupuesto.subtotal}
+            ivaPresupuesto={presupuesto.iva}
+            totalPresupuesto={presupuesto.total}
+            presupuestosProveedores={presupuesto.presupuestosProveedores} 
+            itemsAgrupados={getItemsGroupedByPartida()}
+          />
+        </div>
       )}
       
       <Toaster />

@@ -65,28 +65,34 @@ export async function GET(req: Request) {
         })
     
     // Determinar el siguiente número de secuencia
-    let siguienteSecuencia = process.env.NUMERO_PRESUS_INCIO ? parseInt(process.env.NUMERO_PRESUS_INCIO) : 1
+    let siguienteSecuencia = 1
     
     if (ultimoRegistro) {
-      const ultimoNumero = tipo === 'presupuesto' 
-        ? ultimoRegistro.numero 
-        : ultimoRegistro.numero
+      // Si ya existen registros, incrementar el último número
+      const ultimoNumero = ultimoRegistro.numero
       
-      // Extraer el número de secuencia de la última parte después del guión
-      const partes = ultimoNumero.split('-')
-      if (partes.length > 1) {
-        const ultimaSecuencia = parseInt(partes[partes.length - 1])
+      // Extraer el número de secuencia de la última parte
+      // Asumimos que el formato es PREFIJO-AÑO-SECUENCIA o PREFIJOAÑOSECUENCIA
+      const match = ultimoNumero.match(/\d+$/)
+      if (match) {
+        const ultimaSecuencia = parseInt(match[0])
         if (!isNaN(ultimaSecuencia)) {
           siguienteSecuencia = ultimaSecuencia + 1
         }
       }
+    } else {
+      // Si no hay registros previos y existe la variable de entorno, usarla
+      const inicioSequencia = process.env.NUMERO_PRESUS_INCIO
+      if (inicioSequencia && !isNaN(parseInt(inicioSequencia))) {
+        siguienteSecuencia = parseInt(inicioSequencia)
+      }
     }
     
-    // Formatear el número de secuencia (4 dígitos)
-    const secuencia = siguienteSecuencia.toString()
+    // Formatear el número de secuencia con padding a 4 dígitos (opcional)
+    const secuenciaFormateada = siguienteSecuencia.toString().padStart(4, '0')
     
     // Número completo
-    const numeroCompleto = `${formatoBase}${secuencia}`
+    const numeroCompleto = `${formatoBase}${secuenciaFormateada}`
     
     return NextResponse.json({ numero: numeroCompleto })
   } catch (error) {

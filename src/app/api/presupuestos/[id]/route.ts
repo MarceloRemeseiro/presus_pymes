@@ -20,6 +20,11 @@ export async function GET(
             partida: true,
           },
         },
+        presupuestosProveedores: {
+          include: {
+            proveedor: true
+          }
+        }
       },
     })
     
