@@ -54,8 +54,8 @@ export async function POST(req: Request) {
     // Usar any para evitar problemas de tipo
     const createData: any = {
       nombre: body.nombre,
-      stock: parseInt(body.stock),
-      precio: parseFloat(body.precio),
+      stock: body.stock !== null && body.stock !== undefined ? parseInt(body.stock) : 0,
+      precio: parseFloat(body.precio) || 0,
       categoria: {
         connectOrCreate: {
           where: { id: body.categoriaId },

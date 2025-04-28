@@ -17,13 +17,18 @@ export async function GET(req: Request) {
     }
     
     // Obtener configuración
-    const config = await prisma.configuracion.findFirst()
+    let config = await prisma.configuracion.findFirst()
     
+    // Si no existe configuración, crear una por defecto
     if (!config) {
-      return NextResponse.json(
-        { error: 'No se encontró configuración del sistema' },
-        { status: 404 }
-      )
+      config = await prisma.configuracion.create({
+        data: {
+          ivaPorDefecto: 21,
+          moneda: "EUR",
+          prefijoFactura: "FAC-",
+          prefijoPresupuesto: "PRES-",
+        }
+      })
     }
     
     // Determinar el prefijo según el tipo
@@ -31,11 +36,10 @@ export async function GET(req: Request) {
     
     // Obtener la fecha actual para el formato
     const today = new Date()
-    const year = today.getFullYear().toString().slice(2)
-    const month = (today.getMonth() + 1).toString().padStart(2, '0')
+    const year = today.getFullYear()
     
     // Formato base del número (sin secuencia)
-    const formatoBase = `${prefijo}${year}${month}-`
+    const formatoBase = `${prefijo}${year}`
     
     // Buscar el último presupuesto/factura con ese prefijo para determinar la secuencia
     const ultimoRegistro = tipo === 'presupuesto'
@@ -61,7 +65,7 @@ export async function GET(req: Request) {
         })
     
     // Determinar el siguiente número de secuencia
-    let siguienteSecuencia = 1
+    let siguienteSecuencia = process.env.NUMERO_PRESUS_INCIO ? parseInt(process.env.NUMERO_PRESUS_INCIO) : 1
     
     if (ultimoRegistro) {
       const ultimoNumero = tipo === 'presupuesto' 
@@ -79,7 +83,7 @@ export async function GET(req: Request) {
     }
     
     // Formatear el número de secuencia (4 dígitos)
-    const secuencia = siguienteSecuencia.toString().padStart(4, '0')
+    const secuencia = siguienteSecuencia.toString()
     
     // Número completo
     const numeroCompleto = `${formatoBase}${secuencia}`
