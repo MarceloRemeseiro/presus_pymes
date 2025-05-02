@@ -15,6 +15,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { toast, Toaster } from "sonner"
 import { Plus, Search, Eye, Pencil, Trash2, LayoutList, Loader2 } from "lucide-react"
+import { DataTable } from "@/components/ui/data-table"
 
 interface Producto {
   id: string

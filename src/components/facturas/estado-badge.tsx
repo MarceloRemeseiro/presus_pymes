@@ -1,17 +1,17 @@
 import React from "react"
 import { Badge } from "@/components/ui/badge"
-import { AlertCircle, CheckCircle, XCircle, ClipboardList } from "lucide-react"
+import { AlertCircle, CheckCircle, XCircle, SendHorizonal, Clock } from "lucide-react"
 
-type EstadoPresupuesto = "PENDIENTE" | "APROBADO" | "RECHAZADO" | "FACTURADO"
+type EstadoFactura = 'PENDIENTE' | 'ENVIADA' | 'PAGADA' | 'VENCIDA' | 'ANULADA'
 
 interface EstadoBadgeProps {
-  estado: EstadoPresupuesto
+  estado: EstadoFactura
   showIcon?: boolean
   className?: string
 }
 
 export function EstadoBadge({ estado, showIcon = true, className = "" }: EstadoBadgeProps) {
-  const getEstadoConfig = (estado: EstadoPresupuesto) => {
+  const getEstadoConfig = (estado: EstadoFactura) => {
     switch (estado) {
       case "PENDIENTE":
         return {
@@ -19,23 +19,29 @@ export function EstadoBadge({ estado, showIcon = true, className = "" }: EstadoB
           icon: <AlertCircle className="h-3 w-3 mr-1" />,
           label: "Pendiente"
         }
-      case "APROBADO":
+      case "ENVIADA":
+        return {
+          variant: "info" as const,
+          icon: <SendHorizonal className="h-3 w-3 mr-1" />,
+          label: "Enviada"
+        }
+      case "PAGADA":
         return {
           variant: "success" as const,
           icon: <CheckCircle className="h-3 w-3 mr-1" />,
-          label: "Aprobado"
+          label: "Pagada"
         }
-      case "RECHAZADO":
+      case "VENCIDA":
         return {
           variant: "danger" as const,
-          icon: <XCircle className="h-3 w-3 mr-1" />,
-          label: "Rechazado"
+          icon: <Clock className="h-3 w-3 mr-1" />,
+          label: "Vencida"
         }
-      case "FACTURADO":
+      case "ANULADA":
         return {
-          variant: "info" as const,
-          icon: <ClipboardList className="h-3 w-3 mr-1" />,
-          label: "Facturado"
+          variant: "default" as const,
+          icon: <XCircle className="h-3 w-3 mr-1" />,
+          label: "Anulada"
         }
       default:
         return {

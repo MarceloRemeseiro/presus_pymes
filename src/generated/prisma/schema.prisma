@@ -104,6 +104,7 @@ model PartidaPresupuesto {
   descripcion             String?
   items                   ItemPresupuesto[]
   presupuestosProveedores PresupuestoProveedor[] // Relación con presupuestos de proveedores
+  itemsFactura            ItemFactura[] // Relación con items de facturas
   createdAt               DateTime               @default(now())
   updatedAt               DateTime               @updatedAt
 
@@ -159,6 +160,7 @@ model ItemPresupuesto {
 model Factura {
   id               String        @id @default(cuid())
   numero           String        @unique
+  numeroPedido     String? // Número de pedido o PO (Purchase Order) opcional
   fecha            DateTime      @default(now())
   fechaVencimiento DateTime
   clienteId        String
@@ -176,18 +178,24 @@ model Factura {
 }
 
 model ItemFactura {
-  id             String   @id @default(cuid())
+  id             String              @id @default(cuid())
   facturaId      String
-  factura        Factura  @relation(fields: [facturaId], references: [id], onDelete: Cascade)
+  factura        Factura             @relation(fields: [facturaId], references: [id], onDelete: Cascade)
   productoId     String
-  producto       Producto @relation(fields: [productoId], references: [id])
+  producto       Producto            @relation(fields: [productoId], references: [id])
+  nombre         String? // Nombre personalizado para tipos especiales como PERSONAL
+  tipo           String? // CATEGORIA, EQUIPO, PERSONAL, SEPARADOR
   cantidad       Int
   precioUnitario Float
-  descuento      Float    @default(0)
+  descuento      Float               @default(0)
   iva            Float
   total          Float
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  dias           Int                 @default(1)
+  // Relación con la partida
+  partidaId      String?
+  partida        PartidaPresupuesto? @relation(fields: [partidaId], references: [id])
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
 }
 
 model Configuracion {
@@ -297,6 +305,7 @@ enum EstadoPresupuesto {
 
 enum EstadoFactura {
   PENDIENTE
+  ENVIADA
   PAGADA
   VENCIDA
   ANULADA

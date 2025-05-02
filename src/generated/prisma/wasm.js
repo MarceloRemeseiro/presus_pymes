@@ -232,6 +232,7 @@ exports.Prisma.ItemPresupuestoScalarFieldEnum = {
 exports.Prisma.FacturaScalarFieldEnum = {
   id: 'id',
   numero: 'numero',
+  numeroPedido: 'numeroPedido',
   fecha: 'fecha',
   fechaVencimiento: 'fechaVencimiento',
   clienteId: 'clienteId',
@@ -248,11 +249,15 @@ exports.Prisma.ItemFacturaScalarFieldEnum = {
   id: 'id',
   facturaId: 'facturaId',
   productoId: 'productoId',
+  nombre: 'nombre',
+  tipo: 'tipo',
   cantidad: 'cantidad',
   precioUnitario: 'precioUnitario',
   descuento: 'descuento',
   iva: 'iva',
   total: 'total',
+  dias: 'dias',
+  partidaId: 'partidaId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -362,6 +367,7 @@ exports.EstadoPresupuesto = exports.$Enums.EstadoPresupuesto = {
 
 exports.EstadoFactura = exports.$Enums.EstadoFactura = {
   PENDIENTE: 'PENDIENTE',
+  ENVIADA: 'ENVIADA',
   PAGADA: 'PAGADA',
   VENCIDA: 'VENCIDA',
   ANULADA: 'ANULADA'

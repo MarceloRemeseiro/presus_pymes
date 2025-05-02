@@ -10,6 +10,7 @@ export async function GET() {
         items: {
           include: {
             producto: true,
+            partida: true,
           },
         },
         presupuestos: true,
@@ -35,55 +36,84 @@ export async function POST(req: Request) {
     const body = await req.json()
     
     // Calculamos los totales
-    const subtotal = body.items.reduce(
+    const subtotal = body.items ? body.items.reduce(
       (acc: number, item: any) => acc + (item.cantidad * item.precioUnitario * (1 - item.descuento / 100)),
       0
-    )
+    ) : 0
     
-    const iva = body.items.reduce(
+    const iva = body.items ? body.items.reduce(
       (acc: number, item: any) => {
         const baseImponible = item.cantidad * item.precioUnitario * (1 - item.descuento / 100)
         return acc + (baseImponible * (item.iva / 100))
       },
       0
-    )
+    ) : 0
     
     const total = subtotal + iva
     
-    // Creamos la factura con sus items
+    // Generar un número único para la factura
+    const nextNumberResponse = await fetch(`${req.headers.get('origin')}/api/configuracion/siguiente-numero?tipo=factura`)
+    if (!nextNumberResponse.ok) {
+      throw new Error('Error al generar el número de factura')
+    }
+    const { numero } = await nextNumberResponse.json()
+    
+    // Obtener la fecha actual y fecha de vencimiento (30 días después)
+    const today = new Date()
+    const fechaVencimiento = new Date(today)
+    fechaVencimiento.setDate(fechaVencimiento.getDate() + 30)
+    
+    // Crear una factura vacía
+    const facturaData: any = {
+      numero,
+      fecha: today,
+      fechaVencimiento,
+      estado: 'PENDIENTE',
+      subtotal,
+      iva,
+      total,
+    }
+    
+    // Agregar numeroPedido si existe
+    if (body.numeroPedido) {
+      facturaData.numeroPedido = body.numeroPedido;
+    }
+    
+    // Agregar clienteId si existe
+    if (body.clienteId) {
+      facturaData.clienteId = body.clienteId
+    }
+    
+    // Agregar items si existen
+    if (body.items?.length) {
+      facturaData.items = {
+        create: body.items.map((item: any) => {
+          const precioTotal = item.cantidad * item.precioUnitario * (1 - item.descuento / 100)
+          const ivaImporte = precioTotal * (item.iva / 100)
+          
+          return {
+            productoId: item.productoId,
+            nombre: item.nombre,
+            tipo: item.tipo,
+            cantidad: item.cantidad,
+            precioUnitario: item.precioUnitario,
+            descuento: item.descuento,
+            iva: item.iva,
+            total: precioTotal + ivaImporte,
+          }
+        }),
+      }
+    }
+    
+    // Agregar presupuestos si existen
+    if (body.presupuestoIds?.length) {
+      facturaData.presupuestos = {
+        connect: body.presupuestoIds.map((id: string) => ({ id }))
+      }
+    }
+    
     const factura = await prisma.factura.create({
-      data: {
-        numero: body.numero,
-        fecha: new Date(body.fecha),
-        fechaVencimiento: new Date(body.fechaVencimiento),
-        clienteId: body.clienteId,
-        estado: body.estado,
-        observaciones: body.observaciones,
-        subtotal,
-        iva,
-        total,
-        items: {
-          create: body.items.map((item: any) => {
-            const precioTotal = item.cantidad * item.precioUnitario * (1 - item.descuento / 100)
-            const ivaImporte = precioTotal * (item.iva / 100)
-            
-            return {
-              productoId: item.productoId,
-              cantidad: item.cantidad,
-              precioUnitario: item.precioUnitario,
-              descuento: item.descuento,
-              iva: item.iva,
-              total: precioTotal + ivaImporte,
-            }
-          }),
-        },
-        // Conectar con presupuestos si vienen en la petición
-        presupuestos: body.presupuestoIds?.length 
-          ? {
-              connect: body.presupuestoIds.map((id: string) => ({ id }))
-            }
-          : undefined,
-      },
+      data: facturaData,
       include: {
         cliente: true,
         items: {

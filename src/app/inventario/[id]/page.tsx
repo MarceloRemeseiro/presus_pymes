@@ -8,6 +8,8 @@ import { toast, Toaster } from "sonner"
 import { ArrowLeft, Edit, Loader2, Box, Tag, Badge, Bookmark, FileText, Trash, LayoutList } from "lucide-react"
 import Link from "next/link"
 import { Separator } from "@/components/ui/separator"
+import { use } from "react"
+
 
 interface Producto {
   id: string;
@@ -34,10 +36,15 @@ interface Producto {
     equipoItems: number;
   };
 }
-
-export default function DetalleProductoPage({ params }: { params: { id: string } }) {
+interface PageParams {
+  params: Promise<{
+    id: string
+  }>
+}
+export default function DetalleProductoPage({ params }: PageParams) {
   const router = useRouter()
-  const { id } = params
+  const resolvedParams = use(params)
+  const { id } = resolvedParams
   
   const [isLoading, setIsLoading] = useState(true)
   const [isDeleting, setIsDeleting] = useState(false)

@@ -19,6 +19,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Loader2 } from "lucide-react"
 import { useProveedores } from "@/hooks/use-proveedores"
 import { Partida } from "@/hooks/use-partidas"
+import { Switch } from "@/components/ui/switch"
+import { Checkbox } from "@/components/ui/checkbox"
 
 // Proveedores especiales fijos
 const PROVEEDORES_ESPECIALES = [
@@ -61,6 +63,7 @@ export function PresupuestoProveedorDialog({
   const [partidaId, setPartidaId] = useState(partidaIdInicial || "sin-partida")
   const [monto, setMonto] = useState(montoInicial)
   const [notas, setNotas] = useState(notasIniciales)
+  const [precioConIVA, setPrecioConIVA] = useState(false)
 
   // Partida especial para gastos generales
   const [partidaGastosGeneralesId, setPartidaGastosGeneralesId] = useState<string | null>(null)
@@ -131,6 +134,7 @@ export function PresupuestoProveedorDialog({
         
         setMonto(data.precio || 0)
         setNotas(data.descripcion || "")
+        setPrecioConIVA(data.precioConIVA || false)
         
         // Intentar establecer la partida si existe
         if (data.partidaId) {
@@ -269,7 +273,7 @@ export function PresupuestoProveedorDialog({
           partidaId: partidaFinalId === "sin-partida" ? null : partidaFinalId,
           nombre: `Presupuesto de ${nombreProveedor}`,
           precio: monto,
-          precioConIVA: false,
+          precioConIVA,
           descripcion: notas || null,
           // Agregar bandera para proveedores especiales
           tipoEspecial: (proveedorId === "gastos-generales" || proveedorId === "freelance" || proveedorId === "dietas") ? proveedorId : null
@@ -424,6 +428,24 @@ export function PresupuestoProveedorDialog({
                 disabled={loading}
               />
             </div>
+            
+            {/* Checkbox de Precio con IVA (solo para proveedores normales) */}
+            {!["gastos-generales", "freelance", "dietas"].includes(proveedorId) && (
+              <div className="flex items-center space-x-2">
+                <Checkbox 
+                  id="precioConIVA" 
+                  checked={precioConIVA} 
+                  onCheckedChange={(checked) => setPrecioConIVA(checked === true)}
+                  disabled={loading}
+                />
+                <Label 
+                  htmlFor="precioConIVA" 
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  El precio incluye IVA
+                </Label>
+              </div>
+            )}
             
             <div className="grid gap-2">
               <Label htmlFor="notas">Notas (opcional)</Label>

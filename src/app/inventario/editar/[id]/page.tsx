@@ -8,6 +8,7 @@ import { ProductoForm, ProductoFormValues } from "@/components/productos/product
 import { toast, Toaster } from "sonner"
 import { ArrowLeft, Loader2 } from "lucide-react"
 import Link from "next/link"
+import { use } from "react"
 
 interface Categoria {
   id: string;
@@ -39,10 +40,15 @@ interface Producto {
     nombre: string;
   } | null;
 }
-
-export default function EditarProductoPage({ params }: { params: { id: string } }) {
+interface PageParams {
+  params: Promise<{
+    id: string
+  }>
+}
+export default function EditarProductoPage({ params }: PageParams) {
   const router = useRouter()
-  const { id } = params
+  const resolvedParams = use(params)
+  const { id } = resolvedParams
   
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isLoading, setIsLoading] = useState(true)

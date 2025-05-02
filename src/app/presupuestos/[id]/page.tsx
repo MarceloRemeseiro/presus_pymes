@@ -16,7 +16,10 @@ import {
   ClipboardList,
   Printer,
   Trash,
-  PlusCircle
+  PlusCircle,
+  CheckCircleIcon,
+  XCircleIcon,
+  TimerIcon
 } from "lucide-react"
 import {
   Table,
@@ -226,6 +229,37 @@ export default function PresupuestoDetallePage({ params }: { params: Promise<{ i
     return groupedItems
   }
 
+  // Manejar cambio de estado
+  const handleChangeEstado = async (nuevoEstado: string) => {
+    try {
+      if (!presupuestoId) return;
+      
+      const response = await fetch(`/api/presupuestos/${presupuestoId}/estado`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ estado: nuevoEstado }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Error al cambiar el estado del presupuesto");
+      }
+
+      // Actualizar el presupuesto en el estado local
+      setPresupuesto((prevPresupuesto) => 
+        prevPresupuesto ? 
+          { ...prevPresupuesto, estado: nuevoEstado as Presupuesto["estado"] } : 
+          null
+      );
+
+      toast.success("Estado actualizado");
+    } catch (error) {
+      toast.error("No se pudo actualizar el estado del presupuesto");
+      console.error("Error al actualizar estado del presupuesto:", error);
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="py-10 flex justify-center">
@@ -294,37 +328,51 @@ export default function PresupuestoDetallePage({ params }: { params: Promise<{ i
               Editar
             </Link>
           </Button>
-          <EliminarPresupuestoDialog
-            presupuestoId={presupuesto.id}
-            presupuestoNumero={presupuesto.numero}
-            trigger={
-              <Button 
-                variant="outline" 
-                className="gap-1 text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200"
-              >
-                <Trash className="h-4 w-4" />
-                Eliminar
-              </Button>
-            }
-          />
-          <CambiarEstadoDialog
-            presupuestoId={presupuesto.id}
-            estadoActual={presupuesto.estado}
-            onEstadoCambiado={(nuevoEstado) => {
-              if (presupuesto) {
-                setPresupuesto({
-                  ...presupuesto,
-                  estado: nuevoEstado
-                });
+          {presupuesto.estado !== "APROBADO" && (
+            <Button
+              variant="outline"
+              className="gap-1 border-green-500 text-green-600 hover:bg-green-50"
+              onClick={() => handleChangeEstado("APROBADO")}
+            >
+              <CheckCircleIcon className="h-4 w-4" />
+              Aprobar
+            </Button>
+          )}
+          {presupuesto.estado !== "RECHAZADO" && (
+            <Button
+              variant="outline"
+              className="gap-1 border-red-500 text-red-600 hover:bg-red-50"
+              onClick={() => handleChangeEstado("RECHAZADO")}
+            >
+              <XCircleIcon className="h-4 w-4" />
+              Rechazar
+            </Button>
+          )}
+          {presupuesto.estado !== "PENDIENTE" && (
+            <Button
+              variant="outline"
+              className="gap-1 border-yellow-500 text-yellow-600 hover:bg-yellow-50"
+              onClick={() => handleChangeEstado("PENDIENTE")}
+            >
+              <TimerIcon className="h-4 w-4" />
+              Marcar como pendiente
+            </Button>
+          )}
+          <div className="ml-4">
+            <EliminarPresupuestoDialog
+              presupuestoId={presupuesto.id}
+              presupuestoNumero={presupuesto.numero}
+              trigger={
+                <Button 
+                  variant="outline" 
+                  className="gap-1 text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200"
+                >
+                  <Trash className="h-4 w-4" />
+                  Eliminar
+                </Button>
               }
-            }}
-            trigger={
-              <Button variant="default" className="gap-1">
-                <ClipboardList className="h-4 w-4" />
-                Cambiar estado
-              </Button>
-            }
-          />
+            />
+          </div>
         </div>
       </div>
       
@@ -421,45 +469,47 @@ export default function PresupuestoDetallePage({ params }: { params: Promise<{ i
         <CardContent>
           {/* Renderizar cada partida y sus items */}
           {getItemsGroupedByPartida().map((group, groupIndex) => (
-            <div key={groupIndex} className="mb-6">
-              <h3 className="text-md font-medium mb-2">{group.partidaNombre}</h3>
+            <div key={groupIndex} className="mb-8 border rounded-lg overflow-hidden">
+              <h3 className="text-lg font-bold bg-primary/10 p-4 text-primary-foreground dark:bg-primary/20">
+                {group.partidaNombre}
+              </h3>
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Descripción</TableHead>
-                    <TableHead>Días</TableHead>
-                    <TableHead>Cantidad</TableHead>
-                    <TableHead>Precio</TableHead>
-                    <TableHead>Descuento</TableHead>
-                    <TableHead>Subtotal (sin IVA)</TableHead>
+                    <TableHead className="text-left py-3 px-4">Descripción</TableHead>
+                    <TableHead className="text-left py-3 px-4">Cantidad</TableHead>
+                    <TableHead className="text-left py-3 px-4">Días</TableHead>
+                    <TableHead className="text-left py-3 px-4">Precio</TableHead>
+                    <TableHead className="text-left py-3 px-4">Descuento</TableHead>
+                    <TableHead className="text-left py-3 px-4">Subtotal (sin IVA)</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {group.items.map((item) => (
                     item.tipo === "CATEGORIA" ? (
                       // Categoría como subcabecera
-                      <TableRow key={item.id} className="bg-muted/40">
-                        <TableCell colSpan={6} className="font-semibold">
+                      <TableRow key={item.id} className="bg-secondary/20 dark:bg-secondary/10 border-t border-b">
+                        <TableCell colSpan={6} className="font-semibold text-left py-3 px-4">
                           {item.nombre || item.producto?.nombre || "Categoría sin nombre"}
                         </TableCell>
                       </TableRow>
                     ) : item.tipo === "SEPARADOR" ? (
-                      // Separador igual que categoría pero con texto centrado
-                      <TableRow key={item.id} className="bg-muted/40">
-                        <TableCell colSpan={6} className="py-2 text-center">
-                          <div className="text-sm">
+                      // Separador con estilo distintivo
+                      <TableRow key={item.id} className="bg-muted/30 dark:bg-muted/10 border-t border-b border-dashed">
+                        <TableCell colSpan={6} className="py-2 text-center px-4">
+                          <div className="text-sm font-medium text-muted-foreground">
                             {item.nombre || item.producto?.nombre || "Separador"}
                           </div>
                         </TableCell>
                       </TableRow>
                     ) : (
-                      <TableRow key={item.id}>
-                        <TableCell className="font-medium w-1/3">{item.tipo === "PERSONAL" || item.tipo === "PERSONALIZADO" ? item.nombre : item.producto.nombre}</TableCell>
-                        <TableCell>{item.dias || 1}</TableCell>
-                        <TableCell>{item.cantidad}</TableCell>
-                        <TableCell>{formatCurrency(item.precioUnitario)}</TableCell>
-                        <TableCell>{item.descuento > 0 ? `${item.descuento}%` : '-'}</TableCell>
-                        <TableCell className="font-medium">
+                      <TableRow key={item.id} className="hover:bg-muted/10">
+                        <TableCell className="font-medium w-1/3 text-left px-4">{item.tipo === "PERSONAL" || item.tipo === "PERSONALIZADO" ? item.nombre : item.producto.nombre}</TableCell>
+                        <TableCell className="text-left px-4">{item.cantidad}</TableCell>
+                        <TableCell className="text-left px-4">{item.dias || 1}</TableCell>
+                        <TableCell className="text-left px-4">{formatCurrency(item.precioUnitario)}</TableCell>
+                        <TableCell className="text-left px-4">{item.descuento > 0 ? `${item.descuento}%` : '-'}</TableCell>
+                        <TableCell className="font-medium text-left px-4">
                           {formatCurrency(item.cantidad * item.precioUnitario * (item.dias || 1) * (1 - item.descuento / 100))}
                         </TableCell>
                       </TableRow>
@@ -467,6 +517,11 @@ export default function PresupuestoDetallePage({ params }: { params: Promise<{ i
                   ))}
                 </TableBody>
               </Table>
+              <div className="p-3 bg-muted/20 dark:bg-muted/10 flex justify-end">
+                <div className="text-sm font-medium">
+                  Subtotal de partida: {formatCurrency(group.subtotal)}
+                </div>
+              </div>
             </div>
           ))}
         </CardContent>

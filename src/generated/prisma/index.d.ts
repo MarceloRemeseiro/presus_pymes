@@ -128,6 +128,7 @@ export type EstadoPresupuesto = (typeof EstadoPresupuesto)[keyof typeof EstadoPr
 
 export const EstadoFactura: {
   PENDIENTE: 'PENDIENTE',
+  ENVIADA: 'ENVIADA',
   PAGADA: 'PAGADA',
   VENCIDA: 'VENCIDA',
   ANULADA: 'ANULADA'
@@ -2628,11 +2629,13 @@ export namespace Prisma {
   export type PartidaPresupuestoCountOutputType = {
     items: number
     presupuestosProveedores: number
+    itemsFactura: number
   }
 
   export type PartidaPresupuestoCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     items?: boolean | PartidaPresupuestoCountOutputTypeCountItemsArgs
     presupuestosProveedores?: boolean | PartidaPresupuestoCountOutputTypeCountPresupuestosProveedoresArgs
+    itemsFactura?: boolean | PartidaPresupuestoCountOutputTypeCountItemsFacturaArgs
   }
 
   // Custom InputTypes
@@ -2658,6 +2661,13 @@ export namespace Prisma {
    */
   export type PartidaPresupuestoCountOutputTypeCountPresupuestosProveedoresArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PresupuestoProveedorWhereInput
+  }
+
+  /**
+   * PartidaPresupuestoCountOutputType without action
+   */
+  export type PartidaPresupuestoCountOutputTypeCountItemsFacturaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ItemFacturaWhereInput
   }
 
 
@@ -9825,6 +9835,7 @@ export namespace Prisma {
     updatedAt?: boolean
     items?: boolean | PartidaPresupuesto$itemsArgs<ExtArgs>
     presupuestosProveedores?: boolean | PartidaPresupuesto$presupuestosProveedoresArgs<ExtArgs>
+    itemsFactura?: boolean | PartidaPresupuesto$itemsFacturaArgs<ExtArgs>
     _count?: boolean | PartidaPresupuestoCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["partidaPresupuesto"]>
 
@@ -9856,6 +9867,7 @@ export namespace Prisma {
   export type PartidaPresupuestoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     items?: boolean | PartidaPresupuesto$itemsArgs<ExtArgs>
     presupuestosProveedores?: boolean | PartidaPresupuesto$presupuestosProveedoresArgs<ExtArgs>
+    itemsFactura?: boolean | PartidaPresupuesto$itemsFacturaArgs<ExtArgs>
     _count?: boolean | PartidaPresupuestoCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PartidaPresupuestoIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -9866,6 +9878,7 @@ export namespace Prisma {
     objects: {
       items: Prisma.$ItemPresupuestoPayload<ExtArgs>[]
       presupuestosProveedores: Prisma.$PresupuestoProveedorPayload<ExtArgs>[]
+      itemsFactura: Prisma.$ItemFacturaPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -10269,6 +10282,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     items<T extends PartidaPresupuesto$itemsArgs<ExtArgs> = {}>(args?: Subset<T, PartidaPresupuesto$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemPresupuestoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     presupuestosProveedores<T extends PartidaPresupuesto$presupuestosProveedoresArgs<ExtArgs> = {}>(args?: Subset<T, PartidaPresupuesto$presupuestosProveedoresArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PresupuestoProveedorPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    itemsFactura<T extends PartidaPresupuesto$itemsFacturaArgs<ExtArgs> = {}>(args?: Subset<T, PartidaPresupuesto$itemsFacturaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemFacturaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10736,6 +10750,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PresupuestoProveedorScalarFieldEnum | PresupuestoProveedorScalarFieldEnum[]
+  }
+
+  /**
+   * PartidaPresupuesto.itemsFactura
+   */
+  export type PartidaPresupuesto$itemsFacturaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ItemFactura
+     */
+    select?: ItemFacturaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the ItemFactura
+     */
+    omit?: ItemFacturaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ItemFacturaInclude<ExtArgs> | null
+    where?: ItemFacturaWhereInput
+    orderBy?: ItemFacturaOrderByWithRelationInput | ItemFacturaOrderByWithRelationInput[]
+    cursor?: ItemFacturaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ItemFacturaScalarFieldEnum | ItemFacturaScalarFieldEnum[]
   }
 
   /**
@@ -13421,6 +13459,7 @@ export namespace Prisma {
   export type FacturaMinAggregateOutputType = {
     id: string | null
     numero: string | null
+    numeroPedido: string | null
     fecha: Date | null
     fechaVencimiento: Date | null
     clienteId: string | null
@@ -13436,6 +13475,7 @@ export namespace Prisma {
   export type FacturaMaxAggregateOutputType = {
     id: string | null
     numero: string | null
+    numeroPedido: string | null
     fecha: Date | null
     fechaVencimiento: Date | null
     clienteId: string | null
@@ -13451,6 +13491,7 @@ export namespace Prisma {
   export type FacturaCountAggregateOutputType = {
     id: number
     numero: number
+    numeroPedido: number
     fecha: number
     fechaVencimiento: number
     clienteId: number
@@ -13480,6 +13521,7 @@ export namespace Prisma {
   export type FacturaMinAggregateInputType = {
     id?: true
     numero?: true
+    numeroPedido?: true
     fecha?: true
     fechaVencimiento?: true
     clienteId?: true
@@ -13495,6 +13537,7 @@ export namespace Prisma {
   export type FacturaMaxAggregateInputType = {
     id?: true
     numero?: true
+    numeroPedido?: true
     fecha?: true
     fechaVencimiento?: true
     clienteId?: true
@@ -13510,6 +13553,7 @@ export namespace Prisma {
   export type FacturaCountAggregateInputType = {
     id?: true
     numero?: true
+    numeroPedido?: true
     fecha?: true
     fechaVencimiento?: true
     clienteId?: true
@@ -13612,6 +13656,7 @@ export namespace Prisma {
   export type FacturaGroupByOutputType = {
     id: string
     numero: string
+    numeroPedido: string | null
     fecha: Date
     fechaVencimiento: Date
     clienteId: string
@@ -13646,6 +13691,7 @@ export namespace Prisma {
   export type FacturaSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     numero?: boolean
+    numeroPedido?: boolean
     fecha?: boolean
     fechaVencimiento?: boolean
     clienteId?: boolean
@@ -13666,6 +13712,7 @@ export namespace Prisma {
   export type FacturaSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     numero?: boolean
+    numeroPedido?: boolean
     fecha?: boolean
     fechaVencimiento?: boolean
     clienteId?: boolean
@@ -13682,6 +13729,7 @@ export namespace Prisma {
   export type FacturaSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     numero?: boolean
+    numeroPedido?: boolean
     fecha?: boolean
     fechaVencimiento?: boolean
     clienteId?: boolean
@@ -13698,6 +13746,7 @@ export namespace Prisma {
   export type FacturaSelectScalar = {
     id?: boolean
     numero?: boolean
+    numeroPedido?: boolean
     fecha?: boolean
     fechaVencimiento?: boolean
     clienteId?: boolean
@@ -13710,7 +13759,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type FacturaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "numero" | "fecha" | "fechaVencimiento" | "clienteId" | "estado" | "observaciones" | "subtotal" | "iva" | "total" | "createdAt" | "updatedAt", ExtArgs["result"]["factura"]>
+  export type FacturaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "numero" | "numeroPedido" | "fecha" | "fechaVencimiento" | "clienteId" | "estado" | "observaciones" | "subtotal" | "iva" | "total" | "createdAt" | "updatedAt", ExtArgs["result"]["factura"]>
   export type FacturaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     cliente?: boolean | ClienteDefaultArgs<ExtArgs>
     items?: boolean | Factura$itemsArgs<ExtArgs>
@@ -13736,6 +13785,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       numero: string
+      numeroPedido: string | null
       fecha: Date
       fechaVencimiento: Date
       clienteId: string
@@ -14175,6 +14225,7 @@ export namespace Prisma {
   interface FacturaFieldRefs {
     readonly id: FieldRef<"Factura", 'String'>
     readonly numero: FieldRef<"Factura", 'String'>
+    readonly numeroPedido: FieldRef<"Factura", 'String'>
     readonly fecha: FieldRef<"Factura", 'DateTime'>
     readonly fechaVencimiento: FieldRef<"Factura", 'DateTime'>
     readonly clienteId: FieldRef<"Factura", 'String'>
@@ -14689,6 +14740,7 @@ export namespace Prisma {
     descuento: number | null
     iva: number | null
     total: number | null
+    dias: number | null
   }
 
   export type ItemFacturaSumAggregateOutputType = {
@@ -14697,17 +14749,22 @@ export namespace Prisma {
     descuento: number | null
     iva: number | null
     total: number | null
+    dias: number | null
   }
 
   export type ItemFacturaMinAggregateOutputType = {
     id: string | null
     facturaId: string | null
     productoId: string | null
+    nombre: string | null
+    tipo: string | null
     cantidad: number | null
     precioUnitario: number | null
     descuento: number | null
     iva: number | null
     total: number | null
+    dias: number | null
+    partidaId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -14716,11 +14773,15 @@ export namespace Prisma {
     id: string | null
     facturaId: string | null
     productoId: string | null
+    nombre: string | null
+    tipo: string | null
     cantidad: number | null
     precioUnitario: number | null
     descuento: number | null
     iva: number | null
     total: number | null
+    dias: number | null
+    partidaId: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -14729,11 +14790,15 @@ export namespace Prisma {
     id: number
     facturaId: number
     productoId: number
+    nombre: number
+    tipo: number
     cantidad: number
     precioUnitario: number
     descuento: number
     iva: number
     total: number
+    dias: number
+    partidaId: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -14746,6 +14811,7 @@ export namespace Prisma {
     descuento?: true
     iva?: true
     total?: true
+    dias?: true
   }
 
   export type ItemFacturaSumAggregateInputType = {
@@ -14754,17 +14820,22 @@ export namespace Prisma {
     descuento?: true
     iva?: true
     total?: true
+    dias?: true
   }
 
   export type ItemFacturaMinAggregateInputType = {
     id?: true
     facturaId?: true
     productoId?: true
+    nombre?: true
+    tipo?: true
     cantidad?: true
     precioUnitario?: true
     descuento?: true
     iva?: true
     total?: true
+    dias?: true
+    partidaId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -14773,11 +14844,15 @@ export namespace Prisma {
     id?: true
     facturaId?: true
     productoId?: true
+    nombre?: true
+    tipo?: true
     cantidad?: true
     precioUnitario?: true
     descuento?: true
     iva?: true
     total?: true
+    dias?: true
+    partidaId?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -14786,11 +14861,15 @@ export namespace Prisma {
     id?: true
     facturaId?: true
     productoId?: true
+    nombre?: true
+    tipo?: true
     cantidad?: true
     precioUnitario?: true
     descuento?: true
     iva?: true
     total?: true
+    dias?: true
+    partidaId?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -14886,11 +14965,15 @@ export namespace Prisma {
     id: string
     facturaId: string
     productoId: string
+    nombre: string | null
+    tipo: string | null
     cantidad: number
     precioUnitario: number
     descuento: number
     iva: number
     total: number
+    dias: number
+    partidaId: string | null
     createdAt: Date
     updatedAt: Date
     _count: ItemFacturaCountAggregateOutputType | null
@@ -14918,72 +15001,94 @@ export namespace Prisma {
     id?: boolean
     facturaId?: boolean
     productoId?: boolean
+    nombre?: boolean
+    tipo?: boolean
     cantidad?: boolean
     precioUnitario?: boolean
     descuento?: boolean
     iva?: boolean
     total?: boolean
+    dias?: boolean
+    partidaId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     factura?: boolean | FacturaDefaultArgs<ExtArgs>
     producto?: boolean | ProductoDefaultArgs<ExtArgs>
+    partida?: boolean | ItemFactura$partidaArgs<ExtArgs>
   }, ExtArgs["result"]["itemFactura"]>
 
   export type ItemFacturaSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     facturaId?: boolean
     productoId?: boolean
+    nombre?: boolean
+    tipo?: boolean
     cantidad?: boolean
     precioUnitario?: boolean
     descuento?: boolean
     iva?: boolean
     total?: boolean
+    dias?: boolean
+    partidaId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     factura?: boolean | FacturaDefaultArgs<ExtArgs>
     producto?: boolean | ProductoDefaultArgs<ExtArgs>
+    partida?: boolean | ItemFactura$partidaArgs<ExtArgs>
   }, ExtArgs["result"]["itemFactura"]>
 
   export type ItemFacturaSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     facturaId?: boolean
     productoId?: boolean
+    nombre?: boolean
+    tipo?: boolean
     cantidad?: boolean
     precioUnitario?: boolean
     descuento?: boolean
     iva?: boolean
     total?: boolean
+    dias?: boolean
+    partidaId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     factura?: boolean | FacturaDefaultArgs<ExtArgs>
     producto?: boolean | ProductoDefaultArgs<ExtArgs>
+    partida?: boolean | ItemFactura$partidaArgs<ExtArgs>
   }, ExtArgs["result"]["itemFactura"]>
 
   export type ItemFacturaSelectScalar = {
     id?: boolean
     facturaId?: boolean
     productoId?: boolean
+    nombre?: boolean
+    tipo?: boolean
     cantidad?: boolean
     precioUnitario?: boolean
     descuento?: boolean
     iva?: boolean
     total?: boolean
+    dias?: boolean
+    partidaId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ItemFacturaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "facturaId" | "productoId" | "cantidad" | "precioUnitario" | "descuento" | "iva" | "total" | "createdAt" | "updatedAt", ExtArgs["result"]["itemFactura"]>
+  export type ItemFacturaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "facturaId" | "productoId" | "nombre" | "tipo" | "cantidad" | "precioUnitario" | "descuento" | "iva" | "total" | "dias" | "partidaId" | "createdAt" | "updatedAt", ExtArgs["result"]["itemFactura"]>
   export type ItemFacturaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     factura?: boolean | FacturaDefaultArgs<ExtArgs>
     producto?: boolean | ProductoDefaultArgs<ExtArgs>
+    partida?: boolean | ItemFactura$partidaArgs<ExtArgs>
   }
   export type ItemFacturaIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     factura?: boolean | FacturaDefaultArgs<ExtArgs>
     producto?: boolean | ProductoDefaultArgs<ExtArgs>
+    partida?: boolean | ItemFactura$partidaArgs<ExtArgs>
   }
   export type ItemFacturaIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     factura?: boolean | FacturaDefaultArgs<ExtArgs>
     producto?: boolean | ProductoDefaultArgs<ExtArgs>
+    partida?: boolean | ItemFactura$partidaArgs<ExtArgs>
   }
 
   export type $ItemFacturaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -14991,16 +15096,21 @@ export namespace Prisma {
     objects: {
       factura: Prisma.$FacturaPayload<ExtArgs>
       producto: Prisma.$ProductoPayload<ExtArgs>
+      partida: Prisma.$PartidaPresupuestoPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       facturaId: string
       productoId: string
+      nombre: string | null
+      tipo: string | null
       cantidad: number
       precioUnitario: number
       descuento: number
       iva: number
       total: number
+      dias: number
+      partidaId: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["itemFactura"]>
@@ -15399,6 +15509,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     factura<T extends FacturaDefaultArgs<ExtArgs> = {}>(args?: Subset<T, FacturaDefaultArgs<ExtArgs>>): Prisma__FacturaClient<$Result.GetResult<Prisma.$FacturaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     producto<T extends ProductoDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProductoDefaultArgs<ExtArgs>>): Prisma__ProductoClient<$Result.GetResult<Prisma.$ProductoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    partida<T extends ItemFactura$partidaArgs<ExtArgs> = {}>(args?: Subset<T, ItemFactura$partidaArgs<ExtArgs>>): Prisma__PartidaPresupuestoClient<$Result.GetResult<Prisma.$PartidaPresupuestoPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -15431,11 +15542,15 @@ export namespace Prisma {
     readonly id: FieldRef<"ItemFactura", 'String'>
     readonly facturaId: FieldRef<"ItemFactura", 'String'>
     readonly productoId: FieldRef<"ItemFactura", 'String'>
+    readonly nombre: FieldRef<"ItemFactura", 'String'>
+    readonly tipo: FieldRef<"ItemFactura", 'String'>
     readonly cantidad: FieldRef<"ItemFactura", 'Int'>
     readonly precioUnitario: FieldRef<"ItemFactura", 'Float'>
     readonly descuento: FieldRef<"ItemFactura", 'Float'>
     readonly iva: FieldRef<"ItemFactura", 'Float'>
     readonly total: FieldRef<"ItemFactura", 'Float'>
+    readonly dias: FieldRef<"ItemFactura", 'Int'>
+    readonly partidaId: FieldRef<"ItemFactura", 'String'>
     readonly createdAt: FieldRef<"ItemFactura", 'DateTime'>
     readonly updatedAt: FieldRef<"ItemFactura", 'DateTime'>
   }
@@ -15831,6 +15946,25 @@ export namespace Prisma {
      * Limit how many ItemFacturas to delete.
      */
     limit?: number
+  }
+
+  /**
+   * ItemFactura.partida
+   */
+  export type ItemFactura$partidaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PartidaPresupuesto
+     */
+    select?: PartidaPresupuestoSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PartidaPresupuesto
+     */
+    omit?: PartidaPresupuestoOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PartidaPresupuestoInclude<ExtArgs> | null
+    where?: PartidaPresupuestoWhereInput
   }
 
   /**
@@ -23780,6 +23914,7 @@ export namespace Prisma {
   export const FacturaScalarFieldEnum: {
     id: 'id',
     numero: 'numero',
+    numeroPedido: 'numeroPedido',
     fecha: 'fecha',
     fechaVencimiento: 'fechaVencimiento',
     clienteId: 'clienteId',
@@ -23799,11 +23934,15 @@ export namespace Prisma {
     id: 'id',
     facturaId: 'facturaId',
     productoId: 'productoId',
+    nombre: 'nombre',
+    tipo: 'tipo',
     cantidad: 'cantidad',
     precioUnitario: 'precioUnitario',
     descuento: 'descuento',
     iva: 'iva',
     total: 'total',
+    dias: 'dias',
+    partidaId: 'partidaId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -24504,6 +24643,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"PartidaPresupuesto"> | Date | string
     items?: ItemPresupuestoListRelationFilter
     presupuestosProveedores?: PresupuestoProveedorListRelationFilter
+    itemsFactura?: ItemFacturaListRelationFilter
   }
 
   export type PartidaPresupuestoOrderByWithRelationInput = {
@@ -24514,6 +24654,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     items?: ItemPresupuestoOrderByRelationAggregateInput
     presupuestosProveedores?: PresupuestoProveedorOrderByRelationAggregateInput
+    itemsFactura?: ItemFacturaOrderByRelationAggregateInput
   }
 
   export type PartidaPresupuestoWhereUniqueInput = Prisma.AtLeast<{
@@ -24527,6 +24668,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"PartidaPresupuesto"> | Date | string
     items?: ItemPresupuestoListRelationFilter
     presupuestosProveedores?: PresupuestoProveedorListRelationFilter
+    itemsFactura?: ItemFacturaListRelationFilter
   }, "id">
 
   export type PartidaPresupuestoOrderByWithAggregationInput = {
@@ -24796,6 +24938,7 @@ export namespace Prisma {
     NOT?: FacturaWhereInput | FacturaWhereInput[]
     id?: StringFilter<"Factura"> | string
     numero?: StringFilter<"Factura"> | string
+    numeroPedido?: StringNullableFilter<"Factura"> | string | null
     fecha?: DateTimeFilter<"Factura"> | Date | string
     fechaVencimiento?: DateTimeFilter<"Factura"> | Date | string
     clienteId?: StringFilter<"Factura"> | string
@@ -24815,6 +24958,7 @@ export namespace Prisma {
   export type FacturaOrderByWithRelationInput = {
     id?: SortOrder
     numero?: SortOrder
+    numeroPedido?: SortOrderInput | SortOrder
     fecha?: SortOrder
     fechaVencimiento?: SortOrder
     clienteId?: SortOrder
@@ -24837,6 +24981,7 @@ export namespace Prisma {
     AND?: FacturaWhereInput | FacturaWhereInput[]
     OR?: FacturaWhereInput[]
     NOT?: FacturaWhereInput | FacturaWhereInput[]
+    numeroPedido?: StringNullableFilter<"Factura"> | string | null
     fecha?: DateTimeFilter<"Factura"> | Date | string
     fechaVencimiento?: DateTimeFilter<"Factura"> | Date | string
     clienteId?: StringFilter<"Factura"> | string
@@ -24856,6 +25001,7 @@ export namespace Prisma {
   export type FacturaOrderByWithAggregationInput = {
     id?: SortOrder
     numero?: SortOrder
+    numeroPedido?: SortOrderInput | SortOrder
     fecha?: SortOrder
     fechaVencimiento?: SortOrder
     clienteId?: SortOrder
@@ -24879,6 +25025,7 @@ export namespace Prisma {
     NOT?: FacturaScalarWhereWithAggregatesInput | FacturaScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Factura"> | string
     numero?: StringWithAggregatesFilter<"Factura"> | string
+    numeroPedido?: StringNullableWithAggregatesFilter<"Factura"> | string | null
     fecha?: DateTimeWithAggregatesFilter<"Factura"> | Date | string
     fechaVencimiento?: DateTimeWithAggregatesFilter<"Factura"> | Date | string
     clienteId?: StringWithAggregatesFilter<"Factura"> | string
@@ -24898,30 +25045,40 @@ export namespace Prisma {
     id?: StringFilter<"ItemFactura"> | string
     facturaId?: StringFilter<"ItemFactura"> | string
     productoId?: StringFilter<"ItemFactura"> | string
+    nombre?: StringNullableFilter<"ItemFactura"> | string | null
+    tipo?: StringNullableFilter<"ItemFactura"> | string | null
     cantidad?: IntFilter<"ItemFactura"> | number
     precioUnitario?: FloatFilter<"ItemFactura"> | number
     descuento?: FloatFilter<"ItemFactura"> | number
     iva?: FloatFilter<"ItemFactura"> | number
     total?: FloatFilter<"ItemFactura"> | number
+    dias?: IntFilter<"ItemFactura"> | number
+    partidaId?: StringNullableFilter<"ItemFactura"> | string | null
     createdAt?: DateTimeFilter<"ItemFactura"> | Date | string
     updatedAt?: DateTimeFilter<"ItemFactura"> | Date | string
     factura?: XOR<FacturaScalarRelationFilter, FacturaWhereInput>
     producto?: XOR<ProductoScalarRelationFilter, ProductoWhereInput>
+    partida?: XOR<PartidaPresupuestoNullableScalarRelationFilter, PartidaPresupuestoWhereInput> | null
   }
 
   export type ItemFacturaOrderByWithRelationInput = {
     id?: SortOrder
     facturaId?: SortOrder
     productoId?: SortOrder
+    nombre?: SortOrderInput | SortOrder
+    tipo?: SortOrderInput | SortOrder
     cantidad?: SortOrder
     precioUnitario?: SortOrder
     descuento?: SortOrder
     iva?: SortOrder
     total?: SortOrder
+    dias?: SortOrder
+    partidaId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     factura?: FacturaOrderByWithRelationInput
     producto?: ProductoOrderByWithRelationInput
+    partida?: PartidaPresupuestoOrderByWithRelationInput
   }
 
   export type ItemFacturaWhereUniqueInput = Prisma.AtLeast<{
@@ -24931,26 +25088,35 @@ export namespace Prisma {
     NOT?: ItemFacturaWhereInput | ItemFacturaWhereInput[]
     facturaId?: StringFilter<"ItemFactura"> | string
     productoId?: StringFilter<"ItemFactura"> | string
+    nombre?: StringNullableFilter<"ItemFactura"> | string | null
+    tipo?: StringNullableFilter<"ItemFactura"> | string | null
     cantidad?: IntFilter<"ItemFactura"> | number
     precioUnitario?: FloatFilter<"ItemFactura"> | number
     descuento?: FloatFilter<"ItemFactura"> | number
     iva?: FloatFilter<"ItemFactura"> | number
     total?: FloatFilter<"ItemFactura"> | number
+    dias?: IntFilter<"ItemFactura"> | number
+    partidaId?: StringNullableFilter<"ItemFactura"> | string | null
     createdAt?: DateTimeFilter<"ItemFactura"> | Date | string
     updatedAt?: DateTimeFilter<"ItemFactura"> | Date | string
     factura?: XOR<FacturaScalarRelationFilter, FacturaWhereInput>
     producto?: XOR<ProductoScalarRelationFilter, ProductoWhereInput>
+    partida?: XOR<PartidaPresupuestoNullableScalarRelationFilter, PartidaPresupuestoWhereInput> | null
   }, "id">
 
   export type ItemFacturaOrderByWithAggregationInput = {
     id?: SortOrder
     facturaId?: SortOrder
     productoId?: SortOrder
+    nombre?: SortOrderInput | SortOrder
+    tipo?: SortOrderInput | SortOrder
     cantidad?: SortOrder
     precioUnitario?: SortOrder
     descuento?: SortOrder
     iva?: SortOrder
     total?: SortOrder
+    dias?: SortOrder
+    partidaId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: ItemFacturaCountOrderByAggregateInput
@@ -24967,11 +25133,15 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"ItemFactura"> | string
     facturaId?: StringWithAggregatesFilter<"ItemFactura"> | string
     productoId?: StringWithAggregatesFilter<"ItemFactura"> | string
+    nombre?: StringNullableWithAggregatesFilter<"ItemFactura"> | string | null
+    tipo?: StringNullableWithAggregatesFilter<"ItemFactura"> | string | null
     cantidad?: IntWithAggregatesFilter<"ItemFactura"> | number
     precioUnitario?: FloatWithAggregatesFilter<"ItemFactura"> | number
     descuento?: FloatWithAggregatesFilter<"ItemFactura"> | number
     iva?: FloatWithAggregatesFilter<"ItemFactura"> | number
     total?: FloatWithAggregatesFilter<"ItemFactura"> | number
+    dias?: IntWithAggregatesFilter<"ItemFactura"> | number
+    partidaId?: StringNullableWithAggregatesFilter<"ItemFactura"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"ItemFactura"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ItemFactura"> | Date | string
   }
@@ -25941,6 +26111,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     items?: ItemPresupuestoCreateNestedManyWithoutPartidaInput
     presupuestosProveedores?: PresupuestoProveedorCreateNestedManyWithoutPartidaInput
+    itemsFactura?: ItemFacturaCreateNestedManyWithoutPartidaInput
   }
 
   export type PartidaPresupuestoUncheckedCreateInput = {
@@ -25951,6 +26122,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     items?: ItemPresupuestoUncheckedCreateNestedManyWithoutPartidaInput
     presupuestosProveedores?: PresupuestoProveedorUncheckedCreateNestedManyWithoutPartidaInput
+    itemsFactura?: ItemFacturaUncheckedCreateNestedManyWithoutPartidaInput
   }
 
   export type PartidaPresupuestoUpdateInput = {
@@ -25961,6 +26133,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: ItemPresupuestoUpdateManyWithoutPartidaNestedInput
     presupuestosProveedores?: PresupuestoProveedorUpdateManyWithoutPartidaNestedInput
+    itemsFactura?: ItemFacturaUpdateManyWithoutPartidaNestedInput
   }
 
   export type PartidaPresupuestoUncheckedUpdateInput = {
@@ -25971,6 +26144,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: ItemPresupuestoUncheckedUpdateManyWithoutPartidaNestedInput
     presupuestosProveedores?: PresupuestoProveedorUncheckedUpdateManyWithoutPartidaNestedInput
+    itemsFactura?: ItemFacturaUncheckedUpdateManyWithoutPartidaNestedInput
   }
 
   export type PartidaPresupuestoCreateManyInput = {
@@ -26269,6 +26443,7 @@ export namespace Prisma {
   export type FacturaCreateInput = {
     id?: string
     numero: string
+    numeroPedido?: string | null
     fecha?: Date | string
     fechaVencimiento: Date | string
     estado?: $Enums.EstadoFactura
@@ -26287,6 +26462,7 @@ export namespace Prisma {
   export type FacturaUncheckedCreateInput = {
     id?: string
     numero: string
+    numeroPedido?: string | null
     fecha?: Date | string
     fechaVencimiento: Date | string
     clienteId: string
@@ -26305,6 +26481,7 @@ export namespace Prisma {
   export type FacturaUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    numeroPedido?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaVencimiento?: DateTimeFieldUpdateOperationsInput | Date | string
     estado?: EnumEstadoFacturaFieldUpdateOperationsInput | $Enums.EstadoFactura
@@ -26323,6 +26500,7 @@ export namespace Prisma {
   export type FacturaUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    numeroPedido?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaVencimiento?: DateTimeFieldUpdateOperationsInput | Date | string
     clienteId?: StringFieldUpdateOperationsInput | string
@@ -26341,6 +26519,7 @@ export namespace Prisma {
   export type FacturaCreateManyInput = {
     id?: string
     numero: string
+    numeroPedido?: string | null
     fecha?: Date | string
     fechaVencimiento: Date | string
     clienteId: string
@@ -26356,6 +26535,7 @@ export namespace Prisma {
   export type FacturaUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    numeroPedido?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaVencimiento?: DateTimeFieldUpdateOperationsInput | Date | string
     estado?: EnumEstadoFacturaFieldUpdateOperationsInput | $Enums.EstadoFactura
@@ -26370,6 +26550,7 @@ export namespace Prisma {
   export type FacturaUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    numeroPedido?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaVencimiento?: DateTimeFieldUpdateOperationsInput | Date | string
     clienteId?: StringFieldUpdateOperationsInput | string
@@ -26384,52 +26565,68 @@ export namespace Prisma {
 
   export type ItemFacturaCreateInput = {
     id?: string
+    nombre?: string | null
+    tipo?: string | null
     cantidad: number
     precioUnitario: number
     descuento?: number
     iva: number
     total: number
+    dias?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     factura: FacturaCreateNestedOneWithoutItemsInput
     producto: ProductoCreateNestedOneWithoutItemsFacturaInput
+    partida?: PartidaPresupuestoCreateNestedOneWithoutItemsFacturaInput
   }
 
   export type ItemFacturaUncheckedCreateInput = {
     id?: string
     facturaId: string
     productoId: string
+    nombre?: string | null
+    tipo?: string | null
     cantidad: number
     precioUnitario: number
     descuento?: number
     iva: number
     total: number
+    dias?: number
+    partidaId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type ItemFacturaUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    tipo?: NullableStringFieldUpdateOperationsInput | string | null
     cantidad?: IntFieldUpdateOperationsInput | number
     precioUnitario?: FloatFieldUpdateOperationsInput | number
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    dias?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     factura?: FacturaUpdateOneRequiredWithoutItemsNestedInput
     producto?: ProductoUpdateOneRequiredWithoutItemsFacturaNestedInput
+    partida?: PartidaPresupuestoUpdateOneWithoutItemsFacturaNestedInput
   }
 
   export type ItemFacturaUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     facturaId?: StringFieldUpdateOperationsInput | string
     productoId?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    tipo?: NullableStringFieldUpdateOperationsInput | string | null
     cantidad?: IntFieldUpdateOperationsInput | number
     precioUnitario?: FloatFieldUpdateOperationsInput | number
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    dias?: IntFieldUpdateOperationsInput | number
+    partidaId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -26438,22 +26635,29 @@ export namespace Prisma {
     id?: string
     facturaId: string
     productoId: string
+    nombre?: string | null
+    tipo?: string | null
     cantidad: number
     precioUnitario: number
     descuento?: number
     iva: number
     total: number
+    dias?: number
+    partidaId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type ItemFacturaUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    tipo?: NullableStringFieldUpdateOperationsInput | string | null
     cantidad?: IntFieldUpdateOperationsInput | number
     precioUnitario?: FloatFieldUpdateOperationsInput | number
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    dias?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -26462,11 +26666,15 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     facturaId?: StringFieldUpdateOperationsInput | string
     productoId?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    tipo?: NullableStringFieldUpdateOperationsInput | string | null
     cantidad?: IntFieldUpdateOperationsInput | number
     precioUnitario?: FloatFieldUpdateOperationsInput | number
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    dias?: IntFieldUpdateOperationsInput | number
+    partidaId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -27752,6 +27960,7 @@ export namespace Prisma {
   export type FacturaCountOrderByAggregateInput = {
     id?: SortOrder
     numero?: SortOrder
+    numeroPedido?: SortOrder
     fecha?: SortOrder
     fechaVencimiento?: SortOrder
     clienteId?: SortOrder
@@ -27773,6 +27982,7 @@ export namespace Prisma {
   export type FacturaMaxOrderByAggregateInput = {
     id?: SortOrder
     numero?: SortOrder
+    numeroPedido?: SortOrder
     fecha?: SortOrder
     fechaVencimiento?: SortOrder
     clienteId?: SortOrder
@@ -27788,6 +27998,7 @@ export namespace Prisma {
   export type FacturaMinOrderByAggregateInput = {
     id?: SortOrder
     numero?: SortOrder
+    numeroPedido?: SortOrder
     fecha?: SortOrder
     fechaVencimiento?: SortOrder
     clienteId?: SortOrder
@@ -27825,11 +28036,15 @@ export namespace Prisma {
     id?: SortOrder
     facturaId?: SortOrder
     productoId?: SortOrder
+    nombre?: SortOrder
+    tipo?: SortOrder
     cantidad?: SortOrder
     precioUnitario?: SortOrder
     descuento?: SortOrder
     iva?: SortOrder
     total?: SortOrder
+    dias?: SortOrder
+    partidaId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -27840,17 +28055,22 @@ export namespace Prisma {
     descuento?: SortOrder
     iva?: SortOrder
     total?: SortOrder
+    dias?: SortOrder
   }
 
   export type ItemFacturaMaxOrderByAggregateInput = {
     id?: SortOrder
     facturaId?: SortOrder
     productoId?: SortOrder
+    nombre?: SortOrder
+    tipo?: SortOrder
     cantidad?: SortOrder
     precioUnitario?: SortOrder
     descuento?: SortOrder
     iva?: SortOrder
     total?: SortOrder
+    dias?: SortOrder
+    partidaId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -27859,11 +28079,15 @@ export namespace Prisma {
     id?: SortOrder
     facturaId?: SortOrder
     productoId?: SortOrder
+    nombre?: SortOrder
+    tipo?: SortOrder
     cantidad?: SortOrder
     precioUnitario?: SortOrder
     descuento?: SortOrder
     iva?: SortOrder
     total?: SortOrder
+    dias?: SortOrder
+    partidaId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -27874,6 +28098,7 @@ export namespace Prisma {
     descuento?: SortOrder
     iva?: SortOrder
     total?: SortOrder
+    dias?: SortOrder
   }
 
   export type ConfiguracionCountOrderByAggregateInput = {
@@ -28564,6 +28789,13 @@ export namespace Prisma {
     connect?: PresupuestoProveedorWhereUniqueInput | PresupuestoProveedorWhereUniqueInput[]
   }
 
+  export type ItemFacturaCreateNestedManyWithoutPartidaInput = {
+    create?: XOR<ItemFacturaCreateWithoutPartidaInput, ItemFacturaUncheckedCreateWithoutPartidaInput> | ItemFacturaCreateWithoutPartidaInput[] | ItemFacturaUncheckedCreateWithoutPartidaInput[]
+    connectOrCreate?: ItemFacturaCreateOrConnectWithoutPartidaInput | ItemFacturaCreateOrConnectWithoutPartidaInput[]
+    createMany?: ItemFacturaCreateManyPartidaInputEnvelope
+    connect?: ItemFacturaWhereUniqueInput | ItemFacturaWhereUniqueInput[]
+  }
+
   export type ItemPresupuestoUncheckedCreateNestedManyWithoutPartidaInput = {
     create?: XOR<ItemPresupuestoCreateWithoutPartidaInput, ItemPresupuestoUncheckedCreateWithoutPartidaInput> | ItemPresupuestoCreateWithoutPartidaInput[] | ItemPresupuestoUncheckedCreateWithoutPartidaInput[]
     connectOrCreate?: ItemPresupuestoCreateOrConnectWithoutPartidaInput | ItemPresupuestoCreateOrConnectWithoutPartidaInput[]
@@ -28576,6 +28808,13 @@ export namespace Prisma {
     connectOrCreate?: PresupuestoProveedorCreateOrConnectWithoutPartidaInput | PresupuestoProveedorCreateOrConnectWithoutPartidaInput[]
     createMany?: PresupuestoProveedorCreateManyPartidaInputEnvelope
     connect?: PresupuestoProveedorWhereUniqueInput | PresupuestoProveedorWhereUniqueInput[]
+  }
+
+  export type ItemFacturaUncheckedCreateNestedManyWithoutPartidaInput = {
+    create?: XOR<ItemFacturaCreateWithoutPartidaInput, ItemFacturaUncheckedCreateWithoutPartidaInput> | ItemFacturaCreateWithoutPartidaInput[] | ItemFacturaUncheckedCreateWithoutPartidaInput[]
+    connectOrCreate?: ItemFacturaCreateOrConnectWithoutPartidaInput | ItemFacturaCreateOrConnectWithoutPartidaInput[]
+    createMany?: ItemFacturaCreateManyPartidaInputEnvelope
+    connect?: ItemFacturaWhereUniqueInput | ItemFacturaWhereUniqueInput[]
   }
 
   export type ItemPresupuestoUpdateManyWithoutPartidaNestedInput = {
@@ -28606,6 +28845,20 @@ export namespace Prisma {
     deleteMany?: PresupuestoProveedorScalarWhereInput | PresupuestoProveedorScalarWhereInput[]
   }
 
+  export type ItemFacturaUpdateManyWithoutPartidaNestedInput = {
+    create?: XOR<ItemFacturaCreateWithoutPartidaInput, ItemFacturaUncheckedCreateWithoutPartidaInput> | ItemFacturaCreateWithoutPartidaInput[] | ItemFacturaUncheckedCreateWithoutPartidaInput[]
+    connectOrCreate?: ItemFacturaCreateOrConnectWithoutPartidaInput | ItemFacturaCreateOrConnectWithoutPartidaInput[]
+    upsert?: ItemFacturaUpsertWithWhereUniqueWithoutPartidaInput | ItemFacturaUpsertWithWhereUniqueWithoutPartidaInput[]
+    createMany?: ItemFacturaCreateManyPartidaInputEnvelope
+    set?: ItemFacturaWhereUniqueInput | ItemFacturaWhereUniqueInput[]
+    disconnect?: ItemFacturaWhereUniqueInput | ItemFacturaWhereUniqueInput[]
+    delete?: ItemFacturaWhereUniqueInput | ItemFacturaWhereUniqueInput[]
+    connect?: ItemFacturaWhereUniqueInput | ItemFacturaWhereUniqueInput[]
+    update?: ItemFacturaUpdateWithWhereUniqueWithoutPartidaInput | ItemFacturaUpdateWithWhereUniqueWithoutPartidaInput[]
+    updateMany?: ItemFacturaUpdateManyWithWhereWithoutPartidaInput | ItemFacturaUpdateManyWithWhereWithoutPartidaInput[]
+    deleteMany?: ItemFacturaScalarWhereInput | ItemFacturaScalarWhereInput[]
+  }
+
   export type ItemPresupuestoUncheckedUpdateManyWithoutPartidaNestedInput = {
     create?: XOR<ItemPresupuestoCreateWithoutPartidaInput, ItemPresupuestoUncheckedCreateWithoutPartidaInput> | ItemPresupuestoCreateWithoutPartidaInput[] | ItemPresupuestoUncheckedCreateWithoutPartidaInput[]
     connectOrCreate?: ItemPresupuestoCreateOrConnectWithoutPartidaInput | ItemPresupuestoCreateOrConnectWithoutPartidaInput[]
@@ -28632,6 +28885,20 @@ export namespace Prisma {
     update?: PresupuestoProveedorUpdateWithWhereUniqueWithoutPartidaInput | PresupuestoProveedorUpdateWithWhereUniqueWithoutPartidaInput[]
     updateMany?: PresupuestoProveedorUpdateManyWithWhereWithoutPartidaInput | PresupuestoProveedorUpdateManyWithWhereWithoutPartidaInput[]
     deleteMany?: PresupuestoProveedorScalarWhereInput | PresupuestoProveedorScalarWhereInput[]
+  }
+
+  export type ItemFacturaUncheckedUpdateManyWithoutPartidaNestedInput = {
+    create?: XOR<ItemFacturaCreateWithoutPartidaInput, ItemFacturaUncheckedCreateWithoutPartidaInput> | ItemFacturaCreateWithoutPartidaInput[] | ItemFacturaUncheckedCreateWithoutPartidaInput[]
+    connectOrCreate?: ItemFacturaCreateOrConnectWithoutPartidaInput | ItemFacturaCreateOrConnectWithoutPartidaInput[]
+    upsert?: ItemFacturaUpsertWithWhereUniqueWithoutPartidaInput | ItemFacturaUpsertWithWhereUniqueWithoutPartidaInput[]
+    createMany?: ItemFacturaCreateManyPartidaInputEnvelope
+    set?: ItemFacturaWhereUniqueInput | ItemFacturaWhereUniqueInput[]
+    disconnect?: ItemFacturaWhereUniqueInput | ItemFacturaWhereUniqueInput[]
+    delete?: ItemFacturaWhereUniqueInput | ItemFacturaWhereUniqueInput[]
+    connect?: ItemFacturaWhereUniqueInput | ItemFacturaWhereUniqueInput[]
+    update?: ItemFacturaUpdateWithWhereUniqueWithoutPartidaInput | ItemFacturaUpdateWithWhereUniqueWithoutPartidaInput[]
+    updateMany?: ItemFacturaUpdateManyWithWhereWithoutPartidaInput | ItemFacturaUpdateManyWithWhereWithoutPartidaInput[]
+    deleteMany?: ItemFacturaScalarWhereInput | ItemFacturaScalarWhereInput[]
   }
 
   export type ClienteCreateNestedOneWithoutPresupuestosInput = {
@@ -28954,6 +29221,12 @@ export namespace Prisma {
     connect?: ProductoWhereUniqueInput
   }
 
+  export type PartidaPresupuestoCreateNestedOneWithoutItemsFacturaInput = {
+    create?: XOR<PartidaPresupuestoCreateWithoutItemsFacturaInput, PartidaPresupuestoUncheckedCreateWithoutItemsFacturaInput>
+    connectOrCreate?: PartidaPresupuestoCreateOrConnectWithoutItemsFacturaInput
+    connect?: PartidaPresupuestoWhereUniqueInput
+  }
+
   export type FacturaUpdateOneRequiredWithoutItemsNestedInput = {
     create?: XOR<FacturaCreateWithoutItemsInput, FacturaUncheckedCreateWithoutItemsInput>
     connectOrCreate?: FacturaCreateOrConnectWithoutItemsInput
@@ -28968,6 +29241,16 @@ export namespace Prisma {
     upsert?: ProductoUpsertWithoutItemsFacturaInput
     connect?: ProductoWhereUniqueInput
     update?: XOR<XOR<ProductoUpdateToOneWithWhereWithoutItemsFacturaInput, ProductoUpdateWithoutItemsFacturaInput>, ProductoUncheckedUpdateWithoutItemsFacturaInput>
+  }
+
+  export type PartidaPresupuestoUpdateOneWithoutItemsFacturaNestedInput = {
+    create?: XOR<PartidaPresupuestoCreateWithoutItemsFacturaInput, PartidaPresupuestoUncheckedCreateWithoutItemsFacturaInput>
+    connectOrCreate?: PartidaPresupuestoCreateOrConnectWithoutItemsFacturaInput
+    upsert?: PartidaPresupuestoUpsertWithoutItemsFacturaInput
+    disconnect?: PartidaPresupuestoWhereInput | boolean
+    delete?: PartidaPresupuestoWhereInput | boolean
+    connect?: PartidaPresupuestoWhereUniqueInput
+    update?: XOR<XOR<PartidaPresupuestoUpdateToOneWithWhereWithoutItemsFacturaInput, PartidaPresupuestoUpdateWithoutItemsFacturaInput>, PartidaPresupuestoUncheckedUpdateWithoutItemsFacturaInput>
   }
 
   export type PersonalPuestoCreateNestedManyWithoutPuestoInput = {
@@ -29737,24 +30020,32 @@ export namespace Prisma {
 
   export type ItemFacturaCreateWithoutProductoInput = {
     id?: string
+    nombre?: string | null
+    tipo?: string | null
     cantidad: number
     precioUnitario: number
     descuento?: number
     iva: number
     total: number
+    dias?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     factura: FacturaCreateNestedOneWithoutItemsInput
+    partida?: PartidaPresupuestoCreateNestedOneWithoutItemsFacturaInput
   }
 
   export type ItemFacturaUncheckedCreateWithoutProductoInput = {
     id?: string
     facturaId: string
+    nombre?: string | null
+    tipo?: string | null
     cantidad: number
     precioUnitario: number
     descuento?: number
     iva: number
     total: number
+    dias?: number
+    partidaId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -29912,11 +30203,15 @@ export namespace Prisma {
     id?: StringFilter<"ItemFactura"> | string
     facturaId?: StringFilter<"ItemFactura"> | string
     productoId?: StringFilter<"ItemFactura"> | string
+    nombre?: StringNullableFilter<"ItemFactura"> | string | null
+    tipo?: StringNullableFilter<"ItemFactura"> | string | null
     cantidad?: IntFilter<"ItemFactura"> | number
     precioUnitario?: FloatFilter<"ItemFactura"> | number
     descuento?: FloatFilter<"ItemFactura"> | number
     iva?: FloatFilter<"ItemFactura"> | number
     total?: FloatFilter<"ItemFactura"> | number
+    dias?: IntFilter<"ItemFactura"> | number
+    partidaId?: StringNullableFilter<"ItemFactura"> | string | null
     createdAt?: DateTimeFilter<"ItemFactura"> | Date | string
     updatedAt?: DateTimeFilter<"ItemFactura"> | Date | string
   }
@@ -30166,6 +30461,7 @@ export namespace Prisma {
   export type FacturaCreateWithoutClienteInput = {
     id?: string
     numero: string
+    numeroPedido?: string | null
     fecha?: Date | string
     fechaVencimiento: Date | string
     estado?: $Enums.EstadoFactura
@@ -30183,6 +30479,7 @@ export namespace Prisma {
   export type FacturaUncheckedCreateWithoutClienteInput = {
     id?: string
     numero: string
+    numeroPedido?: string | null
     fecha?: Date | string
     fechaVencimiento: Date | string
     estado?: $Enums.EstadoFactura
@@ -30269,6 +30566,7 @@ export namespace Prisma {
     NOT?: FacturaScalarWhereInput | FacturaScalarWhereInput[]
     id?: StringFilter<"Factura"> | string
     numero?: StringFilter<"Factura"> | string
+    numeroPedido?: StringNullableFilter<"Factura"> | string | null
     fecha?: DateTimeFilter<"Factura"> | Date | string
     fechaVencimiento?: DateTimeFilter<"Factura"> | Date | string
     clienteId?: StringFilter<"Factura"> | string
@@ -30361,6 +30659,48 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ItemFacturaCreateWithoutPartidaInput = {
+    id?: string
+    nombre?: string | null
+    tipo?: string | null
+    cantidad: number
+    precioUnitario: number
+    descuento?: number
+    iva: number
+    total: number
+    dias?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    factura: FacturaCreateNestedOneWithoutItemsInput
+    producto: ProductoCreateNestedOneWithoutItemsFacturaInput
+  }
+
+  export type ItemFacturaUncheckedCreateWithoutPartidaInput = {
+    id?: string
+    facturaId: string
+    productoId: string
+    nombre?: string | null
+    tipo?: string | null
+    cantidad: number
+    precioUnitario: number
+    descuento?: number
+    iva: number
+    total: number
+    dias?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ItemFacturaCreateOrConnectWithoutPartidaInput = {
+    where: ItemFacturaWhereUniqueInput
+    create: XOR<ItemFacturaCreateWithoutPartidaInput, ItemFacturaUncheckedCreateWithoutPartidaInput>
+  }
+
+  export type ItemFacturaCreateManyPartidaInputEnvelope = {
+    data: ItemFacturaCreateManyPartidaInput | ItemFacturaCreateManyPartidaInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ItemPresupuestoUpsertWithWhereUniqueWithoutPartidaInput = {
     where: ItemPresupuestoWhereUniqueInput
     update: XOR<ItemPresupuestoUpdateWithoutPartidaInput, ItemPresupuestoUncheckedUpdateWithoutPartidaInput>
@@ -30409,6 +30749,22 @@ export namespace Prisma {
     archivoUrl?: StringNullableFilter<"PresupuestoProveedor"> | string | null
     createdAt?: DateTimeFilter<"PresupuestoProveedor"> | Date | string
     updatedAt?: DateTimeFilter<"PresupuestoProveedor"> | Date | string
+  }
+
+  export type ItemFacturaUpsertWithWhereUniqueWithoutPartidaInput = {
+    where: ItemFacturaWhereUniqueInput
+    update: XOR<ItemFacturaUpdateWithoutPartidaInput, ItemFacturaUncheckedUpdateWithoutPartidaInput>
+    create: XOR<ItemFacturaCreateWithoutPartidaInput, ItemFacturaUncheckedCreateWithoutPartidaInput>
+  }
+
+  export type ItemFacturaUpdateWithWhereUniqueWithoutPartidaInput = {
+    where: ItemFacturaWhereUniqueInput
+    data: XOR<ItemFacturaUpdateWithoutPartidaInput, ItemFacturaUncheckedUpdateWithoutPartidaInput>
+  }
+
+  export type ItemFacturaUpdateManyWithWhereWithoutPartidaInput = {
+    where: ItemFacturaScalarWhereInput
+    data: XOR<ItemFacturaUpdateManyMutationInput, ItemFacturaUncheckedUpdateManyWithoutPartidaInput>
   }
 
   export type ClienteCreateWithoutPresupuestosInput = {
@@ -30525,6 +30881,7 @@ export namespace Prisma {
   export type FacturaCreateWithoutPresupuestosInput = {
     id?: string
     numero: string
+    numeroPedido?: string | null
     fecha?: Date | string
     fechaVencimiento: Date | string
     estado?: $Enums.EstadoFactura
@@ -30542,6 +30899,7 @@ export namespace Prisma {
   export type FacturaUncheckedCreateWithoutPresupuestosInput = {
     id?: string
     numero: string
+    numeroPedido?: string | null
     fecha?: Date | string
     fechaVencimiento: Date | string
     clienteId: string
@@ -30644,6 +31002,7 @@ export namespace Prisma {
   export type FacturaUpdateWithoutPresupuestosInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    numeroPedido?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaVencimiento?: DateTimeFieldUpdateOperationsInput | Date | string
     estado?: EnumEstadoFacturaFieldUpdateOperationsInput | $Enums.EstadoFactura
@@ -30661,6 +31020,7 @@ export namespace Prisma {
   export type FacturaUncheckedUpdateWithoutPresupuestosInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    numeroPedido?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaVencimiento?: DateTimeFieldUpdateOperationsInput | Date | string
     clienteId?: StringFieldUpdateOperationsInput | string
@@ -30770,6 +31130,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     presupuestosProveedores?: PresupuestoProveedorCreateNestedManyWithoutPartidaInput
+    itemsFactura?: ItemFacturaCreateNestedManyWithoutPartidaInput
   }
 
   export type PartidaPresupuestoUncheckedCreateWithoutItemsInput = {
@@ -30779,6 +31140,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     presupuestosProveedores?: PresupuestoProveedorUncheckedCreateNestedManyWithoutPartidaInput
+    itemsFactura?: ItemFacturaUncheckedCreateNestedManyWithoutPartidaInput
   }
 
   export type PartidaPresupuestoCreateOrConnectWithoutItemsInput = {
@@ -30904,6 +31266,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     presupuestosProveedores?: PresupuestoProveedorUpdateManyWithoutPartidaNestedInput
+    itemsFactura?: ItemFacturaUpdateManyWithoutPartidaNestedInput
   }
 
   export type PartidaPresupuestoUncheckedUpdateWithoutItemsInput = {
@@ -30913,6 +31276,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     presupuestosProveedores?: PresupuestoProveedorUncheckedUpdateManyWithoutPartidaNestedInput
+    itemsFactura?: ItemFacturaUncheckedUpdateManyWithoutPartidaNestedInput
   }
 
   export type ClienteCreateWithoutFacturasInput = {
@@ -30948,24 +31312,32 @@ export namespace Prisma {
 
   export type ItemFacturaCreateWithoutFacturaInput = {
     id?: string
+    nombre?: string | null
+    tipo?: string | null
     cantidad: number
     precioUnitario: number
     descuento?: number
     iva: number
     total: number
+    dias?: number
     createdAt?: Date | string
     updatedAt?: Date | string
     producto: ProductoCreateNestedOneWithoutItemsFacturaInput
+    partida?: PartidaPresupuestoCreateNestedOneWithoutItemsFacturaInput
   }
 
   export type ItemFacturaUncheckedCreateWithoutFacturaInput = {
     id?: string
     productoId: string
+    nombre?: string | null
+    tipo?: string | null
     cantidad: number
     precioUnitario: number
     descuento?: number
     iva: number
     total: number
+    dias?: number
+    partidaId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -31163,6 +31535,7 @@ export namespace Prisma {
   export type FacturaCreateWithoutItemsInput = {
     id?: string
     numero: string
+    numeroPedido?: string | null
     fecha?: Date | string
     fechaVencimiento: Date | string
     estado?: $Enums.EstadoFactura
@@ -31180,6 +31553,7 @@ export namespace Prisma {
   export type FacturaUncheckedCreateWithoutItemsInput = {
     id?: string
     numero: string
+    numeroPedido?: string | null
     fecha?: Date | string
     fechaVencimiento: Date | string
     clienteId: string
@@ -31238,6 +31612,31 @@ export namespace Prisma {
     create: XOR<ProductoCreateWithoutItemsFacturaInput, ProductoUncheckedCreateWithoutItemsFacturaInput>
   }
 
+  export type PartidaPresupuestoCreateWithoutItemsFacturaInput = {
+    id?: string
+    nombre: string
+    descripcion?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    items?: ItemPresupuestoCreateNestedManyWithoutPartidaInput
+    presupuestosProveedores?: PresupuestoProveedorCreateNestedManyWithoutPartidaInput
+  }
+
+  export type PartidaPresupuestoUncheckedCreateWithoutItemsFacturaInput = {
+    id?: string
+    nombre: string
+    descripcion?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    items?: ItemPresupuestoUncheckedCreateNestedManyWithoutPartidaInput
+    presupuestosProveedores?: PresupuestoProveedorUncheckedCreateNestedManyWithoutPartidaInput
+  }
+
+  export type PartidaPresupuestoCreateOrConnectWithoutItemsFacturaInput = {
+    where: PartidaPresupuestoWhereUniqueInput
+    create: XOR<PartidaPresupuestoCreateWithoutItemsFacturaInput, PartidaPresupuestoUncheckedCreateWithoutItemsFacturaInput>
+  }
+
   export type FacturaUpsertWithoutItemsInput = {
     update: XOR<FacturaUpdateWithoutItemsInput, FacturaUncheckedUpdateWithoutItemsInput>
     create: XOR<FacturaCreateWithoutItemsInput, FacturaUncheckedCreateWithoutItemsInput>
@@ -31252,6 +31651,7 @@ export namespace Prisma {
   export type FacturaUpdateWithoutItemsInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    numeroPedido?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaVencimiento?: DateTimeFieldUpdateOperationsInput | Date | string
     estado?: EnumEstadoFacturaFieldUpdateOperationsInput | $Enums.EstadoFactura
@@ -31269,6 +31669,7 @@ export namespace Prisma {
   export type FacturaUncheckedUpdateWithoutItemsInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    numeroPedido?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaVencimiento?: DateTimeFieldUpdateOperationsInput | Date | string
     clienteId?: StringFieldUpdateOperationsInput | string
@@ -31326,6 +31727,37 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     itemsPresupuesto?: ItemPresupuestoUncheckedUpdateManyWithoutProductoNestedInput
     equipoItems?: EquipoItemUncheckedUpdateManyWithoutProductoNestedInput
+  }
+
+  export type PartidaPresupuestoUpsertWithoutItemsFacturaInput = {
+    update: XOR<PartidaPresupuestoUpdateWithoutItemsFacturaInput, PartidaPresupuestoUncheckedUpdateWithoutItemsFacturaInput>
+    create: XOR<PartidaPresupuestoCreateWithoutItemsFacturaInput, PartidaPresupuestoUncheckedCreateWithoutItemsFacturaInput>
+    where?: PartidaPresupuestoWhereInput
+  }
+
+  export type PartidaPresupuestoUpdateToOneWithWhereWithoutItemsFacturaInput = {
+    where?: PartidaPresupuestoWhereInput
+    data: XOR<PartidaPresupuestoUpdateWithoutItemsFacturaInput, PartidaPresupuestoUncheckedUpdateWithoutItemsFacturaInput>
+  }
+
+  export type PartidaPresupuestoUpdateWithoutItemsFacturaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: ItemPresupuestoUpdateManyWithoutPartidaNestedInput
+    presupuestosProveedores?: PresupuestoProveedorUpdateManyWithoutPartidaNestedInput
+  }
+
+  export type PartidaPresupuestoUncheckedUpdateWithoutItemsFacturaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    items?: ItemPresupuestoUncheckedUpdateManyWithoutPartidaNestedInput
+    presupuestosProveedores?: PresupuestoProveedorUncheckedUpdateManyWithoutPartidaNestedInput
   }
 
   export type PersonalPuestoCreateWithoutPuestoInput = {
@@ -31620,6 +32052,7 @@ export namespace Prisma {
   export type FacturaCreateWithoutGastosTickeliaInput = {
     id?: string
     numero: string
+    numeroPedido?: string | null
     fecha?: Date | string
     fechaVencimiento: Date | string
     estado?: $Enums.EstadoFactura
@@ -31637,6 +32070,7 @@ export namespace Prisma {
   export type FacturaUncheckedCreateWithoutGastosTickeliaInput = {
     id?: string
     numero: string
+    numeroPedido?: string | null
     fecha?: Date | string
     fechaVencimiento: Date | string
     clienteId: string
@@ -31670,6 +32104,7 @@ export namespace Prisma {
   export type FacturaUpdateWithoutGastosTickeliaInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    numeroPedido?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaVencimiento?: DateTimeFieldUpdateOperationsInput | Date | string
     estado?: EnumEstadoFacturaFieldUpdateOperationsInput | $Enums.EstadoFactura
@@ -31687,6 +32122,7 @@ export namespace Prisma {
   export type FacturaUncheckedUpdateWithoutGastosTickeliaInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    numeroPedido?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaVencimiento?: DateTimeFieldUpdateOperationsInput | Date | string
     clienteId?: StringFieldUpdateOperationsInput | string
@@ -31790,6 +32226,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     items?: ItemPresupuestoCreateNestedManyWithoutPartidaInput
+    itemsFactura?: ItemFacturaCreateNestedManyWithoutPartidaInput
   }
 
   export type PartidaPresupuestoUncheckedCreateWithoutPresupuestosProveedoresInput = {
@@ -31799,6 +32236,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     items?: ItemPresupuestoUncheckedCreateNestedManyWithoutPartidaInput
+    itemsFactura?: ItemFacturaUncheckedCreateNestedManyWithoutPartidaInput
   }
 
   export type PartidaPresupuestoCreateOrConnectWithoutPresupuestosProveedoresInput = {
@@ -31918,6 +32356,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: ItemPresupuestoUpdateManyWithoutPartidaNestedInput
+    itemsFactura?: ItemFacturaUpdateManyWithoutPartidaNestedInput
   }
 
   export type PartidaPresupuestoUncheckedUpdateWithoutPresupuestosProveedoresInput = {
@@ -31927,6 +32366,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: ItemPresupuestoUncheckedUpdateManyWithoutPartidaNestedInput
+    itemsFactura?: ItemFacturaUncheckedUpdateManyWithoutPartidaNestedInput
   }
 
   export type ProductoCreateManyCategoriaInput = {
@@ -32072,11 +32512,15 @@ export namespace Prisma {
   export type ItemFacturaCreateManyProductoInput = {
     id?: string
     facturaId: string
+    nombre?: string | null
+    tipo?: string | null
     cantidad: number
     precioUnitario: number
     descuento?: number
     iva: number
     total: number
+    dias?: number
+    partidaId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -32143,24 +32587,32 @@ export namespace Prisma {
 
   export type ItemFacturaUpdateWithoutProductoInput = {
     id?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    tipo?: NullableStringFieldUpdateOperationsInput | string | null
     cantidad?: IntFieldUpdateOperationsInput | number
     precioUnitario?: FloatFieldUpdateOperationsInput | number
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    dias?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     factura?: FacturaUpdateOneRequiredWithoutItemsNestedInput
+    partida?: PartidaPresupuestoUpdateOneWithoutItemsFacturaNestedInput
   }
 
   export type ItemFacturaUncheckedUpdateWithoutProductoInput = {
     id?: StringFieldUpdateOperationsInput | string
     facturaId?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    tipo?: NullableStringFieldUpdateOperationsInput | string | null
     cantidad?: IntFieldUpdateOperationsInput | number
     precioUnitario?: FloatFieldUpdateOperationsInput | number
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    dias?: IntFieldUpdateOperationsInput | number
+    partidaId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -32168,11 +32620,15 @@ export namespace Prisma {
   export type ItemFacturaUncheckedUpdateManyWithoutProductoInput = {
     id?: StringFieldUpdateOperationsInput | string
     facturaId?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    tipo?: NullableStringFieldUpdateOperationsInput | string | null
     cantidad?: IntFieldUpdateOperationsInput | number
     precioUnitario?: FloatFieldUpdateOperationsInput | number
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    dias?: IntFieldUpdateOperationsInput | number
+    partidaId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -32236,6 +32692,7 @@ export namespace Prisma {
   export type FacturaCreateManyClienteInput = {
     id?: string
     numero: string
+    numeroPedido?: string | null
     fecha?: Date | string
     fechaVencimiento: Date | string
     estado?: $Enums.EstadoFactura
@@ -32314,6 +32771,7 @@ export namespace Prisma {
   export type FacturaUpdateWithoutClienteInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    numeroPedido?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaVencimiento?: DateTimeFieldUpdateOperationsInput | Date | string
     estado?: EnumEstadoFacturaFieldUpdateOperationsInput | $Enums.EstadoFactura
@@ -32331,6 +32789,7 @@ export namespace Prisma {
   export type FacturaUncheckedUpdateWithoutClienteInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    numeroPedido?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaVencimiento?: DateTimeFieldUpdateOperationsInput | Date | string
     estado?: EnumEstadoFacturaFieldUpdateOperationsInput | $Enums.EstadoFactura
@@ -32348,6 +32807,7 @@ export namespace Prisma {
   export type FacturaUncheckedUpdateManyWithoutClienteInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    numeroPedido?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaVencimiento?: DateTimeFieldUpdateOperationsInput | Date | string
     estado?: EnumEstadoFacturaFieldUpdateOperationsInput | $Enums.EstadoFactura
@@ -32385,6 +32845,22 @@ export namespace Prisma {
     proveedorId?: string | null
     tipoEspecial?: string | null
     archivoUrl?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type ItemFacturaCreateManyPartidaInput = {
+    id?: string
+    facturaId: string
+    productoId: string
+    nombre?: string | null
+    tipo?: string | null
+    cantidad: number
+    precioUnitario: number
+    descuento?: number
+    iva: number
+    total: number
+    dias?: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -32475,6 +32951,54 @@ export namespace Prisma {
     proveedorId?: NullableStringFieldUpdateOperationsInput | string | null
     tipoEspecial?: NullableStringFieldUpdateOperationsInput | string | null
     archivoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ItemFacturaUpdateWithoutPartidaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    tipo?: NullableStringFieldUpdateOperationsInput | string | null
+    cantidad?: IntFieldUpdateOperationsInput | number
+    precioUnitario?: FloatFieldUpdateOperationsInput | number
+    descuento?: FloatFieldUpdateOperationsInput | number
+    iva?: FloatFieldUpdateOperationsInput | number
+    total?: FloatFieldUpdateOperationsInput | number
+    dias?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    factura?: FacturaUpdateOneRequiredWithoutItemsNestedInput
+    producto?: ProductoUpdateOneRequiredWithoutItemsFacturaNestedInput
+  }
+
+  export type ItemFacturaUncheckedUpdateWithoutPartidaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    facturaId?: StringFieldUpdateOperationsInput | string
+    productoId?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    tipo?: NullableStringFieldUpdateOperationsInput | string | null
+    cantidad?: IntFieldUpdateOperationsInput | number
+    precioUnitario?: FloatFieldUpdateOperationsInput | number
+    descuento?: FloatFieldUpdateOperationsInput | number
+    iva?: FloatFieldUpdateOperationsInput | number
+    total?: FloatFieldUpdateOperationsInput | number
+    dias?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type ItemFacturaUncheckedUpdateManyWithoutPartidaInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    facturaId?: StringFieldUpdateOperationsInput | string
+    productoId?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    tipo?: NullableStringFieldUpdateOperationsInput | string | null
+    cantidad?: IntFieldUpdateOperationsInput | number
+    precioUnitario?: FloatFieldUpdateOperationsInput | number
+    descuento?: FloatFieldUpdateOperationsInput | number
+    iva?: FloatFieldUpdateOperationsInput | number
+    total?: FloatFieldUpdateOperationsInput | number
+    dias?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -32602,11 +33126,15 @@ export namespace Prisma {
   export type ItemFacturaCreateManyFacturaInput = {
     id?: string
     productoId: string
+    nombre?: string | null
+    tipo?: string | null
     cantidad: number
     precioUnitario: number
     descuento?: number
     iva: number
     total: number
+    dias?: number
+    partidaId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -32642,24 +33170,32 @@ export namespace Prisma {
 
   export type ItemFacturaUpdateWithoutFacturaInput = {
     id?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    tipo?: NullableStringFieldUpdateOperationsInput | string | null
     cantidad?: IntFieldUpdateOperationsInput | number
     precioUnitario?: FloatFieldUpdateOperationsInput | number
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    dias?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     producto?: ProductoUpdateOneRequiredWithoutItemsFacturaNestedInput
+    partida?: PartidaPresupuestoUpdateOneWithoutItemsFacturaNestedInput
   }
 
   export type ItemFacturaUncheckedUpdateWithoutFacturaInput = {
     id?: StringFieldUpdateOperationsInput | string
     productoId?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    tipo?: NullableStringFieldUpdateOperationsInput | string | null
     cantidad?: IntFieldUpdateOperationsInput | number
     precioUnitario?: FloatFieldUpdateOperationsInput | number
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    dias?: IntFieldUpdateOperationsInput | number
+    partidaId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -32667,11 +33203,15 @@ export namespace Prisma {
   export type ItemFacturaUncheckedUpdateManyWithoutFacturaInput = {
     id?: StringFieldUpdateOperationsInput | string
     productoId?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
+    tipo?: NullableStringFieldUpdateOperationsInput | string | null
     cantidad?: IntFieldUpdateOperationsInput | number
     precioUnitario?: FloatFieldUpdateOperationsInput | number
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    dias?: IntFieldUpdateOperationsInput | number
+    partidaId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
