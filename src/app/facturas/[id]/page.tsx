@@ -17,7 +17,8 @@ import {
   Loader2,
   Calendar,
   PlusCircle,
-  FileText
+  FileText,
+  FileDown
 } from "lucide-react"
 import { use } from "react"
 
@@ -37,6 +38,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { formatCurrency } from '@/lib/utils'
+import { generateFacturaPDF } from '@/lib/utils/pdfGenerator'
 
 interface Cliente {
   id: string
@@ -98,6 +100,16 @@ interface FacturaProveedor {
   archivoUrl?: string | null
   documentoNombre?: string | null
   documentoFecha?: string | null
+}
+
+interface Empresa {
+  id: string;
+  nombre: string;
+  cif: string;
+  direccion: string;
+  email: string;
+  telefono: string;
+  logoUrl?: string | null;
 }
 
 interface Factura {
@@ -258,6 +270,44 @@ export default function FacturaDetallePage({ params }: { params: Promise<{ id: s
     })
   }
 
+  // Función para generar el PDF de la factura
+  const handleImprimirFactura = async () => {
+    if (!factura) return;
+    
+    try {
+      // Mostrar indicador de carga
+      toast.loading("Preparando documento...");
+      
+      // Obtener datos actualizados de la empresa
+      const empresaResponse = await fetch('/api/empresa');
+      if (!empresaResponse.ok) {
+        throw new Error('Error al obtener datos de la empresa');
+      }
+      const empresa: Empresa = await empresaResponse.json();
+      
+      const partidasAgrupadas = getItemsGroupedByPartida();
+      
+      // Generar el PDF con los datos de la empresa
+      const doc = generateFacturaPDF(
+        factura as any, 
+        partidasAgrupadas as any,
+        empresa
+      );
+      
+      // Cerrar el indicador de carga
+      toast.dismiss();
+      
+      // Abrir el PDF en una nueva pestaña
+      const pdfBlob = doc.output('blob');
+      const pdfUrl = URL.createObjectURL(pdfBlob);
+      window.open(pdfUrl, '_blank');
+    } catch (error) {
+      toast.dismiss();
+      console.error('Error al generar el PDF:', error);
+      toast.error('Error al generar el PDF');
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="py-10 flex justify-center">
@@ -294,11 +344,12 @@ export default function FacturaDetallePage({ params }: { params: Promise<{ id: s
           </Link>
           <div>
             <h1 className="text-2xl font-bold">Factura #{factura.numero}</h1>
+            {factura.numeroPedido && <p className="text-sm text-muted-foreground">PO: {factura.numeroPedido}</p>}
           </div>
           <EstadoBadge estado={factura.estado} />
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" className="gap-1" onClick={() => window.print()}>
+          <Button variant="outline" className="gap-1" onClick={handleImprimirFactura}>
             <Printer className="h-4 w-4" />
             Imprimir
           </Button>
@@ -598,19 +649,29 @@ export default function FacturaDetallePage({ params }: { params: Promise<{ id: s
                     <TableCell>{formatDate(facturaProveedor.createdAt)}</TableCell>
                     <TableCell>{facturaProveedor.descripcion || '-'}</TableCell>
                     <TableCell className="text-right">
-                      {facturaProveedor.archivoUrl && (
-                        <a 
-                          href={facturaProveedor.archivoUrl} 
-                          target="_blank" 
-                          rel="noopener noreferrer" 
-                          className="inline-flex mr-2 text-xs px-2 py-1 bg-blue-50 text-blue-600 rounded hover:bg-blue-100"
-                          title={facturaProveedor.documentoNombre || "Ver documento"}
-                        >
-                          <FileText className="h-4 w-4 mr-1" />
-                          PDF
-                        </a>
-                      )}
-                      <FacturaProveedorDialog
+                      <div className="flex items-center gap-1 justify-end">
+                        {facturaProveedor.archivoUrl && (
+                          <>
+                            <a 
+                              href={facturaProveedor.archivoUrl} 
+                              target="_blank" 
+                              rel="noopener noreferrer" 
+                              className="inline-flex text-xs px-2 py-1 bg-blue-50 text-blue-600 rounded hover:bg-blue-100"
+                              title={facturaProveedor.documentoNombre || "Ver documento"}
+                            >
+                              <FileText className="h-4 w-4" />
+                            </a>
+                            <a 
+                              href={facturaProveedor.archivoUrl} 
+                              download={facturaProveedor.documentoNombre ? `${facturaProveedor.documentoNombre}.pdf` : "documento.pdf"}
+                              className="inline-flex text-xs px-2 py-1 bg-green-50 text-green-600 rounded hover:bg-green-100"
+                              title="Descargar documento"
+                            >
+                              <FileDown className="h-4 w-4" />
+                            </a>
+                          </>
+                        )}
+                        <FacturaProveedorDialog
                         facturaId={factura.id}
                         facturaProveedorId={facturaProveedor.id}
                         proveedorIdInicial={facturaProveedor.proveedorId || facturaProveedor.tipoEspecial || ""}
@@ -641,6 +702,7 @@ export default function FacturaDetallePage({ params }: { params: Promise<{ id: s
                           </Button>
                         }
                         />
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))}

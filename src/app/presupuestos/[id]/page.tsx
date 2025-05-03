@@ -20,7 +20,8 @@ import {
   CheckCircleIcon,
   XCircleIcon,
   TimerIcon,
-  FileText
+  FileText,
+  Download
 } from "lucide-react"
 import {
   Table,
@@ -38,6 +39,7 @@ import { EstadoBadge } from '@/components/presupuestos/estado-badge'
 import { CambiarEstadoDialog } from '@/components/presupuestos/cambiar-estado-dialog'
 import { PresupuestoProveedorDialog } from '@/components/presupuestos/presupuesto-proveedor-dialog'
 import { MargenCard } from "@/components/presupuestos/margen-card"
+import { generatePresupuestoPDF } from '@/lib/utils/pdfGenerator'
 
 interface Presupuesto {
   id: string
@@ -107,6 +109,17 @@ interface PresupuestoProveedor {
   documentoFecha?: string | null
   createdAt: string
   updatedAt: string
+}
+
+// Agregar interfaz para datos de la empresa
+interface Empresa {
+  id: string;
+  nombre: string;
+  cif: string;
+  direccion: string;
+  email: string;
+  telefono: string;
+  logoUrl?: string | null;
 }
 
 export default function PresupuestoDetallePage({ params }: { params: Promise<{ id: string }> }) {
@@ -264,6 +277,46 @@ export default function PresupuestoDetallePage({ params }: { params: Promise<{ i
     }
   };
 
+  // Función para imprimir el presupuesto
+  const handleImprimirPresupuesto = async () => {
+    if (!presupuesto) return;
+    
+    try {
+      // Mostrar indicador de carga
+      toast.loading("Preparando documento...");
+      
+      // Obtener datos actualizados de la empresa
+      const empresaResponse = await fetch('/api/empresa');
+      if (!empresaResponse.ok) {
+        throw new Error('Error al obtener datos de la empresa');
+      }
+      const empresa: Empresa = await empresaResponse.json();
+      
+      // Preparar los datos agrupados
+      const partidasAgrupadas = getItemsGroupedByPartida();
+      
+      // Generar el PDF con los datos de la empresa
+      // Ahora esperamos a que la promesa se resuelva
+      const doc = await generatePresupuestoPDF(
+        presupuesto as any, 
+        partidasAgrupadas as any,
+        empresa
+      );
+      
+      // Cerrar el indicador de carga
+      toast.dismiss();
+      
+      // Abrir el PDF en una nueva pestaña
+      const pdfBlob = doc.output('blob');
+      const pdfUrl = URL.createObjectURL(pdfBlob);
+      window.open(pdfUrl, '_blank');
+    } catch (error) {
+      toast.dismiss();
+      console.error('Error al generar el PDF:', error);
+      toast.error('Error al generar el PDF');
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="py-10 flex justify-center">
@@ -318,7 +371,11 @@ export default function PresupuestoDetallePage({ params }: { params: Promise<{ i
           <EstadoBadge estado={presupuesto.estado} />
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" className="gap-1">
+          <Button 
+            variant="outline" 
+            className="gap-1"
+            onClick={handleImprimirPresupuesto}
+          >
             <Printer className="h-4 w-4" />
             Imprimir
           </Button>
@@ -392,14 +449,6 @@ export default function PresupuestoDetallePage({ params }: { params: Promise<{ i
               <span>{presupuesto.numero}</span>
             </div>
             <div className="flex justify-between">
-              <span className="font-medium">Fecha:</span>
-              <span>{formatDate(presupuesto.fecha)}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="font-medium">Válido hasta:</span>
-              <span>{formatDate(presupuesto.fechaValidez)}</span>
-            </div>
-            <div className="flex justify-between">
               <span className="font-medium">Estado:</span>
               <EstadoBadge estado={presupuesto.estado} />
             </div>
@@ -417,27 +466,51 @@ export default function PresupuestoDetallePage({ params }: { params: Promise<{ i
         {/* Fechas y datos adicionales - columna 2 */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">Fechas de servicio</CardTitle>
+            <CardTitle className="text-lg">Fechas</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-2">
-            {presupuesto.fechaMontaje && (
-              <div className="flex items-center gap-2">
-                <Calendar className="h-4 w-4 text-muted-foreground" />
-                <span className="font-medium">Montaje:</span> {formatDate(presupuesto.fechaMontaje)}
+          <CardContent>
+            <div className="grid grid-cols-2 gap-4">
+              {/* Columna izquierda de fechas - alineada a la izquierda */}
+              <div className="space-y-3 text-left">
+                <div className="flex items-center gap-2">
+                  <Calendar className="h-4 w-4 text-muted-foreground" />
+                  <span className="font-medium">Fecha:</span> {formatDate(presupuesto.fecha)}
+                </div>
+                
+                {presupuesto.fechaInicio && (
+                  <div className="flex items-center gap-2">
+                    <Calendar className="h-4 w-4 text-muted-foreground" />
+                    <span className="font-medium">Inicio:</span> {formatDate(presupuesto.fechaInicio)}
+                  </div>
+                )}
+                
+                {presupuesto.fechaFin && (
+                  <div className="flex items-center gap-2">
+                    <Calendar className="h-4 w-4 text-muted-foreground" />
+                    <span className="font-medium">Fin:</span> {formatDate(presupuesto.fechaFin)}
+                  </div>
+                )}
               </div>
-            )}
-            {presupuesto.fechaInicio && (
-              <div className="flex items-center gap-2">
-                <Calendar className="h-4 w-4 text-muted-foreground" />
-                <span className="font-medium">Inicio:</span> {formatDate(presupuesto.fechaInicio)}
+              
+              {/* Columna derecha de fechas - alineada a la derecha */}
+              <div className="space-y-3 text-right">
+                {presupuesto.fechaMontaje && (
+                  <div>
+                    <span className="inline-flex items-center gap-2">
+                      {formatDate(presupuesto.fechaMontaje)} <span className="font-medium">:Montaje</span>
+                      <Calendar className="h-4 w-4 text-muted-foreground" />
+                    </span>
+                  </div>
+                )}
+                
+                <div>
+                  <span className="inline-flex items-center gap-2">
+                    {formatDate(presupuesto.fechaValidez)} <span className="font-medium">:Válido hasta</span>
+                    <Calendar className="h-4 w-4 text-muted-foreground" />
+                  </span>
+                </div>
               </div>
-            )}
-            {presupuesto.fechaFin && (
-              <div className="flex items-center gap-2">
-                <Calendar className="h-4 w-4 text-muted-foreground" />
-                <span className="font-medium">Fin:</span> {formatDate(presupuesto.fechaFin)}
-              </div>
-            )}
+            </div>
           </CardContent>
         </Card>
         
@@ -598,19 +671,29 @@ export default function PresupuestoDetallePage({ params }: { params: Promise<{ i
                     <TableCell>{formatDate(presupuestoProveedor.createdAt)}</TableCell>
                     <TableCell>{presupuestoProveedor.descripcion || '-'}</TableCell>
                     <TableCell className="text-right">
-                      {presupuestoProveedor.archivoUrl && (
-                        <a 
-                          href={presupuestoProveedor.archivoUrl} 
-                          target="_blank" 
-                          rel="noopener noreferrer" 
-                          className="inline-flex mr-2 text-xs px-2 py-1 bg-blue-50 text-blue-600 rounded hover:bg-blue-100"
-                          title={presupuestoProveedor.documentoNombre || "Ver documento"}
-                        >
-                          <FileText className="h-4 w-4 mr-1" />
-                          PDF
-                        </a>
-                      )}
-                      <PresupuestoProveedorDialog
+                      <div className="flex items-center gap-1 justify-end">
+                        {presupuestoProveedor.archivoUrl && (
+                          <>
+                            <a 
+                              href={presupuestoProveedor.archivoUrl} 
+                              target="_blank" 
+                              rel="noopener noreferrer" 
+                              className="inline-flex text-xs px-2 py-1 bg-blue-50 text-blue-600 rounded hover:bg-blue-100"
+                              title={presupuestoProveedor.documentoNombre || "Ver documento"}
+                            >
+                              <FileText className="h-4 w-4" />
+                            </a>
+                            <a 
+                              href={presupuestoProveedor.archivoUrl} 
+                              download={presupuestoProveedor.documentoNombre ? `${presupuestoProveedor.documentoNombre}.pdf` : "documento.pdf"}
+                              className="inline-flex text-xs px-2 py-1 bg-green-50 text-green-600 rounded hover:bg-green-100"
+                              title="Descargar documento"
+                            >
+                              <FileDown className="h-4 w-4" />
+                            </a>
+                          </>
+                        )}
+                        <PresupuestoProveedorDialog
                         presupuestoId={presupuesto.id}
                         presupuestoProveedorId={presupuestoProveedor.id}
                         proveedorIdInicial={presupuestoProveedor.proveedorId || presupuestoProveedor.tipoEspecial || ""}
@@ -641,6 +724,7 @@ export default function PresupuestoDetallePage({ params }: { params: Promise<{ i
                           </Button>
                         }
                         />
+                      </div>
                     </TableCell>
                   </TableRow>
                 ))}

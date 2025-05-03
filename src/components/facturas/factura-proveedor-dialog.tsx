@@ -16,7 +16,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { FormEvent, ReactNode, useState, useEffect, useRef } from "react"
 import { toast } from "sonner"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Loader2, Upload, FileText, X } from "lucide-react"
+import { Loader2, Upload, FileText, X, FileDown } from "lucide-react"
 import { useProveedores } from "@/hooks/use-proveedores"
 import { Partida } from "@/hooks/use-partidas"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -85,6 +85,27 @@ export function FacturaProveedorDialog({
   const [partidaPersonalId, setPartidaPersonalId] = useState<string | null>(null)
 
   const modoEdicion = !!facturaProveedorId
+
+  // Resetear valores cuando se abre el diálogo (solo en modo creación)
+  useEffect(() => {
+    if (open && !modoEdicion) {
+      // Resetear a valores iniciales o vacíos
+      setProveedorId(proveedorIdInicial || "");
+      setPartidaId(partidaIdInicial || "sin-partida");
+      setMonto(montoInicial);
+      setNotas(notasIniciales);
+      setPrecioConIVA(false);
+      setArchivoUrl("");
+      setFileName("");
+      setDocumentoNombre("");
+      setDocumentoFecha(format(new Date(), "yyyy-MM-dd"));
+      
+      // También limpiar el input de archivo si existe
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+    }
+  }, [open, modoEdicion, proveedorIdInicial, partidaIdInicial, montoInicial, notasIniciales]);
 
   // Cargar las partidas utilizadas en esta factura específica
   useEffect(() => {
@@ -262,6 +283,11 @@ export function FacturaProveedorDialog({
       const data = await response.json()
       setArchivoUrl(data.fileUrl)
       
+      // Usar el nombre original que ahora nos devuelve la API
+      if (data.originalName) {
+        setFileName(data.originalName)
+      }
+      
       // Si no hay nombre de documento, usar el nombre del archivo
       if (!documentoNombre) {
         const nombreSinExtension = file.name.split('.').slice(0, -1).join('.')
@@ -278,11 +304,35 @@ export function FacturaProveedorDialog({
   }
 
   // Eliminar archivo
-  const handleRemoveFile = () => {
-    setArchivoUrl('')
-    setFileName('')
+  const handleRemoveFile = async () => {
+    if (archivoUrl) {
+      try {
+        // Eliminar el archivo del servidor
+        const response = await fetch('/api/upload', {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ filePath: archivoUrl }),
+        });
+
+        if (!response.ok) {
+          const error = await response.json();
+          console.error('Error al eliminar archivo:', error);
+          // Continuamos con el proceso incluso si falla la eliminación del servidor
+        }
+      } catch (error) {
+        console.error('Error al eliminar archivo:', error);
+        // No bloqueamos el proceso si falla la eliminación
+      }
+    }
+
+    // Limpiar el estado local
+    setArchivoUrl('');
+    setFileName('');
+    setDocumentoNombre('');
     if (fileInputRef.current) {
-      fileInputRef.current.value = ''
+      fileInputRef.current.value = '';
     }
   }
 
@@ -386,6 +436,27 @@ export function FacturaProveedorDialog({
     setLoading(true)
 
     try {
+      // Si hay un archivo adjunto, lo eliminamos primero
+      if (archivoUrl) {
+        try {
+          const fileResponse = await fetch('/api/upload', {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ filePath: archivoUrl }),
+          });
+
+          if (!fileResponse.ok) {
+            console.error('No se pudo eliminar el archivo, pero continuamos con la eliminación de la factura');
+          }
+        } catch (fileError) {
+          console.error('Error al eliminar archivo:', fileError);
+          // Continuamos con la eliminación de la factura aunque falle la eliminación del archivo
+        }
+      }
+
+      // Eliminar la factura de proveedor
       const response = await fetch(`/api/facturas/proveedores/${facturaProveedorId}`, {
         method: "DELETE",
       })
@@ -413,7 +484,11 @@ export function FacturaProveedorDialog({
   const mostrarSelectorPartida = proveedorId !== "gastos-generales";
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog open={open} onOpenChange={(newOpen) => {
+      // Si se está cerrando el diálogo, no hacemos nada especial
+      // El estado se limpiará la próxima vez que se abra (por el useEffect)
+      setOpen(newOpen);
+    }}>
       <DialogTrigger asChild>
         {trigger}
       </DialogTrigger>
@@ -538,20 +613,9 @@ export function FacturaProveedorDialog({
             
             {/* Segunda sección: Información del documento */}
             <div className="mt-4 pt-4 border-t border-gray-200">
-              <h3 className="font-semibold mb-4">Información del documento</h3>
+              <h3 className="font-semibold mb-4">Documento adjunto</h3>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="grid gap-2">
-                  <Label htmlFor="documentoNombre">Nombre del documento</Label>
-                  <Input
-                    id="documentoNombre"
-                    value={documentoNombre}
-                    onChange={(e) => setDocumentoNombre(e.target.value)}
-                    placeholder="Ej: Factura proveedor X"
-                    disabled={loading}
-                  />
-                </div>
-                
+              <div className="grid gap-4">
                 <div className="grid gap-2">
                   <Label htmlFor="documentoFecha">Fecha del documento</Label>
                   <Input
@@ -562,73 +626,82 @@ export function FacturaProveedorDialog({
                     disabled={loading}
                   />
                 </div>
-              </div>
               
-              <div className="mt-4">
-                <Label htmlFor="documento" className="mb-2 block">Documento (PDF)</Label>
-                
-                {archivoUrl ? (
-                  <div className="flex items-center justify-between p-3 border rounded-md">
-                    <div className="flex items-center">
-                      <FileText className="h-4 w-4 mr-2 text-blue-500" />
-                      <span className="text-sm truncate max-w-[200px]">{fileName}</span>
+                <div>
+                  <Label htmlFor="documento" className="mb-2 block">Archivo PDF</Label>
+                  
+                  {archivoUrl ? (
+                    <div className="flex items-center justify-between p-3 border rounded-md">
+                      <div className="flex items-center">
+                        <FileText className="h-4 w-4 mr-2 text-blue-500" />
+                        <span className="text-sm truncate max-w-[200px]">{fileName}</span>
+                      </div>
+                      <div className="flex gap-2">
+                        <a 
+                          href={archivoUrl} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="text-xs px-2 py-1 bg-blue-50 text-blue-600 rounded hover:bg-blue-100"
+                        >
+                          <FileText className="h-4 w-4 mr-1 inline" />
+                          Ver
+                        </a>
+                        <a 
+                          href={archivoUrl}
+                          download={documentoNombre || fileName}
+                          className="text-xs px-2 py-1 bg-green-50 text-green-600 rounded hover:bg-green-100"
+                        >
+                          <FileDown className="h-4 w-4 mr-1 inline" />
+                          Descargar
+                        </a>
+                        <Button 
+                          type="button" 
+                          variant="ghost" 
+                          size="sm" 
+                          className="h-7 w-7 p-0 text-red-500"
+                          onClick={handleRemoveFile}
+                          disabled={loading}
+                        >
+                          <X className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </div>
-                    <div className="flex gap-2">
-                      <a 
-                        href={archivoUrl} 
-                        target="_blank" 
-                        rel="noopener noreferrer" 
-                        className="text-xs px-2 py-1 bg-blue-50 text-blue-600 rounded hover:bg-blue-100"
+                  ) : (
+                    <div className="relative">
+                      <Input
+                        id="documento"
+                        type="file"
+                        accept=".pdf"
+                        ref={fileInputRef}
+                        onChange={handleFileChange}
+                        disabled={loading || uploadingFile}
+                        className="hidden"
+                      />
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => fileInputRef.current?.click()}
+                        disabled={loading || uploadingFile}
+                        className="w-full"
                       >
-                        Ver
-                      </a>
-                      <Button 
-                        type="button" 
-                        variant="ghost" 
-                        size="sm" 
-                        className="h-7 w-7 p-0 text-red-500"
-                        onClick={handleRemoveFile}
-                        disabled={loading}
-                      >
-                        <X className="h-4 w-4" />
+                        {uploadingFile ? (
+                          <>
+                            <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                            Subiendo...
+                          </>
+                        ) : (
+                          <>
+                            <Upload className="h-4 w-4 mr-2" />
+                            Seleccionar archivo
+                          </>
+                        )}
                       </Button>
                     </div>
-                  </div>
-                ) : (
-                  <div className="relative">
-                    <Input
-                      id="documento"
-                      type="file"
-                      accept=".pdf"
-                      ref={fileInputRef}
-                      onChange={handleFileChange}
-                      disabled={loading || uploadingFile}
-                      className="hidden"
-                    />
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={() => fileInputRef.current?.click()}
-                      disabled={loading || uploadingFile}
-                      className="w-full"
-                    >
-                      {uploadingFile ? (
-                        <>
-                          <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                          Subiendo...
-                        </>
-                      ) : (
-                        <>
-                          <Upload className="h-4 w-4 mr-2" />
-                          Seleccionar archivo
-                        </>
-                      )}
-                    </Button>
-                  </div>
-                )}
-                <p className="text-xs text-muted-foreground mt-1">
-                  Solo se permiten archivos PDF.
-                </p>
+                  )}
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Solo se permiten archivos PDF.
+                  </p>
+                </div>
               </div>
             </div>
           </div>

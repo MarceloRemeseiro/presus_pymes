@@ -1,17 +1,10 @@
-import { NextResponse } from 'next/server';
-import { writeFile, unlink, access } from 'fs/promises';
-import { join } from 'path';
-import * as crypto from 'crypto';
+// Mock para la ruta de API de carga de archivos
 
-// Función auxiliar para verificar si un archivo existe
-async function fileExists(path: string): Promise<boolean> {
-  try {
-    await access(path);
-    return true;
-  } catch {
-    return false;
-  }
-}
+import { NextResponse } from 'next/server';
+
+// Mantenemos un registro de los archivos "subidos" para poder verificarlos en las pruebas
+export const mockedFiles: Record<string, Uint8Array> = {};
+export const mockedDeletedFiles: string[] = [];
 
 export async function POST(request: Request) {
   try {
@@ -25,11 +18,10 @@ export async function POST(request: Request) {
       );
     }
     
-    // Mantener el nombre original pero añadir un ID único al final
     const buffer = await file.arrayBuffer();
     const bytes = new Uint8Array(buffer);
     const originalName = file.name;
-    const uniqueId = crypto.randomUUID().slice(0, 8); // Usar solo los primeros 8 caracteres del UUID
+    const uniqueId = 'mock-uuid-12345678';
     
     // Separar el nombre y la extensión
     const lastDotIndex = originalName.lastIndexOf('.');
@@ -39,21 +31,9 @@ export async function POST(request: Request) {
     // Crear el nuevo nombre con el ID único al final
     const fileName = `${nameWithoutExt}_${uniqueId}.${extension}`;
     
-    // Crear directorio si no existe
-    const uploadDir = join(process.cwd(), 'public', 'uploads');
-    
-    try {
-      await writeFile(join(uploadDir, fileName), bytes);
-    } catch (error) {
-      console.error('Error al guardar el archivo:', error);
-      
-      // Intentar crear el directorio si no existe y reintentar
-      const { mkdir } = await import('fs/promises');
-      await mkdir(uploadDir, { recursive: true });
-      await writeFile(join(uploadDir, fileName), bytes);
-    }
-    
+    // Almacenar el archivo en nuestro mock
     const publicPath = `/uploads/${fileName}`;
+    mockedFiles[publicPath] = bytes;
     
     // Devolver tanto la URL como el nombre original del archivo
     return NextResponse.json({ 
@@ -91,12 +71,11 @@ export async function DELETE(request: Request) {
       );
     }
     
-    // Construir la ruta absoluta al archivo
-    const filePath2 = join(process.cwd(), 'public', 'uploads', fileName);
-    
-    // Verificar si el archivo existe antes de intentar eliminarlo
-    if (await fileExists(filePath2)) {
-      await unlink(filePath2);
+    // Verificar si el archivo existe en nuestro mock
+    if (mockedFiles[filePath]) {
+      // "Eliminar" el archivo
+      delete mockedFiles[filePath];
+      mockedDeletedFiles.push(filePath);
       return NextResponse.json({ success: true, message: 'Archivo eliminado correctamente' });
     } else {
       return NextResponse.json({ success: false, message: 'El archivo no existe' });

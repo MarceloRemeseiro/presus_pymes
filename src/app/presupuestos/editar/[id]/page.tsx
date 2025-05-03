@@ -1039,8 +1039,8 @@ export default function EditarPresupuestoPage({ params }: { params: Promise<{ id
                             <TableRow>
                               <TableHead className="w-0 p-0"></TableHead>
                               <TableHead>Descripción</TableHead>
-                              <TableHead>Días</TableHead>
                               <TableHead>Cantidad</TableHead>
+                              <TableHead>Días</TableHead>
                               <TableHead>Precio</TableHead>
                               <TableHead>Descuento</TableHead>
                               <TableHead>Subtotal</TableHead>
@@ -1109,10 +1109,10 @@ export default function EditarPresupuestoPage({ params }: { params: Promise<{ id
                                         type="number"
                                         min="0"
                                         className="w-16 h-8"
-                                        value={item.dias}
+                                        value={item.cantidad}
                                         onChange={(e) => {
                                           const nuevasPartidas = [...partidasPresupuesto];
-                                          nuevasPartidas[index].items[itemIndex].dias = parseInt(e.target.value) || 0;
+                                          nuevasPartidas[index].items[itemIndex].cantidad = parseInt(e.target.value) || 0;
                                           
                                           // Recalcular subtotal
                                           const cantidad = nuevasPartidas[index].items[itemIndex].cantidad;
@@ -1137,10 +1137,10 @@ export default function EditarPresupuestoPage({ params }: { params: Promise<{ id
                                         type="number"
                                         min="0"
                                         className="w-16 h-8"
-                                        value={item.cantidad}
+                                        value={item.dias}
                                         onChange={(e) => {
                                           const nuevasPartidas = [...partidasPresupuesto];
-                                          nuevasPartidas[index].items[itemIndex].cantidad = parseInt(e.target.value) || 0;
+                                          nuevasPartidas[index].items[itemIndex].dias = parseInt(e.target.value) || 0;
                                           
                                           // Recalcular subtotal
                                           const cantidad = nuevasPartidas[index].items[itemIndex].cantidad;
@@ -1249,10 +1249,10 @@ export default function EditarPresupuestoPage({ params }: { params: Promise<{ id
                                         type="number"
                                         min="0"
                                         className="w-16 h-8"
-                                        value={item.dias}
+                                        value={item.cantidad}
                                         onChange={(e) => {
                                           const nuevasPartidas = [...partidasPresupuesto];
-                                          nuevasPartidas[index].items[itemIndex].dias = parseInt(e.target.value) || 0;
+                                          nuevasPartidas[index].items[itemIndex].cantidad = parseInt(e.target.value) || 0;
                                           
                                           // Recalcular subtotal
                                           const cantidad = nuevasPartidas[index].items[itemIndex].cantidad;
@@ -1276,10 +1276,10 @@ export default function EditarPresupuestoPage({ params }: { params: Promise<{ id
                                         type="number"
                                         min="0"
                                         className="w-16 h-8"
-                                        value={item.cantidad}
+                                        value={item.dias}
                                         onChange={(e) => {
                                           const nuevasPartidas = [...partidasPresupuesto];
-                                          nuevasPartidas[index].items[itemIndex].cantidad = parseInt(e.target.value) || 0;
+                                          nuevasPartidas[index].items[itemIndex].dias = parseInt(e.target.value) || 0;
                                           
                                           // Recalcular subtotal
                                           const cantidad = nuevasPartidas[index].items[itemIndex].cantidad;
