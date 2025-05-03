@@ -19,7 +19,8 @@ import {
   PlusCircle,
   CheckCircleIcon,
   XCircleIcon,
-  TimerIcon
+  TimerIcon,
+  FileText
 } from "lucide-react"
 import {
   Table,
@@ -101,6 +102,9 @@ interface PresupuestoProveedor {
   precioConIVA: boolean
   tipoEspecial?: string | null
   partidaId?: string | null
+  archivoUrl?: string | null
+  documentoNombre?: string | null
+  documentoFecha?: string | null
   createdAt: string
   updatedAt: string
 }
@@ -594,6 +598,18 @@ export default function PresupuestoDetallePage({ params }: { params: Promise<{ i
                     <TableCell>{formatDate(presupuestoProveedor.createdAt)}</TableCell>
                     <TableCell>{presupuestoProveedor.descripcion || '-'}</TableCell>
                     <TableCell className="text-right">
+                      {presupuestoProveedor.archivoUrl && (
+                        <a 
+                          href={presupuestoProveedor.archivoUrl} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="inline-flex mr-2 text-xs px-2 py-1 bg-blue-50 text-blue-600 rounded hover:bg-blue-100"
+                          title={presupuestoProveedor.documentoNombre || "Ver documento"}
+                        >
+                          <FileText className="h-4 w-4 mr-1" />
+                          PDF
+                        </a>
+                      )}
                       <PresupuestoProveedorDialog
                         presupuestoId={presupuesto.id}
                         presupuestoProveedorId={presupuestoProveedor.id}
@@ -601,6 +617,9 @@ export default function PresupuestoDetallePage({ params }: { params: Promise<{ i
                         partidaIdInicial={presupuestoProveedor.partidaId || "sin-partida"}
                         montoInicial={presupuestoProveedor.precio}
                         notasIniciales={presupuestoProveedor.descripcion || ''}
+                        archivoUrlInicial={presupuestoProveedor.archivoUrl || ''}
+                        documentoNombreInicial={presupuestoProveedor.documentoNombre || ''}
+                        documentoFechaInicial={presupuestoProveedor.documentoFecha || ''}
                         onSuccess={() => {
                           // Recargar los datos del presupuesto
                           if (presupuestoId) {

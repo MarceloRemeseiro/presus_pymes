@@ -33,10 +33,10 @@ const PROVEEDORES_ESPECIALES = [
 const PARTIDA_GASTOS_GENERALES = "GASTOS GENERALES";
 const PARTIDA_PERSONAL = "PERSONAL";
 
-export interface PresupuestoProveedorDialogProps {
+export interface FacturaProveedorDialogProps {
   trigger: ReactNode
-  presupuestoId: string
-  presupuestoProveedorId?: string
+  facturaId: string
+  facturaProveedorId?: string
   proveedorIdInicial?: string
   partidaIdInicial?: string
   montoInicial?: number
@@ -47,10 +47,10 @@ export interface PresupuestoProveedorDialogProps {
   onSuccess?: () => void
 }
 
-export function PresupuestoProveedorDialog({
+export function FacturaProveedorDialog({
   trigger,
-  presupuestoId,
-  presupuestoProveedorId,
+  facturaId,
+  facturaProveedorId,
   proveedorIdInicial,
   partidaIdInicial,
   montoInicial = 0,
@@ -59,9 +59,9 @@ export function PresupuestoProveedorDialog({
   documentoNombreInicial = "",
   documentoFechaInicial = "",
   onSuccess
-}: PresupuestoProveedorDialogProps) {
+}: FacturaProveedorDialogProps) {
   const { proveedores, loading: loadingProveedores } = useProveedores()
-  const [partidasPresupuesto, setPartidasPresupuesto] = useState<Partida[]>([])
+  const [partidasFactura, setPartidasFactura] = useState<Partida[]>([])
   const [loadingPartidas, setLoadingPartidas] = useState(true)
   const [open, setOpen] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -84,21 +84,21 @@ export function PresupuestoProveedorDialog({
   // Partida especial para personal
   const [partidaPersonalId, setPartidaPersonalId] = useState<string | null>(null)
 
-  const modoEdicion = !!presupuestoProveedorId
+  const modoEdicion = !!facturaProveedorId
 
-  // Cargar las partidas utilizadas en este presupuesto específico
+  // Cargar las partidas utilizadas en esta factura específica
   useEffect(() => {
-    if (!presupuestoId || !open) return
+    if (!facturaId || !open) return
 
-    const fetchPartidasPresupuesto = async () => {
+    const fetchPartidasFactura = async () => {
       setLoadingPartidas(true)
       try {
-        const response = await fetch(`/api/presupuestos/${presupuestoId}/partidas`)
+        const response = await fetch(`/api/facturas/${facturaId}/partidas`)
         if (!response.ok) {
-          throw new Error('Error al cargar partidas del presupuesto')
+          throw new Error('Error al cargar partidas de la factura')
         }
         const data = await response.json()
-        setPartidasPresupuesto(data)
+        setPartidasFactura(data)
         
         // Buscar las partidas especiales
         const gastosGeneralesPartida = data.find((p: Partida) => 
@@ -116,25 +116,25 @@ export function PresupuestoProveedorDialog({
         }
       } catch (err) {
         console.error('Error:', err)
-        toast.error('Error al cargar las partidas del presupuesto')
+        toast.error('Error al cargar las partidas de la factura')
       } finally {
         setLoadingPartidas(false)
       }
     }
 
-    fetchPartidasPresupuesto()
-  }, [presupuestoId, open])
+    fetchPartidasFactura()
+  }, [facturaId, open])
 
-  // Cargar datos de presupuesto proveedor si estamos en modo edición
+  // Cargar datos de factura proveedor si estamos en modo edición
   useEffect(() => {
-    if (!presupuestoProveedorId || !open) return
+    if (!facturaProveedorId || !open) return
 
-    const fetchPresupuestoProveedor = async () => {
+    const fetchFacturaProveedor = async () => {
       setLoading(true)
       try {
-        const response = await fetch(`/api/presupuestos/proveedores/${presupuestoProveedorId}`)
+        const response = await fetch(`/api/facturas/proveedores/${facturaProveedorId}`)
         if (!response.ok) {
-          throw new Error('Error al cargar datos del presupuesto proveedor')
+          throw new Error('Error al cargar datos de la factura de proveedor')
         }
         const data = await response.json()
         console.log("Datos cargados:", data)
@@ -170,14 +170,14 @@ export function PresupuestoProveedorDialog({
         }
       } catch (err) {
         console.error('Error:', err)
-        toast.error('Error al cargar los datos del presupuesto proveedor')
+        toast.error('Error al cargar los datos de la factura de proveedor')
       } finally {
         setLoading(false)
       }
     }
 
-    fetchPresupuestoProveedor()
-  }, [presupuestoProveedorId, open])
+    fetchFacturaProveedor()
+  }, [facturaProveedorId, open])
 
   // Actualizar la partida cuando cambia el proveedor
   useEffect(() => {
@@ -330,8 +330,8 @@ export function PresupuestoProveedorDialog({
       }
       
       const endpoint = modoEdicion 
-        ? `/api/presupuestos/proveedores/${presupuestoProveedorId}`
-        : `/api/presupuestos/proveedores`
+        ? `/api/facturas/proveedores/${facturaProveedorId}`
+        : `/api/facturas/proveedores`
       
       const method = modoEdicion ? "PUT" : "POST"
       
@@ -341,10 +341,10 @@ export function PresupuestoProveedorDialog({
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          presupuestoId,
+          facturaId,
           proveedorId: (proveedorId === "gastos-generales" || proveedorId === "freelance" || proveedorId === "dietas") ? null : proveedorId,
           partidaId: partidaFinalId === "sin-partida" ? null : partidaFinalId,
-          nombre: `Presupuesto de ${nombreProveedor}`,
+          nombre: `Factura de ${nombreProveedor}`,
           precio: monto,
           precioConIVA,
           descripcion: notas || null,
@@ -359,10 +359,10 @@ export function PresupuestoProveedorDialog({
 
       if (!response.ok) {
         const error = await response.json()
-        throw new Error(error.error || "Error al guardar el presupuesto de proveedor")
+        throw new Error(error.error || "Error al guardar la factura de proveedor")
       }
 
-      toast.success(modoEdicion ? "Presupuesto de proveedor actualizado" : "Presupuesto de proveedor añadido")
+      toast.success(modoEdicion ? "Factura de proveedor actualizada" : "Factura de proveedor añadida")
       setOpen(false)
       
       if (onSuccess) {
@@ -370,32 +370,32 @@ export function PresupuestoProveedorDialog({
       }
     } catch (error) {
       console.error(error)
-      toast.error((error as Error).message || "Error al guardar el presupuesto de proveedor")
+      toast.error((error as Error).message || "Error al guardar la factura de proveedor")
     } finally {
       setLoading(false)
     }
   }
 
   const handleDelete = async () => {
-    if (!presupuestoProveedorId) return
+    if (!facturaProveedorId) return
     
-    if (!confirm("¿Estás seguro de que deseas eliminar este presupuesto de proveedor?")) {
+    if (!confirm("¿Estás seguro de que deseas eliminar esta factura de proveedor?")) {
       return
     }
 
     setLoading(true)
 
     try {
-      const response = await fetch(`/api/presupuestos/proveedores/${presupuestoProveedorId}`, {
+      const response = await fetch(`/api/facturas/proveedores/${facturaProveedorId}`, {
         method: "DELETE",
       })
 
       if (!response.ok) {
         const error = await response.json()
-        throw new Error(error.error || "Error al eliminar el presupuesto de proveedor")
+        throw new Error(error.error || "Error al eliminar la factura de proveedor")
       }
 
-      toast.success("Presupuesto de proveedor eliminado")
+      toast.success("Factura de proveedor eliminada")
       setOpen(false)
       
       if (onSuccess) {
@@ -403,7 +403,7 @@ export function PresupuestoProveedorDialog({
       }
     } catch (error) {
       console.error(error)
-      toast.error((error as Error).message || "Error al eliminar el presupuesto de proveedor")
+      toast.error((error as Error).message || "Error al eliminar la factura de proveedor")
     } finally {
       setLoading(false)
     }
@@ -419,11 +419,11 @@ export function PresupuestoProveedorDialog({
       </DialogTrigger>
       <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>{modoEdicion ? "Editar" : "Añadir"} presupuesto de proveedor</DialogTitle>
+          <DialogTitle>{modoEdicion ? "Editar" : "Añadir"} factura de proveedor</DialogTitle>
           <DialogDescription>
             {modoEdicion 
-              ? "Modifica los detalles del presupuesto del proveedor" 
-              : "Añade un nuevo presupuesto de proveedor para este proyecto"}
+              ? "Modifica los detalles de la factura del proveedor" 
+              : "Añade una nueva factura de proveedor para esta factura"}
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit}>
@@ -431,86 +431,80 @@ export function PresupuestoProveedorDialog({
             {/* Primera sección: Datos básicos */}
             <div className="grid gap-2">
               <Label htmlFor="proveedor">Proveedor*</Label>
-              <div className="max-w-xs">
-                <Select 
-                  value={proveedorId} 
-                  onValueChange={setProveedorId}
-                  disabled={loading || loadingProveedores}
-                >
-                  <SelectTrigger id="proveedor">
-                    <SelectValue placeholder="Seleccionar proveedor" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {/* Proveedores especiales fijos */}
-                    <SelectItem value="gastos-generales" className="font-semibold">GASTOS GENERALES</SelectItem>
-                    <SelectItem value="freelance" className="font-semibold">FREELANCE</SelectItem>
-                    <SelectItem value="dietas" className="font-semibold">DIETAS</SelectItem>
-                    
-                    {/* Separador visual */}
-                    <div className="h-px bg-gray-200 my-2"></div>
-                    
-                    {loadingProveedores ? (
-                      <div className="flex items-center justify-center py-2">
-                        <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                        Cargando...
-                      </div>
-                    ) : (
-                      proveedores.map((proveedor) => (
-                        <SelectItem key={proveedor.id} value={proveedor.id}>
-                          {proveedor.nombre}
-                        </SelectItem>
-                      ))
-                    )}
-                  </SelectContent>
-                </Select>
-              </div>
+              <Select 
+                value={proveedorId} 
+                onValueChange={setProveedorId}
+                disabled={loading || loadingProveedores}
+              >
+                <SelectTrigger id="proveedor">
+                  <SelectValue placeholder="Seleccionar proveedor" />
+                </SelectTrigger>
+                <SelectContent>
+                  {/* Proveedores especiales fijos */}
+                  <SelectItem value="gastos-generales" className="font-semibold">GASTOS GENERALES</SelectItem>
+                  <SelectItem value="freelance" className="font-semibold">FREELANCE</SelectItem>
+                  <SelectItem value="dietas" className="font-semibold">DIETAS</SelectItem>
+                  
+                  {/* Separador visual */}
+                  <div className="h-px bg-gray-200 my-2"></div>
+                  
+                  {loadingProveedores ? (
+                    <div className="flex items-center justify-center py-2">
+                      <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                      Cargando...
+                    </div>
+                  ) : (
+                    proveedores.map((proveedor) => (
+                      <SelectItem key={proveedor.id} value={proveedor.id}>
+                        {proveedor.nombre}
+                      </SelectItem>
+                    ))
+                  )}
+                </SelectContent>
+              </Select>
             </div>
             
             {/* Selector de partida - sólo visible si NO es GASTOS GENERALES */}
             {mostrarSelectorPartida && (
               <div className="grid gap-2">
                 <Label htmlFor="partida">Partida {proveedorId === "freelance" ? "(preseleccionada PERSONAL)" : "(opcional)"}</Label>
-                <div className="max-w-xs">
-                  <Select 
-                    value={partidaId} 
-                    onValueChange={setPartidaId}
-                    disabled={loading || loadingPartidas}
-                  >
-                    <SelectTrigger id="partida">
-                      <SelectValue placeholder="Seleccionar partida" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="sin-partida">Sin partida</SelectItem>
-                      {loadingPartidas ? (
-                        <div className="flex items-center justify-center py-2">
-                          <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                          Cargando...
-                        </div>
-                      ) : (
-                        partidasPresupuesto.map((partida) => (
-                          <SelectItem key={partida.id} value={partida.id}>
-                            {partida.nombre}
-                          </SelectItem>
-                        ))
-                      )}
-                    </SelectContent>
-                  </Select>
-                </div>
+                <Select 
+                  value={partidaId} 
+                  onValueChange={setPartidaId}
+                  disabled={loading || loadingPartidas}
+                >
+                  <SelectTrigger id="partida">
+                    <SelectValue placeholder="Seleccionar partida" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="sin-partida">Sin partida</SelectItem>
+                    {loadingPartidas ? (
+                      <div className="flex items-center justify-center py-2">
+                        <Loader2 className="h-4 w-4 animate-spin mr-2" />
+                        Cargando...
+                      </div>
+                    ) : (
+                      partidasFactura.map((partida) => (
+                        <SelectItem key={partida.id} value={partida.id}>
+                          {partida.nombre}
+                        </SelectItem>
+                      ))
+                    )}
+                  </SelectContent>
+                </Select>
               </div>
             )}
             
             <div className="grid gap-2">
               <Label htmlFor="monto">Monto (€)*</Label>
-              <div className="max-w-xs">
-                <Input
-                  id="monto"
-                  type="number"
-                  step="0.01"
-                  value={monto}
-                  onChange={(e) => setMonto(parseFloat(e.target.value) || 0)}
-                  disabled={loading}
-                />
-              </div>
+              <Input
+                id="monto"
+                type="number"
+                step="0.01"
+                value={monto}
+                onChange={(e) => setMonto(parseFloat(e.target.value) || 0)}
+                disabled={loading}
+              />
             </div>
             
             {/* Checkbox de Precio con IVA (solo para proveedores normales) */}
@@ -537,7 +531,7 @@ export function PresupuestoProveedorDialog({
                 id="notas"
                 value={notas}
                 onChange={(e) => setNotas(e.target.value)}
-                placeholder="Añade notas adicionales sobre este presupuesto"
+                placeholder="Añade notas adicionales sobre esta factura"
                 disabled={loading}
               />
             </div>
@@ -553,7 +547,7 @@ export function PresupuestoProveedorDialog({
                     id="documentoNombre"
                     value={documentoNombre}
                     onChange={(e) => setDocumentoNombre(e.target.value)}
-                    placeholder="Ej: Presupuesto proveedor X"
+                    placeholder="Ej: Factura proveedor X"
                     disabled={loading}
                   />
                 </div>

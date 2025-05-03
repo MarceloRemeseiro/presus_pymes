@@ -909,12 +909,11 @@ export default function EditarPresupuestoPage({ params }: { params: Promise<{ id
       </Card>
       
       {/* Sección de partidas y elementos */}
-      <h2 className="text-xl font-bold mb-4">Servicios Presupuestados</h2>
-      
-      <div className="flex space-x-4 mb-6">
-        <div className="flex-grow">
+      <div className="flex items-center justify-between mb-4">
+        <h2 className="text-xl font-bold">Servicios Presupuestados</h2>
+        <div className="flex space-x-2">
           <select
-            className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+            className="flex h-10 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
             value=""
             onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
               if (e.target.value) {
@@ -930,14 +929,14 @@ export default function EditarPresupuestoPage({ params }: { params: Promise<{ id
               </option>
             ))}
           </select>
+          <Button 
+            variant="outline" 
+            onClick={() => setShowNuevaPartida(true)}
+          >
+            <PlusCircle className="mr-2 h-4 w-4" />
+            Crear Partida
+          </Button>
         </div>
-        <Button 
-          variant="outline" 
-          onClick={() => setShowNuevaPartida(true)}
-        >
-          <PlusCircle className="mr-2 h-4 w-4" />
-          Crear Partida
-        </Button>
       </div>
       
       {/* Formulario para crear nueva partida */}

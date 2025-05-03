@@ -134,7 +134,9 @@ export async function PUT(
         proveedorId: body.proveedorId || null,
         partidaId: body.partidaId === "sin-partida" ? null : body.partidaId,
         tipoEspecial: body.tipoEspecial || null,
-        archivoUrl: body.archivoUrl || null
+        archivoUrl: body.archivoUrl || null,
+        documentoNombre: body.documentoNombre !== undefined ? body.documentoNombre : presupuestoProveedor.documentoNombre,
+        documentoFecha: body.documentoFecha ? new Date(body.documentoFecha) : presupuestoProveedor.documentoFecha
       },
       include: {
         proveedor: true,

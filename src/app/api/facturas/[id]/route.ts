@@ -18,6 +18,12 @@ export async function GET(req: Request, context: { params: Promise<{ id: string 
           },
         },
         presupuestos: true,
+        facturasProveedores: {
+          include: {
+            proveedor: true,
+            partida: true
+          }
+        }
       }
     })
     

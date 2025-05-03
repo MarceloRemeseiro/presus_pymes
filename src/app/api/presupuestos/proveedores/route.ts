@@ -85,7 +85,9 @@ export async function POST(req: Request) {
         proveedorId: body.proveedorId || null,
         partidaId: body.partidaId === "sin-partida" ? null : body.partidaId,
         tipoEspecial: body.tipoEspecial || null,
-        archivoUrl: body.archivoUrl || null
+        archivoUrl: body.archivoUrl || null,
+        documentoNombre: body.documentoNombre || null,
+        documentoFecha: body.documentoFecha ? new Date(body.documentoFecha) : null
       },
       include: {
         proveedor: true,

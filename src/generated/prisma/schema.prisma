@@ -105,6 +105,7 @@ model PartidaPresupuesto {
   items                   ItemPresupuesto[]
   presupuestosProveedores PresupuestoProveedor[] // Relación con presupuestos de proveedores
   itemsFactura            ItemFactura[] // Relación con items de facturas
+  facturasProveedores     FacturaProveedor[] // Relación con facturas de proveedores
   createdAt               DateTime               @default(now())
   updatedAt               DateTime               @updatedAt
 
@@ -158,23 +159,24 @@ model ItemPresupuesto {
 }
 
 model Factura {
-  id               String        @id @default(cuid())
-  numero           String        @unique
-  numeroPedido     String? // Número de pedido o PO (Purchase Order) opcional
-  fecha            DateTime      @default(now())
-  fechaVencimiento DateTime
-  clienteId        String
-  cliente          Cliente       @relation(fields: [clienteId], references: [id])
-  estado           EstadoFactura @default(PENDIENTE)
-  observaciones    String?
-  subtotal         Float
-  iva              Float
-  total            Float
-  items            ItemFactura[]
-  presupuestos     Presupuesto[]
-  gastosTickelia   Tikelia[] // Relación con gastos de Tikelia
-  createdAt        DateTime      @default(now())
-  updatedAt        DateTime      @updatedAt
+  id                  String             @id @default(cuid())
+  numero              String             @unique
+  numeroPedido        String? // Número de pedido o PO (Purchase Order) opcional
+  fecha               DateTime           @default(now())
+  fechaVencimiento    DateTime
+  clienteId           String
+  cliente             Cliente            @relation(fields: [clienteId], references: [id])
+  estado              EstadoFactura      @default(PENDIENTE)
+  observaciones       String?
+  subtotal            Float
+  iva                 Float
+  total               Float
+  items               ItemFactura[]
+  presupuestos        Presupuesto[]
+  gastosTickelia      Tikelia[] // Relación con gastos de Tikelia
+  facturasProveedores FacturaProveedor[] // Relación con facturas de proveedores
+  createdAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
 }
 
 model ItemFactura {
@@ -255,6 +257,7 @@ model Proveedor {
   notas        String?
   equipos      EquipoItem[] // Relación con los equipos vendidos por este proveedor
   presupuestos PresupuestoProveedor[] // Relación con presupuestos de proveedores
+  facturas     FacturaProveedor[] // Relación con facturas de proveedores
   createdAt    DateTime               @default(now())
   updatedAt    DateTime               @updatedAt
 }
@@ -272,21 +275,44 @@ model Tikelia {
 
 // Nuevo modelo para presupuestos de proveedores
 model PresupuestoProveedor {
-  id            String              @id @default(cuid())
-  presupuestoId String // Relación con el presupuesto principal
-  presupuesto   Presupuesto         @relation(fields: [presupuestoId], references: [id], onDelete: Cascade)
-  nombre        String // Nombre o concepto del presupuesto/gasto
-  descripcion   String? // Descripción opcional
-  precio        Float // Precio del presupuesto/gasto
-  precioConIVA  Boolean // Indica si el precio incluye IVA
-  proveedorId   String? // Relación opcional con proveedor
-  proveedor     Proveedor?          @relation(fields: [proveedorId], references: [id])
-  partidaId     String? // Relación opcional con partida de presupuesto
-  partida       PartidaPresupuesto? @relation(fields: [partidaId], references: [id])
-  tipoEspecial  String? // Campo para identificar tipos especiales (gastos-generales, freelance)
-  archivoUrl    String? // URL del archivo adjunto (implementación futura)
-  createdAt     DateTime            @default(now())
-  updatedAt     DateTime            @updatedAt
+  id              String              @id @default(cuid())
+  presupuestoId   String // Relación con el presupuesto principal
+  presupuesto     Presupuesto         @relation(fields: [presupuestoId], references: [id], onDelete: Cascade)
+  nombre          String // Nombre o concepto del presupuesto/gasto
+  descripcion     String? // Descripción opcional
+  precio          Float // Precio del presupuesto/gasto
+  precioConIVA    Boolean // Indica si el precio incluye IVA
+  proveedorId     String? // Relación opcional con proveedor
+  proveedor       Proveedor?          @relation(fields: [proveedorId], references: [id])
+  partidaId       String? // Relación opcional con partida de presupuesto
+  partida         PartidaPresupuesto? @relation(fields: [partidaId], references: [id])
+  tipoEspecial    String? // Campo para identificar tipos especiales (gastos-generales, freelance)
+  archivoUrl      String? // URL del archivo adjunto (implementación futura)
+  documentoNombre String? // Nombre del documento adjunto
+  documentoFecha  DateTime? // Fecha del documento
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+}
+
+// Modelo para facturas de proveedores
+model FacturaProveedor {
+  id              String              @id @default(cuid())
+  facturaId       String // Relación con la factura principal
+  factura         Factura             @relation(fields: [facturaId], references: [id], onDelete: Cascade)
+  nombre          String // Nombre o concepto de la factura/gasto
+  descripcion     String? // Descripción opcional
+  precio          Float // Precio de la factura/gasto
+  precioConIVA    Boolean // Indica si el precio incluye IVA
+  proveedorId     String? // Relación opcional con proveedor
+  proveedor       Proveedor?          @relation(fields: [proveedorId], references: [id])
+  partidaId       String? // Relación opcional con partida de presupuesto
+  partida         PartidaPresupuesto? @relation(fields: [partidaId], references: [id])
+  tipoEspecial    String? // Campo para identificar tipos especiales (gastos-generales, freelance)
+  archivoUrl      String? // URL del archivo adjunto
+  documentoNombre String? // Nombre del documento adjunto
+  documentoFecha  DateTime? // Fecha del documento
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
 }
 
 // Enumeraciones

@@ -15,7 +15,9 @@ import {
   ClockIcon,
   SendIcon,
   Loader2,
-  Calendar
+  Calendar,
+  PlusCircle,
+  FileText
 } from "lucide-react"
 import { use } from "react"
 
@@ -24,6 +26,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { toast, Toaster } from "sonner"
 import { EstadoBadge } from "@/components/facturas/estado-badge"
+import { FacturaProveedorDialog } from '@/components/facturas/factura-proveedor-dialog'
+import { MargenCard } from "@/components/presupuestos/margen-card"
 import {
   Table,
   TableBody,
@@ -72,6 +76,30 @@ interface Presupuesto {
   numero: string
 }
 
+interface FacturaProveedor {
+  id: string
+  proveedorId: string
+  proveedor: {
+    id: string
+    nombre: string
+  } | null
+  nombre: string
+  descripcion?: string | null
+  precio: number
+  precioConIVA: boolean
+  tipoEspecial?: string | null
+  partidaId?: string | null
+  partida?: {
+    id: string
+    nombre: string
+  } | null
+  createdAt: string
+  updatedAt: string
+  archivoUrl?: string | null
+  documentoNombre?: string | null
+  documentoFecha?: string | null
+}
+
 interface Factura {
   id: string
   numero: string
@@ -87,6 +115,7 @@ interface Factura {
   total: number
   items: ItemFactura[]
   presupuestos: Presupuesto[]
+  facturasProveedores: FacturaProveedor[]
   createdAt: string
   updatedAt: string
 }
@@ -154,6 +183,10 @@ export default function FacturaDetallePage({ params }: { params: Promise<{ id: s
     }
   }
 
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(amount)
+  }
+
   // Agrupar items por partida
   const getItemsGroupedByPartida = () => {
     if (!factura || !factura.items || factura.items.length === 0) {
@@ -213,12 +246,7 @@ export default function FacturaDetallePage({ params }: { params: Promise<{ id: s
       })
     }
 
-    // Ordenar las partidas para que "Otros elementos" aparezca al final
-    return groupedItems.sort((a, b) => {
-      if (a.partidaNombre === "Otros elementos") return 1;
-      if (b.partidaNombre === "Otros elementos") return -1;
-      return a.partidaNombre.localeCompare(b.partidaNombre);
-    });
+    return groupedItems
   }
 
   const formatDate = (dateString: string | null) => {
@@ -513,6 +541,129 @@ export default function FacturaDetallePage({ params }: { params: Promise<{ id: s
             <p className="whitespace-pre-line">{factura.observaciones}</p>
           </CardContent>
         </Card>
+      )}
+      
+      {/* Facturas de Proveedores */}
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between">
+          <CardTitle className="text-lg">Facturas de Proveedores</CardTitle>
+          <FacturaProveedorDialog
+            facturaId={factura.id}
+            onSuccess={() => {
+              // Recargar los datos de la factura
+              if (facturaId) {
+                fetch(`/api/facturas/${facturaId}`)
+                .then(response => {
+                  if (response.ok) return response.json()
+                    throw new Error("Error al recargar la factura")
+                })
+                .then(data => setFactura(data))
+                .catch(err => {
+                  console.error(err)
+                  toast.error("Error al actualizar la información")
+                })
+              }
+            }}
+            trigger={
+              <Button variant="outline" size="sm">
+                <PlusCircle className="h-4 w-4 mr-2" />
+                Añadir factura de proveedor
+              </Button>
+            }
+            />
+        </CardHeader>
+        <CardContent>
+          {factura.facturasProveedores && factura.facturasProveedores.length > 0 ? (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Proveedor</TableHead>
+                  <TableHead>Monto</TableHead>
+                  <TableHead>Fecha</TableHead>
+                  <TableHead>Notas</TableHead>
+                  <TableHead className="text-right">Acciones</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {factura.facturasProveedores.map((facturaProveedor) => (
+                  <TableRow key={facturaProveedor.id}>
+                    <TableCell className="font-medium">
+                      {facturaProveedor.proveedor?.nombre || 
+                       (facturaProveedor.nombre && facturaProveedor.nombre.includes('GASTOS GENERALES') ? 'GASTOS GENERALES' : 
+                        (facturaProveedor.nombre && facturaProveedor.nombre.includes('FREELANCE') ? 'FREELANCE' : 
+                         (facturaProveedor.nombre && facturaProveedor.nombre.includes('DIETAS') ? 'DIETAS' : 
+                          (facturaProveedor.tipoEspecial === 'dietas' ? 'DIETAS' : 'Sin proveedor'))))}
+                    </TableCell>
+                    <TableCell>{formatCurrency(facturaProveedor.precio)}</TableCell>
+                    <TableCell>{formatDate(facturaProveedor.createdAt)}</TableCell>
+                    <TableCell>{facturaProveedor.descripcion || '-'}</TableCell>
+                    <TableCell className="text-right">
+                      {facturaProveedor.archivoUrl && (
+                        <a 
+                          href={facturaProveedor.archivoUrl} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="inline-flex mr-2 text-xs px-2 py-1 bg-blue-50 text-blue-600 rounded hover:bg-blue-100"
+                          title={facturaProveedor.documentoNombre || "Ver documento"}
+                        >
+                          <FileText className="h-4 w-4 mr-1" />
+                          PDF
+                        </a>
+                      )}
+                      <FacturaProveedorDialog
+                        facturaId={factura.id}
+                        facturaProveedorId={facturaProveedor.id}
+                        proveedorIdInicial={facturaProveedor.proveedorId || facturaProveedor.tipoEspecial || ""}
+                        partidaIdInicial={facturaProveedor.partidaId || "sin-partida"}
+                        montoInicial={facturaProveedor.precio}
+                        notasIniciales={facturaProveedor.descripcion || ''}
+                        archivoUrlInicial={facturaProveedor.archivoUrl || ''}
+                        documentoNombreInicial={facturaProveedor.documentoNombre || ''}
+                        documentoFechaInicial={facturaProveedor.documentoFecha || ''}
+                        onSuccess={() => {
+                          // Recargar los datos de la factura
+                          if (facturaId) {
+                            fetch(`/api/facturas/${facturaId}`)
+                            .then(response => {
+                              if (response.ok) return response.json()
+                                throw new Error("Error al recargar la factura")
+                            })
+                            .then(data => setFactura(data))
+                            .catch(err => {
+                              console.error(err)
+                              toast.error("Error al actualizar la información")
+                            })
+                          }
+                        }}
+                        trigger={
+                          <Button variant="ghost" size="sm">
+                            <FileEdit className="h-4 w-4" />
+                          </Button>
+                        }
+                        />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          ) : (
+            <div className="text-center py-6 text-muted-foreground">
+              No hay facturas de proveedores registradas
+            </div>
+          )}
+        </CardContent>
+      </Card>
+      {/* Análisis de Margen */}
+      {factura.facturasProveedores && factura.facturasProveedores.length > 0 && (
+        <div className="mb-6">
+          <MargenCard 
+            subtotalPresupuesto={factura.subtotal}
+            ivaPresupuesto={factura.iva}
+            totalPresupuesto={factura.total}
+            presupuestosProveedores={factura.facturasProveedores} 
+            itemsAgrupados={getItemsGroupedByPartida()}
+          />
+        </div>
       )}
       
       <Toaster />

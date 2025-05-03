@@ -328,6 +328,25 @@ exports.Prisma.PresupuestoProveedorScalarFieldEnum = {
   partidaId: 'partidaId',
   tipoEspecial: 'tipoEspecial',
   archivoUrl: 'archivoUrl',
+  documentoNombre: 'documentoNombre',
+  documentoFecha: 'documentoFecha',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.FacturaProveedorScalarFieldEnum = {
+  id: 'id',
+  facturaId: 'facturaId',
+  nombre: 'nombre',
+  descripcion: 'descripcion',
+  precio: 'precio',
+  precioConIVA: 'precioConIVA',
+  proveedorId: 'proveedorId',
+  partidaId: 'partidaId',
+  tipoEspecial: 'tipoEspecial',
+  archivoUrl: 'archivoUrl',
+  documentoNombre: 'documentoNombre',
+  documentoFecha: 'documentoFecha',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -391,7 +410,8 @@ exports.Prisma.ModelName = {
   PersonalPuesto: 'PersonalPuesto',
   Proveedor: 'Proveedor',
   Tikelia: 'Tikelia',
-  PresupuestoProveedor: 'PresupuestoProveedor'
+  PresupuestoProveedor: 'PresupuestoProveedor',
+  FacturaProveedor: 'FacturaProveedor'
 };
 
 /**

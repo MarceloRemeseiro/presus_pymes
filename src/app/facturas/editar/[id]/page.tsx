@@ -904,7 +904,7 @@ export default function EditarFacturaPage({ params }: { params: Promise<{ id: st
               }
             }}
           >
-            <option value="">Seleccionar partida existente</option>
+            <option value="">Seleccionar partida</option>
             {partidas.map((partida) => (
               <option key={partida.id} value={partida.id}>
                 {partida.nombre}
