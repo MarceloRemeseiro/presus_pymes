@@ -231,6 +231,7 @@ export default function PresupuestosPage() {
       key: "numero",
       header: "Número",
       sortable: true,
+      defaultSort: "desc",
       cell: (presupuesto: Presupuesto) => (
         <Link 
           href={`/presupuestos/${presupuesto.id}`}

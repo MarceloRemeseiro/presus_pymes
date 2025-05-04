@@ -151,6 +151,7 @@ export default function FacturasPage() {
       key: "numero",
       header: "Número",
       sortable: true,
+      defaultSort: "desc",
       cell: (factura: Factura) => (
         <Link 
           href={`/facturas/${factura.id}`}

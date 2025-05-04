@@ -26,6 +26,7 @@ interface DataTableProps<T> {
     header: string
     cell: (item: T) => React.ReactNode
     sortable?: boolean
+    defaultSort?: "asc" | "desc"
   }[]
   data: T[]
   className?: string
@@ -36,7 +37,13 @@ export function DataTable<T extends Record<string, any>>({
   data,
   className 
 }: DataTableProps<T>) {
-  const [sortConfig, setSortConfig] = useState<SortConfig>({ key: "", direction: null })
+  // Encontrar la columna con ordenamiento por defecto
+  const defaultSortColumn = columns.find(col => col.defaultSort)
+  
+  const [sortConfig, setSortConfig] = useState<SortConfig>({ 
+    key: defaultSortColumn?.key || "", 
+    direction: defaultSortColumn?.defaultSort || null 
+  })
 
   const handleSort = (key: string) => {
     let direction: SortDirection = "asc"
