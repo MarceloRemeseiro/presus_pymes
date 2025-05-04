@@ -187,6 +187,8 @@ export async function POST(request: Request) {
               descuento: item.descuento || 0,
               iva: item.iva,
               total: precioTotal + ivaImporte,
+              nombre: item.nombre,
+              tipo: item.tipo
             };
             
             // Si tiene partidaId y la partida existe, relacionar con la partida

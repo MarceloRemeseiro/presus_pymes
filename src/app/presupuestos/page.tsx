@@ -14,7 +14,7 @@ import {
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { toast, Toaster } from "sonner"
-import { PlusCircle, Loader2, Search, MoreHorizontal, CheckCircle, XCircle, ClipboardList, AlertCircle, FileText } from "lucide-react"
+import { PlusCircle, Loader2, Search, MoreHorizontal, CheckCircle, XCircle, ClipboardList, AlertCircle, FileText, Copy } from "lucide-react"
 import { EstadoBadge } from "@/components/presupuestos/estado-badge"
 import { useRouter } from "next/navigation"
 import {
@@ -50,6 +50,7 @@ export default function PresupuestosPage() {
   const [error, setError] = useState<string | null>(null)
   const [searchTerm, setSearchTerm] = useState("")
   const router = useRouter()
+  const [duplicandoId, setDuplicandoId] = useState<string | null>(null)
   
   useEffect(() => {
     const fetchPresupuestos = async () => {
@@ -225,13 +226,94 @@ export default function PresupuestosPage() {
     }
   }
 
+  // Función para duplicar un presupuesto
+  const duplicarPresupuesto = async (presupuestoId: string) => {
+    try {
+      setDuplicandoId(presupuestoId)
+      
+      // Obtener el siguiente número de presupuesto
+      const numeroResponse = await fetch('/api/configuracion/siguiente-numero?tipo=presupuesto')
+      if (!numeroResponse.ok) {
+        throw new Error('Error al generar el número de presupuesto')
+      }
+      
+      const { numero: numeroPresupuesto } = await numeroResponse.json()
+      
+      // Obtener la fecha actual y calcular validez
+      const today = new Date()
+      const validityDate = new Date(today)
+      validityDate.setDate(validityDate.getDate() + 15)
+      
+      // Obtener los datos del presupuesto original
+      const presupuestoResponse = await fetch(`/api/presupuestos/${presupuestoId}`)
+      if (!presupuestoResponse.ok) {
+        throw new Error('Error al obtener los datos del presupuesto')
+      }
+      
+      const presupuestoOriginal = await presupuestoResponse.json()
+      
+      console.log('Presupuesto original:', presupuestoOriginal)
+      // Crear el nuevo presupuesto con los datos básicos
+      const nuevoPresupuesto = {
+        numero: numeroPresupuesto,
+        fecha: today.toISOString(),
+        fechaValidez: validityDate.toISOString(),
+        estado: "PENDIENTE",
+        subtotal: 0,
+        iva: 0,
+        total: 0,
+        items: presupuestoOriginal.items.map((item: any) => ({
+          productoId: item.productoId,
+          tipo: item.tipo,
+          nombre: item.nombre,
+          cantidad: item.cantidad,
+          precioUnitario: item.precioUnitario,
+          descuento: item.descuento,
+          iva: item.iva,
+          dias: item.dias,
+          partidaId: item.partidaId
+        }))
+      }
+      
+      // Crear el presupuesto
+      const response = await fetch('/api/presupuestos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(nuevoPresupuesto),
+      })
+      
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || 'Error al crear el presupuesto duplicado')
+      }
+      
+      const presupuestoCreado = await response.json()
+      
+      // Actualizar la lista de presupuestos
+      setPresupuestos([presupuestoCreado, ...presupuestos])
+      
+      toast.success('Presupuesto duplicado correctamente')
+      
+      // Redirigir a la página de edición del nuevo presupuesto
+      router.push(`/presupuestos/editar/${presupuestoCreado.id}`)
+      
+    } catch (error) {
+      console.error("Error:", error)
+      toast.error(error instanceof Error ? error.message : 'Error al duplicar el presupuesto')
+    } finally {
+      setDuplicandoId(null)
+    }
+  }
+
   // Definir las columnas para la tabla
   const columns = [
     {
       key: "numero",
       header: "Número",
       sortable: true,
-      defaultSort: "desc",
+      defaultSort: "desc" as const,
       cell: (presupuesto: Presupuesto) => (
         <Link 
           href={`/presupuestos/${presupuesto.id}`}
@@ -344,6 +426,22 @@ export default function PresupuestosPage() {
             <Link href={`/presupuestos/editar/${presupuesto.id}`}>
               Editar
             </Link>
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={() => duplicarPresupuesto(presupuesto.id)}
+            disabled={duplicandoId === presupuesto.id}
+            className="text-blue-600 hover:bg-blue-50 hover:text-blue-700 border-blue-200"
+          >
+            {duplicandoId === presupuesto.id ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <>
+                <Copy className="h-4 w-4 mr-1" />
+                Duplicar
+              </>
+            )}
           </Button>
           {/* Botón para crear factura - solo disponible para presupuestos APROBADOS */}
           {presupuesto.estado === "APROBADO" && (
