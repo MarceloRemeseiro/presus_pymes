@@ -13805,7 +13805,7 @@ export namespace Prisma {
     numeroPedido: string | null
     fecha: Date
     fechaVencimiento: Date
-    clienteId: string
+    clienteId: string | null
     estado: $Enums.EstadoFactura
     observaciones: string | null
     subtotal: number
@@ -13848,7 +13848,7 @@ export namespace Prisma {
     total?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    cliente?: boolean | ClienteDefaultArgs<ExtArgs>
+    cliente?: boolean | Factura$clienteArgs<ExtArgs>
     items?: boolean | Factura$itemsArgs<ExtArgs>
     presupuestos?: boolean | Factura$presupuestosArgs<ExtArgs>
     gastosTickelia?: boolean | Factura$gastosTickeliaArgs<ExtArgs>
@@ -13870,7 +13870,7 @@ export namespace Prisma {
     total?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    cliente?: boolean | ClienteDefaultArgs<ExtArgs>
+    cliente?: boolean | Factura$clienteArgs<ExtArgs>
   }, ExtArgs["result"]["factura"]>
 
   export type FacturaSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -13887,7 +13887,7 @@ export namespace Prisma {
     total?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    cliente?: boolean | ClienteDefaultArgs<ExtArgs>
+    cliente?: boolean | Factura$clienteArgs<ExtArgs>
   }, ExtArgs["result"]["factura"]>
 
   export type FacturaSelectScalar = {
@@ -13908,7 +13908,7 @@ export namespace Prisma {
 
   export type FacturaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "numero" | "numeroPedido" | "fecha" | "fechaVencimiento" | "clienteId" | "estado" | "observaciones" | "subtotal" | "iva" | "total" | "createdAt" | "updatedAt", ExtArgs["result"]["factura"]>
   export type FacturaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    cliente?: boolean | ClienteDefaultArgs<ExtArgs>
+    cliente?: boolean | Factura$clienteArgs<ExtArgs>
     items?: boolean | Factura$itemsArgs<ExtArgs>
     presupuestos?: boolean | Factura$presupuestosArgs<ExtArgs>
     gastosTickelia?: boolean | Factura$gastosTickeliaArgs<ExtArgs>
@@ -13916,16 +13916,16 @@ export namespace Prisma {
     _count?: boolean | FacturaCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type FacturaIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    cliente?: boolean | ClienteDefaultArgs<ExtArgs>
+    cliente?: boolean | Factura$clienteArgs<ExtArgs>
   }
   export type FacturaIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    cliente?: boolean | ClienteDefaultArgs<ExtArgs>
+    cliente?: boolean | Factura$clienteArgs<ExtArgs>
   }
 
   export type $FacturaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Factura"
     objects: {
-      cliente: Prisma.$ClientePayload<ExtArgs>
+      cliente: Prisma.$ClientePayload<ExtArgs> | null
       items: Prisma.$ItemFacturaPayload<ExtArgs>[]
       presupuestos: Prisma.$PresupuestoPayload<ExtArgs>[]
       gastosTickelia: Prisma.$TikeliaPayload<ExtArgs>[]
@@ -13937,7 +13937,7 @@ export namespace Prisma {
       numeroPedido: string | null
       fecha: Date
       fechaVencimiento: Date
-      clienteId: string
+      clienteId: string | null
       estado: $Enums.EstadoFactura
       observaciones: string | null
       subtotal: number
@@ -14339,7 +14339,7 @@ export namespace Prisma {
    */
   export interface Prisma__FacturaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    cliente<T extends ClienteDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ClienteDefaultArgs<ExtArgs>>): Prisma__ClienteClient<$Result.GetResult<Prisma.$ClientePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    cliente<T extends Factura$clienteArgs<ExtArgs> = {}>(args?: Subset<T, Factura$clienteArgs<ExtArgs>>): Prisma__ClienteClient<$Result.GetResult<Prisma.$ClientePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     items<T extends Factura$itemsArgs<ExtArgs> = {}>(args?: Subset<T, Factura$itemsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ItemFacturaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     presupuestos<T extends Factura$presupuestosArgs<ExtArgs> = {}>(args?: Subset<T, Factura$presupuestosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PresupuestoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     gastosTickelia<T extends Factura$gastosTickeliaArgs<ExtArgs> = {}>(args?: Subset<T, Factura$gastosTickeliaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TikeliaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
@@ -14779,6 +14779,25 @@ export namespace Prisma {
      * Limit how many Facturas to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Factura.cliente
+   */
+  export type Factura$clienteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Cliente
+     */
+    select?: ClienteSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Cliente
+     */
+    omit?: ClienteOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClienteInclude<ExtArgs> | null
+    where?: ClienteWhereInput
   }
 
   /**
@@ -26457,7 +26476,7 @@ export namespace Prisma {
     numeroPedido?: StringNullableFilter<"Factura"> | string | null
     fecha?: DateTimeFilter<"Factura"> | Date | string
     fechaVencimiento?: DateTimeFilter<"Factura"> | Date | string
-    clienteId?: StringFilter<"Factura"> | string
+    clienteId?: StringNullableFilter<"Factura"> | string | null
     estado?: EnumEstadoFacturaFilter<"Factura"> | $Enums.EstadoFactura
     observaciones?: StringNullableFilter<"Factura"> | string | null
     subtotal?: FloatFilter<"Factura"> | number
@@ -26465,7 +26484,7 @@ export namespace Prisma {
     total?: FloatFilter<"Factura"> | number
     createdAt?: DateTimeFilter<"Factura"> | Date | string
     updatedAt?: DateTimeFilter<"Factura"> | Date | string
-    cliente?: XOR<ClienteScalarRelationFilter, ClienteWhereInput>
+    cliente?: XOR<ClienteNullableScalarRelationFilter, ClienteWhereInput> | null
     items?: ItemFacturaListRelationFilter
     presupuestos?: PresupuestoListRelationFilter
     gastosTickelia?: TikeliaListRelationFilter
@@ -26478,7 +26497,7 @@ export namespace Prisma {
     numeroPedido?: SortOrderInput | SortOrder
     fecha?: SortOrder
     fechaVencimiento?: SortOrder
-    clienteId?: SortOrder
+    clienteId?: SortOrderInput | SortOrder
     estado?: SortOrder
     observaciones?: SortOrderInput | SortOrder
     subtotal?: SortOrder
@@ -26502,7 +26521,7 @@ export namespace Prisma {
     numeroPedido?: StringNullableFilter<"Factura"> | string | null
     fecha?: DateTimeFilter<"Factura"> | Date | string
     fechaVencimiento?: DateTimeFilter<"Factura"> | Date | string
-    clienteId?: StringFilter<"Factura"> | string
+    clienteId?: StringNullableFilter<"Factura"> | string | null
     estado?: EnumEstadoFacturaFilter<"Factura"> | $Enums.EstadoFactura
     observaciones?: StringNullableFilter<"Factura"> | string | null
     subtotal?: FloatFilter<"Factura"> | number
@@ -26510,7 +26529,7 @@ export namespace Prisma {
     total?: FloatFilter<"Factura"> | number
     createdAt?: DateTimeFilter<"Factura"> | Date | string
     updatedAt?: DateTimeFilter<"Factura"> | Date | string
-    cliente?: XOR<ClienteScalarRelationFilter, ClienteWhereInput>
+    cliente?: XOR<ClienteNullableScalarRelationFilter, ClienteWhereInput> | null
     items?: ItemFacturaListRelationFilter
     presupuestos?: PresupuestoListRelationFilter
     gastosTickelia?: TikeliaListRelationFilter
@@ -26523,7 +26542,7 @@ export namespace Prisma {
     numeroPedido?: SortOrderInput | SortOrder
     fecha?: SortOrder
     fechaVencimiento?: SortOrder
-    clienteId?: SortOrder
+    clienteId?: SortOrderInput | SortOrder
     estado?: SortOrder
     observaciones?: SortOrderInput | SortOrder
     subtotal?: SortOrder
@@ -26547,7 +26566,7 @@ export namespace Prisma {
     numeroPedido?: StringNullableWithAggregatesFilter<"Factura"> | string | null
     fecha?: DateTimeWithAggregatesFilter<"Factura"> | Date | string
     fechaVencimiento?: DateTimeWithAggregatesFilter<"Factura"> | Date | string
-    clienteId?: StringWithAggregatesFilter<"Factura"> | string
+    clienteId?: StringNullableWithAggregatesFilter<"Factura"> | string | null
     estado?: EnumEstadoFacturaWithAggregatesFilter<"Factura"> | $Enums.EstadoFactura
     observaciones?: StringNullableWithAggregatesFilter<"Factura"> | string | null
     subtotal?: FloatWithAggregatesFilter<"Factura"> | number
@@ -28097,7 +28116,7 @@ export namespace Prisma {
     total: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    cliente: ClienteCreateNestedOneWithoutFacturasInput
+    cliente?: ClienteCreateNestedOneWithoutFacturasInput
     items?: ItemFacturaCreateNestedManyWithoutFacturaInput
     presupuestos?: PresupuestoCreateNestedManyWithoutFacturaInput
     gastosTickelia?: TikeliaCreateNestedManyWithoutFacturaInput
@@ -28110,7 +28129,7 @@ export namespace Prisma {
     numeroPedido?: string | null
     fecha?: Date | string
     fechaVencimiento: Date | string
-    clienteId: string
+    clienteId?: string | null
     estado?: $Enums.EstadoFactura
     observaciones?: string | null
     subtotal: number
@@ -28137,7 +28156,7 @@ export namespace Prisma {
     total?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    cliente?: ClienteUpdateOneRequiredWithoutFacturasNestedInput
+    cliente?: ClienteUpdateOneWithoutFacturasNestedInput
     items?: ItemFacturaUpdateManyWithoutFacturaNestedInput
     presupuestos?: PresupuestoUpdateManyWithoutFacturaNestedInput
     gastosTickelia?: TikeliaUpdateManyWithoutFacturaNestedInput
@@ -28150,7 +28169,7 @@ export namespace Prisma {
     numeroPedido?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaVencimiento?: DateTimeFieldUpdateOperationsInput | Date | string
-    clienteId?: StringFieldUpdateOperationsInput | string
+    clienteId?: NullableStringFieldUpdateOperationsInput | string | null
     estado?: EnumEstadoFacturaFieldUpdateOperationsInput | $Enums.EstadoFactura
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
     subtotal?: FloatFieldUpdateOperationsInput | number
@@ -28170,7 +28189,7 @@ export namespace Prisma {
     numeroPedido?: string | null
     fecha?: Date | string
     fechaVencimiento: Date | string
-    clienteId: string
+    clienteId?: string | null
     estado?: $Enums.EstadoFactura
     observaciones?: string | null
     subtotal: number
@@ -28201,7 +28220,7 @@ export namespace Prisma {
     numeroPedido?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaVencimiento?: DateTimeFieldUpdateOperationsInput | Date | string
-    clienteId?: StringFieldUpdateOperationsInput | string
+    clienteId?: NullableStringFieldUpdateOperationsInput | string | null
     estado?: EnumEstadoFacturaFieldUpdateOperationsInput | $Enums.EstadoFactura
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
     subtotal?: FloatFieldUpdateOperationsInput | number
@@ -29734,11 +29753,6 @@ export namespace Prisma {
     not?: NestedEnumEstadoFacturaFilter<$PrismaModel> | $Enums.EstadoFactura
   }
 
-  export type ClienteScalarRelationFilter = {
-    is?: ClienteWhereInput
-    isNot?: ClienteWhereInput
-  }
-
   export type TikeliaListRelationFilter = {
     every?: TikeliaWhereInput
     some?: TikeliaWhereInput
@@ -31030,10 +31044,12 @@ export namespace Prisma {
     set?: $Enums.EstadoFactura
   }
 
-  export type ClienteUpdateOneRequiredWithoutFacturasNestedInput = {
+  export type ClienteUpdateOneWithoutFacturasNestedInput = {
     create?: XOR<ClienteCreateWithoutFacturasInput, ClienteUncheckedCreateWithoutFacturasInput>
     connectOrCreate?: ClienteCreateOrConnectWithoutFacturasInput
     upsert?: ClienteUpsertWithoutFacturasInput
+    disconnect?: ClienteWhereInput | boolean
+    delete?: ClienteWhereInput | boolean
     connect?: ClienteWhereUniqueInput
     update?: XOR<XOR<ClienteUpdateToOneWithWhereWithoutFacturasInput, ClienteUpdateWithoutFacturasInput>, ClienteUncheckedUpdateWithoutFacturasInput>
   }
@@ -32604,7 +32620,7 @@ export namespace Prisma {
     numeroPedido?: StringNullableFilter<"Factura"> | string | null
     fecha?: DateTimeFilter<"Factura"> | Date | string
     fechaVencimiento?: DateTimeFilter<"Factura"> | Date | string
-    clienteId?: StringFilter<"Factura"> | string
+    clienteId?: StringNullableFilter<"Factura"> | string | null
     estado?: EnumEstadoFacturaFilter<"Factura"> | $Enums.EstadoFactura
     observaciones?: StringNullableFilter<"Factura"> | string | null
     subtotal?: FloatFilter<"Factura"> | number
@@ -33014,7 +33030,7 @@ export namespace Prisma {
     total: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    cliente: ClienteCreateNestedOneWithoutFacturasInput
+    cliente?: ClienteCreateNestedOneWithoutFacturasInput
     items?: ItemFacturaCreateNestedManyWithoutFacturaInput
     gastosTickelia?: TikeliaCreateNestedManyWithoutFacturaInput
     facturasProveedores?: FacturaProveedorCreateNestedManyWithoutFacturaInput
@@ -33026,7 +33042,7 @@ export namespace Prisma {
     numeroPedido?: string | null
     fecha?: Date | string
     fechaVencimiento: Date | string
-    clienteId: string
+    clienteId?: string | null
     estado?: $Enums.EstadoFactura
     observaciones?: string | null
     subtotal: number
@@ -33137,7 +33153,7 @@ export namespace Prisma {
     total?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    cliente?: ClienteUpdateOneRequiredWithoutFacturasNestedInput
+    cliente?: ClienteUpdateOneWithoutFacturasNestedInput
     items?: ItemFacturaUpdateManyWithoutFacturaNestedInput
     gastosTickelia?: TikeliaUpdateManyWithoutFacturaNestedInput
     facturasProveedores?: FacturaProveedorUpdateManyWithoutFacturaNestedInput
@@ -33149,7 +33165,7 @@ export namespace Prisma {
     numeroPedido?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaVencimiento?: DateTimeFieldUpdateOperationsInput | Date | string
-    clienteId?: StringFieldUpdateOperationsInput | string
+    clienteId?: NullableStringFieldUpdateOperationsInput | string | null
     estado?: EnumEstadoFacturaFieldUpdateOperationsInput | $Enums.EstadoFactura
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
     subtotal?: FloatFieldUpdateOperationsInput | number
@@ -33734,7 +33750,7 @@ export namespace Prisma {
     total: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    cliente: ClienteCreateNestedOneWithoutFacturasInput
+    cliente?: ClienteCreateNestedOneWithoutFacturasInput
     presupuestos?: PresupuestoCreateNestedManyWithoutFacturaInput
     gastosTickelia?: TikeliaCreateNestedManyWithoutFacturaInput
     facturasProveedores?: FacturaProveedorCreateNestedManyWithoutFacturaInput
@@ -33746,7 +33762,7 @@ export namespace Prisma {
     numeroPedido?: string | null
     fecha?: Date | string
     fechaVencimiento: Date | string
-    clienteId: string
+    clienteId?: string | null
     estado?: $Enums.EstadoFactura
     observaciones?: string | null
     subtotal: number
@@ -33854,7 +33870,7 @@ export namespace Prisma {
     total?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    cliente?: ClienteUpdateOneRequiredWithoutFacturasNestedInput
+    cliente?: ClienteUpdateOneWithoutFacturasNestedInput
     presupuestos?: PresupuestoUpdateManyWithoutFacturaNestedInput
     gastosTickelia?: TikeliaUpdateManyWithoutFacturaNestedInput
     facturasProveedores?: FacturaProveedorUpdateManyWithoutFacturaNestedInput
@@ -33866,7 +33882,7 @@ export namespace Prisma {
     numeroPedido?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaVencimiento?: DateTimeFieldUpdateOperationsInput | Date | string
-    clienteId?: StringFieldUpdateOperationsInput | string
+    clienteId?: NullableStringFieldUpdateOperationsInput | string | null
     estado?: EnumEstadoFacturaFieldUpdateOperationsInput | $Enums.EstadoFactura
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
     subtotal?: FloatFieldUpdateOperationsInput | number
@@ -34321,7 +34337,7 @@ export namespace Prisma {
     total: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    cliente: ClienteCreateNestedOneWithoutFacturasInput
+    cliente?: ClienteCreateNestedOneWithoutFacturasInput
     items?: ItemFacturaCreateNestedManyWithoutFacturaInput
     presupuestos?: PresupuestoCreateNestedManyWithoutFacturaInput
     facturasProveedores?: FacturaProveedorCreateNestedManyWithoutFacturaInput
@@ -34333,7 +34349,7 @@ export namespace Prisma {
     numeroPedido?: string | null
     fecha?: Date | string
     fechaVencimiento: Date | string
-    clienteId: string
+    clienteId?: string | null
     estado?: $Enums.EstadoFactura
     observaciones?: string | null
     subtotal: number
@@ -34375,7 +34391,7 @@ export namespace Prisma {
     total?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    cliente?: ClienteUpdateOneRequiredWithoutFacturasNestedInput
+    cliente?: ClienteUpdateOneWithoutFacturasNestedInput
     items?: ItemFacturaUpdateManyWithoutFacturaNestedInput
     presupuestos?: PresupuestoUpdateManyWithoutFacturaNestedInput
     facturasProveedores?: FacturaProveedorUpdateManyWithoutFacturaNestedInput
@@ -34387,7 +34403,7 @@ export namespace Prisma {
     numeroPedido?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaVencimiento?: DateTimeFieldUpdateOperationsInput | Date | string
-    clienteId?: StringFieldUpdateOperationsInput | string
+    clienteId?: NullableStringFieldUpdateOperationsInput | string | null
     estado?: EnumEstadoFacturaFieldUpdateOperationsInput | $Enums.EstadoFactura
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
     subtotal?: FloatFieldUpdateOperationsInput | number
@@ -34653,7 +34669,7 @@ export namespace Prisma {
     total: number
     createdAt?: Date | string
     updatedAt?: Date | string
-    cliente: ClienteCreateNestedOneWithoutFacturasInput
+    cliente?: ClienteCreateNestedOneWithoutFacturasInput
     items?: ItemFacturaCreateNestedManyWithoutFacturaInput
     presupuestos?: PresupuestoCreateNestedManyWithoutFacturaInput
     gastosTickelia?: TikeliaCreateNestedManyWithoutFacturaInput
@@ -34665,7 +34681,7 @@ export namespace Prisma {
     numeroPedido?: string | null
     fecha?: Date | string
     fechaVencimiento: Date | string
-    clienteId: string
+    clienteId?: string | null
     estado?: $Enums.EstadoFactura
     observaciones?: string | null
     subtotal: number
@@ -34769,7 +34785,7 @@ export namespace Prisma {
     total?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    cliente?: ClienteUpdateOneRequiredWithoutFacturasNestedInput
+    cliente?: ClienteUpdateOneWithoutFacturasNestedInput
     items?: ItemFacturaUpdateManyWithoutFacturaNestedInput
     presupuestos?: PresupuestoUpdateManyWithoutFacturaNestedInput
     gastosTickelia?: TikeliaUpdateManyWithoutFacturaNestedInput
@@ -34781,7 +34797,7 @@ export namespace Prisma {
     numeroPedido?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaVencimiento?: DateTimeFieldUpdateOperationsInput | Date | string
-    clienteId?: StringFieldUpdateOperationsInput | string
+    clienteId?: NullableStringFieldUpdateOperationsInput | string | null
     estado?: EnumEstadoFacturaFieldUpdateOperationsInput | $Enums.EstadoFactura
     observaciones?: NullableStringFieldUpdateOperationsInput | string | null
     subtotal?: FloatFieldUpdateOperationsInput | number

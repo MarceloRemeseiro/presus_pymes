@@ -27,6 +27,13 @@ export async function GET(req: Request, context: { params: Promise<{ id: string 
       }
     })
     
+    console.log('Factura recuperada:', JSON.stringify(factura, null, 2))
+    if (factura && factura.items) {
+      factura.items.forEach((item: any, idx: number) => {
+        console.log(`Item ${idx + 1}: nombre=${item.nombre}, tipo=${item.tipo}, partidaId=${item.partidaId}, partidaNombre=${item.partida?.nombre}`)
+      })
+    }
+    
     if (!factura) {
       return NextResponse.json(
         { error: 'Factura no encontrada' },

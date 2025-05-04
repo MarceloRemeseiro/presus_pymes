@@ -100,6 +100,8 @@ export async function POST(req: Request) {
             descuento: item.descuento,
             iva: item.iva,
             total: precioTotal + ivaImporte,
+            dias: item.dias,
+            partidaId: item.partidaId || null
           }
         }),
       }
@@ -119,6 +121,7 @@ export async function POST(req: Request) {
         items: {
           include: {
             producto: true,
+            partida: true,
           },
         },
         presupuestos: true,

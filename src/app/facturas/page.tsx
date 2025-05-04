@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { PlusCircle, Loader2, Search, MoreHorizontal, 
-  FileText, CreditCard, XCircle, ClockIcon, SendIcon, AlertCircle } from "lucide-react"
+  FileText, CreditCard, XCircle, ClockIcon, SendIcon, AlertCircle, Copy } from "lucide-react"
 import { format } from "date-fns"
 import { es } from "date-fns/locale"
 import { toast, Toaster } from "sonner"
@@ -47,6 +47,7 @@ export default function FacturasPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [isCreating, setIsCreating] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [duplicandoId, setDuplicandoId] = useState<string | null>(null)
 
   const fetchFacturas = async () => {
     setIsLoading(true)
@@ -145,13 +146,83 @@ export default function FacturasPage() {
     }
   }
 
+  // Función para duplicar una factura
+  const duplicarFactura = async (facturaId: string) => {
+    try {
+      setDuplicandoId(facturaId)
+      // Obtener los datos de la factura original
+      const response = await fetch(`/api/facturas/${facturaId}`)
+      if (!response.ok) {
+        throw new Error('Error al obtener los datos de la factura')
+      }
+      const facturaOriginal = await response.json()
+      console.log('Factura original:', facturaOriginal)
+      // Obtener el siguiente número de factura
+      const numeroResponse = await fetch('/api/configuracion/siguiente-numero?tipo=factura')
+      if (!numeroResponse.ok) {
+        throw new Error('Error al generar el número de factura')
+      }
+      const { numero: numeroFactura } = await numeroResponse.json()
+
+      // Obtener la fecha actual y fecha de vencimiento (30 días después)
+      const today = new Date()
+      const fechaVencimiento = new Date(today)
+      fechaVencimiento.setDate(fechaVencimiento.getDate() + 30)
+
+      // Crear la nueva factura con los datos necesarios
+      const nuevaFactura = {
+        numero: numeroFactura,
+        fecha: today.toISOString(),
+        fechaVencimiento: fechaVencimiento.toISOString(),
+        estado: 'PENDIENTE',
+        subtotal: facturaOriginal.subtotal,
+        iva: facturaOriginal.iva,
+        total: facturaOriginal.total,
+        items: facturaOriginal.items.map((item: any) => ({
+          productoId: item.productoId,
+          nombre: item.nombre,
+          tipo: item.tipo,
+          cantidad: item.cantidad,
+          precioUnitario: item.precioUnitario,
+          descuento: item.descuento,
+          iva: item.iva,
+          total: item.total,
+          dias: item.dias,
+          partidaId: item.partidaId
+        }))
+      }
+
+      // Crear la factura duplicada
+      const crearResponse = await fetch('/api/facturas', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(nuevaFactura),
+      })
+      if (!crearResponse.ok) {
+        const errorData = await crearResponse.json()
+        throw new Error(errorData.error || 'Error al crear la factura duplicada')
+      }
+      const facturaCreada = await crearResponse.json()
+      setFacturas([facturaCreada, ...facturas])
+      toast.success('Factura duplicada correctamente')
+      router.push(`/facturas/editar/${facturaCreada.id}`)
+    } catch (error) {
+      console.error("Error:", error)
+      toast.error(error instanceof Error ? error.message : 'Error al duplicar la factura')
+    } finally {
+      setDuplicandoId(null)
+    }
+  }
+
   // Definir las columnas para la tabla
   const columns = [
     {
       key: "numero",
       header: "Número",
       sortable: true,
-      defaultSort: "desc",
+      defaultSort: "desc" as const,
       cell: (factura: Factura) => (
         <Link 
           href={`/facturas/${factura.id}`}
@@ -263,6 +334,22 @@ export default function FacturasPage() {
             <Link href={`/facturas/editar/${factura.id}`}>
               Editar
             </Link>
+          </Button>
+          <Button 
+            variant="outline" 
+            size="sm"
+            onClick={() => duplicarFactura(factura.id)}
+            disabled={duplicandoId === factura.id}
+            className="text-blue-600 hover:bg-blue-50 hover:text-blue-700 border-blue-200"
+          >
+            {duplicandoId === factura.id ? (
+              <Loader2 className="h-4 w-4 animate-spin" />
+            ) : (
+              <>
+                <Copy className="h-4 w-4 mr-1" />
+                Duplicar
+              </>
+            )}
           </Button>
         </div>
       )
