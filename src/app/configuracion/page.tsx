@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import {
   Card,
@@ -13,7 +13,8 @@ import {
 import { Input } from "@/components/ui/input"
 import { Separator } from "@/components/ui/separator"
 import { toast, Toaster } from "sonner"
-import { Loader2 } from "lucide-react"
+import { Loader2, Upload, Image as ImageIcon, X } from "lucide-react"
+import Image from "next/image"
 
 interface Empresa {
   id: string
@@ -42,6 +43,10 @@ export default function ConfiguracionPage() {
   const [email, setEmail] = useState("")
   const [telefono, setTelefono] = useState("")
   const [guardandoEmpresa, setGuardandoEmpresa] = useState(false)
+  const [logoUrl, setLogoUrl] = useState<string | null>(null)
+  const [logoFile, setLogoFile] = useState<File | null>(null)
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
   
   // Estados para la configuración
   const [configuracion, setConfiguracion] = useState<Configuracion | null>(null)
@@ -74,6 +79,7 @@ export default function ConfiguracionPage() {
         setDireccion(empresaData.direccion)
         setEmail(empresaData.email)
         setTelefono(empresaData.telefono)
+        setLogoUrl(empresaData.logoUrl)
         
         // Cargar datos de configuración
         const configResponse = await fetch('/api/configuracion')
@@ -98,11 +104,81 @@ export default function ConfiguracionPage() {
     fetchData()
   }, [])
 
+  // Efecto para crear URL de preview cuando se selecciona un archivo
+  useEffect(() => {
+    if (!logoFile) {
+      if (!logoUrl) {
+        setPreviewUrl(null);
+      }
+      return;
+    }
+    
+    const objectUrl = URL.createObjectURL(logoFile);
+    setPreviewUrl(objectUrl);
+    
+    // Liberar la URL cuando el componente se desmonte
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [logoFile, logoUrl]);
+
+  // Manejador para la selección de archivos
+  const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      setLogoFile(null);
+      return;
+    }
+    
+    const file = e.target.files[0];
+    
+    // Verificar que sea un archivo de imagen válido
+    if (!file.type.startsWith('image/')) {
+      toast.error('Por favor, selecciona un archivo de imagen válido');
+      return;
+    }
+    
+    // Verificar el tamaño (máximo 2MB)
+    if (file.size > 2 * 1024 * 1024) {
+      toast.error('La imagen es demasiado grande. Máximo 2MB');
+      return;
+    }
+    
+    setLogoFile(file);
+  };
+
+  // Limpiar la selección de logo
+  const handleClearLogo = () => {
+    setLogoFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
   // Guardar información de la empresa
   const handleGuardarEmpresa = async () => {
     try {
       setGuardandoEmpresa(true)
       
+      // Primero subimos el logo si hay uno nuevo
+      let logoUrlToSave = logoUrl;
+      
+      if (logoFile) {
+        const formData = new FormData();
+        formData.append('logo', logoFile);
+        
+        const uploadResponse = await fetch('/api/empresa/logo', {
+          method: 'POST',
+          body: formData,
+        });
+        
+        if (!uploadResponse.ok) {
+          const errorData = await uploadResponse.json();
+          throw new Error(errorData.error || 'Error al subir el logo de la empresa');
+        }
+        
+        const uploadResult = await uploadResponse.json();
+        logoUrlToSave = uploadResult.logoUrl;
+      }
+      
+      // Luego actualizamos los datos de la empresa
       const response = await fetch('/api/empresa', {
         method: 'PUT',
         headers: {
@@ -114,6 +190,7 @@ export default function ConfiguracionPage() {
           direccion,
           email,
           telefono,
+          logoUrl: logoUrlToSave,
         }),
       })
       
@@ -124,6 +201,8 @@ export default function ConfiguracionPage() {
       
       const updatedEmpresa = await response.json()
       setEmpresa(updatedEmpresa)
+      setLogoUrl(updatedEmpresa.logoUrl)
+      setLogoFile(null)
       
       toast.success('Información de la empresa guardada correctamente')
     } catch (error) {
@@ -215,6 +294,60 @@ export default function ConfiguracionPage() {
                 onChange={(e) => setNombreEmpresa(e.target.value)}
               />
             </div>
+            
+            {/* Sección de Logo */}
+            <div className="space-y-2">
+              <label htmlFor="logo" className="text-sm font-medium">Logo de la Empresa</label>
+              <div className="flex flex-col gap-4">
+                {/* Previsualización de imagen */}
+                {(previewUrl || logoUrl) && (
+                  <div className="relative w-fit">
+                    <div className="border rounded-md overflow-hidden" style={{ maxWidth: '200px', maxHeight: '100px' }}>
+                      <Image 
+                        src={previewUrl || logoUrl || ''} 
+                        alt="Logo de la empresa" 
+                        width={200} 
+                        height={100} 
+                        className="object-contain" 
+                        style={{ maxHeight: '100px' }}
+                      />
+                    </div>
+                    <button 
+                      className="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 rounded-full p-1 text-white" 
+                      onClick={handleClearLogo}
+                      type="button"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  </div>
+                )}
+                
+                {/* Input para subir logo */}
+                <div className="flex items-center gap-2">
+                  <Input 
+                    id="logo"
+                    type="file"
+                    ref={fileInputRef}
+                    className="hidden"
+                    accept="image/*"
+                    onChange={handleLogoChange}
+                  />
+                  <Button 
+                    type="button" 
+                    variant="outline" 
+                    onClick={() => fileInputRef.current?.click()}
+                    className="gap-2"
+                  >
+                    <Upload className="h-4 w-4" />
+                    Subir Logo
+                  </Button>
+                  <span className="text-xs text-gray-500">
+                    Formato PNG o JPG, máx. 2MB
+                  </span>
+                </div>
+              </div>
+            </div>
+            
             <div className="space-y-2">
               <label htmlFor="cif" className="text-sm font-medium">CIF/NIF</label>
               <Input 

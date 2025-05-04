@@ -119,6 +119,29 @@ interface Factura {
   presupuestos?: { id: string; numero: string }[];
 }
 
+// Función para cargar imágenes desde URL a Base64
+async function loadImageAsBase64(url: string): Promise<string> {
+  // Para URLs relativas desde la raíz del sitio, convertirlas a absolutas
+  if (url.startsWith('/')) {
+    url = window.location.origin + url;
+  }
+  
+  try {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result as string);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  } catch (error) {
+    console.error('Error al cargar la imagen:', error);
+    throw error;
+  }
+}
+
 export const generatePresupuestoPDF = async (
   presupuesto: Presupuesto, 
   partidasAgrupadas: GroupedItems[],
@@ -135,7 +158,7 @@ export const generatePresupuestoPDF = async (
   
   // Configuración de márgenes - reducimos los márgenes laterales
   const marginLeft = 8; // Reducido de 15 a 10
-  const marginTop = 8;
+  const marginTop = 5;
   const pageWidth = doc.internal.pageSize.width;
   
   // ----- HEADER CON LOGO, NOMBRE DE EMPRESA Y NÚMERO DE PRESUPUESTO -----
@@ -158,16 +181,71 @@ export const generatePresupuestoPDF = async (
   // Si hay logo en la empresa, intentar cargarlo
   if (empresa?.logoUrl) {
     try {
-      // En un entorno real con Next.js, podríamos usar fetch para obtener el logo
-      // Pero como esto es una función que puede ejecutarse en el cliente,
-      // asumimos que logoUrl es una URL válida o data:image
+      // Cargar logo como base64
+      const logoBase64 = await loadImageAsBase64(empresa.logoUrl);
+      
+      // Para determinar las dimensiones originales, podemos usar una función auxiliar
+      const getImageDimensions = (base64String: string): Promise<{width: number, height: number}> => {
+        return new Promise((resolve, reject) => {
+          try {
+            // Para entornos del navegador
+            if (typeof window !== 'undefined') {
+              const img = new Image();
+              img.onload = () => {
+                resolve({
+                  width: img.width,
+                  height: img.height
+                });
+              };
+              img.onerror = reject;
+              img.src = base64String;
+            } else {
+              // En entornos de servidor, extraemos la información de la imagen de manera más básica
+              // Para imágenes data:image, se asume un tamaño fijo manteniendo proporción 2:1
+              resolve({
+                width: 200,
+                height: 100
+              });
+            }
+          } catch (error) {
+            reject(error);
+          }
+        });
+      };
+      
+      // Obtener dimensiones originales
+      const dimensions = await getImageDimensions(logoBase64);
+      
+      // Calcular la relación de aspecto
+      const aspectRatio = dimensions.width / dimensions.height;
+      
+      // Determinar dimensiones finales respetando la relación de aspecto
+      let finalWidth = logoWidth;
+      let finalHeight = logoHeight;
+      
+      // Si el aspecto es más ancho que alto, ajustar por ancho
+      if (aspectRatio > logoWidth / logoHeight) {
+        finalWidth = logoWidth;
+        finalHeight = finalWidth / aspectRatio;
+      } 
+      // Si el aspecto es más alto que ancho, ajustar por alto
+      else {
+        finalHeight = logoHeight;
+        finalWidth = finalHeight * aspectRatio;
+      }
+      
+      // Calcular posición centrada en el área reservada
+      const centerX = logoX + (logoWidth - finalWidth) / 2;
+      const centerY = headerY + (logoHeight - finalHeight) / 2;
+      
+      // Añadir la imagen al PDF con las dimensiones ajustadas
       doc.addImage(
-        empresa.logoUrl,
-        'PNG', // Formato de imagen por defecto
-        logoX,
-        headerY,
-        logoWidth,
-        logoHeight,
+        logoBase64,
+        'PNG', // Formato de imagen
+        centerX,
+        centerY,
+        finalWidth,
+        finalHeight,
         undefined,
         'FAST' // Mejor calidad
       );
@@ -176,6 +254,11 @@ export const generatePresupuestoPDF = async (
       // Si hay error, mostrar un placeholder
       doc.setFillColor(245, 245, 245);
       doc.rect(logoX, headerY, logoWidth, logoHeight, 'F');
+      
+      // Texto en el placeholder
+      doc.setFontSize(8);
+      doc.setTextColor(150, 150, 150);
+      doc.text('LOGO', logoX + logoWidth/2, headerY + logoHeight/2, { align: 'center', baseline: 'middle' });
     }
   } else {
     // Si no hay logo, mostrar un placeholder
@@ -264,7 +347,7 @@ export const generatePresupuestoPDF = async (
     ],
     theme: 'plain',
     styles: {
-      fontSize: 8,
+      fontSize: 7,
       textColor: [50, 50, 50] as [number, number, number],
       cellPadding: 1
     },
@@ -273,7 +356,7 @@ export const generatePresupuestoPDF = async (
       textColor: headerTextColor,
       fontStyle: 'bold',
       halign: 'left',
-      fontSize: 8
+      fontSize: 7
     },
     margin: { left: empresaCol },
     tableWidth: columnWidth - 4
@@ -298,7 +381,7 @@ export const generatePresupuestoPDF = async (
     ],
     theme: 'plain',
     styles: {
-      fontSize: 8,
+      fontSize: 7,
       textColor: [50, 50, 50] as [number, number, number],
       cellPadding: 1
     },
@@ -307,7 +390,7 @@ export const generatePresupuestoPDF = async (
       textColor: headerTextColor,
       fontStyle: 'bold',
       halign: 'left',
-      fontSize: 8
+      fontSize: 7
     },
     margin: { left: clienteCol },
     tableWidth: columnWidth - 4
@@ -342,7 +425,7 @@ export const generatePresupuestoPDF = async (
     body: presuData,
     theme: 'plain',
     styles: {
-      fontSize: 8,
+      fontSize: 7,
       textColor: [50, 50, 50] as [number, number, number],
       cellPadding: 1
     },
@@ -351,7 +434,7 @@ export const generatePresupuestoPDF = async (
       textColor: headerTextColor,
       fontStyle: 'bold',
       halign: 'left',
-      fontSize: 8
+      fontSize: 7
     },
     columnStyles: {
       0: { fontStyle: 'bold', cellWidth: 15 },
@@ -394,7 +477,7 @@ export const generatePresupuestoPDF = async (
     body: fechasData,
     theme: 'plain',
     styles: {
-      fontSize: 8,
+      fontSize: 7,
       textColor: [50, 50, 50] as [number, number, number],
       cellPadding: 1
     },
@@ -403,7 +486,7 @@ export const generatePresupuestoPDF = async (
       textColor: headerTextColor,
       fontStyle: 'bold',
       halign: 'left',
-      fontSize: 8
+      fontSize: 7
     },
     columnStyles: {
       0: { fontStyle: 'bold', cellWidth: 25 },
@@ -420,16 +503,16 @@ export const generatePresupuestoPDF = async (
   );
   
   // Espacio para el título de "Servicios presupuestados"
-  const tituloServiciosY = headerTablesEndY +4;
+  const tituloServiciosY = headerTablesEndY - 3;
   
   // Añadir el título "Servicios presupuestados" centrado
-  doc.setFontSize(14);
+  doc.setFontSize(11);
   doc.setTextColor(primaryColor);
   doc.setFont('helvetica', 'bold');
   doc.text('SERVICIOS PRESUPUESTADOS', pageWidth / 2, tituloServiciosY, { align: 'center' });
   
   // Línea debajo del título
-  doc.setDrawColor(220, 220, 220);
+  doc.setDrawColor(220, 220, 220);  
   doc.setLineWidth(0.5);
   doc.line(marginLeft, tituloServiciosY + 3, pageWidth - marginLeft, tituloServiciosY + 3);
   
@@ -445,19 +528,29 @@ export const generatePresupuestoPDF = async (
     }
     
     // Título de la partida en azul
-    doc.setFontSize(11);
+    doc.setFontSize(8);
     doc.setTextColor(primaryColor);
     doc.setFont('helvetica', 'bold');
     doc.text(partida.partidaNombre, marginLeft, tableY);
-    tableY += 6;
+    tableY += 4;
     
     // Crear la tabla de items
     const tableData = partida.items.map(item => {
       const itemNombre = item.nombre || item.producto?.nombre || '';
       
-      // Si es una categoría, solo mostrar el nombre
+      // Debug: Verificar el tipo de cada item
+      console.log(`Item: ${itemNombre}, Tipo: ${item.tipo || 'normal'}`);
+      
+      // Si es una categoría, crear una fila con una celda que ocupe todas las columnas y texto a la izquierda
       if (item.tipo === 'CATEGORIA') {
-        return [itemNombre, '', '', '', '', ''];
+        console.log(`Detectada ${item.tipo}: ${itemNombre}`);
+        return [{ content: itemNombre, colSpan: 6, styles: { halign: 'left' as const, fontStyle: 'bold' as const } }];
+      }
+      
+      // Si es un separador, crear una fila con una celda que ocupe todas las columnas y texto centrado
+      if (item.tipo === 'SEPARADOR') {
+        console.log(`Detectado ${item.tipo}: ${itemNombre}`);
+        return [{ content: itemNombre, colSpan: 6, styles: { halign: 'center' as const, fontStyle: 'bold' as const } }];
       }
       
       return [
@@ -472,7 +565,7 @@ export const generatePresupuestoPDF = async (
     
     // Configuración de la tabla compacta
     autoTable(doc, {
-      startY: tableY,
+      startY: tableY -2,
       head: [['Descripción', 'Cantidad', 'Días', 'Precio', 'Descuento', 'Subtotal']],
       body: tableData,
       margin: { left: marginLeft, right: marginLeft },
@@ -481,14 +574,14 @@ export const generatePresupuestoPDF = async (
         textColor: [255, 255, 255],
         fontStyle: 'bold',
         halign: 'left',
-        fontSize: 8,
-        cellPadding: 2
+        fontSize: 7,
+        cellPadding: 1
       },
       bodyStyles: {
-        fontSize: 8,
+        fontSize: 7,
         lineWidth: 0.1,
         lineColor: [220, 220, 220],
-        cellPadding: 2
+        cellPadding: 1
       },
       alternateRowStyles: {
         fillColor: [245, 245, 245]
@@ -502,10 +595,17 @@ export const generatePresupuestoPDF = async (
         5: { halign: 'right' }
       },
       didDrawCell: (data: CellHookData) => {
-        // Estilo diferente para categorías
+        // Estilo mejorado para categorías y separadores
         if (data.row.index >= 0 && data.column.index === 0) {
           const item = partida.items[data.row.index];
+          // Estilo para categorías
           if (item && item.tipo === 'CATEGORIA') {
+            doc.setTextColor(primaryColor);
+            doc.setFontSize(9);
+            doc.setFont('helvetica', 'bold');
+          }
+          // Estilo para separadores (la celda ya está centrada en la definición)
+          else if (item && item.tipo === 'SEPARADOR') {
             doc.setTextColor(primaryColor);
             doc.setFontSize(9);
             doc.setFont('helvetica', 'bold');
@@ -516,7 +616,7 @@ export const generatePresupuestoPDF = async (
     
     // Actualizar la posición Y para el siguiente contenido
     const finalY = (doc as any).lastAutoTable?.finalY || tableY + 20;
-    tableY = finalY + 10;
+    tableY = finalY + 6;
   });
   
   // Totales después de las tablas
@@ -531,29 +631,35 @@ export const generatePresupuestoPDF = async (
   doc.setTextColor(textColor);
   doc.setFont('helvetica', 'normal');
   
-  // Rectángulo para los totales
-  const totalsBoxWidth = 120;
+  // Rectángulo para los totales - alineado con el resto del contenido
+  const totalsBoxWidth = 80; // Ancho razonable para la caja
+  // Ajuste para alinear con el resto del contenido a la derecha
   const totalsBoxX = pageWidth - marginLeft - totalsBoxWidth;
   
-  // Subtotal
-  doc.text('Subtotal:', totalsBoxX + 10, tableY + 5);
-  doc.text(formatCurrency(presupuesto.subtotal), totalsBoxX + totalsBoxWidth - 10, tableY + 5, { align: 'right' });
-  
-  // IVA
-  doc.text('IVA (21%):', totalsBoxX + 10, tableY + 15);
-  doc.text(formatCurrency(presupuesto.iva), totalsBoxX + totalsBoxWidth - 10, tableY + 15, { align: 'right' });
-  
-  // Línea separadora
+  // Rectángulo con borde para los totales
   doc.setDrawColor(220, 220, 220);
-  doc.line(totalsBoxX + 10, tableY + 20, totalsBoxX + totalsBoxWidth - 10, tableY + 20);
+  doc.setFillColor(250, 250, 250);
+  doc.roundedRect(totalsBoxX, tableY, totalsBoxWidth, 32, 2, 2, 'FD');
   
-  // Total
-  doc.setFontSize(12);
+  // Textos y valores con menos espacio horizontal
+  doc.text('Subtotal:', totalsBoxX + 8, tableY + 8);
+  doc.text(formatCurrency(presupuesto.subtotal), totalsBoxX + totalsBoxWidth - 8, tableY + 8, { align: 'right' });
+  
+  doc.text('IVA (21%):', totalsBoxX + 8, tableY + 16);
+  doc.text(formatCurrency(presupuesto.iva), totalsBoxX + totalsBoxWidth - 8, tableY + 16, { align: 'right' });
+  
+  // Línea separadora, más fina y sin llegar a los bordes
+  doc.setDrawColor(220, 220, 220);
+  doc.line(totalsBoxX + 8, tableY + 20, totalsBoxX + totalsBoxWidth - 8, tableY + 20);
+  
+  // Total - menos espacio vertical con el resto
+  doc.setFontSize(11);
   doc.setFont('helvetica', 'bold');
-  doc.text('TOTAL:', totalsBoxX + 10, tableY + 30);
-  doc.text(formatCurrency(presupuesto.total), totalsBoxX + totalsBoxWidth - 10, tableY + 30, { align: 'right' });
+  doc.setTextColor(primaryColor);
+  doc.text('TOTAL:', totalsBoxX + 8, tableY + 28);
+  doc.text(formatCurrency(presupuesto.total), totalsBoxX + totalsBoxWidth - 8, tableY + 28, { align: 'right' });
   
-  tableY += 40; // Avanzar la posición Y después de los totales
+  tableY += 36; // Espacio reducido después de los totales
   
   // Observaciones
   if (presupuesto.observaciones) {
@@ -757,9 +863,19 @@ export const generateFacturaPDF = (
     const tableData = partida.items.map(item => {
       const itemNombre = item.nombre || item.producto?.nombre || '';
       
-      // Si es una categoría, solo mostrar el nombre
+      // Debug: Verificar el tipo de cada item
+      console.log(`Item: ${itemNombre}, Tipo: ${item.tipo || 'normal'}`);
+      
+      // Si es una categoría, crear una fila con una celda que ocupe todas las columnas y texto a la izquierda
       if (item.tipo === 'CATEGORIA') {
-        return [itemNombre, '', '', '', '', ''];
+        console.log(`Detectada ${item.tipo}: ${itemNombre}`);
+        return [{ content: itemNombre, colSpan: 6, styles: { halign: 'left' as const, fontStyle: 'bold' as const } }];
+      }
+      
+      // Si es un separador, crear una fila con una celda que ocupe todas las columnas y texto centrado
+      if (item.tipo === 'SEPARADOR') {
+        console.log(`Detectado ${item.tipo}: ${itemNombre}`);
+        return [{ content: itemNombre, colSpan: 6, styles: { halign: 'center' as const, fontStyle: 'bold' as const } }];
       }
       
       return [
@@ -783,11 +899,11 @@ export const generateFacturaPDF = (
         textColor: [255, 255, 255],
         fontStyle: 'bold',
         halign: 'left',
-        fontSize: 8,
+        fontSize: 7,
         cellPadding: 2
       },
       bodyStyles: {
-        fontSize: 8,
+        fontSize: 7,
         lineWidth: 0.1,
         lineColor: [220, 220, 220],
         cellPadding: 2
@@ -804,10 +920,17 @@ export const generateFacturaPDF = (
         5: { halign: 'right' }
       },
       didDrawCell: (data: CellHookData) => {
-        // Estilo diferente para categorías
+        // Estilo mejorado para categorías y separadores
         if (data.row.index >= 0 && data.column.index === 0) {
           const item = partida.items[data.row.index];
+          // Estilo para categorías
           if (item && item.tipo === 'CATEGORIA') {
+            doc.setTextColor(primaryColor);
+            doc.setFontSize(9);
+            doc.setFont('helvetica', 'bold');
+          }
+          // Estilo para separadores (la celda ya está centrada en la definición)
+          else if (item && item.tipo === 'SEPARADOR') {
             doc.setTextColor(primaryColor);
             doc.setFontSize(9);
             doc.setFont('helvetica', 'bold');
@@ -833,29 +956,35 @@ export const generateFacturaPDF = (
   doc.setTextColor(textColor);
   doc.setFont('helvetica', 'normal');
   
-  // Rectángulo para los totales
-  const totalsBoxWidth = 120;
+  // Rectángulo para los totales - alineado con el resto del contenido
+  const totalsBoxWidth = 60; // Ancho razonable para la caja
+  // Ajuste para alinear con el resto del contenido a la derecha
   const totalsBoxX = pageWidth - marginLeft - totalsBoxWidth;
   
-  // Subtotal
-  doc.text('Subtotal:', totalsBoxX + 10, tableY + 5);
-  doc.text(formatCurrency(factura.subtotal), totalsBoxX + totalsBoxWidth - 10, tableY + 5, { align: 'right' });
-  
-  // IVA
-  doc.text('IVA (21%):', totalsBoxX + 10, tableY + 15);
-  doc.text(formatCurrency(factura.iva), totalsBoxX + totalsBoxWidth - 10, tableY + 15, { align: 'right' });
-  
-  // Línea separadora
+  // Rectángulo con borde para los totales
   doc.setDrawColor(220, 220, 220);
-  doc.line(totalsBoxX + 10, tableY + 20, totalsBoxX + totalsBoxWidth - 10, tableY + 20);
+  doc.setFillColor(250, 250, 250);
+  doc.roundedRect(totalsBoxX, tableY, totalsBoxWidth, 32, 2, 2, 'FD');
   
-  // Total
-  doc.setFontSize(12);
+  // Textos y valores con menos espacio horizontal
+  doc.text('Subtotal:', totalsBoxX + 8, tableY + 8);
+  doc.text(formatCurrency(factura.subtotal), totalsBoxX + totalsBoxWidth - 8, tableY + 8, { align: 'right' });
+  
+  doc.text('IVA (21%):', totalsBoxX + 8, tableY + 16);
+  doc.text(formatCurrency(factura.iva), totalsBoxX + totalsBoxWidth - 8, tableY + 16, { align: 'right' });
+  
+  // Línea separadora, más fina y sin llegar a los bordes
+  doc.setDrawColor(220, 220, 220);
+  doc.line(totalsBoxX + 8, tableY + 20, totalsBoxX + totalsBoxWidth - 8, tableY + 20);
+  
+  // Total - menos espacio vertical con el resto
+  doc.setFontSize(11);
   doc.setFont('helvetica', 'bold');
-  doc.text('TOTAL:', totalsBoxX + 10, tableY + 30);
-  doc.text(formatCurrency(factura.total), totalsBoxX + totalsBoxWidth - 10, tableY + 30, { align: 'right' });
+  doc.setTextColor(primaryColor);
+  doc.text('TOTAL:', totalsBoxX + 8, tableY + 28);
+  doc.text(formatCurrency(factura.total), totalsBoxX + totalsBoxWidth - 8, tableY + 28, { align: 'right' });
   
-  tableY += 40; // Avanzar la posición Y después de los totales
+  tableY += 36; // Espacio reducido después de los totales
   
   // Observaciones
   if (factura.observaciones) {
