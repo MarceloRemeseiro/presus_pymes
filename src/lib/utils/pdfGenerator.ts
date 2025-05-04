@@ -405,7 +405,7 @@ export const generatePresupuestoPDF = async (
   }
   
   if (presupuesto.nombre) {
-    presuData.push(['Nombre:', presupuesto.nombre]);
+    presuData.push(['Prooyecto:', presupuesto.nombre]);
   }
   
   if (presupuesto.referencia) {
@@ -587,12 +587,12 @@ export const generatePresupuestoPDF = async (
         fillColor: [245, 245, 245]
       },
       columnStyles: {
-        0: { cellWidth: 'auto' },
-        1: { halign: 'center' },
-        2: { halign: 'center' },
-        3: { halign: 'right' },
-        4: { halign: 'center' },
-        5: { halign: 'right' }
+        0: { cellWidth: 100 }, // Descripción
+        1: { cellWidth: 15, halign: 'center' }, // Cantidad
+        2: { cellWidth: 15, halign: 'center' }, // Días
+        3: { cellWidth: 20, halign: 'right' }, // Precio
+        4: { cellWidth: 15, halign: 'center' }, // Descuento
+        5: { cellWidth: 30, halign: 'right' } // Subtotal
       },
       didDrawCell: (data: CellHookData) => {
         // Estilo mejorado para categorías y separadores

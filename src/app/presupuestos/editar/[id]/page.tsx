@@ -29,6 +29,7 @@ import {
   verticalListSortingStrategy
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { formatCurrency } from '@/lib/utils'
 
 // Definición del componente Textarea inline para evitar problemas de importación
 const Textarea = React.forwardRef<

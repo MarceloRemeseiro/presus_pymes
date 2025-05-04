@@ -11,5 +11,6 @@ export function formatCurrency(amount: number, currency: string = "EUR") {
     currency: currency,
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
+    useGrouping: true
   }).format(amount)
 }

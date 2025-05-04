@@ -8,6 +8,7 @@ import { format } from "date-fns"
 import { es } from "date-fns/locale"
 import { toast, Toaster } from "sonner"
 import { useRouter } from "next/navigation"
+import { formatCurrency } from "@/lib/utils"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -74,10 +75,6 @@ export default function FacturasPage() {
       factura.numero.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (factura.cliente?.nombre && factura.cliente.nombre.toLowerCase().includes(searchTerm.toLowerCase()))
   )
-
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(value)
-  }
 
   const handleCreateFactura = async () => {
     try {

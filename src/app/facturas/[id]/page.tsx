@@ -38,7 +38,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { formatCurrency } from '@/lib/utils'
-import { generateFacturaPDF } from '@/lib/utils/pdfGenerator'
+import { generateFacturaPDF } from '@/lib/utils/facturaGenerator'
 
 interface Cliente {
   id: string
@@ -195,10 +195,6 @@ export default function FacturaDetallePage({ params }: { params: Promise<{ id: s
     }
   }
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(amount)
-  }
-
   // Agrupar items por partida
   const getItemsGroupedByPartida = () => {
     if (!factura || !factura.items || factura.items.length === 0) {
@@ -287,10 +283,10 @@ export default function FacturaDetallePage({ params }: { params: Promise<{ id: s
       
       const partidasAgrupadas = getItemsGroupedByPartida();
       
-      // Generar el PDF con los datos de la empresa
-      const doc = generateFacturaPDF(
-        factura as any, 
-        partidasAgrupadas as any,
+      // Generar el PDF con los datos de la empresa usando el nuevo generador
+      const doc = await generateFacturaPDF(
+        factura, 
+        partidasAgrupadas,
         empresa
       );
       

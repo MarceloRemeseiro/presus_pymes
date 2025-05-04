@@ -2,6 +2,7 @@ import React from 'react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Loader2 } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
+import { formatCurrency } from "@/lib/utils";
 
 // Definimos la interfaz Item directamente aquí
 interface Item {
@@ -91,9 +92,9 @@ export const TablaItems = ({ items, isLoading = false }: TablaItemsProps) => {
                 <TableCell className="font-medium">{item.nombre}</TableCell>
                 <TableCell>{item.cantidad}</TableCell>
                 <TableCell>{item.dias || 1}</TableCell>
-                <TableCell>{`${item.precioUnitario.toFixed(2)} €`}</TableCell>
+                <TableCell>{formatCurrency(item.precioUnitario)}</TableCell>
                 <TableCell>{`${item.descuento}%`}</TableCell>
-                <TableCell className="font-medium">{`${subtotal.toFixed(2)} €`}</TableCell>
+                <TableCell className="font-medium">{formatCurrency(subtotal)}</TableCell>
               </TableRow>
             );
           })}

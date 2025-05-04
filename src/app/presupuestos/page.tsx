@@ -24,6 +24,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { DataTable } from "@/components/ui/data-table"
+import { formatCurrency } from "@/lib/utils"
 
 interface Presupuesto {
   id: string
@@ -83,10 +84,6 @@ export default function PresupuestosPage() {
       (presupuesto.referencia && presupuesto.referencia.toLowerCase().includes(searchTerm.toLowerCase())) ||
       (presupuesto.cliente?.nombre && presupuesto.cliente.nombre.toLowerCase().includes(searchTerm.toLowerCase()))
   )
-
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(value)
-  }
 
   // Función para crear un nuevo presupuesto vacío
   const crearNuevoPresupuesto = async () => {
