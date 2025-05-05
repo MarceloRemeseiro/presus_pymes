@@ -216,6 +216,15 @@ export default function FacturasPage() {
     }
   }
 
+  // Función para formatear fechas correctamente (evitando problemas de zona horaria)
+  const formatDate = (dateString: string) => {
+    if (!dateString) return '--'
+    const date = new Date(dateString)
+    // Ajustar la fecha para evitar problemas de zona horaria
+    date.setMinutes(date.getMinutes() + date.getTimezoneOffset())
+    return format(date, 'dd/MM/yyyy', { locale: es })
+  }
+
   // Definir las columnas para la tabla
   const columns = [
     {
@@ -236,7 +245,7 @@ export default function FacturasPage() {
       key: "fecha",
       header: "Fecha",
       sortable: true,
-      cell: (factura: Factura) => format(new Date(factura.fecha), "dd/MM/yyyy", { locale: es })
+      cell: (factura: Factura) => formatDate(factura.fecha)
     },
     {
       key: "fechaVencimiento",
@@ -244,7 +253,7 @@ export default function FacturasPage() {
       sortable: true,
       cell: (factura: Factura) => 
         factura.fechaVencimiento ? 
-        format(new Date(factura.fechaVencimiento), "dd/MM/yyyy", { locale: es }) :
+        formatDate(factura.fechaVencimiento) :
         "-"
     },
     {

@@ -259,11 +259,10 @@ export default function FacturaDetallePage({ params }: { params: Promise<{ id: s
 
   const formatDate = (dateString: string | null) => {
     if (!dateString) return '--'
-    return new Date(dateString).toLocaleDateString('es-ES', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'
-    })
+    const date = new Date(dateString)
+    // Ajustar la fecha para evitar problemas de zona horaria
+    date.setMinutes(date.getMinutes() + date.getTimezoneOffset())
+    return format(date, 'dd/MM/yyyy', { locale: es })
   }
 
   // Función para generar el PDF de la factura

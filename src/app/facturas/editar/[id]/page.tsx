@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { format, parse } from "date-fns"
+import { format, parse, parseISO } from "date-fns"
 import { es } from "date-fns/locale"
 import { toast, Toaster } from "sonner"
 import { 
@@ -191,6 +191,22 @@ function generateUniqueId(): string {
   return `temp_${Date.now()}_${Math.floor(Math.random() * 10000)}`;
 }
 
+// Función para formatear fechas correctamente al enviar al servidor
+// Ajusta la fecha para evitar problemas de zona horaria
+const formatDateToISO = (dateString: string) => {
+  // Usar formato simple con T12:00:00Z para asegurar que no hay problemas de zona horaria
+  return `${dateString}T12:00:00Z`;
+}
+
+// Función para formatear fechas cuando se reciben del servidor
+// Evita problemas de zona horaria al convertir a formato YYYY-MM-DD
+const formatDateFromISO = (dateString: string) => {
+  const date = new Date(dateString);
+  // Ajustar la fecha para evitar problemas de zona horaria
+  date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
+  return format(date, "yyyy-MM-dd");
+}
+
 export default function EditarFacturaPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter()
   const resolvedParams = use(params)
@@ -284,8 +300,8 @@ export default function EditarFacturaPage({ params }: { params: Promise<{ id: st
       // Inicializar formulario con datos de la factura
       setNumero(facturaData.numero)
       setNumeroPedido(facturaData.numeroPedido || "")
-      setFecha(format(new Date(facturaData.fecha), "yyyy-MM-dd"))
-      setFechaVencimiento(format(new Date(facturaData.fechaVencimiento), "yyyy-MM-dd"))
+      setFecha(formatDateFromISO(facturaData.fecha))
+      setFechaVencimiento(formatDateFromISO(facturaData.fechaVencimiento))
       setClienteId(facturaData.clienteId || "")
       setEstado(facturaData.estado)
       setObservaciones(facturaData.observaciones || "")
@@ -665,8 +681,8 @@ export default function EditarFacturaPage({ params }: { params: Promise<{ id: st
       
       // Crear un objeto JSON para enviar al backend
       const dataToSend = {
-        fecha: new Date(fecha).toISOString(),
-        fechaVencimiento: new Date(fechaVencimiento).toISOString(),
+        fecha: formatDateToISO(fecha),
+        fechaVencimiento: formatDateToISO(fechaVencimiento),
         clienteId: clienteId || undefined, // Si es cadena vacía, enviar undefined
         observaciones,
         estado: estado || "PENDIENTE",

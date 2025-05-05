@@ -25,6 +25,8 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { DataTable } from "@/components/ui/data-table"
 import { formatCurrency } from "@/lib/utils"
+import { format } from "date-fns"
+import { es } from "date-fns/locale"
 
 interface Presupuesto {
   id: string
@@ -307,6 +309,15 @@ export default function PresupuestosPage() {
     }
   }
 
+  // Función para formatear fechas correctamente (evitando problemas de zona horaria)
+  const formatDate = (dateString: string) => {
+    if (!dateString) return '--'
+    const date = new Date(dateString)
+    // Ajustar la fecha para evitar problemas de zona horaria
+    date.setMinutes(date.getMinutes() + date.getTimezoneOffset())
+    return format(date, 'dd/MM/yyyy', { locale: es })
+  }
+
   // Definir las columnas para la tabla
   const columns = [
     {
@@ -345,13 +356,13 @@ export default function PresupuestosPage() {
       key: "fecha",
       header: "Fecha",
       sortable: true,
-      cell: (presupuesto: Presupuesto) => new Date(presupuesto.fecha).toLocaleDateString()
+      cell: (presupuesto: Presupuesto) => formatDate(presupuesto.fecha)
     },
     {
       key: "fechaValidez",
       header: "Válido hasta",
       sortable: true,
-      cell: (presupuesto: Presupuesto) => new Date(presupuesto.fechaValidez).toLocaleDateString()
+      cell: (presupuesto: Presupuesto) => formatDate(presupuesto.fechaValidez)
     },
     {
       key: "estado",
