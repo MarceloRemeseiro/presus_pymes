@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import { toast, Toaster } from "sonner"
-import { PlusCircle, Trash, ArrowLeft, Save, Loader2, Check } from "lucide-react"
+import { PlusCircle, Trash, ArrowLeft, Save, Loader2, Check, FileText } from "lucide-react"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { AgregarElementoDialog } from "@/components/presupuestos/agregar-elemento-dialog"
 import {
@@ -30,6 +30,8 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { formatCurrency } from '@/lib/utils'
+import { format } from "date-fns"
+import { es } from "date-fns/locale"
 
 // Definición del componente Textarea inline para evitar problemas de importación
 const Textarea = React.forwardRef<
@@ -543,7 +545,7 @@ export default function EditarPresupuestoPage({ params }: { params: Promise<{ id
 
   // Función para guardar cambios cuando se modifican campos
   const handleFieldChange = useCallback((field: string, value: any) => {
-    // Actualizar el campo correspondiente
+    // Actualizar el campo correspondiente inmediatamente
     switch (field) {
       case 'nombre':
         setNombre(value);
@@ -580,12 +582,14 @@ export default function EditarPresupuestoPage({ params }: { params: Promise<{ id
     // Marcar que hay cambios no guardados
     setChangesNotSaved(true)
     
-    // Configurar un temporizador para guardar automáticamente después de 2 segundos de inactividad
+    // Cancelar cualquier temporizador anterior para evitar autoguardados parciales
     if (autoSaveTimer) {
       clearTimeout(autoSaveTimer)
     }
     
+    // Crear nuevo temporizador con suficiente retraso
     const timer = setTimeout(() => {
+      console.log("Ejecutando autoguardado después del timeout")
       handleGuardarPresupuesto(true)
     }, 2000)
     
@@ -757,6 +761,16 @@ export default function EditarPresupuestoPage({ params }: { params: Promise<{ id
                 Guardar Cambios
               </>
             )}
+          </Button>
+          <Button 
+            variant="outline"
+            className="gap-2 ml-2"
+            asChild
+          >
+            <Link href={`/presupuestos/${presupuestoId}`}>
+              <FileText className="h-4 w-4" />
+              Ver
+            </Link>
           </Button>
         </div>
       </div>
@@ -1226,7 +1240,7 @@ export default function EditarPresupuestoPage({ params }: { params: Promise<{ id
                                       </div>
                                     </TableCell>
                                     <TableCell className="font-medium">
-                                      {`${item.subtotal.toFixed(2)}€`}
+                                      {formatCurrency(item.subtotal)}
                                     </TableCell>
                                     <TableCell>
                                       <Button 
@@ -1362,7 +1376,7 @@ export default function EditarPresupuestoPage({ params }: { params: Promise<{ id
                                       </div>
                                     </TableCell>
                                     <TableCell className="font-medium ">
-                                      {`${item.subtotal.toFixed(2)}€`}
+                                    {formatCurrency(item.subtotal)}
                                     </TableCell>
                                     <TableCell>
                                       <Button 
@@ -1382,7 +1396,7 @@ export default function EditarPresupuestoPage({ params }: { params: Promise<{ id
                         </Table>
                       </div>
                     </DndContext>
-                    <div className="mt-4 flex justify-end">
+                    <div className="mt-4 flex justify-between items-center">
                       <AgregarElementoDialog
                         partidaId={partida.id}
                         partidaNombre={partida.nombre}
@@ -1394,6 +1408,16 @@ export default function EditarPresupuestoPage({ params }: { params: Promise<{ id
                           </Button>
                         }
                       />
+                      <div className="text-right">
+                        <div className="text-sm text-muted-foreground">
+                          Subtotal de partida: <span className="font-medium">
+                            {formatCurrency(
+                              partida.items.reduce((sum, item) => 
+                                item.tipo !== "CATEGORIA" && item.tipo !== "SEPARADOR" ? sum + item.subtotal : sum, 0)
+                            )}
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 )}
@@ -1421,33 +1445,37 @@ export default function EditarPresupuestoPage({ params }: { params: Promise<{ id
                 <div className="flex justify-between items-center font-medium">
                   <span>Subtotal (sin IVA):</span>
                   <span>
-                    {partidasPresupuesto.reduce((acc, partida) => {
-                      // Sumar todos los subtotales de items que no son CATEGORIA ni SEPARADOR
-                      const partidaSubtotal = partida.items.reduce((itemAcc, item) => {
-                        if (item.tipo === "CATEGORIA" || item.tipo === "SEPARADOR") {
-                          return itemAcc;
-                        }
-                        return itemAcc + item.subtotal;
-                      }, 0);
-                      return acc + partidaSubtotal;
-                    }, 0).toFixed(2)}€
+                    {formatCurrency(
+                      partidasPresupuesto.reduce((acc, partida) => {
+                        // Sumar todos los subtotales de items que no son CATEGORIA ni SEPARADOR
+                        const partidaSubtotal = partida.items.reduce((itemAcc, item) => {
+                          if (item.tipo === "CATEGORIA" || item.tipo === "SEPARADOR") {
+                            return itemAcc;
+                          }
+                          return itemAcc + item.subtotal;
+                        }, 0);
+                        return acc + partidaSubtotal;
+                      }, 0)
+                    )}
                   </span>
                 </div>
                 
                 <div className="flex justify-between items-center">
                   <span>IVA:</span>
                   <span>
-                    {partidasPresupuesto.reduce((acc, partida) => {
-                      // Calcular el IVA de todos los items que no son CATEGORIA ni SEPARADOR
-                      const partidaIVA = partida.items.reduce((itemAcc, item) => {
-                        if (item.tipo === "CATEGORIA" || item.tipo === "SEPARADOR") {
-                          return itemAcc;
-                        }
-                        // IVA = subtotal * (iva/100)
-                        return itemAcc + (item.subtotal * (item.iva/100));
-                      }, 0);
-                      return acc + partidaIVA;
-                    }, 0).toFixed(2)}€
+                    {formatCurrency(
+                      partidasPresupuesto.reduce((acc, partida) => {
+                        // Calcular el IVA de todos los items que no son CATEGORIA ni SEPARADOR
+                        const partidaIVA = partida.items.reduce((itemAcc, item) => {
+                          if (item.tipo === "CATEGORIA" || item.tipo === "SEPARADOR") {
+                            return itemAcc;
+                          }
+                          // IVA = subtotal * (iva/100)
+                          return itemAcc + (item.subtotal * (item.iva/100));
+                        }, 0);
+                        return acc + partidaIVA;
+                      }, 0)
+                    )}
                   </span>
                 </div>
                 
@@ -1456,16 +1484,18 @@ export default function EditarPresupuestoPage({ params }: { params: Promise<{ id
                 <div className="flex justify-between items-center font-bold text-lg">
                   <span>TOTAL:</span>
                   <span>
-                    {partidasPresupuesto.reduce((acc, partida) => {
-                      // Sumar todos los totales de items que no son CATEGORIA ni SEPARADOR
-                      const partidaTotal = partida.items.reduce((itemAcc, item) => {
-                        if (item.tipo === "CATEGORIA" || item.tipo === "SEPARADOR") {
-                          return itemAcc;
-                        }
-                        return itemAcc + item.total;
-                      }, 0);
-                      return acc + partidaTotal;
-                    }, 0).toFixed(2)}€
+                    {formatCurrency(
+                      partidasPresupuesto.reduce((acc, partida) => {
+                        // Sumar todos los totales de items que no son CATEGORIA ni SEPARADOR
+                        const partidaTotal = partida.items.reduce((itemAcc, item) => {
+                          if (item.tipo === "CATEGORIA" || item.tipo === "SEPARADOR") {
+                            return itemAcc;
+                          }
+                          return itemAcc + item.total;
+                        }, 0);
+                        return acc + partidaTotal;
+                      }, 0)
+                    )}
                   </span>
                 </div>
               </div>

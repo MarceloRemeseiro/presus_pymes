@@ -15,7 +15,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input"
 import { toast, Toaster } from "sonner"
 import { Plus, Search, Eye, Pencil, Trash2, LayoutList, Loader2 } from "lucide-react"
-import { DataTable } from "@/components/ui/data-table"
+import { formatCurrency } from "@/lib/utils"
 
 interface Producto {
   id: string
@@ -24,7 +24,7 @@ interface Producto {
   stock: number
   precio: number
   precioCompra: number | null
-  precioAlquiler: number | null
+  precioAlquiler: number
   categoriaId: string
   marcaId: string | null
   modelo: string | null
@@ -161,8 +161,8 @@ export default function InventarioPage() {
                   <TableHead>Nombre</TableHead>
                   <TableHead>Marca / Modelo</TableHead>
                   <TableHead>Categoría</TableHead>
-                  <TableHead className="text-right">Stock</TableHead>
-                  <TableHead className="text-right">Precio Alquiler</TableHead>
+                  <TableHead>Stock</TableHead>
+                  <TableHead>Precio Alquiler</TableHead>
                   <TableHead className="text-right">Acciones</TableHead>
                 </TableRow>
               </TableHeader>
@@ -190,7 +190,7 @@ export default function InventarioPage() {
                     <TableCell>{producto.categoria.nombre}</TableCell>
                     <TableCell className="text-right">{producto.stock}</TableCell>
                     <TableCell className="text-right">
-                      {producto.precioAlquiler !== null ? `$${producto.precioAlquiler.toFixed(2)}` : "-"}
+                      {formatCurrency(producto.precioAlquiler) !== null ? `${formatCurrency(producto.precioAlquiler)}` : "-"}
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex justify-end gap-2">

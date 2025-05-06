@@ -29,7 +29,8 @@ const clienteSchema = z.object({
   nombre: z.string().min(1, { message: "El nombre es obligatorio" }),
   nif: z.string().optional().nullable(),
   direccion: z.string().optional().nullable(),
-  email: z.string().email({ message: "Introduzca un email válido" }).optional().nullable(),
+  ciudad: z.string().optional().nullable(),
+  email: z.string().optional().nullable(),
   telefono: z.string().optional().nullable(),
   tipo: z.enum(["EMPRESA", "PARTICULAR"]),
 })
@@ -42,6 +43,7 @@ interface ClienteFormProps {
     nombre: string
     nif?: string | null
     direccion?: string | null
+    ciudad?: string | null
     email?: string | null
     telefono?: string | null
     tipo: "EMPRESA" | "PARTICULAR"
@@ -58,6 +60,7 @@ export function ClienteForm({ initialData, onSubmit, isSubmitting = false }: Cli
       nombre: initialData?.nombre || "",
       nif: initialData?.nif || "",
       direccion: initialData?.direccion || "",
+      ciudad: initialData?.ciudad || "",
       email: initialData?.email || "",
       telefono: initialData?.telefono || "",
       tipo: initialData?.tipo || "EMPRESA",
@@ -156,14 +159,29 @@ export function ClienteForm({ initialData, onSubmit, isSubmitting = false }: Cli
         </div>
 
         {/* Dirección */}
+        <h2>Dirección</h2>
         <FormField
           control={form.control}
           name="direccion"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Dirección</FormLabel>
+              <FormLabel>Calle y numero</FormLabel>
               <FormControl>
                 <Input {...field} placeholder="Dirección completa" value={field.value || ""} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="ciudad"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>CP y Ciudad</FormLabel>
+              <FormControl>
+                <Input {...field} placeholder="codigo postal y ciudad" value={field.value || ""} />
               </FormControl>
               <FormMessage />
             </FormItem>

@@ -134,7 +134,7 @@ export type EstadoPresupuesto = (typeof EstadoPresupuesto)[keyof typeof EstadoPr
 export const EstadoFactura: {
   PENDIENTE: 'PENDIENTE',
   ENVIADA: 'ENVIADA',
-  PAGADA: 'PAGADA',
+  COBRADA: 'COBRADA',
   VENCIDA: 'VENCIDA',
   ANULADA: 'ANULADA'
 };
@@ -8653,6 +8653,7 @@ export namespace Prisma {
     tipo: $Enums.TipoCliente | null
     nif: string | null
     direccion: string | null
+    ciudad: string | null
     email: string | null
     telefono: string | null
     createdAt: Date | null
@@ -8665,6 +8666,7 @@ export namespace Prisma {
     tipo: $Enums.TipoCliente | null
     nif: string | null
     direccion: string | null
+    ciudad: string | null
     email: string | null
     telefono: string | null
     createdAt: Date | null
@@ -8677,6 +8679,7 @@ export namespace Prisma {
     tipo: number
     nif: number
     direccion: number
+    ciudad: number
     email: number
     telefono: number
     createdAt: number
@@ -8691,6 +8694,7 @@ export namespace Prisma {
     tipo?: true
     nif?: true
     direccion?: true
+    ciudad?: true
     email?: true
     telefono?: true
     createdAt?: true
@@ -8703,6 +8707,7 @@ export namespace Prisma {
     tipo?: true
     nif?: true
     direccion?: true
+    ciudad?: true
     email?: true
     telefono?: true
     createdAt?: true
@@ -8715,6 +8720,7 @@ export namespace Prisma {
     tipo?: true
     nif?: true
     direccion?: true
+    ciudad?: true
     email?: true
     telefono?: true
     createdAt?: true
@@ -8800,6 +8806,7 @@ export namespace Prisma {
     tipo: $Enums.TipoCliente
     nif: string | null
     direccion: string | null
+    ciudad: string | null
     email: string | null
     telefono: string | null
     createdAt: Date
@@ -8829,6 +8836,7 @@ export namespace Prisma {
     tipo?: boolean
     nif?: boolean
     direccion?: boolean
+    ciudad?: boolean
     email?: boolean
     telefono?: boolean
     createdAt?: boolean
@@ -8844,6 +8852,7 @@ export namespace Prisma {
     tipo?: boolean
     nif?: boolean
     direccion?: boolean
+    ciudad?: boolean
     email?: boolean
     telefono?: boolean
     createdAt?: boolean
@@ -8856,6 +8865,7 @@ export namespace Prisma {
     tipo?: boolean
     nif?: boolean
     direccion?: boolean
+    ciudad?: boolean
     email?: boolean
     telefono?: boolean
     createdAt?: boolean
@@ -8868,13 +8878,14 @@ export namespace Prisma {
     tipo?: boolean
     nif?: boolean
     direccion?: boolean
+    ciudad?: boolean
     email?: boolean
     telefono?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ClienteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "tipo" | "nif" | "direccion" | "email" | "telefono" | "createdAt" | "updatedAt", ExtArgs["result"]["cliente"]>
+  export type ClienteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "tipo" | "nif" | "direccion" | "ciudad" | "email" | "telefono" | "createdAt" | "updatedAt", ExtArgs["result"]["cliente"]>
   export type ClienteInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     presupuestos?: boolean | Cliente$presupuestosArgs<ExtArgs>
     facturas?: boolean | Cliente$facturasArgs<ExtArgs>
@@ -8895,6 +8906,7 @@ export namespace Prisma {
       tipo: $Enums.TipoCliente
       nif: string | null
       direccion: string | null
+      ciudad: string | null
       email: string | null
       telefono: string | null
       createdAt: Date
@@ -9329,6 +9341,7 @@ export namespace Prisma {
     readonly tipo: FieldRef<"Cliente", 'TipoCliente'>
     readonly nif: FieldRef<"Cliente", 'String'>
     readonly direccion: FieldRef<"Cliente", 'String'>
+    readonly ciudad: FieldRef<"Cliente", 'String'>
     readonly email: FieldRef<"Cliente", 'String'>
     readonly telefono: FieldRef<"Cliente", 'String'>
     readonly createdAt: FieldRef<"Cliente", 'DateTime'>
@@ -25357,6 +25370,7 @@ export namespace Prisma {
     tipo: 'tipo',
     nif: 'nif',
     direccion: 'direccion',
+    ciudad: 'ciudad',
     email: 'email',
     telefono: 'telefono',
     createdAt: 'createdAt',
@@ -26095,6 +26109,7 @@ export namespace Prisma {
     tipo?: EnumTipoClienteFilter<"Cliente"> | $Enums.TipoCliente
     nif?: StringNullableFilter<"Cliente"> | string | null
     direccion?: StringNullableFilter<"Cliente"> | string | null
+    ciudad?: StringNullableFilter<"Cliente"> | string | null
     email?: StringNullableFilter<"Cliente"> | string | null
     telefono?: StringNullableFilter<"Cliente"> | string | null
     createdAt?: DateTimeFilter<"Cliente"> | Date | string
@@ -26109,6 +26124,7 @@ export namespace Prisma {
     tipo?: SortOrder
     nif?: SortOrderInput | SortOrder
     direccion?: SortOrderInput | SortOrder
+    ciudad?: SortOrderInput | SortOrder
     email?: SortOrderInput | SortOrder
     telefono?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -26126,6 +26142,7 @@ export namespace Prisma {
     nombre?: StringFilter<"Cliente"> | string
     tipo?: EnumTipoClienteFilter<"Cliente"> | $Enums.TipoCliente
     direccion?: StringNullableFilter<"Cliente"> | string | null
+    ciudad?: StringNullableFilter<"Cliente"> | string | null
     email?: StringNullableFilter<"Cliente"> | string | null
     telefono?: StringNullableFilter<"Cliente"> | string | null
     createdAt?: DateTimeFilter<"Cliente"> | Date | string
@@ -26140,6 +26157,7 @@ export namespace Prisma {
     tipo?: SortOrder
     nif?: SortOrderInput | SortOrder
     direccion?: SortOrderInput | SortOrder
+    ciudad?: SortOrderInput | SortOrder
     email?: SortOrderInput | SortOrder
     telefono?: SortOrderInput | SortOrder
     createdAt?: SortOrder
@@ -26158,6 +26176,7 @@ export namespace Prisma {
     tipo?: EnumTipoClienteWithAggregatesFilter<"Cliente"> | $Enums.TipoCliente
     nif?: StringNullableWithAggregatesFilter<"Cliente"> | string | null
     direccion?: StringNullableWithAggregatesFilter<"Cliente"> | string | null
+    ciudad?: StringNullableWithAggregatesFilter<"Cliente"> | string | null
     email?: StringNullableWithAggregatesFilter<"Cliente"> | string | null
     telefono?: StringNullableWithAggregatesFilter<"Cliente"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Cliente"> | Date | string
@@ -27676,6 +27695,7 @@ export namespace Prisma {
     tipo?: $Enums.TipoCliente
     nif?: string | null
     direccion?: string | null
+    ciudad?: string | null
     email?: string | null
     telefono?: string | null
     createdAt?: Date | string
@@ -27690,6 +27710,7 @@ export namespace Prisma {
     tipo?: $Enums.TipoCliente
     nif?: string | null
     direccion?: string | null
+    ciudad?: string | null
     email?: string | null
     telefono?: string | null
     createdAt?: Date | string
@@ -27704,6 +27725,7 @@ export namespace Prisma {
     tipo?: EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
     nif?: NullableStringFieldUpdateOperationsInput | string | null
     direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    ciudad?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27718,6 +27740,7 @@ export namespace Prisma {
     tipo?: EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
     nif?: NullableStringFieldUpdateOperationsInput | string | null
     direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    ciudad?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27732,6 +27755,7 @@ export namespace Prisma {
     tipo?: $Enums.TipoCliente
     nif?: string | null
     direccion?: string | null
+    ciudad?: string | null
     email?: string | null
     telefono?: string | null
     createdAt?: Date | string
@@ -27744,6 +27768,7 @@ export namespace Prisma {
     tipo?: EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
     nif?: NullableStringFieldUpdateOperationsInput | string | null
     direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    ciudad?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27756,6 +27781,7 @@ export namespace Prisma {
     tipo?: EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
     nif?: NullableStringFieldUpdateOperationsInput | string | null
     direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    ciudad?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29481,6 +29507,7 @@ export namespace Prisma {
     tipo?: SortOrder
     nif?: SortOrder
     direccion?: SortOrder
+    ciudad?: SortOrder
     email?: SortOrder
     telefono?: SortOrder
     createdAt?: SortOrder
@@ -29493,6 +29520,7 @@ export namespace Prisma {
     tipo?: SortOrder
     nif?: SortOrder
     direccion?: SortOrder
+    ciudad?: SortOrder
     email?: SortOrder
     telefono?: SortOrder
     createdAt?: SortOrder
@@ -29505,6 +29533,7 @@ export namespace Prisma {
     tipo?: SortOrder
     nif?: SortOrder
     direccion?: SortOrder
+    ciudad?: SortOrder
     email?: SortOrder
     telefono?: SortOrder
     createdAt?: SortOrder
@@ -32908,6 +32937,7 @@ export namespace Prisma {
     tipo?: $Enums.TipoCliente
     nif?: string | null
     direccion?: string | null
+    ciudad?: string | null
     email?: string | null
     telefono?: string | null
     createdAt?: Date | string
@@ -32921,6 +32951,7 @@ export namespace Prisma {
     tipo?: $Enums.TipoCliente
     nif?: string | null
     direccion?: string | null
+    ciudad?: string | null
     email?: string | null
     telefono?: string | null
     createdAt?: Date | string
@@ -33077,6 +33108,7 @@ export namespace Prisma {
     tipo?: EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
     nif?: NullableStringFieldUpdateOperationsInput | string | null
     direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    ciudad?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33090,6 +33122,7 @@ export namespace Prisma {
     tipo?: EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
     nif?: NullableStringFieldUpdateOperationsInput | string | null
     direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    ciudad?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33432,6 +33465,7 @@ export namespace Prisma {
     tipo?: $Enums.TipoCliente
     nif?: string | null
     direccion?: string | null
+    ciudad?: string | null
     email?: string | null
     telefono?: string | null
     createdAt?: Date | string
@@ -33445,6 +33479,7 @@ export namespace Prisma {
     tipo?: $Enums.TipoCliente
     nif?: string | null
     direccion?: string | null
+    ciudad?: string | null
     email?: string | null
     telefono?: string | null
     createdAt?: Date | string
@@ -33640,6 +33675,7 @@ export namespace Prisma {
     tipo?: EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
     nif?: NullableStringFieldUpdateOperationsInput | string | null
     direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    ciudad?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33653,6 +33689,7 @@ export namespace Prisma {
     tipo?: EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
     nif?: NullableStringFieldUpdateOperationsInput | string | null
     direccion?: NullableStringFieldUpdateOperationsInput | string | null
+    ciudad?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string

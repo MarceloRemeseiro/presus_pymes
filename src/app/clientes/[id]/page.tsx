@@ -7,7 +7,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { toast, Toaster } from "sonner"
 import { ArrowLeft, Edit, Loader2, Mail, Phone, MapPin, Building, FileText, Trash, User } from "lucide-react"
 import Link from "next/link"
-import { Separator } from "@/components/ui/separator"
 import { Badge } from "@/components/ui/badge"
 import { use } from "react"
 
@@ -22,6 +21,7 @@ interface Cliente {
   nombre: string
   nif?: string | null
   direccion?: string | null
+  ciudad?: string | null
   email?: string | null
   telefono?: string | null
   tipo: "EMPRESA" | "PARTICULAR"
@@ -182,6 +182,13 @@ export default function DetalleClientePage({ params }: PageParams) {
                 <MapPin className="h-4 w-4 mr-2 text-muted-foreground mt-1" />
                 <span className="text-muted-foreground mr-2">Dirección:</span>
                 <span>{cliente.direccion}</span>
+              </div>
+            )}
+             {cliente?.ciudad && (
+              <div className="flex items-start">
+                <MapPin className="h-4 w-4 mr-2 text-muted-foreground mt-1" />
+                <span className="text-muted-foreground mr-2">Cp, Ciudad, etc:</span>
+                <span>{cliente.ciudad}</span>
               </div>
             )}
           </CardContent>

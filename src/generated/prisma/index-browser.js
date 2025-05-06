@@ -177,6 +177,7 @@ exports.Prisma.ClienteScalarFieldEnum = {
   tipo: 'tipo',
   nif: 'nif',
   direccion: 'direccion',
+  ciudad: 'ciudad',
   email: 'email',
   telefono: 'telefono',
   createdAt: 'createdAt',
@@ -387,7 +388,7 @@ exports.EstadoPresupuesto = exports.$Enums.EstadoPresupuesto = {
 exports.EstadoFactura = exports.$Enums.EstadoFactura = {
   PENDIENTE: 'PENDIENTE',
   ENVIADA: 'ENVIADA',
-  PAGADA: 'PAGADA',
+  COBRADA: 'COBRADA',
   VENCIDA: 'VENCIDA',
   ANULADA: 'ANULADA'
 };

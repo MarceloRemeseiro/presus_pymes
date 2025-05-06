@@ -89,6 +89,7 @@ model Cliente {
   tipo        TipoCliente   @default(PARTICULAR)
   nif         String?       @unique
   direccion   String?
+  ciudad      String?
   email       String?
   telefono    String?
   createdAt   DateTime      @default(now())
@@ -331,7 +332,7 @@ enum EstadoPresupuesto {
 enum EstadoFactura {
   PENDIENTE
   ENVIADA
-  PAGADA
+  COBRADA
   VENCIDA
   ANULADA
 }

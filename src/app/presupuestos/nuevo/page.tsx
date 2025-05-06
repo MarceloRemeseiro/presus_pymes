@@ -40,7 +40,7 @@ interface PartidaLocalState {
 
 interface ItemPartidaLocalState {
   id: string                                           // ID local temporal para manejo en UI
-  tipo?: "CATEGORIA" | "EQUIPO" | "PERSONAL" | "SEPARADOR" // Tipo de elemento
+  tipo?: "CATEGORIA" | "EQUIPO" | "PERSONAL" | "SEPARADOR" | "PERSONALIZADO" // Tipo de elemento
   productoId?: string                                  // ID del producto (obligatorio para EQUIPO)
   nombre: string                                       // Nombre del elemento
   descripcion?: string | null                          // Descripción opcional
@@ -697,6 +697,7 @@ export default function NuevoPresupuestoPage() {
                               {item.tipo === "EQUIPO" && "Equipo"}
                               {item.tipo === "PERSONAL" && "Personal"}
                               {item.tipo === "SEPARADOR" && "Separador"}
+                              {item.tipo === "PERSONALIZADO" && "Personalizado"}
                               {!item.tipo && "Producto"}
                             </td>
                             <td className={`py-2 px-2 text-sm ${item.tipo === "SEPARADOR" ? "font-semibold" : ""}`}>

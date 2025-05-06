@@ -23,6 +23,8 @@ import { EliminarEquipoDialog } from "@/components/productos/eliminar-equipo-dia
 import { Toaster } from "@/components/ui/toaster"
 import { toast } from "sonner"
 import { Trash2, Pencil, Loader2, ArrowLeft, Plus } from "lucide-react"
+import { formatCurrency } from "@/lib/utils"
+
 
 interface EquipoItem {
   id: string
@@ -31,7 +33,7 @@ interface EquipoItem {
   notasInternas: string | null
   estado: "DISPONIBLE" | "EN_USO" | "EN_REPARACION" | "BAJA"
   fechaCompra: string | null
-  precioCompra: number | null
+  precioCompra: number
   proveedorId: string | null
   proveedor?: {
     id: string
@@ -467,7 +469,7 @@ export default function EquiposProductoPage({ params }: { params: Promise<{ prod
                     <TableHead>Número de Serie</TableHead>
                     <TableHead>Estado</TableHead>
                     <TableHead>Fecha de Compra</TableHead>
-                    <TableHead className="text-right">Precio Compra</TableHead>
+                    <TableHead>Precio Compra</TableHead>
                     <TableHead>Proveedor</TableHead>
                     <TableHead>Notas</TableHead>
                     <TableHead className="text-right">Acciones</TableHead>
@@ -499,8 +501,8 @@ export default function EquiposProductoPage({ params }: { params: Promise<{ prod
                           ? new Date(item.fechaCompra).toLocaleDateString() 
                           : "-"}
                       </TableCell>
-                      <TableCell className="text-right font-mono">
-                        {item.precioCompra !== null ? `$${item.precioCompra.toFixed(2)}` : "-"}
+                      <TableCell className="text-right">
+                        {formatCurrency(item.precioCompra) !== null ? `${formatCurrency(item.precioCompra)}` : "-"}
                       </TableCell>
                       <TableCell>
                         {item.proveedor ? item.proveedor.nombre : getProveedorNombre(item.proveedorId)}

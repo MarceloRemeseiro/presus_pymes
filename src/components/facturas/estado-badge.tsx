@@ -2,7 +2,7 @@ import React from "react"
 import { Badge } from "@/components/ui/badge"
 import { AlertCircle, CheckCircle, XCircle, SendHorizonal, Clock } from "lucide-react"
 
-type EstadoFactura = 'PENDIENTE' | 'ENVIADA' | 'PAGADA' | 'VENCIDA' | 'ANULADA'
+type EstadoFactura = 'PENDIENTE' | 'ENVIADA' | 'COBRADA' | 'VENCIDA' | 'ANULADA'
 
 interface EstadoBadgeProps {
   estado: EstadoFactura
@@ -25,11 +25,11 @@ export function EstadoBadge({ estado, showIcon = true, className = "" }: EstadoB
           icon: <SendHorizonal className="h-3 w-3 mr-1" />,
           label: "Enviada"
         }
-      case "PAGADA":
+      case "COBRADA":
         return {
           variant: "success" as const,
           icon: <CheckCircle className="h-3 w-3 mr-1" />,
-          label: "Pagada"
+          label: "Cobrada"
         }
       case "VENCIDA":
         return {

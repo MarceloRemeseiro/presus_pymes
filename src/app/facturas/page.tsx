@@ -34,7 +34,7 @@ interface Factura {
   fechaVencimiento: string
   clienteId: string
   cliente: Cliente
-  estado: "PENDIENTE" | "ENVIADA" | "PAGADA" | "VENCIDA" | "ANULADA"
+  estado: "PENDIENTE" | "ENVIADA" | "COBRADA" | "VENCIDA" | "ANULADA"
   subtotal: number
   iva: number
   total: number
@@ -139,7 +139,7 @@ export default function FacturasPage() {
     switch (estado) {
       case "PENDIENTE": return "Pendiente"
       case "ENVIADA": return "Enviada"
-      case "PAGADA": return "Pagada"
+      case "COBRADA": return "Cobrada"
       case "VENCIDA": return "Vencida"
       case "ANULADA": return "Anulada"
       default: return estado
@@ -293,12 +293,12 @@ export default function FacturasPage() {
                 <span>Enviada</span>
               </DropdownMenuItem>
               <DropdownMenuItem
-                onClick={() => handleChangeEstado(factura.id, "PAGADA")}
-                disabled={factura.estado === "PAGADA"}
+                onClick={() => handleChangeEstado(factura.id, "COBRADA")}
+                disabled={factura.estado === "COBRADA"}
                 className="flex items-center gap-2"
               >
                 <CreditCard className="h-4 w-4" />
-                <span>Pagada</span>
+                <span>Cobrada</span>
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => handleChangeEstado(factura.id, "VENCIDA")}

@@ -45,6 +45,7 @@ interface Cliente {
   nombre: string
   nif?: string
   direccion?: string
+  ciudad?: string
   email?: string
   telefono?: string
 }
@@ -120,7 +121,7 @@ interface Factura {
   fechaVencimiento: string
   clienteId: string
   cliente: Cliente
-  estado: "PENDIENTE" | "ENVIADA" | "PAGADA" | "VENCIDA" | "ANULADA"
+  estado: "PENDIENTE" | "ENVIADA" | "COBRADA" | "VENCIDA" | "ANULADA"
   observaciones?: string
   subtotal: number
   iva: number
@@ -358,14 +359,14 @@ export default function FacturaDetallePage({ params }: { params: Promise<{ id: s
               Editar
             </Link>
           </Button>
-          {factura.estado !== "PAGADA" && (
+          {factura.estado !== "COBRADA" && (
             <Button
               variant="outline"
               className="gap-1 border-green-500 text-green-600 hover:bg-green-50"
-              onClick={() => handleChangeEstado("PAGADA")}
+              onClick={() => handleChangeEstado("COBRADA")}
             >
               <CheckCircleIcon className="h-4 w-4" />
-              Marcar como pagada
+              Marcar como cobrada
             </Button>
           )}
           {factura.estado !== "ENVIADA" && (
@@ -452,30 +453,36 @@ export default function FacturaDetallePage({ params }: { params: Promise<{ id: s
           <CardContent className="space-y-2">
             {factura.cliente ? (
               <>
-                <div className="flex justify-between">
+                <div className="flex justify-between gap-4">
                   <span className="font-medium">Nombre:</span>
                   <span>{factura.cliente.nombre}</span>
                 </div>
                 {factura.cliente.nif && (
-                  <div className="flex justify-between">
+                  <div className="flex justify-between gap-4">
                     <span className="font-medium">NIF/CIF:</span>
                     <span>{factura.cliente.nif}</span>
                   </div>
                 )}
                 {factura.cliente.direccion && (
-                  <div className="flex justify-between">
+                  <div className="flex justify-between gap-4">
                     <span className="font-medium">Dirección:</span>
                     <span>{factura.cliente.direccion}</span>
                   </div>
                 )}
+                {factura.cliente.ciudad && (
+                  <div className="flex justify-between gap-4">
+                    <span className="font-medium">Dirección:</span>
+                    <span>{factura.cliente.ciudad}</span>
+                  </div>
+                )}
                 {factura.cliente.email && (
-                  <div className="flex justify-between">
+                  <div className="flex justify-between gap-4">
                     <span className="font-medium">Email:</span>
                     <span>{factura.cliente.email}</span>
                   </div>
                 )}
                 {factura.cliente.telefono && (
-                  <div className="flex justify-between">
+                  <div className="flex justify-between gap-4">
                     <span className="font-medium">Teléfono:</span>
                     <span>{factura.cliente.telefono}</span>
                   </div>

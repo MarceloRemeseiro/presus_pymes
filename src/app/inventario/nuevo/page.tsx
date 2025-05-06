@@ -35,7 +35,13 @@ export default function NuevoProductoPage() {
         // Cargar categorías
         const categoriasResponse = await fetch('/api/categorias')
         const categoriasData = await categoriasResponse.json()
-        setCategorias(categoriasData)
+        
+       // Filtrar productos que no sean de categoría __SISTEMA__
+       const filteredData = Array.isArray(categoriasData) 
+       ? categoriasData.filter(p => p.nombre !== '__SISTEMA__') 
+       : []
+      
+      setCategorias(filteredData)
         
         // Cargar marcas
         const marcasResponse = await fetch('/api/marcas')

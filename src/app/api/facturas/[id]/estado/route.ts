@@ -9,7 +9,7 @@ export async function PUT(req: Request, context: { params: Promise<{ id: string 
     const { estado } = await req.json()
     
     // Validar que el estado sea válido
-    const estadosValidos = ["PENDIENTE", "ENVIADA", "PAGADA", "VENCIDA", "ANULADA"]
+    const estadosValidos = ["PENDIENTE", "ENVIADA", "COBRADA", "VENCIDA", "ANULADA"]
     if (!estadosValidos.includes(estado)) {
       return NextResponse.json(
         { error: 'Estado no válido' },

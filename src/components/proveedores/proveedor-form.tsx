@@ -22,7 +22,7 @@ const proveedorSchema = z.object({
   nombre: z.string().min(1, { message: "El nombre es obligatorio" }),
   nif: z.string().optional().nullable(),
   direccion: z.string().optional().nullable(),
-  email: z.string().email({ message: "Introduzca un email válido" }).optional().nullable(),
+  email: z.string().optional().nullable(),
   telefono: z.string().optional().nullable(),
   contacto: z.string().optional().nullable(),
   notas: z.string().optional().nullable(),

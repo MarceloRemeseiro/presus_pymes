@@ -495,21 +495,18 @@ export default function PresupuestoDetallePage({ params }: { params: Promise<{ i
               
               {/* Columna derecha de fechas - alineada a la derecha */}
               <div className="space-y-3 text-right">
-                {presupuesto.fechaMontaje && (
-                  <div>
-                    <span className="inline-flex items-center gap-2">
-                      {formatDate(presupuesto.fechaMontaje)} <span className="font-medium">:Montaje</span>
-                      <Calendar className="h-4 w-4 text-muted-foreground" />
-                    </span>
+              {presupuesto.fechaMontaje && (
+                  <div className="flex items-center gap-2">
+                    <Calendar className="h-4 w-4 text-muted-foreground" />
+                    <span className="font-medium">Montaje:</span> {formatDate(presupuesto.fechaMontaje)}
                   </div>
                 )}
-                
-                <div>
-                  <span className="inline-flex items-center gap-2">
-                    {formatDate(presupuesto.fechaValidez)} <span className="font-medium">:Válido hasta</span>
+                {presupuesto.fechaValidez && (
+                  <div className="flex items-center gap-2">
                     <Calendar className="h-4 w-4 text-muted-foreground" />
-                  </span>
-                </div>
+                    <span className="font-medium">Validez:</span> {formatDate(presupuesto.fechaValidez)}
+                  </div>
+                )}
               </div>
             </div>
           </CardContent>

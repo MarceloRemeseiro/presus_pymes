@@ -1,5 +1,7 @@
 import { prisma } from '@/lib/prisma'
+import { Value } from '@radix-ui/react-select'
 import { NextResponse } from 'next/server'
+import { string } from 'zod'
 
 // GET /api/categorias - Obtener todas las categorías
 export async function GET() {
@@ -9,6 +11,7 @@ export async function GET() {
         nombre: 'asc',
       },
     })
+
     
     return NextResponse.json(categorias)
   } catch (error) {

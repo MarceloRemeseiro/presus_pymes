@@ -31,6 +31,7 @@ export async function POST(req: Request) {
         tipo: body.tipo,
         nif: body.nif,
         direccion: body.direccion,
+        ciudad: body.ciudad,
         email: body.email,
         telefono: body.telefono,
       },

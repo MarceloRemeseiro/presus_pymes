@@ -9,6 +9,7 @@ import { toast, Toaster } from "sonner"
 import { ArrowLeft, Loader2 } from "lucide-react"
 import Link from "next/link"
 import { use } from "react"
+import { log } from "console"
 
 interface Categoria {
   id: string;
@@ -78,7 +79,15 @@ export default function EditarProductoPage({ params }: PageParams) {
         // Cargar categorías
         const categoriasResponse = await fetch('/api/categorias')
         const categoriasData = await categoriasResponse.json()
-        setCategorias(categoriasData)
+
+         // Filtrar productos que no sean de categoría __SISTEMA__
+         const filteredData = Array.isArray(categoriasData) 
+         ? categoriasData.filter(p => p.nombre !== '__SISTEMA__') 
+         : []
+      
+        
+        
+        setCategorias(filteredData)
         
         // Cargar marcas
         const marcasResponse = await fetch('/api/marcas')

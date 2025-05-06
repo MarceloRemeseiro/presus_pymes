@@ -13,7 +13,8 @@ import {
   Loader2,
   PlusCircle,
   Check,
-  DollarSign
+  DollarSign,
+  FileText
 } from "lucide-react"
 import { use } from "react"
 import {
@@ -56,7 +57,7 @@ import {
 } from "@/components/ui/table"
 import { EstadoBadge } from "@/components/facturas/estado-badge"
 import { AgregarElementoDialog } from "@/components/facturas/agregar-elemento-dialog"
-
+import {formatCurrency} from "@/lib/utils"
 // Interfaces para datos
 interface Cliente {
   id: string
@@ -113,7 +114,7 @@ interface Factura {
   fechaVencimiento: string
   clienteId: string | null
   cliente: Cliente | null
-  estado: "PENDIENTE" | "ENVIADA" | "PAGADA" | "VENCIDA" | "ANULADA"
+  estado: "PENDIENTE" | "ENVIADA" | "COBRADA" | "VENCIDA" | "ANULADA"
   observaciones?: string | null
   subtotal: number
   iva: number
@@ -569,6 +570,7 @@ export default function EditarFacturaPage({ params }: { params: Promise<{ id: st
   
   // Manejar cambios en campos de formulario con auto-guardado
   const handleFieldChange = (field: string, value: any) => {
+    // Guardar inmediatamente el valor en el estado
     switch (field) {
       case 'fecha':
         setFecha(value)
@@ -593,12 +595,14 @@ export default function EditarFacturaPage({ params }: { params: Promise<{ id: st
     // Marcar que hay cambios no guardados
     setChangesNotSaved(true)
     
-    // Configurar un temporizador para guardar automáticamente después de 2 segundos de inactividad
+    // Cancelar cualquier temporizador anterior para evitar autoguardados parciales
     if (autoSaveTimer) {
       clearTimeout(autoSaveTimer)
     }
     
+    // Crear nuevo temporizador 
     const timer = setTimeout(() => {
+      console.log("Ejecutando autoguardado después del timeout")
       handleGuardarFactura(true)
     }, 2000)
     
@@ -806,6 +810,16 @@ export default function EditarFacturaPage({ params }: { params: Promise<{ id: st
               </>
             )}
           </Button>
+          <Button 
+            variant="outline"
+            className="gap-2"
+            asChild
+          >
+            <Link href={`/facturas/${facturaId}`}>
+              <FileText className="h-4 w-4" />
+              Ver
+            </Link>
+          </Button>
         </div>
       </div>
       
@@ -857,12 +871,12 @@ export default function EditarFacturaPage({ params }: { params: Promise<{ id: st
               <select 
                 id="estado" 
                 value={estado} 
-                onChange={(e) => handleFieldChange('estado', e.target.value as "PENDIENTE" | "ENVIADA" | "PAGADA" | "VENCIDA" | "ANULADA")}
+                onChange={(e) => handleFieldChange('estado', e.target.value as "PENDIENTE" | "ENVIADA" | "COBRADA" | "VENCIDA" | "ANULADA")}
                 className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 <option value="PENDIENTE">Pendiente</option>
                 <option value="ENVIADA">Enviada</option>
-                <option value="PAGADA">Pagada</option>
+                <option value="COBRADA">Cobrada</option>
                 <option value="VENCIDA">Vencida</option>
                 <option value="ANULADA">Anulada</option>
               </select>
@@ -1038,11 +1052,11 @@ export default function EditarFacturaPage({ params }: { params: Promise<{ id: st
                             <TableRow>
                               <TableHead className="w-0 p-0"></TableHead>
                               <TableHead>Descripción</TableHead>
-                              <TableHead>Días</TableHead>
                               <TableHead>Cantidad</TableHead>
+                              <TableHead>Días</TableHead>
                               <TableHead>Precio</TableHead>
                               <TableHead>Descuento</TableHead>
-                              <TableHead className="text-right">Subtotal</TableHead>
+                              <TableHead>Subtotal</TableHead>
                               <TableHead></TableHead>
                             </TableRow>
                           </TableHeader>
@@ -1093,16 +1107,18 @@ export default function EditarFacturaPage({ params }: { params: Promise<{ id: st
                                   ) : (
                                     // Elemento normal (producto, personal, etc.)
                                     <SortableItem key={item.id} id={item.id}>
-                                      <TableCell>{item.nombre}</TableCell>
+                                      <TableCell className="font-medium w-1/3">
+                                        {item.nombre}
+                                      </TableCell>
                                       <TableCell>
                                         <Input 
                                           type="number"
                                           min="1"
                                           className="w-16 h-8"
-                                          value={item.dias}
+                                          value={item.cantidad}
                                           onChange={(e) => {
                                             const nuevasPartidas = [...partidasFactura];
-                                            nuevasPartidas[index].items[itemIndex].dias = parseInt(e.target.value, 10) || 1;
+                                            nuevasPartidas[index].items[itemIndex].cantidad = parseInt(e.target.value, 10) || 1;
                                             
                                             // Recalcular subtotal y total
                                             const cantidad = nuevasPartidas[index].items[itemIndex].cantidad;
@@ -1127,10 +1143,10 @@ export default function EditarFacturaPage({ params }: { params: Promise<{ id: st
                                           type="number"
                                           min="1"
                                           className="w-16 h-8"
-                                          value={item.cantidad}
+                                          value={item.dias}
                                           onChange={(e) => {
                                             const nuevasPartidas = [...partidasFactura];
-                                            nuevasPartidas[index].items[itemIndex].cantidad = parseInt(e.target.value, 10) || 1;
+                                            nuevasPartidas[index].items[itemIndex].dias = parseInt(e.target.value, 10) || 1;
                                             
                                             // Recalcular subtotal y total
                                             const cantidad = nuevasPartidas[index].items[itemIndex].cantidad;
@@ -1214,8 +1230,8 @@ export default function EditarFacturaPage({ params }: { params: Promise<{ id: st
                                           <span className="ml-1">%</span>
                                         </div>
                                       </TableCell>
-                                      <TableCell className="text-right font-medium">
-                                        {new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(item.subtotal)}
+                                      <TableCell className="font-medium">
+                                      {formatCurrency(item.subtotal)}
                                       </TableCell>
                                       <TableCell>
                                         <Button 
@@ -1253,7 +1269,7 @@ export default function EditarFacturaPage({ params }: { params: Promise<{ id: st
                       <div className="text-right">
                         <div className="text-sm text-muted-foreground">
                           Subtotal de partida: <span className="font-medium">
-                            {new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(
+                            {formatCurrency(
                               partida.items.reduce((sum, item) => 
                                 item.tipo !== "CATEGORIA" && item.tipo !== "SEPARADOR" ? sum + item.subtotal : sum, 0)
                             )}
@@ -1283,19 +1299,19 @@ export default function EditarFacturaPage({ params }: { params: Promise<{ id: st
             <div className="flex justify-between items-center">
               <span className="text-muted-foreground">Subtotal:</span>
               <span className="font-medium">
-                {new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(subtotal)}
+              {formatCurrency(subtotal)}
               </span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-muted-foreground">IVA:</span>
               <span className="font-medium">
-                {new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(ivaTotal)}
+              {formatCurrency(ivaTotal)}
               </span>
             </div>
             <div className="border-t my-2 pt-2 flex justify-between items-center">
               <span className="text-lg font-bold">Total:</span>
               <span className="text-lg font-bold">
-                {new Intl.NumberFormat('es-ES', { style: 'currency', currency: 'EUR' }).format(total)}
+              {formatCurrency(total)}
               </span>
             </div>
           </div>

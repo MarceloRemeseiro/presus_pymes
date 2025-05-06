@@ -9,6 +9,7 @@ interface Cliente {
   nombre: string;
   nif?: string | null;
   direccion?: string | null;
+  ciudad?: string | null;
   email?: string | null;
   telefono?: string | null;
 }
@@ -370,8 +371,7 @@ export const generatePresupuestoPDF = async (
       [`${presupuesto.cliente.nombre}`],
       [`NIF/CIF: ${presupuesto.cliente.nif || '-'}`],
       [`${presupuesto.cliente.direccion || '-'}`],
-      [`Tel: ${presupuesto.cliente.telefono || '-'}`],
-      [`Email: ${presupuesto.cliente.email || '-'}`]
+      [`${presupuesto.cliente.ciudad || '-'}`]
     ] : [
       ['Sin cliente asignado'],
       [''],
@@ -764,19 +764,6 @@ export const generateFacturaPDF = (
       doc.text(nifLabel, clienteCol, currentY);
       doc.text(`${cliente.nif}`, clienteCol + 35, currentY);
       currentY += lineHeight;
-    }
-    
-    if (cliente.telefono) {
-      const telLabel = 'Tel:';
-      doc.text(telLabel, clienteCol, currentY);
-      doc.text(`${cliente.telefono}`, clienteCol + 35, currentY);
-      currentY += lineHeight;
-    }
-    
-    if (cliente.email) {
-      const emailLabel = 'Email:';
-      doc.text(emailLabel, clienteCol, currentY);
-      doc.text(`${cliente.email}`, clienteCol + 35, currentY);
     }
   }
   

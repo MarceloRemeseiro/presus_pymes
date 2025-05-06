@@ -7,9 +7,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { toast, Toaster } from "sonner"
 import { ArrowLeft, Edit, Loader2, Box, Tag, Badge, Bookmark, FileText, Trash, LayoutList } from "lucide-react"
 import Link from "next/link"
-import { Separator } from "@/components/ui/separator"
 import { use } from "react"
-
+import { formatCurrency } from "@/lib/utils"
+ 
 
 interface Producto {
   id: string;
@@ -196,10 +196,7 @@ export default function DetalleProductoPage({ params }: PageParams) {
             <CardTitle>Información General</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="flex items-center">
-              <Box className="h-4 w-4 mr-2 text-muted-foreground" />
-              <span className="text-muted-foreground mr-2">Código:</span>
-            </div>
+            
             
             <div className="flex items-center">
               <Bookmark className="h-4 w-4 mr-2 text-muted-foreground" />
@@ -235,29 +232,16 @@ export default function DetalleProductoPage({ params }: PageParams) {
               <span className="font-semibold">{producto.stock}</span>
             </div>
             
-            <div className="flex items-center">
-              <span className="text-muted-foreground mr-2">Precio:</span>
-              <span>{producto.precio ? `$${producto.precio.toFixed(2)}` : "—"}</span>
-            </div>
-            
-            {producto.precioCompra !== null && (
-              <div className="flex items-center">
-                <span className="text-muted-foreground mr-2">Precio de Compra:</span>
-                <span>${producto.precioCompra.toFixed(2)}</span>
-              </div>
-            )}
+           
             
             {producto.precioAlquiler !== null && (
               <div className="flex items-center">
                 <span className="text-muted-foreground mr-2">Precio de Alquiler:</span>
-                <span>${producto.precioAlquiler.toFixed(2)}</span>
+                <span>{formatCurrency(producto.precioAlquiler)}</span>
               </div>
             )}
             
-            <div className="flex items-center">
-              <span className="text-muted-foreground mr-2">Elementos de Equipo:</span>
-              <span>{producto._count?.equipoItems || 0}</span>
-            </div>
+           
           </CardContent>
         </Card>
       </div>
