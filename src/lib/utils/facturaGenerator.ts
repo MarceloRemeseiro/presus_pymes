@@ -8,6 +8,7 @@ interface Cliente {
   nombre: string;
   nif?: string | null;
   direccion?: string | null;
+  ciudad?: string | null;
   email?: string | null;
   telefono?: string | null;
 }
@@ -321,8 +322,7 @@ export const generateFacturaPDF = async (
       [`${factura.cliente.nombre}`],
       [`NIF/CIF: ${factura.cliente.nif || '-'}`],
       [`${factura.cliente.direccion || '-'}`],
-      [`Tel: ${factura.cliente.telefono || '-'}`],
-      [`Email: ${factura.cliente.email || '-'}`]
+      [`${factura.cliente.ciudad || '-'}`]
     ] : [
       ['Sin cliente asignado'],
       [''],

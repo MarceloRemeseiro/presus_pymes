@@ -465,13 +465,13 @@ export default function FacturaDetallePage({ params }: { params: Promise<{ id: s
                 )}
                 {factura.cliente.direccion && (
                   <div className="flex justify-between gap-4">
-                    <span className="font-medium">Dirección:</span>
+                    <span className="font-medium">Calle y número:</span>
                     <span>{factura.cliente.direccion}</span>
                   </div>
                 )}
                 {factura.cliente.ciudad && (
                   <div className="flex justify-between gap-4">
-                    <span className="font-medium">Dirección:</span>
+                    <span className="font-medium">CP y ciudad:</span>
                     <span>{factura.cliente.ciudad}</span>
                   </div>
                 )}
