@@ -233,6 +233,7 @@ exports.Prisma.ItemPresupuestoScalarFieldEnum = {
 exports.Prisma.FacturaScalarFieldEnum = {
   id: 'id',
   numero: 'numero',
+  nombre: 'nombre',
   numeroPedido: 'numeroPedido',
   fecha: 'fecha',
   fechaVencimiento: 'fechaVencimiento',

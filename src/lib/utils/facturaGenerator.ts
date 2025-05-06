@@ -55,6 +55,7 @@ interface Factura {
   id: string;
   numero: string;
   numeroPedido?: string | null;
+  nombre?: string | null;
   fecha: string;
   fechaVencimiento: string;
   clienteId?: string;
@@ -362,6 +363,10 @@ export const generateFacturaPDF = async (
   
   if (factura.numeroPedido) {
     facturaData.push(['Pedido:', factura.numeroPedido]);
+  }
+
+  if (factura.nombre) {
+    facturaData.push(['Nombre:', factura.nombre]);
   }
   
   // Rellenamos con filas vacías para mantener altura consistente

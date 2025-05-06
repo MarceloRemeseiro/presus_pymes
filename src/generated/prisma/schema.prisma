@@ -162,6 +162,7 @@ model ItemPresupuesto {
 model Factura {
   id                  String             @id @default(cuid())
   numero              String             @unique
+  nombre              String? // Nombre descriptivo de la factura
   numeroPedido        String? // Número de pedido o PO (Purchase Order) opcional
   fecha               DateTime           @default(now())
   fechaVencimiento    DateTime

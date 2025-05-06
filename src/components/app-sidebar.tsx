@@ -2,7 +2,7 @@
 
 import React from "react"
 import Link from "next/link"
-import { FileText, Home, Package, Settings, ShoppingCart, Users, Receipt, UserCircle, ShoppingBag } from "lucide-react"
+import { FileText, Home, Package, Settings, ShoppingCart, Users, Receipt, UserCircle, ShoppingBag, DollarSign } from "lucide-react"
 
 import {
   Sidebar,
@@ -87,6 +87,14 @@ export function AppSidebar() {
                   <Link href="/facturas">
                     <Receipt className="w-4 h-4 mr-2" />
                     Facturas
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
+                  <Link href="/gastos">
+                    <DollarSign className="w-4 h-4 mr-2" />
+                    Gastos
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>

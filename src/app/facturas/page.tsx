@@ -30,6 +30,7 @@ interface Cliente {
 interface Factura {
   id: string
   numero: string
+  nombre?: string
   fecha: string
   fechaVencimiento: string
   clienteId: string
@@ -242,6 +243,16 @@ export default function FacturasPage() {
       )
     },
     {
+      key: "nombre",
+      header: "Descripción",
+      sortable: true,
+      cell: (factura: Factura) => (
+        <div className="max-w-xs truncate">
+          {factura.nombre || "-"}
+        </div>
+      )
+    },
+    {
       key: "fecha",
       header: "Fecha",
       sortable: true,
@@ -391,7 +402,6 @@ export default function FacturasPage() {
 
   return (
     <div className="py-10">
-      <Toaster />
       
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Facturas</h1>

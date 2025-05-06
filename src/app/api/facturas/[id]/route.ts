@@ -82,6 +82,7 @@ export async function PUT(req: Request, context: { params: Promise<{ id: string 
         // Solo actualizar campos que existen en el body
         ...(body.numero ? { numero: body.numero } : {}),
         ...(body.numeroPedido !== undefined ? { numeroPedido: body.numeroPedido } : {}),
+        ...(body.nombre !== undefined ? { nombre: body.nombre } : {}),
         ...(body.fecha ? { 
           // Convertir la fecha manteniendo el día exacto
           fecha: new Date(body.fecha.split('T')[0] + 'T12:00:00Z')

@@ -236,6 +236,7 @@ export default function EditarFacturaPage({ params }: { params: Promise<{ id: st
   // Estados del formulario
   const [numero, setNumero] = useState("")
   const [numeroPedido, setNumeroPedido] = useState("")
+  const [nombre, setNombre] = useState("")
   const [fecha, setFecha] = useState("")
   const [fechaVencimiento, setFechaVencimiento] = useState("")
   const [clienteId, setClienteId] = useState<string>("")
@@ -301,6 +302,7 @@ export default function EditarFacturaPage({ params }: { params: Promise<{ id: st
       // Inicializar formulario con datos de la factura
       setNumero(facturaData.numero)
       setNumeroPedido(facturaData.numeroPedido || "")
+      setNombre(facturaData.nombre || "")
       setFecha(formatDateFromISO(facturaData.fecha))
       setFechaVencimiento(formatDateFromISO(facturaData.fechaVencimiento))
       setClienteId(facturaData.clienteId || "")
@@ -590,6 +592,9 @@ export default function EditarFacturaPage({ params }: { params: Promise<{ id: st
       case 'numeroPedido':
         setNumeroPedido(value)
         break
+      case 'nombre':
+        setNombre(value)
+        break
     }
     
     // Marcar que hay cambios no guardados
@@ -691,6 +696,7 @@ export default function EditarFacturaPage({ params }: { params: Promise<{ id: st
         observaciones,
         estado: estado || "PENDIENTE",
         numeroPedido: numeroPedido || undefined,
+        nombre: nombre || undefined,
         items: itemsArray
       }
       
@@ -864,6 +870,16 @@ export default function EditarFacturaPage({ params }: { params: Promise<{ id: st
                   </option>
                 ))}
               </select>
+            </div>
+
+            <div>
+              <Label htmlFor="nombre" className="block mb-2">Nombre Descriptivo</Label>
+              <Input 
+                id="nombre" 
+                value={nombre} 
+                onChange={(e) => handleFieldChange('nombre', e.target.value)}
+                placeholder="Nombre descriptivo de la factura (opcional)" 
+              />
             </div>
 
             <div>

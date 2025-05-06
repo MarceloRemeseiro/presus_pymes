@@ -4,7 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from 'sonner';
 
 const geist = Geist({
   subsets: ["latin"],
@@ -38,7 +38,7 @@ export default function RootLayout({
                 {children}
               </div>
             </main>
-            <Toaster />
+            <Toaster position="bottom-right" richColors closeButton />
           </SidebarProvider>
         </ThemeProvider>
       </body>

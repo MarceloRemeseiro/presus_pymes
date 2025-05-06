@@ -117,6 +117,7 @@ interface Factura {
   id: string
   numero: string
   numeroPedido?: string | null
+  nombre?: string | null
   fecha: string
   fechaVencimiento: string
   clienteId: string
@@ -340,6 +341,7 @@ export default function FacturaDetallePage({ params }: { params: Promise<{ id: s
           </Link>
           <div>
             <h1 className="text-2xl font-bold">Factura #{factura.numero}</h1>
+            {factura.nombre && <p className="text-lg text-muted-foreground">{factura.nombre}</p>}
             {factura.numeroPedido && <p className="text-sm text-muted-foreground">PO: {factura.numeroPedido}</p>}
           </div>
           <EstadoBadge estado={factura.estado} />
@@ -403,6 +405,12 @@ export default function FacturaDetallePage({ params }: { params: Promise<{ id: s
               <span className="font-medium">Número:</span>
               <span>{factura.numero}</span>
             </div>
+            {factura.nombre && (
+              <div className="flex justify-between">
+                <span className="font-medium">Descripción:</span>
+                <span>{factura.nombre}</span>
+              </div>
+            )}
             {factura.numeroPedido && (
               <div className="flex justify-between">
                 <span className="font-medium">Número de Pedido (PO):</span>
@@ -648,7 +656,7 @@ export default function FacturaDetallePage({ params }: { params: Promise<{ id: s
                           (facturaProveedor.tipoEspecial === 'dietas' ? 'DIETAS' : 'Sin proveedor'))))}
                     </TableCell>
                     <TableCell>{formatCurrency(facturaProveedor.precio)}</TableCell>
-                    <TableCell>{formatDate(facturaProveedor.createdAt)}</TableCell>
+                    <TableCell>{formatDate(facturaProveedor.documentoFecha || facturaProveedor.createdAt)}</TableCell>
                     <TableCell>{facturaProveedor.descripcion || '-'}</TableCell>
                     <TableCell className="text-right">
                       <div className="flex items-center gap-1 justify-end">

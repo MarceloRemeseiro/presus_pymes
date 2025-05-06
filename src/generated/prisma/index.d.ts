@@ -13618,6 +13618,7 @@ export namespace Prisma {
   export type FacturaMinAggregateOutputType = {
     id: string | null
     numero: string | null
+    nombre: string | null
     numeroPedido: string | null
     fecha: Date | null
     fechaVencimiento: Date | null
@@ -13634,6 +13635,7 @@ export namespace Prisma {
   export type FacturaMaxAggregateOutputType = {
     id: string | null
     numero: string | null
+    nombre: string | null
     numeroPedido: string | null
     fecha: Date | null
     fechaVencimiento: Date | null
@@ -13650,6 +13652,7 @@ export namespace Prisma {
   export type FacturaCountAggregateOutputType = {
     id: number
     numero: number
+    nombre: number
     numeroPedido: number
     fecha: number
     fechaVencimiento: number
@@ -13680,6 +13683,7 @@ export namespace Prisma {
   export type FacturaMinAggregateInputType = {
     id?: true
     numero?: true
+    nombre?: true
     numeroPedido?: true
     fecha?: true
     fechaVencimiento?: true
@@ -13696,6 +13700,7 @@ export namespace Prisma {
   export type FacturaMaxAggregateInputType = {
     id?: true
     numero?: true
+    nombre?: true
     numeroPedido?: true
     fecha?: true
     fechaVencimiento?: true
@@ -13712,6 +13717,7 @@ export namespace Prisma {
   export type FacturaCountAggregateInputType = {
     id?: true
     numero?: true
+    nombre?: true
     numeroPedido?: true
     fecha?: true
     fechaVencimiento?: true
@@ -13815,6 +13821,7 @@ export namespace Prisma {
   export type FacturaGroupByOutputType = {
     id: string
     numero: string
+    nombre: string | null
     numeroPedido: string | null
     fecha: Date
     fechaVencimiento: Date
@@ -13850,6 +13857,7 @@ export namespace Prisma {
   export type FacturaSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     numero?: boolean
+    nombre?: boolean
     numeroPedido?: boolean
     fecha?: boolean
     fechaVencimiento?: boolean
@@ -13872,6 +13880,7 @@ export namespace Prisma {
   export type FacturaSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     numero?: boolean
+    nombre?: boolean
     numeroPedido?: boolean
     fecha?: boolean
     fechaVencimiento?: boolean
@@ -13889,6 +13898,7 @@ export namespace Prisma {
   export type FacturaSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     numero?: boolean
+    nombre?: boolean
     numeroPedido?: boolean
     fecha?: boolean
     fechaVencimiento?: boolean
@@ -13906,6 +13916,7 @@ export namespace Prisma {
   export type FacturaSelectScalar = {
     id?: boolean
     numero?: boolean
+    nombre?: boolean
     numeroPedido?: boolean
     fecha?: boolean
     fechaVencimiento?: boolean
@@ -13919,7 +13930,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type FacturaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "numero" | "numeroPedido" | "fecha" | "fechaVencimiento" | "clienteId" | "estado" | "observaciones" | "subtotal" | "iva" | "total" | "createdAt" | "updatedAt", ExtArgs["result"]["factura"]>
+  export type FacturaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "numero" | "nombre" | "numeroPedido" | "fecha" | "fechaVencimiento" | "clienteId" | "estado" | "observaciones" | "subtotal" | "iva" | "total" | "createdAt" | "updatedAt", ExtArgs["result"]["factura"]>
   export type FacturaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     cliente?: boolean | Factura$clienteArgs<ExtArgs>
     items?: boolean | Factura$itemsArgs<ExtArgs>
@@ -13947,6 +13958,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       numero: string
+      nombre: string | null
       numeroPedido: string | null
       fecha: Date
       fechaVencimiento: Date
@@ -14388,6 +14400,7 @@ export namespace Prisma {
   interface FacturaFieldRefs {
     readonly id: FieldRef<"Factura", 'String'>
     readonly numero: FieldRef<"Factura", 'String'>
+    readonly nombre: FieldRef<"Factura", 'String'>
     readonly numeroPedido: FieldRef<"Factura", 'String'>
     readonly fecha: FieldRef<"Factura", 'DateTime'>
     readonly fechaVencimiento: FieldRef<"Factura", 'DateTime'>
@@ -25438,6 +25451,7 @@ export namespace Prisma {
   export const FacturaScalarFieldEnum: {
     id: 'id',
     numero: 'numero',
+    nombre: 'nombre',
     numeroPedido: 'numeroPedido',
     fecha: 'fecha',
     fechaVencimiento: 'fechaVencimiento',
@@ -26492,6 +26506,7 @@ export namespace Prisma {
     NOT?: FacturaWhereInput | FacturaWhereInput[]
     id?: StringFilter<"Factura"> | string
     numero?: StringFilter<"Factura"> | string
+    nombre?: StringNullableFilter<"Factura"> | string | null
     numeroPedido?: StringNullableFilter<"Factura"> | string | null
     fecha?: DateTimeFilter<"Factura"> | Date | string
     fechaVencimiento?: DateTimeFilter<"Factura"> | Date | string
@@ -26513,6 +26528,7 @@ export namespace Prisma {
   export type FacturaOrderByWithRelationInput = {
     id?: SortOrder
     numero?: SortOrder
+    nombre?: SortOrderInput | SortOrder
     numeroPedido?: SortOrderInput | SortOrder
     fecha?: SortOrder
     fechaVencimiento?: SortOrder
@@ -26537,6 +26553,7 @@ export namespace Prisma {
     AND?: FacturaWhereInput | FacturaWhereInput[]
     OR?: FacturaWhereInput[]
     NOT?: FacturaWhereInput | FacturaWhereInput[]
+    nombre?: StringNullableFilter<"Factura"> | string | null
     numeroPedido?: StringNullableFilter<"Factura"> | string | null
     fecha?: DateTimeFilter<"Factura"> | Date | string
     fechaVencimiento?: DateTimeFilter<"Factura"> | Date | string
@@ -26558,6 +26575,7 @@ export namespace Prisma {
   export type FacturaOrderByWithAggregationInput = {
     id?: SortOrder
     numero?: SortOrder
+    nombre?: SortOrderInput | SortOrder
     numeroPedido?: SortOrderInput | SortOrder
     fecha?: SortOrder
     fechaVencimiento?: SortOrder
@@ -26582,6 +26600,7 @@ export namespace Prisma {
     NOT?: FacturaScalarWhereWithAggregatesInput | FacturaScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Factura"> | string
     numero?: StringWithAggregatesFilter<"Factura"> | string
+    nombre?: StringNullableWithAggregatesFilter<"Factura"> | string | null
     numeroPedido?: StringNullableWithAggregatesFilter<"Factura"> | string | null
     fecha?: DateTimeWithAggregatesFilter<"Factura"> | Date | string
     fechaVencimiento?: DateTimeWithAggregatesFilter<"Factura"> | Date | string
@@ -28132,6 +28151,7 @@ export namespace Prisma {
   export type FacturaCreateInput = {
     id?: string
     numero: string
+    nombre?: string | null
     numeroPedido?: string | null
     fecha?: Date | string
     fechaVencimiento: Date | string
@@ -28152,6 +28172,7 @@ export namespace Prisma {
   export type FacturaUncheckedCreateInput = {
     id?: string
     numero: string
+    nombre?: string | null
     numeroPedido?: string | null
     fecha?: Date | string
     fechaVencimiento: Date | string
@@ -28172,6 +28193,7 @@ export namespace Prisma {
   export type FacturaUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
     numeroPedido?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaVencimiento?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28192,6 +28214,7 @@ export namespace Prisma {
   export type FacturaUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
     numeroPedido?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaVencimiento?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28212,6 +28235,7 @@ export namespace Prisma {
   export type FacturaCreateManyInput = {
     id?: string
     numero: string
+    nombre?: string | null
     numeroPedido?: string | null
     fecha?: Date | string
     fechaVencimiento: Date | string
@@ -28228,6 +28252,7 @@ export namespace Prisma {
   export type FacturaUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
     numeroPedido?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaVencimiento?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28243,6 +28268,7 @@ export namespace Prisma {
   export type FacturaUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
     numeroPedido?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaVencimiento?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29795,6 +29821,7 @@ export namespace Prisma {
   export type FacturaCountOrderByAggregateInput = {
     id?: SortOrder
     numero?: SortOrder
+    nombre?: SortOrder
     numeroPedido?: SortOrder
     fecha?: SortOrder
     fechaVencimiento?: SortOrder
@@ -29817,6 +29844,7 @@ export namespace Prisma {
   export type FacturaMaxOrderByAggregateInput = {
     id?: SortOrder
     numero?: SortOrder
+    nombre?: SortOrder
     numeroPedido?: SortOrder
     fecha?: SortOrder
     fechaVencimiento?: SortOrder
@@ -29833,6 +29861,7 @@ export namespace Prisma {
   export type FacturaMinOrderByAggregateInput = {
     id?: SortOrder
     numero?: SortOrder
+    nombre?: SortOrder
     numeroPedido?: SortOrder
     fecha?: SortOrder
     fechaVencimiento?: SortOrder
@@ -32539,6 +32568,7 @@ export namespace Prisma {
   export type FacturaCreateWithoutClienteInput = {
     id?: string
     numero: string
+    nombre?: string | null
     numeroPedido?: string | null
     fecha?: Date | string
     fechaVencimiento: Date | string
@@ -32558,6 +32588,7 @@ export namespace Prisma {
   export type FacturaUncheckedCreateWithoutClienteInput = {
     id?: string
     numero: string
+    nombre?: string | null
     numeroPedido?: string | null
     fecha?: Date | string
     fechaVencimiento: Date | string
@@ -32646,6 +32677,7 @@ export namespace Prisma {
     NOT?: FacturaScalarWhereInput | FacturaScalarWhereInput[]
     id?: StringFilter<"Factura"> | string
     numero?: StringFilter<"Factura"> | string
+    nombre?: StringNullableFilter<"Factura"> | string | null
     numeroPedido?: StringNullableFilter<"Factura"> | string | null
     fecha?: DateTimeFilter<"Factura"> | Date | string
     fechaVencimiento?: DateTimeFilter<"Factura"> | Date | string
@@ -33051,6 +33083,7 @@ export namespace Prisma {
   export type FacturaCreateWithoutPresupuestosInput = {
     id?: string
     numero: string
+    nombre?: string | null
     numeroPedido?: string | null
     fecha?: Date | string
     fechaVencimiento: Date | string
@@ -33070,6 +33103,7 @@ export namespace Prisma {
   export type FacturaUncheckedCreateWithoutPresupuestosInput = {
     id?: string
     numero: string
+    nombre?: string | null
     numeroPedido?: string | null
     fecha?: Date | string
     fechaVencimiento: Date | string
@@ -33176,6 +33210,7 @@ export namespace Prisma {
   export type FacturaUpdateWithoutPresupuestosInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
     numeroPedido?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaVencimiento?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33195,6 +33230,7 @@ export namespace Prisma {
   export type FacturaUncheckedUpdateWithoutPresupuestosInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
     numeroPedido?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaVencimiento?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33777,6 +33813,7 @@ export namespace Prisma {
   export type FacturaCreateWithoutItemsInput = {
     id?: string
     numero: string
+    nombre?: string | null
     numeroPedido?: string | null
     fecha?: Date | string
     fechaVencimiento: Date | string
@@ -33796,6 +33833,7 @@ export namespace Prisma {
   export type FacturaUncheckedCreateWithoutItemsInput = {
     id?: string
     numero: string
+    nombre?: string | null
     numeroPedido?: string | null
     fecha?: Date | string
     fechaVencimiento: Date | string
@@ -33897,6 +33935,7 @@ export namespace Prisma {
   export type FacturaUpdateWithoutItemsInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
     numeroPedido?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaVencimiento?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33916,6 +33955,7 @@ export namespace Prisma {
   export type FacturaUncheckedUpdateWithoutItemsInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
     numeroPedido?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaVencimiento?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34364,6 +34404,7 @@ export namespace Prisma {
   export type FacturaCreateWithoutGastosTickeliaInput = {
     id?: string
     numero: string
+    nombre?: string | null
     numeroPedido?: string | null
     fecha?: Date | string
     fechaVencimiento: Date | string
@@ -34383,6 +34424,7 @@ export namespace Prisma {
   export type FacturaUncheckedCreateWithoutGastosTickeliaInput = {
     id?: string
     numero: string
+    nombre?: string | null
     numeroPedido?: string | null
     fecha?: Date | string
     fechaVencimiento: Date | string
@@ -34418,6 +34460,7 @@ export namespace Prisma {
   export type FacturaUpdateWithoutGastosTickeliaInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
     numeroPedido?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaVencimiento?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34437,6 +34480,7 @@ export namespace Prisma {
   export type FacturaUncheckedUpdateWithoutGastosTickeliaInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
     numeroPedido?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaVencimiento?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34696,6 +34740,7 @@ export namespace Prisma {
   export type FacturaCreateWithoutFacturasProveedoresInput = {
     id?: string
     numero: string
+    nombre?: string | null
     numeroPedido?: string | null
     fecha?: Date | string
     fechaVencimiento: Date | string
@@ -34715,6 +34760,7 @@ export namespace Prisma {
   export type FacturaUncheckedCreateWithoutFacturasProveedoresInput = {
     id?: string
     numero: string
+    nombre?: string | null
     numeroPedido?: string | null
     fecha?: Date | string
     fechaVencimiento: Date | string
@@ -34812,6 +34858,7 @@ export namespace Prisma {
   export type FacturaUpdateWithoutFacturasProveedoresInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
     numeroPedido?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaVencimiento?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -34831,6 +34878,7 @@ export namespace Prisma {
   export type FacturaUncheckedUpdateWithoutFacturasProveedoresInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
     numeroPedido?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaVencimiento?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35244,6 +35292,7 @@ export namespace Prisma {
   export type FacturaCreateManyClienteInput = {
     id?: string
     numero: string
+    nombre?: string | null
     numeroPedido?: string | null
     fecha?: Date | string
     fechaVencimiento: Date | string
@@ -35323,6 +35372,7 @@ export namespace Prisma {
   export type FacturaUpdateWithoutClienteInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
     numeroPedido?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaVencimiento?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35342,6 +35392,7 @@ export namespace Prisma {
   export type FacturaUncheckedUpdateWithoutClienteInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
     numeroPedido?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaVencimiento?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -35361,6 +35412,7 @@ export namespace Prisma {
   export type FacturaUncheckedUpdateManyWithoutClienteInput = {
     id?: StringFieldUpdateOperationsInput | string
     numero?: StringFieldUpdateOperationsInput | string
+    nombre?: NullableStringFieldUpdateOperationsInput | string | null
     numeroPedido?: NullableStringFieldUpdateOperationsInput | string | null
     fecha?: DateTimeFieldUpdateOperationsInput | Date | string
     fechaVencimiento?: DateTimeFieldUpdateOperationsInput | Date | string

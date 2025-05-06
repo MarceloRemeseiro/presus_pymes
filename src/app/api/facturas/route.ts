@@ -79,6 +79,11 @@ export async function POST(req: Request) {
       facturaData.numeroPedido = body.numeroPedido;
     }
     
+    // Agregar nombre si existe
+    if (body.nombre) {
+      facturaData.nombre = body.nombre;
+    }
+    
     // Agregar clienteId si existe
     if (body.clienteId) {
       facturaData.clienteId = body.clienteId

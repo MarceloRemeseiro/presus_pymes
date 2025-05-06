@@ -503,6 +503,18 @@ export function FacturaProveedorDialog({
         </DialogHeader>
         <form onSubmit={handleSubmit}>
           <div className="grid gap-4 py-4">
+            {/* Fecha (Ahora en la parte superior) */}
+            <div className="grid gap-2">
+              <Label htmlFor="documentoFecha">Fecha*</Label>
+              <Input
+                id="documentoFecha"
+                type="date"
+                value={documentoFecha}
+                onChange={(e) => setDocumentoFecha(e.target.value)}
+                disabled={loading}
+              />
+            </div>
+            
             {/* Primera sección: Datos básicos */}
             <div className="grid gap-2">
               <Label htmlFor="proveedor">Proveedor*</Label>
@@ -616,17 +628,6 @@ export function FacturaProveedorDialog({
               <h3 className="font-semibold mb-4">Documento adjunto</h3>
               
               <div className="grid gap-4">
-                <div className="grid gap-2">
-                  <Label htmlFor="documentoFecha">Fecha del documento</Label>
-                  <Input
-                    id="documentoFecha"
-                    type="date"
-                    value={documentoFecha}
-                    onChange={(e) => setDocumentoFecha(e.target.value)}
-                    disabled={loading}
-                  />
-                </div>
-              
                 <div>
                   <Label htmlFor="documento" className="mb-2 block">Archivo PDF</Label>
                   

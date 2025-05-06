@@ -61,6 +61,8 @@ export async function POST(req: Request, context: { params: Promise<{ id: string
       iva: presupuesto.iva,
       total: presupuesto.total,
       observaciones: `Factura generada a partir del presupuesto ${presupuesto.numero}`,
+      // Copiar el nombre del presupuesto si existe
+      nombre: presupuesto.nombre,
       // Relación con el presupuesto
       presupuestos: {
         connect: { id: presupuestoId }
