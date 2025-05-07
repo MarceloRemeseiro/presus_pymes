@@ -3,14 +3,6 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { toast, Toaster } from "sonner"
@@ -53,6 +45,8 @@ export default function PresupuestosPage() {
   const [searchTerm, setSearchTerm] = useState("")
   const router = useRouter()
   const [duplicandoId, setDuplicandoId] = useState<string | null>(null)
+  const [creandoFactura, setCreandoFactura] = useState<string | null>(null)
+  const [eliminandoId, setEliminandoId] = useState<string | null>(null)
   
   useEffect(() => {
     const fetchPresupuestos = async () => {
@@ -181,8 +175,6 @@ export default function PresupuestosPage() {
   }
   
   // Función para crear una factura a partir de un presupuesto
-  const [creandoFactura, setCreandoFactura] = useState<string | null>(null)
-  
   const crearFacturaDesdePresupuesto = async (presupuestoId: string) => {
     try {
       setCreandoFactura(presupuestoId)
@@ -318,6 +310,31 @@ export default function PresupuestosPage() {
     return format(date, 'dd/MM/yyyy', { locale: es })
   }
 
+  // Función para eliminar un presupuesto
+  const eliminarPresupuesto = async (presupuestoId: string) => {
+    try {
+      setEliminandoId(presupuestoId);
+      
+      const response = await fetch(`/api/presupuestos/${presupuestoId}`, {
+        method: 'DELETE',
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Error al eliminar el presupuesto');
+      }
+      
+      // Actualizar la lista de presupuestos
+      setPresupuestos(presupuestos.filter(presupuesto => presupuesto.id !== presupuestoId));
+      toast.success('Presupuesto eliminado correctamente');
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error(error instanceof Error ? error.message : 'Error al eliminar el presupuesto');
+    } finally {
+      setEliminandoId(null);
+    }
+  };
+
   // Definir las columnas para la tabla
   const columns = [
     {
@@ -438,41 +455,48 @@ export default function PresupuestosPage() {
               Editar
             </Link>
           </Button>
-          <Button 
-            variant="outline" 
-            size="sm"
-            onClick={() => duplicarPresupuesto(presupuesto.id)}
-            disabled={duplicandoId === presupuesto.id}
-            className="text-blue-600 hover:bg-blue-50 hover:text-blue-700 border-blue-200"
-          >
-            {duplicandoId === presupuesto.id ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              <>
-                <Copy className="h-4 w-4 mr-1" />
-                Duplicar
-              </>
-            )}
-          </Button>
-          {/* Botón para crear factura - solo disponible para presupuestos APROBADOS */}
-          {presupuesto.estado === "APROBADO" && (
-            <Button 
-              variant="outline" 
-              size="sm"
-              onClick={() => crearFacturaDesdePresupuesto(presupuesto.id)}
-              disabled={creandoFactura === presupuesto.id}
-              className="text-green-600 hover:bg-green-50 hover:text-green-700 border-green-200"
-            >
-              {creandoFactura === presupuesto.id ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <>
-                  <FileText className="h-4 w-4 mr-1" />
-                  Facturar
-                </>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm">
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem
+                onClick={() => duplicarPresupuesto(presupuesto.id)}
+                disabled={duplicandoId === presupuesto.id || eliminandoId === presupuesto.id || creandoFactura === presupuesto.id}
+                className="flex items-center gap-2"
+              >
+                <Copy className="h-4 w-4" />
+                <span>{duplicandoId === presupuesto.id ? "Duplicando..." : "Duplicar"}</span>
+              </DropdownMenuItem>
+              
+              {presupuesto.estado === "APROBADO" && (
+                <DropdownMenuItem
+                  onClick={() => crearFacturaDesdePresupuesto(presupuesto.id)}
+                  disabled={creandoFactura === presupuesto.id || eliminandoId === presupuesto.id || duplicandoId === presupuesto.id}
+                  className="text-green-600 flex items-center gap-2"
+                >
+                  <FileText className="h-4 w-4" />
+                  <span>{creandoFactura === presupuesto.id ? "Creando factura..." : "Crear factura"}</span>
+                </DropdownMenuItem>
               )}
-            </Button>
-          )}
+              
+              <DropdownMenuItem 
+                onClick={() => {
+                  const confirmed = confirm("¿Estás seguro de que quieres eliminar este presupuesto? Esta acción no se puede deshacer.");
+                  if (confirmed) {
+                    eliminarPresupuesto(presupuesto.id);
+                  }
+                }}
+                disabled={eliminandoId === presupuesto.id || duplicandoId === presupuesto.id || creandoFactura === presupuesto.id}
+                className="text-red-600 flex items-center gap-2"
+              >
+                <XCircle className="h-4 w-4" />
+                <span>{eliminandoId === presupuesto.id ? "Eliminando..." : "Eliminar"}</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       )
     }

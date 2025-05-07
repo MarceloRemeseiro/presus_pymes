@@ -54,6 +54,54 @@ export async function POST(request: Request) {
       data.documentoFecha = new Date(data.documentoFecha)
     }
 
+    // SOLUCIÓN TEMPORAL: Si no hay facturaId, asignar uno predeterminado
+    // En el futuro, debería modificarse el schema para hacer facturaId opcional
+    if (!data.facturaId) {
+      // Buscar si existe la factura "GASTOS-INDEPENDIENTES"
+      // NOTA: Esta es una factura especial interna que NO debe mostrarse en la lista de facturas normales
+      // Se filtra en la API de facturas para excluirla de los resultados
+      let facturaIndependiente = await prisma.factura.findFirst({
+        where: { numero: "GASTOS-INDEPENDIENTES" }
+      });
+      
+      // Si no existe, crearla
+      if (!facturaIndependiente) {
+        // Buscar un cliente de sistema para asignar a la factura (o crear uno)
+        // NOTA: Todas las facturas asociadas a este cliente son internas y no deben mostrarse
+        let clienteSistema = await prisma.cliente.findFirst({
+          where: { nombre: "SISTEMA" }
+        });
+        
+        if (!clienteSistema) {
+          clienteSistema = await prisma.cliente.create({
+            data: {
+              nombre: "SISTEMA",
+              email: "sistema@localhost",
+            }
+          });
+        }
+        
+        // Crear factura para gastos independientes (no visible en la lista de facturas)
+        facturaIndependiente = await prisma.factura.create({
+          data: {
+            numero: "GASTOS-INDEPENDIENTES",
+            nombre: "Gastos Independientes (Sistema)",
+            fecha: new Date(),
+            fechaVencimiento: new Date(),
+            clienteId: clienteSistema.id,
+            estado: "PENDIENTE",
+            subtotal: 0,
+            iva: 0,
+            total: 0
+          }
+        });
+      }
+      
+      // Asignar la factura independiente a este gasto
+      data.facturaId = facturaIndependiente.id;
+      console.log("Asignando factura independiente:", facturaIndependiente.id);
+    }
+
     const gasto = await prisma.facturaProveedor.create({
       data,
       include: {

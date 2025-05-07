@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { EstadoBadge } from "@/components/gastos/estado-badge"
+import { GastoDialog } from "@/components/gastos/gasto-dialog"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -63,6 +64,7 @@ export default function GastosPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [filtroEstado, setFiltroEstado] = useState<string | null>(null)
+  const [eliminandoId, setEliminandoId] = useState<string | null>(null)
 
   const fetchGastos = async () => {
     setIsLoading(true)
@@ -87,12 +89,21 @@ export default function GastosPage() {
 
   // Determinar el estado del gasto
   const getEstadoGasto = (gasto: Gasto): string => {
+    // Primero verificar si hay un estado personalizado en tipoEspecial
+    if (gasto.tipoEspecial && gasto.tipoEspecial.startsWith('estado_')) {
+      const estado = gasto.tipoEspecial.replace('estado_', '').toUpperCase();
+      return estado === 'PAGADO' ? 'PAGADO' : 'PENDIENTE';
+    }
+    
+    // Si tiene factura y no tiene estado personalizado, usar el estado de la factura
     if (gasto.factura) {
       if (gasto.factura.estado === 'COBRADA') return 'PAGADO';
       if (gasto.factura.estado === 'VENCIDA') return 'VENCIDO';
       if (gasto.factura.estado === 'ANULADA') return 'ANULADO';
       return 'PENDIENTE';
     }
+    
+    // Por defecto, pendiente
     return 'PENDIENTE';
   }
 
@@ -112,6 +123,8 @@ export default function GastosPage() {
 
   const handleChangeEstado = async (gastoId: string, newEstado: string) => {
     try {
+      console.log("Cambiando estado para gastoId:", gastoId, "a", newEstado);
+      
       const response = await fetch(`/api/gastos/${gastoId}/estado`, {
         method: "PUT",
         headers: {
@@ -124,11 +137,18 @@ export default function GastosPage() {
         throw new Error("Error al cambiar el estado del gasto")
       }
 
-      fetchGastos() // Refrescar la lista de gastos
+      const gastoActualizado = await response.json();
+      console.log("Gasto actualizado:", gastoActualizado);
+      
+      // Actualizar solo el gasto modificado en lugar de recargar toda la lista
+      setGastos(gastos.map(gasto => 
+        gasto.id === gastoId ? {...gasto, tipoEspecial: gastoActualizado.tipoEspecial, factura: gastoActualizado.factura} : gasto
+      ));
+      
       toast.success(`Estado cambiado a ${getNombreEstado(newEstado)}`)
     } catch (error) {
+      console.error("Error updating gasto estado:", error);
       toast.error("No se pudo actualizar el estado del gasto")
-      console.error("Error updating gasto estado:", error)
     }
   }
 
@@ -150,6 +170,31 @@ export default function GastosPage() {
     date.setMinutes(date.getMinutes() + date.getTimezoneOffset())
     return format(date, 'dd/MM/yyyy', { locale: es })
   }
+
+  // Función para eliminar un gasto
+  const eliminarGasto = async (gastoId: string) => {
+    try {
+      setEliminandoId(gastoId);
+      
+      const response = await fetch(`/api/gastos/${gastoId}`, {
+        method: 'DELETE',
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Error al eliminar el gasto');
+      }
+      
+      // Actualizar la lista de gastos
+      setGastos(gastos.filter(gasto => gasto.id !== gastoId));
+      toast.success('Gasto eliminado correctamente');
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error(error instanceof Error ? error.message : 'Error al eliminar el gasto');
+    } finally {
+      setEliminandoId(null);
+    }
+  };
 
   const columns = [
     {
@@ -237,20 +282,6 @@ export default function GastosPage() {
                   <span>Marcar como pendiente</span>
                 </DropdownMenuItem>
               )}
-              <DropdownMenuItem 
-                className="text-red-600" 
-                onClick={() => {
-                  const confirmed = confirm("¿Estás seguro de que quieres eliminar este gasto?")
-                  if (confirmed) {
-                    // Implementar lógica de eliminación
-                    toast.success("Gasto eliminado")
-                    fetchGastos()
-                  }
-                }}
-              >
-                <XCircle className="h-4 w-4 mr-2" />
-                <span>Eliminar</span>
-              </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
@@ -259,7 +290,7 @@ export default function GastosPage() {
     },
     {
       key: "actions",
-      header: "",
+      header: "Acciones",
       cell: (gasto: Gasto) => (
         <div className="flex justify-start gap-2">
           <Button variant="outline" size="sm" asChild>
@@ -267,9 +298,28 @@ export default function GastosPage() {
               Ver
             </Link>
           </Button>
-          <Button variant="outline" size="sm" onClick={() => router.push(`/gastos/editar/${gasto.id}`)}>
-            Editar
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm">
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem 
+                onClick={() => {
+                  const confirmed = confirm("¿Estás seguro de que quieres eliminar este gasto? Esta acción no se puede deshacer.");
+                  if (confirmed) {
+                    eliminarGasto(gasto.id);
+                  }
+                }}
+                disabled={eliminandoId === gasto.id}
+                className="text-red-600 flex items-center gap-2"
+              >
+                <XCircle className="h-4 w-4" />
+                <span>{eliminandoId === gasto.id ? "Eliminando..." : "Eliminar"}</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       )
     }
@@ -301,65 +351,72 @@ export default function GastosPage() {
 
   return (
     <div className="py-10">
-      
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold tracking-tight flex items-center gap-2">
-          <CreditCard className="h-8 w-8" />
-          Gestión de Gastos
-        </h1>
-        <Button onClick={() => router.push('/gastos/nuevo')}>
-          <PlusCircle className="mr-2 h-4 w-4" />
-          Nuevo Gasto
-        </Button>
+        <h1 className="text-3xl font-bold">Gastos</h1>
+        <div className="flex items-center gap-2">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline">
+                {filtroEstado ? getNombreEstado(filtroEstado) : "Todos los estados"}
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => setFiltroEstado(null)}>
+                Todos los estados
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setFiltroEstado("PENDIENTE")}>
+                Pendientes
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setFiltroEstado("PAGADO")}>
+                Pagados
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setFiltroEstado("VENCIDO")}>
+                Vencidos
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setFiltroEstado("ANULADO")}>
+                Anulados
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <GastoDialog
+            trigger={
+              <Button>
+                <PlusCircle className="mr-2 h-4 w-4" />
+                Nuevo Gasto
+              </Button>
+            }
+            onSuccess={fetchGastos}
+          />
+        </div>
       </div>
 
       <Card>
         <CardHeader>
           <CardTitle>Gestión de Gastos</CardTitle>
           <CardDescription>
-            Administra las facturas de proveedores, tanto las asociadas a proyectos como los gastos generales.
+            Administra todos tus gastos y facturas de proveedores desde aquí
           </CardDescription>
           
           <div className="flex items-center mt-4">
             <Search className="h-4 w-4 mr-2 opacity-50" />
             <Input
-              placeholder="Buscar por número, concepto o proveedor..." 
+              placeholder="Buscar por concepto, proveedor..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="max-w-sm"
             />
           </div>
-          
-          <div className="flex gap-2 mt-4">
-            <Button 
-              variant={filtroEstado === null ? "default" : "outline"} 
-              size="sm"
-              onClick={() => setFiltroEstado(null)}
-            >
-              Todos
-            </Button>
-            <Button 
-              variant={filtroEstado === 'PENDIENTE' ? "default" : "outline"} 
-              size="sm"
-              onClick={() => setFiltroEstado('PENDIENTE')}
-              className="text-yellow-500"
-            >
-              <AlertCircle className="mr-1 h-4 w-4" />
-              Pendientes
-            </Button>
-            <Button 
-              variant={filtroEstado === 'PAGADO' ? "default" : "outline"} 
-              size="sm"
-              onClick={() => setFiltroEstado('PAGADO')}
-              className="text-green-500"
-            >
-              <CheckCircle className="mr-1 h-4 w-4" />
-              Pagados
-            </Button>
-          </div>
         </CardHeader>
         <CardContent>
-          {filteredGastos.length === 0 ? (
+          {isLoading ? (
+            <div className="flex justify-center items-center py-8">
+              <Loader2 className="h-8 w-8 animate-spin opacity-70" />
+            </div>
+          ) : error ? (
+            <div className="bg-red-50 text-red-800 p-4 rounded-md">
+              {error}
+            </div>
+          ) : filteredGastos.length === 0 ? (
             <div className="text-center py-8 text-muted-foreground">
               {searchTerm 
                 ? "No se encontraron gastos que coincidan con tu búsqueda" 
@@ -368,11 +425,13 @@ export default function GastosPage() {
           ) : (
             <DataTable 
               columns={columns} 
-              data={filteredGastos} 
+              data={filteredGastos}
             />
           )}
         </CardContent>
       </Card>
+      
+      <Toaster />
     </div>
   )
 } 

@@ -7,9 +7,15 @@ import { Input } from "@/components/ui/input"
 import Link from "next/link"
 import { Toaster, toast } from "sonner"
 import { useRouter } from "next/navigation"
-import { Loader2, Plus, Search, Trash2, Edit } from "lucide-react"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Loader2, Plus, Search, Trash2, Edit, MoreHorizontal } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
+import { DataTable } from "@/components/ui/data-table"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 interface Proveedor {
   id: string
@@ -29,6 +35,7 @@ export default function ProveedoresPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState("")
   const [error, setError] = useState<string | null>(null)
+  const [eliminandoId, setEliminandoId] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchProveedores = async () => {
@@ -64,30 +71,104 @@ export default function ProveedoresPage() {
 
   // Eliminar un proveedor
   const handleDelete = async (id: string) => {
-    if (!window.confirm("¿Estás seguro de eliminar este proveedor? Esta acción no se puede deshacer.")) {
-      return
-    }
-    
     try {
+      setEliminandoId(id);
+      
       const response = await fetch(`/api/proveedores/${id}`, {
         method: "DELETE"
-      })
+      });
       
       if (!response.ok) {
-        const data = await response.json()
-        throw new Error(data.error || "Error al eliminar el proveedor")
+        const data = await response.json();
+        throw new Error(data.error || "Error al eliminar el proveedor");
       }
       
       setProveedores(prevProveedores => 
         prevProveedores.filter(proveedor => proveedor.id !== id)
-      )
+      );
       
-      toast.success("Proveedor eliminado correctamente")
+      toast.success("Proveedor eliminado correctamente");
     } catch (error) {
-      console.error("Error:", error)
-      toast.error(`Error: ${error instanceof Error ? error.message : "Error al eliminar el proveedor"}`)
+      console.error("Error:", error);
+      toast.error(`Error: ${error instanceof Error ? error.message : "Error al eliminar el proveedor"}`);
+    } finally {
+      setEliminandoId(null);
     }
-  }
+  };
+
+  // Definir las columnas para la tabla
+  const columns = [
+    {
+      key: "nombre",
+      header: "Nombre",
+      sortable: true,
+      cell: (proveedor: Proveedor) => (
+        <Link 
+          href={`/proveedores/${proveedor.id}`} 
+          className="hover:underline font-medium"
+        >
+          {proveedor.nombre}
+        </Link>
+      )
+    },
+    {
+      key: "nif",
+      header: "NIF",
+      sortable: true,
+      cell: (proveedor: Proveedor) => <div>{proveedor.nif || "—"}</div>
+    },
+    {
+      key: "contacto",
+      header: "Contacto",
+      sortable: false,
+      cell: (proveedor: Proveedor) => (
+        <div>
+          {proveedor.email || proveedor.telefono 
+            ? `${proveedor.email || ""} ${proveedor.telefono ? `· ${proveedor.telefono}` : ""}`
+            : "—"}
+        </div>
+      )
+    },
+    {
+      key: "actions",
+      header: "Acciones",
+      cell: (proveedor: Proveedor) => (
+        <div className="flex justify-end gap-2">
+          <Button 
+            variant="ghost" 
+            size="icon"
+            asChild
+          >
+            <Link href={`/proveedores/editar/${proveedor.id}`}>
+              <Edit className="h-4 w-4" />
+            </Link>
+          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem 
+                onClick={() => {
+                  const confirmed = confirm("¿Estás seguro de eliminar este proveedor? Esta acción no se puede deshacer.");
+                  if (confirmed) {
+                    handleDelete(proveedor.id);
+                  }
+                }}
+                disabled={eliminandoId === proveedor.id}
+                className="text-red-600 flex items-center gap-2"
+              >
+                <Trash2 className="h-4 w-4" />
+                <span>{eliminandoId === proveedor.id ? "Eliminando..." : "Eliminar"}</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      )
+    }
+  ]
 
   return (
     <div className="py-10">
@@ -135,56 +216,10 @@ export default function ProveedoresPage() {
                 : "No hay proveedores registrados aún"}
             </div>
           ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Nombre</TableHead>
-                  <TableHead>NIF</TableHead>
-                  <TableHead>Contacto</TableHead>
-                  <TableHead className="text-right">Acciones</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredProveedores.map((proveedor) => (
-                  <TableRow key={proveedor.id}>
-                    <TableCell className="font-medium">
-                      <Link 
-                        href={`/proveedores/${proveedor.id}`} 
-                        className="hover:underline"
-                      >
-                        {proveedor.nombre}
-                      </Link>
-                    </TableCell>
-                    <TableCell>{proveedor.nif || "—"}</TableCell>
-                    <TableCell>
-                      {proveedor.email || proveedor.telefono 
-                        ? `${proveedor.email || ""} ${proveedor.telefono ? `· ${proveedor.telefono}` : ""}`
-                        : "—"}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex justify-end gap-2">
-                        <Button 
-                          variant="ghost" 
-                          size="icon"
-                          asChild
-                        >
-                          <Link href={`/proveedores/editar/${proveedor.id}`}>
-                            <Edit className="h-4 w-4" />
-                          </Link>
-                        </Button>
-                        <Button 
-                          variant="ghost" 
-                          size="icon"
-                          onClick={() => handleDelete(proveedor.id)}
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <DataTable 
+              columns={columns} 
+              data={filteredProveedores}
+            />
           )}
         </CardContent>
       </Card>

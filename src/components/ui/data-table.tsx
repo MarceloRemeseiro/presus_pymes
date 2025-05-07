@@ -118,7 +118,7 @@ export function DataTable<T extends Record<string, any>>({
                 <Button
                   variant="ghost"
                   onClick={() => handleSort(column.key)}
-                  className="h-auto font-medium flex item-center  text-muted-foreground justify-start hover:bg-transparent hover:text-foreground"
+                  className="h-auto font-medium flex item-center text-muted-foreground justify-start hover:bg-transparent hover:text-foreground"
                 >
                   {column.header}
                   {getSortIcon(column.key)}

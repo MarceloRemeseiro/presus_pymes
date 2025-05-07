@@ -28,7 +28,6 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
-import { crearGasto, obtenerProveedores, obtenerPartidas, obtenerFacturas } from '@/lib/acciones/gastos'
 import { formatCurrency } from '@/lib/utils'
 import {
   Select,
@@ -76,11 +75,20 @@ export default function NuevoGasto() {
     
     if (open && proveedores.length === 0) {
       try {
-        const [proveedoresData, partidasData, facturasData] = await Promise.all([
-          obtenerProveedores(),
-          obtenerPartidas(),
-          obtenerFacturas(),
+        // Cargar datos desde API routes
+        const [proveedoresResponse, partidasResponse, facturasResponse] = await Promise.all([
+          fetch('/api/proveedores'),
+          fetch('/api/partidas'),
+          fetch('/api/facturas'),
         ])
+        
+        if (!proveedoresResponse.ok || !partidasResponse.ok || !facturasResponse.ok) {
+          throw new Error('Error al cargar datos')
+        }
+        
+        const proveedoresData = await proveedoresResponse.json()
+        const partidasData = await partidasResponse.json()
+        const facturasData = await facturasResponse.json()
         
         setProveedores(proveedoresData)
         setPartidas(partidasData)
@@ -95,10 +103,22 @@ export default function NuevoGasto() {
   const onSubmit = async (data: z.infer<typeof formSchema>) => {
     setCargando(true)
     try {
-      await crearGasto({
-        ...data,
-        documentoFecha: data.documentoFecha ? new Date(data.documentoFecha) : null,
+      // Crear gasto usando API route
+      const response = await fetch('/api/gastos', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...data,
+          documentoFecha: data.documentoFecha ? new Date(data.documentoFecha) : null,
+        }),
       })
+      
+      if (!response.ok) {
+        throw new Error('Error al crear el gasto')
+      }
+      
       toast.success('Gasto creado correctamente')
       form.reset()
       setAbierto(false)

@@ -23,9 +23,10 @@ import { use } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
-import { toast } from "sonner"
+import { toast, Toaster } from "sonner"
 import { EstadoBadge } from "@/components/gastos/estado-badge"
 import { formatCurrency } from '@/lib/utils'
+import { GastoDialog } from "@/components/gastos/gasto-dialog"
 
 interface Proveedor {
   id: string
@@ -84,6 +85,14 @@ export default function GastoDetallePage({ params }: { params: Promise<{ id: str
       
       const response = await fetch(`/api/gastos/${gastoId}`)
       if (!response.ok) {
+        if (response.status === 404) {
+          // Si el gasto no existe, mostrar error y redirigir después de un momento
+          setError('El gasto no existe o ha sido eliminado')
+          setTimeout(() => {
+            router.push('/gastos')
+          }, 3000)
+          return
+        }
         throw new Error(`Error al cargar gasto: ${response.statusText}`)
       }
       
@@ -95,6 +104,11 @@ export default function GastoDetallePage({ params }: { params: Promise<{ id: str
     } catch (err) {
       console.error('Error al cargar gasto:', err)
       setError(err instanceof Error ? err.message : 'Error desconocido al cargar el gasto')
+      
+      // Si es un error de red o servidor, mostrar un mensaje
+      if (err instanceof Error && err.message.includes('failed to fetch')) {
+        setError('Error de conexión. No se pudo cargar el gasto.')
+      }
     } finally {
       setIsLoading(false)
     }
@@ -128,12 +142,21 @@ export default function GastoDetallePage({ params }: { params: Promise<{ id: str
   }
 
   const getEstadoGasto = (gasto: Gasto): string => {
+    // Primero verificar si hay un estado personalizado en tipoEspecial
+    if (gasto.tipoEspecial && gasto.tipoEspecial.startsWith('estado_')) {
+      const estado = gasto.tipoEspecial.replace('estado_', '').toUpperCase();
+      return estado === 'PAGADO' ? 'PAGADO' : 'PENDIENTE';
+    }
+    
+    // Si tiene factura y no tiene estado personalizado, usar el estado de la factura
     if (gasto.factura) {
       if (gasto.factura.estado === 'COBRADA') return 'PAGADO';
       if (gasto.factura.estado === 'VENCIDA') return 'VENCIDO';
       if (gasto.factura.estado === 'ANULADA') return 'ANULADO';
       return 'PENDIENTE';
     }
+    
+    // Por defecto, pendiente
     return 'PENDIENTE';
   }
 
@@ -192,9 +215,14 @@ export default function GastoDetallePage({ params }: { params: Promise<{ id: str
     return (
       <div className="py-10">
         <div className="p-4 mb-4 text-red-800 rounded-lg bg-red-50">
-          <p>{error}</p>
-          <Button onClick={() => router.push('/gastos')} className="mt-4">
-            Volver a gastos
+          <p className="mb-3">{error}</p>
+          {error.includes('no existe o ha sido eliminado') && (
+            <p className="text-sm text-red-600 mb-3">
+              Serás redirigido automáticamente a la lista de gastos en unos segundos...
+            </p>
+          )}
+          <Button onClick={() => router.push('/gastos')} className="mt-2">
+            Volver a gastos ahora
           </Button>
         </div>
       </div>
@@ -228,32 +256,16 @@ export default function GastoDetallePage({ params }: { params: Promise<{ id: str
           <h1 className="text-3xl font-bold">Detalles del Gasto</h1>
         </div>
         <div className="flex items-center gap-2">
-          <Button 
-            variant="outline" 
-            onClick={() => router.push(`/gastos/editar/${gasto.id}`)}
-          >
-            <FileEdit className="mr-2 h-4 w-4" />
-            Editar
-          </Button>
-          
-          {gasto.archivoUrl && (
-            <>
-              <Button 
-                variant="outline" 
-                onClick={handleImprimirDocumento}
-              >
-                <FileText className="mr-2 h-4 w-4" />
-                Ver Documento
+          <GastoDialog
+            trigger={
+              <Button variant="outline">
+                <FileEdit className="mr-2 h-4 w-4" />
+                Editar
               </Button>
-              <Button 
-                variant="outline" 
-                onClick={handleDescargarDocumento}
-              >
-                <FileDown className="mr-2 h-4 w-4" />
-                Descargar
-              </Button>
-            </>
-          )}
+            }
+            gastoId={gasto.id}
+            onSuccess={fetchGasto}
+          />
         </div>
       </div>
 
@@ -283,7 +295,7 @@ export default function GastoDetallePage({ params }: { params: Promise<{ id: str
               )}
               <div>
                 <h3 className="text-sm font-medium text-muted-foreground">Estado</h3>
-                <div className="mt-1">
+                <div className="mt-1 flex items-center">
                   <EstadoBadge estado={estadoActual as any} />
                 </div>
               </div>
@@ -420,6 +432,8 @@ export default function GastoDetallePage({ params }: { params: Promise<{ id: str
           </CardContent>
         </Card>
       </div>
+      
+      <Toaster />
     </div>
   )
 } 

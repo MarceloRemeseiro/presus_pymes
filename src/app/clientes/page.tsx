@@ -9,19 +9,18 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
 import { Input } from "@/components/ui/input"
 import { toast, Toaster } from "sonner"
-import { Edit, Trash, Loader2, PlusCircle, Search } from "lucide-react"
+import { Edit, Trash, Loader2, PlusCircle, Search, MoreHorizontal } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { DataTable } from "@/components/ui/data-table"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 interface Cliente {
   id: string
@@ -41,8 +40,7 @@ export default function ClientesPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [searchTerm, setSearchTerm] = useState("")
-  const [isDeleting, setIsDeleting] = useState(false)
-  const [clienteIdToDelete, setClienteIdToDelete] = useState<string | null>(null)
+  const [eliminandoId, setEliminandoId] = useState<string | null>(null)
 
   // Función para cargar todos los clientes
   const fetchClientes = async () => {
@@ -81,36 +79,118 @@ export default function ClientesPage() {
 
   // Función para eliminar cliente
   const handleDeleteCliente = async (id: string) => {
-    if (!window.confirm("¿Estás seguro de eliminar este cliente? Esta acción no se puede deshacer.")) {
-      return
-    }
-    
     try {
-      setIsDeleting(true)
-      setClienteIdToDelete(id)
+      setEliminandoId(id);
       
       const response = await fetch(`/api/clientes/${id}`, {
         method: "DELETE",
-      })
+      });
 
       if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.error || "Error al eliminar el cliente")
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Error al eliminar el cliente");
       }
       
       // Actualizar la lista de clientes
-      setClientes(clientes.filter(cliente => cliente.id !== id))
+      setClientes(clientes.filter(cliente => cliente.id !== id));
       
       // Mostrar mensaje de éxito
-      toast.success("Cliente eliminado correctamente")
+      toast.success("Cliente eliminado correctamente");
     } catch (error) {
-      console.error("Error:", error)
-      toast.error(error instanceof Error ? error.message : "Error al eliminar el cliente")
+      console.error("Error:", error);
+      toast.error(error instanceof Error ? error.message : "Error al eliminar el cliente");
     } finally {
-      setIsDeleting(false)
-      setClienteIdToDelete(null)
+      setEliminandoId(null);
     }
-  }
+  };
+
+  // Definir las columnas para la tabla
+  const columns = [
+    {
+      key: "nombre",
+      header: "Nombre",
+      sortable: true,
+      cell: (cliente: Cliente) => (
+        <Link 
+          href={`/clientes/${cliente.id}`} 
+          className="hover:underline font-medium"
+        >
+          {cliente.nombre}
+        </Link>
+      )
+    },
+    {
+      key: "nif",
+      header: "CIF/NIF",
+      sortable: true,
+      cell: (cliente: Cliente) => <div>{cliente.nif || "—"}</div>
+    },
+    {
+      key: "email",
+      header: "Email",
+      sortable: true,
+      cell: (cliente: Cliente) => <div>{cliente.email || "—"}</div>
+    },
+    {
+      key: "telefono",
+      header: "Teléfono",
+      sortable: true,
+      cell: (cliente: Cliente) => <div>{cliente.telefono || "—"}</div>
+    },
+    {
+      key: "tipo",
+      header: "Tipo",
+      sortable: true,
+      cell: (cliente: Cliente) => (
+        <span className={`px-2 py-1 rounded-full text-xs ${
+          cliente.tipo === "EMPRESA" 
+            ? "bg-blue-100 text-blue-800" 
+            : "bg-green-100 text-green-800"
+        }`}>
+          {cliente.tipo === "EMPRESA" ? "Empresa" : "Autónomo"}
+        </span>
+      )
+    },
+    {
+      key: "actions",
+      header: "Acciones",
+      cell: (cliente: Cliente) => (
+        <div className="flex justify-end gap-2">
+          <Button 
+            variant="ghost" 
+            size="icon"
+            asChild
+          >
+            <Link href={`/clientes/editar/${cliente.id}`}>
+              <Edit className="h-4 w-4" />
+            </Link>
+          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem 
+                onClick={() => {
+                  const confirmed = confirm("¿Estás seguro de eliminar este cliente? Esta acción no se puede deshacer.");
+                  if (confirmed) {
+                    handleDeleteCliente(cliente.id);
+                  }
+                }}
+                disabled={eliminandoId === cliente.id}
+                className="text-red-600 flex items-center gap-2"
+              >
+                <Trash className="h-4 w-4" />
+                <span>{eliminandoId === cliente.id ? "Eliminando..." : "Eliminar"}</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      )
+    }
+  ]
 
   if (isLoading) {
     return (
@@ -173,69 +253,10 @@ export default function ClientesPage() {
                 : "No hay clientes registrados aún"}
             </div>
           ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Nombre</TableHead>
-                  <TableHead>CIF/NIF</TableHead>
-                  <TableHead>Email</TableHead>
-                  <TableHead>Teléfono</TableHead>
-                  <TableHead>Tipo</TableHead>
-                  <TableHead className="text-right">Acciones</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredClientes.map((cliente) => (
-                  <TableRow key={cliente.id}>
-                    <TableCell className="font-medium">
-                      <Link 
-                        href={`/clientes/${cliente.id}`} 
-                        className="hover:underline"
-                      >
-                        {cliente.nombre}
-                      </Link>
-                    </TableCell>
-                    <TableCell>{cliente.nif || "—"}</TableCell>
-                    <TableCell>{cliente.email || "—"}</TableCell>
-                    <TableCell>{cliente.telefono || "—"}</TableCell>
-                    <TableCell>
-                      <span className={`px-2 py-1 rounded-full text-xs ${
-                        cliente.tipo === "EMPRESA" 
-                          ? "bg-blue-100 text-blue-800" 
-                          : "bg-green-100 text-green-800"
-                      }`}>
-                        {cliente.tipo === "EMPRESA" ? "Empresa" : "Autónomo"}
-                      </span>
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex justify-end gap-2">
-                        <Button 
-                          variant="ghost" 
-                          size="icon"
-                          asChild
-                        >
-                          <Link href={`/clientes/editar/${cliente.id}`}>
-                            <Edit className="h-4 w-4" />
-                          </Link>
-                        </Button>
-                        <Button 
-                          variant="ghost" 
-                          size="icon"
-                          onClick={() => handleDeleteCliente(cliente.id)}
-                          disabled={isDeleting && clienteIdToDelete === cliente.id}
-                        >
-                          {isDeleting && clienteIdToDelete === cliente.id ? (
-                            <Loader2 className="h-4 w-4 animate-spin" />
-                          ) : (
-                            <Trash className="h-4 w-4" />
-                          )}
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <DataTable 
+              columns={columns} 
+              data={filteredClientes}
+            />
           )}
         </CardContent>
       </Card>

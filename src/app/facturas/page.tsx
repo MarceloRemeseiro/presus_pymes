@@ -49,6 +49,7 @@ export default function FacturasPage() {
   const [isCreating, setIsCreating] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [duplicandoId, setDuplicandoId] = useState<string | null>(null)
+  const [eliminandoId, setEliminandoId] = useState<string | null>(null)
 
   const fetchFacturas = async () => {
     setIsLoading(true)
@@ -217,6 +218,31 @@ export default function FacturasPage() {
     }
   }
 
+  // Función para eliminar una factura
+  const eliminarFactura = async (facturaId: string) => {
+    try {
+      setEliminandoId(facturaId);
+      
+      const response = await fetch(`/api/facturas/${facturaId}`, {
+        method: 'DELETE',
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Error al eliminar la factura');
+      }
+      
+      // Actualizar la lista de facturas
+      setFacturas(facturas.filter(factura => factura.id !== facturaId));
+      toast.success('Factura eliminada correctamente');
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error(error instanceof Error ? error.message : 'Error al eliminar la factura');
+    } finally {
+      setEliminandoId(null);
+    }
+  };
+
   // Función para formatear fechas correctamente (evitando problemas de zona horaria)
   const formatDate = (dateString: string) => {
     if (!dateString) return '--'
@@ -355,22 +381,36 @@ export default function FacturasPage() {
               Editar
             </Link>
           </Button>
-          <Button 
-            variant="outline" 
-            size="sm"
-            onClick={() => duplicarFactura(factura.id)}
-            disabled={duplicandoId === factura.id}
-            className="text-blue-600 hover:bg-blue-50 hover:text-blue-700 border-blue-200"
-          >
-            {duplicandoId === factura.id ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              <>
-                <Copy className="h-4 w-4 mr-1" />
-                Duplicar
-              </>
-            )}
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm">
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem
+                onClick={() => duplicarFactura(factura.id)}
+                disabled={duplicandoId === factura.id || eliminandoId === factura.id}
+                className="flex items-center gap-2"
+              >
+                <Copy className="h-4 w-4" />
+                <span>{duplicandoId === factura.id ? "Duplicando..." : "Duplicar"}</span>
+              </DropdownMenuItem>
+              <DropdownMenuItem 
+                onClick={() => {
+                  const confirmed = confirm("¿Estás seguro de que quieres eliminar esta factura? Esta acción no se puede deshacer.");
+                  if (confirmed) {
+                    eliminarFactura(factura.id);
+                  }
+                }}
+                disabled={eliminandoId === factura.id || duplicandoId === factura.id}
+                className="text-red-600 flex items-center gap-2"
+              >
+                <XCircle className="h-4 w-4" />
+                <span>{eliminandoId === factura.id ? "Eliminando..." : "Eliminar"}</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       )
     }

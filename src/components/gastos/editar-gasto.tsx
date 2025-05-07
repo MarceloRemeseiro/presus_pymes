@@ -26,7 +26,7 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
-import { actualizarGasto, obtenerProveedores, obtenerPartidas, obtenerGasto, Gasto } from '@/lib/acciones/gastos'
+import { Gasto } from '@/lib/acciones/gastos'
 import { formatCurrency } from '@/lib/utils'
 import {
   Select,
@@ -39,7 +39,7 @@ import {
 const formSchema = z.object({
   nombre: z.string().min(1, { message: 'El concepto es obligatorio' }),
   precio: z.coerce.number().min(0.01, { message: 'El precio debe ser mayor a 0' }),
-  precioConIVA: z.boolean().default(true),
+  precioConIVA: z.boolean(),
   proveedorId: z.string().optional(),
   facturaId: z.string().optional(),
   partidaId: z.string().optional(),
@@ -63,30 +63,38 @@ export default function EditarGasto({ gasto, abierto, setAbierto }: EditarGastoP
   const [partidas, setPartidas] = useState<{ id: string; nombre: string }[]>([])
   const [cargando, setCargando] = useState(false)
 
-  const form = useForm<FormValues>({
+  const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       nombre: gasto.nombre,
       precio: gasto.precio,
-      precioConIVA: true,
+      precioConIVA: gasto.precioConIVA ?? true,
       proveedorId: gasto.proveedor?.id,
       partidaId: gasto.partida?.id,
       tipoEspecial: gasto.tipoEspecial || '',
-      descripcion: '',
+      descripcion: gasto.descripcion || '',
       documentoNombre: gasto.documentoNombre || '',
       documentoFecha: gasto.documentoFecha 
         ? new Date(gasto.documentoFecha).toISOString().split('T')[0]
-        : undefined,
+        : '',
     },
   })
 
   useEffect(() => {
     const cargarDatos = async () => {
       try {
-        const [proveedoresData, partidasData] = await Promise.all([
-          obtenerProveedores(),
-          obtenerPartidas(),
+        // Cargar proveedores y partidas desde API routes
+        const [proveedoresResponse, partidasResponse] = await Promise.all([
+          fetch('/api/proveedores'),
+          fetch('/api/partidas'),
         ])
+        
+        if (!proveedoresResponse.ok || !partidasResponse.ok) {
+          throw new Error('Error al cargar datos')
+        }
+        
+        const proveedoresData = await proveedoresResponse.json()
+        const partidasData = await partidasResponse.json()
         
         setProveedores(proveedoresData)
         setPartidas(partidasData)
@@ -101,13 +109,25 @@ export default function EditarGasto({ gasto, abierto, setAbierto }: EditarGastoP
     }
   }, [abierto])
 
-  const onSubmit = async (data: FormValues) => {
+  const onSubmit = async (data: z.infer<typeof formSchema>) => {
     setCargando(true)
     try {
-      await actualizarGasto(gasto.id, {
-        ...data,
-        documentoFecha: data.documentoFecha ? new Date(data.documentoFecha) : null,
+      // Actualizar gasto usando el API route
+      const response = await fetch(`/api/gastos/${gasto.id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...data,
+          documentoFecha: data.documentoFecha ? new Date(data.documentoFecha) : null,
+        }),
       })
+      
+      if (!response.ok) {
+        throw new Error('Error al actualizar el gasto')
+      }
+      
       toast.success('Gasto actualizado correctamente')
       setAbierto(false)
       router.refresh()

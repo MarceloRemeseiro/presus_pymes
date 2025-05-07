@@ -5,15 +5,6 @@ import { useRouter } from "next/navigation"
 import Link from "next/link"
 import React from "react"
 import { Button } from "@/components/ui/button"
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
@@ -24,7 +15,7 @@ import { Toaster } from "@/components/ui/toaster"
 import { toast } from "sonner"
 import { Trash2, Pencil, Loader2, ArrowLeft, Plus } from "lucide-react"
 import { formatCurrency } from "@/lib/utils"
-
+import { DataTable } from "@/components/ui/data-table"
 
 interface EquipoItem {
   id: string
@@ -352,6 +343,104 @@ export default function EquiposProductoPage({ params }: { params: Promise<{ prod
     return proveedor ? proveedor.nombre : "-";
   };
 
+  // Definir las columnas para la tabla
+  const columns = [
+    {
+      key: "numeroSerie",
+      header: "Número de Serie",
+      sortable: true,
+      cell: (item: EquipoItem) => (
+        <div className="font-medium">
+          {item.numeroSerie || <span className="text-muted-foreground italic">Sin número</span>}
+        </div>
+      )
+    },
+    {
+      key: "estado",
+      header: "Estado",
+      sortable: true,
+      cell: (item: EquipoItem) => (
+        <Badge
+          variant={
+            item.estado === "DISPONIBLE" ? "default" :
+            item.estado === "EN_USO" ? "secondary" :
+            item.estado === "EN_REPARACION" ? "outline" :
+            "destructive"
+          }
+        >
+          {item.estado === "DISPONIBLE" ? "Disponible" :
+          item.estado === "EN_USO" ? "En uso" :
+          item.estado === "EN_REPARACION" ? "En reparación" :
+          "Baja"}
+        </Badge>
+      )
+    },
+    {
+      key: "fechaCompra",
+      header: "Fecha de Compra",
+      sortable: true,
+      cell: (item: EquipoItem) => (
+        <div>
+          {item.fechaCompra 
+            ? new Date(item.fechaCompra).toLocaleDateString() 
+            : "-"}
+        </div>
+      )
+    },
+    {
+      key: "precioCompra",
+      header: "Precio Compra",
+      sortable: true,
+      cell: (item: EquipoItem) => (
+        <div className="text-right">
+          {formatCurrency(item.precioCompra) !== null ? `${formatCurrency(item.precioCompra)}` : "-"}
+        </div>
+      )
+    },
+    {
+      key: "proveedor.nombre",
+      header: "Proveedor",
+      sortable: true,
+      cell: (item: EquipoItem) => (
+        <div>
+          {item.proveedor ? item.proveedor.nombre : getProveedorNombre(item.proveedorId)}
+        </div>
+      )
+    },
+    {
+      key: "notasInternas",
+      header: "Notas",
+      sortable: true,
+      cell: (item: EquipoItem) => (
+        <div className="max-w-md truncate">
+          {item.notasInternas || "-"}
+        </div>
+      )
+    },
+    {
+      key: "actions",
+      header: "Acciones",
+      cell: (item: EquipoItem) => (
+        <div className="flex justify-end gap-2">
+          <Button 
+            variant="ghost" 
+            size="icon"
+            onClick={() => handleOpenEditDialog(item)}
+          >
+            <Pencil className="h-4 w-4" />
+          </Button>
+          <Button 
+            variant="ghost" 
+            size="icon"
+            onClick={() => handleDeleteEquipo(item.id, item.numeroSerie || `Elemento #${item.id.substring(0, 8)}`)}
+          >
+            <Trash2 className="h-4 w-4" />
+          </Button>
+        </div>
+      )
+    }
+  ]
+
   return (
     <div className="py-10">
       <div className="flex justify-between items-center mb-6">
@@ -462,77 +551,10 @@ export default function EquiposProductoPage({ params }: { params: Promise<{ prod
               No hay elementos de equipo para este producto. Agregue uno para comenzar.
             </div>
           ) : (
-            <div className="border rounded-lg">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Número de Serie</TableHead>
-                    <TableHead>Estado</TableHead>
-                    <TableHead>Fecha de Compra</TableHead>
-                    <TableHead>Precio Compra</TableHead>
-                    <TableHead>Proveedor</TableHead>
-                    <TableHead>Notas</TableHead>
-                    <TableHead className="text-right">Acciones</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {equipoItems.map((item) => (
-                    <TableRow key={item.id}>
-                      <TableCell className="font-medium">
-                        {item.numeroSerie || <span className="text-muted-foreground italic">Sin número</span>}
-                      </TableCell>
-                      <TableCell>
-                        <Badge
-                          variant={
-                            item.estado === "DISPONIBLE" ? "default" :
-                            item.estado === "EN_USO" ? "secondary" :
-                            item.estado === "EN_REPARACION" ? "outline" :
-                            "destructive"
-                          }
-                        >
-                          {item.estado === "DISPONIBLE" ? "Disponible" :
-                          item.estado === "EN_USO" ? "En uso" :
-                          item.estado === "EN_REPARACION" ? "En reparación" :
-                          "Baja"}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>
-                        {item.fechaCompra 
-                          ? new Date(item.fechaCompra).toLocaleDateString() 
-                          : "-"}
-                      </TableCell>
-                      <TableCell className="text-right">
-                        {formatCurrency(item.precioCompra) !== null ? `${formatCurrency(item.precioCompra)}` : "-"}
-                      </TableCell>
-                      <TableCell>
-                        {item.proveedor ? item.proveedor.nombre : getProveedorNombre(item.proveedorId)}
-                      </TableCell>
-                      <TableCell className="max-w-md truncate">
-                        {item.notasInternas || "-"}
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <div className="flex justify-end gap-2">
-                          <Button 
-                            variant="ghost" 
-                            size="icon"
-                            onClick={() => handleOpenEditDialog(item)}
-                          >
-                            <Pencil className="h-4 w-4" />
-                          </Button>
-                          <Button 
-                            variant="ghost" 
-                            size="icon"
-                            onClick={() => handleDeleteEquipo(item.id, item.numeroSerie || `Elemento #${item.id.substring(0, 8)}`)}
-                          >
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
+            <DataTable 
+              columns={columns} 
+              data={equipoItems}
+            />
           )}
         </CardContent>
       </Card>

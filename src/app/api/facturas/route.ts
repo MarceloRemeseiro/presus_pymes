@@ -5,6 +5,17 @@ import { NextResponse } from 'next/server'
 export async function GET() {
   try {
     const facturas = await prisma.factura.findMany({
+      where: {
+        // Excluir facturas internas/sistema
+        NOT: {
+          OR: [
+            // Excluir factura especial para gastos independientes
+            { numero: "GASTOS-INDEPENDIENTES" },
+            // Excluir facturas del cliente SISTEMA
+            { cliente: { nombre: "SISTEMA" } }
+          ]
+        }
+      },
       include: {
         cliente: true,
         items: {

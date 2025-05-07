@@ -3,19 +3,18 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { toast, Toaster } from "sonner"
-import { Plus, Search, Eye, Pencil, Trash2, LayoutList, Loader2 } from "lucide-react"
+import { Plus, Search, Eye, Pencil, Trash2, LayoutList, Loader2, MoreHorizontal } from "lucide-react"
 import { formatCurrency } from "@/lib/utils"
+import { DataTable } from "@/components/ui/data-table"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 interface Producto {
   id: string
@@ -43,6 +42,7 @@ export default function InventarioPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState("")
   const [error, setError] = useState<string | null>(null)
+  const [eliminandoId, setEliminandoId] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchProductos = async () => {
@@ -76,7 +76,6 @@ export default function InventarioPage() {
   const filteredProductos = productos.filter(
     (producto) =>
       producto.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
-     
       (producto.marca?.nombre && producto.marca.nombre.toLowerCase().includes(searchTerm.toLowerCase())) ||
       (producto.modelo && producto.modelo.toLowerCase().includes(searchTerm.toLowerCase())) ||
       producto.categoria.nombre.toLowerCase().includes(searchTerm.toLowerCase())
@@ -84,30 +83,143 @@ export default function InventarioPage() {
 
   // Eliminar un producto
   const handleDelete = async (id: string, nombre: string) => {
-    if (!window.confirm(`¿Estás seguro de eliminar el producto "${nombre}"? Esta acción no se puede deshacer.`)) {
-      return
-    }
-    
     try {
+      setEliminandoId(id);
+      
       const response = await fetch(`/api/productos/${id}`, {
         method: "DELETE"
-      })
+      });
       
       if (!response.ok) {
-        const data = await response.json()
-        throw new Error(data.error || "Error al eliminar el producto")
+        const data = await response.json();
+        throw new Error(data.error || "Error al eliminar el producto");
       }
       
       setProductos(prevProductos => 
         prevProductos.filter(producto => producto.id !== id)
-      )
+      );
       
-      toast.success("Producto eliminado correctamente")
+      toast.success("Producto eliminado correctamente");
     } catch (error) {
-      console.error("Error:", error)
-      toast.error(`Error: ${error instanceof Error ? error.message : "Error al eliminar el producto"}`)
+      console.error("Error:", error);
+      toast.error(`Error: ${error instanceof Error ? error.message : "Error al eliminar el producto"}`);
+    } finally {
+      setEliminandoId(null);
     }
-  }
+  };
+
+  // Definir las columnas para la tabla
+  const columns = [
+    {
+      key: "nombre",
+      header: "Nombre",
+      sortable: true,
+      cell: (producto: Producto) => (
+        <Link 
+          href={`/inventario/${producto.id}`} 
+          className="hover:underline font-medium"
+        >
+          {producto.nombre}
+        </Link>
+      )
+    },
+    {
+      key: "marca.nombre",
+      header: "Marca / Modelo",
+      sortable: true,
+      cell: (producto: Producto) => (
+        <div>
+          {producto.marca ? (
+            <>
+              {producto.marca.nombre}
+              {producto.modelo && <span className="text-muted-foreground ml-1">{producto.modelo}</span>}
+            </>
+          ) : (
+            producto.modelo || "-"
+          )}
+        </div>
+      )
+    },
+    {
+      key: "categoria.nombre",
+      header: "Categoría",
+      sortable: true,
+      cell: (producto: Producto) => <div>{producto.categoria.nombre}</div>
+    },
+    {
+      key: "stock",
+      header: "Stock",
+      sortable: true,
+      cell: (producto: Producto) => <div className="text-right">{producto.stock}</div>
+    },
+    {
+      key: "precioAlquiler",
+      header: "Precio Alquiler",
+      sortable: true,
+      cell: (producto: Producto) => (
+        <div className="text-right">
+          {formatCurrency(producto.precioAlquiler) !== null ? `${formatCurrency(producto.precioAlquiler)}` : "-"}
+        </div>
+      )
+    },
+    {
+      key: "actions",
+      header: "Acciones",
+      cell: (producto: Producto) => (
+        <div className="flex justify-end gap-2">
+          <Button 
+            variant="ghost" 
+            size="icon"
+            asChild
+          >
+            <Link href={`/inventario/${producto.id}`}>
+              <Eye className="h-4 w-4" />
+            </Link>
+          </Button>
+          <Button 
+            variant="ghost" 
+            size="icon"
+            asChild
+          >
+            <Link href={`/inventario/editar/${producto.id}`}>
+              <Pencil className="h-4 w-4" />
+            </Link>
+          </Button>
+          <Button 
+            variant="ghost" 
+            size="icon"
+            asChild
+          >
+            <Link href={`/inventario/equipos/${producto.id}`}>
+              <LayoutList className="h-4 w-4" />
+            </Link>
+          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem 
+                onClick={() => {
+                  const confirmed = confirm(`¿Estás seguro de eliminar el producto "${producto.nombre}"? Esta acción no se puede deshacer.`);
+                  if (confirmed) {
+                    handleDelete(producto.id, producto.nombre);
+                  }
+                }}
+                disabled={eliminandoId === producto.id}
+                className="text-red-600 flex items-center gap-2"
+              >
+                <Trash2 className="h-4 w-4" />
+                <span>{eliminandoId === producto.id ? "Eliminando..." : "Eliminar"}</span>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      )
+    }
+  ]
 
   return (
     <div className="py-10">
@@ -155,85 +267,10 @@ export default function InventarioPage() {
                 : "No hay productos registrados aún"}
             </div>
           ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Nombre</TableHead>
-                  <TableHead>Marca / Modelo</TableHead>
-                  <TableHead>Categoría</TableHead>
-                  <TableHead>Stock</TableHead>
-                  <TableHead>Precio Alquiler</TableHead>
-                  <TableHead className="text-right">Acciones</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredProductos.map((producto) => (
-                  <TableRow key={producto.id}>
-                    <TableCell className="font-medium">
-                      <Link 
-                        href={`/inventario/${producto.id}`} 
-                        className="hover:underline"
-                      >
-                        {producto.nombre}
-                      </Link>
-                    </TableCell>
-                    <TableCell>
-                      {producto.marca ? (
-                        <>
-                          {producto.marca.nombre}
-                          {producto.modelo && <span className="text-muted-foreground ml-1">{producto.modelo}</span>}
-                        </>
-                      ) : (
-                        producto.modelo || "-"
-                      )}
-                    </TableCell>
-                    <TableCell>{producto.categoria.nombre}</TableCell>
-                    <TableCell className="text-right">{producto.stock}</TableCell>
-                    <TableCell className="text-right">
-                      {formatCurrency(producto.precioAlquiler) !== null ? `${formatCurrency(producto.precioAlquiler)}` : "-"}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex justify-end gap-2">
-                        <Button 
-                          variant="ghost" 
-                          size="icon"
-                          asChild
-                        >
-                          <Link href={`/inventario/${producto.id}`}>
-                            <Eye className="h-4 w-4" />
-                          </Link>
-                        </Button>
-                        <Button 
-                          variant="ghost" 
-                          size="icon"
-                          asChild
-                        >
-                          <Link href={`/inventario/editar/${producto.id}`}>
-                            <Pencil className="h-4 w-4" />
-                          </Link>
-                        </Button>
-                        <Button 
-                          variant="ghost" 
-                          size="icon"
-                          asChild
-                        >
-                          <Link href={`/inventario/equipos/${producto.id}`}>
-                            <LayoutList className="h-4 w-4" />
-                          </Link>
-                        </Button>
-                        <Button 
-                          variant="ghost" 
-                          size="icon"
-                          onClick={() => handleDelete(producto.id, producto.nombre)}
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <DataTable 
+              columns={columns} 
+              data={filteredProductos}
+            />
           )}
         </CardContent>
       </Card>

@@ -2,20 +2,13 @@
 
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { toast, Toaster } from "sonner"
-import { PlusCircle, Loader2, Search } from "lucide-react"
+import { PlusCircle, Loader2, Search, MoreHorizontal } from "lucide-react"
 import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
+import { DataTable } from "@/components/ui/data-table"
 
 interface Puesto {
   id: string
@@ -75,6 +68,69 @@ export default function PersonalPage() {
         puesto.nombre.toLowerCase().includes(searchTerm.toLowerCase())
       )
   )
+
+  // Definir las columnas para la tabla
+  const columns = [
+    {
+      key: "nombre",
+      header: "Nombre",
+      sortable: true,
+      cell: (persona: Personal) => (
+        <Link 
+          href={`/personal/${persona.id}`} 
+          className="hover:underline font-medium"
+        >
+          {persona.nombre}
+        </Link>
+      )
+    },
+    {
+      key: "contacto",
+      header: "Contacto",
+      sortable: false,
+      cell: (persona: Personal) => (
+        <div className="text-sm">
+          {persona.email && <div className="mb-1">{persona.email}</div>}
+          {persona.telefono && <div>{persona.telefono}</div>}
+        </div>
+      )
+    },
+    {
+      key: "puestos",
+      header: "Puestos",
+      sortable: false,
+      cell: (persona: Personal) => (
+        <div className="flex flex-wrap gap-1">
+          {persona.puestos.map(puesto => (
+            <Badge key={puesto.id} variant="secondary">
+              {puesto.nombre}
+            </Badge>
+          ))}
+          {persona.puestos.length === 0 && (
+            <span className="text-muted-foreground text-sm">Sin puesto asignado</span>
+          )}
+        </div>
+      )
+    },
+    {
+      key: "actions",
+      header: "Acciones",
+      cell: (persona: Personal) => (
+        <div className="flex justify-end gap-2">
+          <Button variant="outline" size="sm" asChild>
+            <Link href={`/personal/${persona.id}`}>
+              Ver
+            </Link>
+          </Button>
+          <Button variant="outline" size="sm" asChild>
+            <Link href={`/personal/editar/${persona.id}`}>
+              Editar
+            </Link>
+          </Button>
+        </div>
+      )
+    }
+  ]
 
   if (isLoading) {
     return (
@@ -147,62 +203,10 @@ export default function PersonalPage() {
                 : "No hay personal registrado. Agrega uno para empezar."}
             </div>
           ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Nombre</TableHead>
-                  <TableHead>Contacto</TableHead>
-                  <TableHead>Puestos</TableHead>
-                  <TableHead className="text-right">Acciones</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredPersonal.map((persona) => (
-                  <TableRow key={persona.id}>
-                    <TableCell className="font-medium">
-                      <Link 
-                        href={`/personal/${persona.id}`} 
-                        className="hover:underline"
-                      >
-                        {persona.nombre}
-                      </Link>
-                    </TableCell>
-                    <TableCell>
-                      <div className="text-sm">
-                        {persona.email && <div className="mb-1">{persona.email}</div>}
-                        {persona.telefono && <div>{persona.telefono}</div>}
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex flex-wrap gap-1">
-                        {persona.puestos.map(puesto => (
-                          <Badge key={puesto.id} variant="secondary">
-                            {puesto.nombre}
-                          </Badge>
-                        ))}
-                        {persona.puestos.length === 0 && (
-                          <span className="text-muted-foreground text-sm">Sin puesto asignado</span>
-                        )}
-                      </div>
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex justify-end gap-2">
-                        <Button variant="outline" size="sm" asChild>
-                          <Link href={`/personal/${persona.id}`}>
-                            Ver
-                          </Link>
-                        </Button>
-                        <Button variant="outline" size="sm" asChild>
-                          <Link href={`/personal/editar/${persona.id}`}>
-                            Editar
-                          </Link>
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+            <DataTable 
+              columns={columns} 
+              data={filteredPersonal}
+            />
           )}
         </CardContent>
       </Card>

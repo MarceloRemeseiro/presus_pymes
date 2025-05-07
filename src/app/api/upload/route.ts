@@ -75,6 +75,7 @@ export async function DELETE(request: Request) {
     const { filePath } = body;
     
     if (!filePath) {
+      console.log("Error: No se proporcionó una ruta de archivo");
       return NextResponse.json(
         { error: 'No se ha proporcionado una ruta de archivo' },
         { status: 400 }
@@ -83,8 +84,10 @@ export async function DELETE(request: Request) {
     
     // Extraer el nombre del archivo de la ruta pública
     const fileName = filePath.split('/').pop();
+    console.log("Intentando eliminar archivo:", fileName);
     
     if (!fileName) {
+      console.log("Error: Ruta de archivo inválida:", filePath);
       return NextResponse.json(
         { error: 'Ruta de archivo inválida' },
         { status: 400 }
@@ -93,18 +96,35 @@ export async function DELETE(request: Request) {
     
     // Construir la ruta absoluta al archivo
     const filePath2 = join(process.cwd(), 'public', 'uploads', fileName);
+    console.log("Ruta absoluta del archivo:", filePath2);
     
     // Verificar si el archivo existe antes de intentar eliminarlo
     if (await fileExists(filePath2)) {
+      console.log("El archivo existe, procediendo a eliminarlo");
       await unlink(filePath2);
-      return NextResponse.json({ success: true, message: 'Archivo eliminado correctamente' });
+      console.log("Archivo eliminado correctamente:", fileName);
+      return NextResponse.json({ 
+        success: true, 
+        message: 'Archivo eliminado correctamente',
+        fileName: fileName,
+        path: filePath2
+      });
     } else {
-      return NextResponse.json({ success: false, message: 'El archivo no existe' });
+      console.log("El archivo no existe en el sistema de archivos:", filePath2);
+      return NextResponse.json({ 
+        success: false, 
+        message: 'El archivo no existe',
+        fileName: fileName,
+        path: filePath2
+      });
     }
   } catch (error) {
     console.error('Error al eliminar el archivo:', error);
     return NextResponse.json(
-      { error: 'Error al eliminar el archivo' },
+      { 
+        error: 'Error al eliminar el archivo',
+        message: error instanceof Error ? error.message : 'Error desconocido'
+      },
       { status: 500 }
     );
   }
