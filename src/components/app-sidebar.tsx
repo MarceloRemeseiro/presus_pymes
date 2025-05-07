@@ -1,8 +1,10 @@
 "use client"
 
-import React from "react"
+import React, { useState } from "react"
 import Link from "next/link"
-import { FileText, Home, Package, Settings, ShoppingCart, Users, Receipt, UserCircle, ShoppingBag, DollarSign } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { FileText, Home, Package, Settings, ShoppingCart, Users, Receipt, UserCircle, ShoppingBag, DollarSign, LogOut } from "lucide-react"
+import { toast } from "sonner"
 
 import {
   Sidebar,
@@ -20,8 +22,41 @@ import {
   SidebarSeparator,
 } from "@/components/ui/sidebar"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { Button } from "@/components/ui/button"
 
 export function AppSidebar() {
+  const router = useRouter();
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  const handleLogout = async () => {
+    setIsLoggingOut(true);
+    toast.dismiss();
+
+    try {
+      const response = await fetch('/api/auth/logout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        toast.error(data.message || 'Error al cerrar sesión.');
+      } else {
+        toast.success(data.message || 'Sesión cerrada exitosamente.');
+        router.push('/login');
+        router.refresh();
+      }
+    } catch (error) {
+      console.error('Error en el request de logout:', error);
+      toast.error('Ocurrió un error inesperado al cerrar sesión.');
+    } finally {
+      setIsLoggingOut(false);
+    }
+  };
+
   return (
     <Sidebar>
       <SidebarHeader>
@@ -118,10 +153,21 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="p-4">
-        <div className="flex items-center justify-between">
-          <ThemeToggle />
-          <span className="text-xs text-muted-foreground">v1.0.0</span>
+      <SidebarFooter className="p-4 border-t">
+        <div className="flex flex-col space-y-2">
+          <Button 
+            variant="ghost" 
+            className="w-full justify-start text-sm" 
+            onClick={handleLogout}
+            disabled={isLoggingOut}
+          >
+            <LogOut className="w-4 h-4 mr-2" />
+            {isLoggingOut ? "Cerrando sesión..." : "Cerrar Sesión"}
+          </Button>
+          <div className="flex items-center justify-between">
+            <ThemeToggle />
+            <span className="text-xs text-muted-foreground">v1.0.0</span>
+          </div>
         </div>
       </SidebarFooter>
     </Sidebar>

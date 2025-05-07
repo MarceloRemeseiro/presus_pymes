@@ -271,7 +271,19 @@ exports.Prisma.ConfiguracionScalarFieldEnum = {
   prefijoFactura: 'prefijoFactura',
   prefijoPresupuesto: 'prefijoPresupuesto',
   colorFactura: 'colorFactura',
-  colorPresupuesto: 'colorPresupuesto'
+  colorPresupuesto: 'colorPresupuesto',
+  userId: 'userId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.UserScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  hashedPassword: 'hashedPassword',
+  name: 'name',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.PuestoScalarFieldEnum = {
@@ -409,6 +421,7 @@ exports.Prisma.ModelName = {
   Factura: 'Factura',
   ItemFactura: 'ItemFactura',
   Configuracion: 'Configuracion',
+  User: 'User',
   Puesto: 'Puesto',
   Personal: 'Personal',
   PersonalPuesto: 'PersonalPuesto',

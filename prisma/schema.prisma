@@ -203,15 +203,31 @@ model ItemFactura {
 }
 
 model Configuracion {
-  id                String  @id @default(cuid())
-  ivaPorDefecto     Float   @default(21)
-  moneda            String  @default("EUR")
-  prefijoFactura    String  @default("FAC-")
-  prefijoPresupuesto String @default("PRES-")
-  colorFactura      String  @default("#3c4e66")
-  colorPresupuesto  String  @default("#150a4a")
-  // Solo existe un registro de configuración
-  @@map("configuracion")
+  id                 String  @id @default(cuid())
+  ivaPorDefecto      Float   @default(21)
+  moneda             String  @default("EUR")
+  prefijoFactura     String  @default("FAC-")
+  prefijoPresupuesto String  @default("PRES-")
+  colorFactura       String? @default("#2563eb") // Color primario para facturas
+  colorPresupuesto   String? @default("#84cc16") // Color primario para presupuestos
+  userId             String? // Puede ser nulo si es una configuración global (o puedes quitarlo si siempre es global)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Si solo vas a tener una fila para la configuración global, puedes usar @@map
+  // Pero si vas a tener configuraciones por usuario en el futuro, es mejor quitar @@map
+  // Por ahora, lo comentaré. Si es una configuración única, descomenta la línea de abajo.
+  // @@map("configuracion") 
+}
+
+model User {
+  id             String @id @default(cuid())
+  email          String @unique
+  hashedPassword String
+  name           String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }
 
 // Modelos nuevos para personal, proveedores y tikelia
