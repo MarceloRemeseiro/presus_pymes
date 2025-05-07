@@ -282,16 +282,22 @@ export default function PresupuestoDetallePage({ params }: { params: Promise<{ i
   const handleImprimirPresupuesto = async () => {
     if (!presupuesto) return;
     
+    toast.loading('Generando PDF...');
+    
     try {
-      // Mostrar indicador de carga
-      toast.loading("Preparando documento...");
-      
-      // Obtener datos actualizados de la empresa
+      // Obtener datos de la empresa para el PDF
       const empresaResponse = await fetch('/api/empresa');
       if (!empresaResponse.ok) {
         throw new Error('Error al obtener datos de la empresa');
       }
       const empresa: Empresa = await empresaResponse.json();
+      
+      // Obtener la configuración para el color del presupuesto
+      const configResponse = await fetch('/api/configuracion');
+      if (!configResponse.ok) {
+        throw new Error('Error al obtener configuración');
+      }
+      const config = await configResponse.json();
       
       // Preparar los datos agrupados
       const partidasAgrupadas = getItemsGroupedByPartida();
@@ -301,7 +307,8 @@ export default function PresupuestoDetallePage({ params }: { params: Promise<{ i
       const doc = await generatePresupuestoPDF(
         presupuesto as any, 
         partidasAgrupadas as any,
-        empresa
+        empresa,
+        config.colorPresupuesto
       );
       
       // Cerrar el indicador de carga

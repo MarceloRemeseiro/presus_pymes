@@ -271,16 +271,22 @@ export default function FacturaDetallePage({ params }: { params: Promise<{ id: s
   const handleImprimirFactura = async () => {
     if (!factura) return;
     
+    toast.loading('Generando PDF...');
+    
     try {
-      // Mostrar indicador de carga
-      toast.loading("Preparando documento...");
-      
-      // Obtener datos actualizados de la empresa
+      // Obtener datos de la empresa para el PDF
       const empresaResponse = await fetch('/api/empresa');
       if (!empresaResponse.ok) {
         throw new Error('Error al obtener datos de la empresa');
       }
       const empresa: Empresa = await empresaResponse.json();
+      
+      // Obtener la configuración para el color de la factura
+      const configResponse = await fetch('/api/configuracion');
+      if (!configResponse.ok) {
+        throw new Error('Error al obtener configuración');
+      }
+      const config = await configResponse.json();
       
       const partidasAgrupadas = getItemsGroupedByPartida();
       
@@ -288,7 +294,8 @@ export default function FacturaDetallePage({ params }: { params: Promise<{ id: s
       const doc = await generateFacturaPDF(
         factura, 
         partidasAgrupadas,
-        empresa
+        empresa,
+        config.colorFactura
       );
       
       // Cerrar el indicador de carga

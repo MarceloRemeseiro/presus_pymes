@@ -146,16 +146,30 @@ async function loadImageAsBase64(url: string): Promise<string> {
 export const generatePresupuestoPDF = async (
   presupuesto: Presupuesto, 
   partidasAgrupadas: GroupedItems[],
-  empresa?: Empresa
+  empresa?: Empresa,
+  colorPresupuesto?: string
 ) => {
   // Crear nuevo documento PDF
   const doc = new jsPDF();
   
   // Configuración de estilos y colores
-  const primaryColor = '#150a4a';
+  const primaryColor = colorPresupuesto || '#150a4a';
   const textColor = '#333333';
   // Convertir el color primario de hex a RGB para las cabeceras de tablas
-  const headerBgColor: [number, number, number] = [21, 10, 74]; // #150a4a en RGB
+  // La función hexToRgb convierte un color hexadecimal a RGB
+  const hexToRgb = (hex: string): [number, number, number] => {
+    // Eliminar el # si existe
+    hex = hex.replace('#', '');
+    
+    // Convertir a valores RGB
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
+    
+    return [r, g, b];
+  };
+  
+  const headerBgColor: [number, number, number] = hexToRgb(primaryColor);
   
   // Configuración de márgenes - reducimos los márgenes laterales
   const marginLeft = 8; // Reducido de 15 a 10
@@ -687,16 +701,31 @@ export const generatePresupuestoPDF = async (
 export const generateFacturaPDF = (
   factura: Factura, 
   partidasAgrupadas: GroupedItems[],
-  empresa?: Empresa
+  empresa?: Empresa,
+  colorFactura?: string
 ) => {
   // Crear nuevo documento PDF
   const doc = new jsPDF();
   
   // Configuración de estilos y colores
-  const primaryColor = '#150a4a';
+  const primaryColor = colorFactura || '#150a4a';
   const textColor = '#333333';
+  
+  // La función hexToRgb convierte un color hexadecimal a RGB
+  const hexToRgb = (hex: string): [number, number, number] => {
+    // Eliminar el # si existe
+    hex = hex.replace('#', '');
+    
+    // Convertir a valores RGB
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
+    
+    return [r, g, b];
+  };
+  
   // Convertir el color primario de hex a RGB para las cabeceras de tablas
-  const headerBgColor: [number, number, number] = [21, 10, 74]; // #150a4a en RGB
+  const headerBgColor: [number, number, number] = hexToRgb(primaryColor);
   
   // Configuración de márgenes - reducidos para aprovechar mejor el espacio
   const marginLeft = 10; // Reducido de 15 a 10

@@ -269,7 +269,9 @@ exports.Prisma.ConfiguracionScalarFieldEnum = {
   ivaPorDefecto: 'ivaPorDefecto',
   moneda: 'moneda',
   prefijoFactura: 'prefijoFactura',
-  prefijoPresupuesto: 'prefijoPresupuesto'
+  prefijoPresupuesto: 'prefijoPresupuesto',
+  colorFactura: 'colorFactura',
+  colorPresupuesto: 'colorPresupuesto'
 };
 
 exports.Prisma.PuestoScalarFieldEnum = {

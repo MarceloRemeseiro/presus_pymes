@@ -32,6 +32,8 @@ interface Configuracion {
   moneda: string
   prefijoFactura: string
   prefijoPresupuesto: string
+  colorFactura: string
+  colorPresupuesto: string
 }
 
 export default function ConfiguracionPage() {
@@ -54,6 +56,8 @@ export default function ConfiguracionPage() {
   const [moneda, setMoneda] = useState("EUR")
   const [prefijoFactura, setPrefijoFactura] = useState("")
   const [prefijoPresupuesto, setPrefijoPresupuesto] = useState("")
+  const [colorFactura, setColorFactura] = useState("#3c4e66")
+  const [colorPresupuesto, setColorPresupuesto] = useState("#150a4a")
   const [guardandoConfig, setGuardandoConfig] = useState(false)
   
   // Estado general de carga
@@ -92,6 +96,8 @@ export default function ConfiguracionPage() {
         setMoneda(configData.moneda)
         setPrefijoFactura(configData.prefijoFactura)
         setPrefijoPresupuesto(configData.prefijoPresupuesto)
+        setColorFactura(configData.colorFactura || "#3c4e66")
+        setColorPresupuesto(configData.colorPresupuesto || "#150a4a")
       } catch (err) {
         console.error('Error al cargar configuración:', err)
         setError('Error al cargar la configuración del sistema')
@@ -213,6 +219,50 @@ export default function ConfiguracionPage() {
     }
   }
   
+  // Función para validar y normalizar un color hexadecimal
+  const validarColor = (color: string, valorPorDefecto: string): string => {
+    // Expresión regular para validar colores hexadecimales (con o sin #)
+    const hexRegex = /^#?([0-9A-F]{3}|[0-9A-F]{6})$/i;
+    
+    if (!hexRegex.test(color)) {
+      // Si no es válido, devolver el valor por defecto
+      return valorPorDefecto;
+    }
+    
+    // Nos aseguramos de que empiece con #
+    if (!color.startsWith('#')) {
+      color = '#' + color;
+    }
+    
+    // Si es hexadecimal corto (#RGB), convertirlo a la forma completa (#RRGGBB)
+    if (color.length === 4) {
+      // #RGB -> #RRGGBB
+      const r = color[1];
+      const g = color[2];
+      const b = color[3];
+      color = `#${r}${r}${g}${g}${b}${b}`;
+    }
+    
+    return color.toUpperCase();
+  };
+
+  // Manejadores para los campos de color
+  const handleColorFacturaChange = (value: string) => {
+    setColorFactura(value);
+  };
+
+  const handleColorFacturaBlur = () => {
+    setColorFactura(validarColor(colorFactura, "#3c4e66"));
+  };
+
+  const handleColorPresupuestoChange = (value: string) => {
+    setColorPresupuesto(value);
+  };
+
+  const handleColorPresupuestoBlur = () => {
+    setColorPresupuesto(validarColor(colorPresupuesto, "#150a4a"));
+  };
+
   // Guardar configuración del sistema
   const handleGuardarConfig = async () => {
     try {
@@ -228,6 +278,8 @@ export default function ConfiguracionPage() {
           moneda,
           prefijoFactura,
           prefijoPresupuesto,
+          colorFactura,
+          colorPresupuesto,
         }),
       })
       
@@ -462,6 +514,46 @@ export default function ConfiguracionPage() {
                   className="w-32" 
                 />
                 <span>Prefijo presupuesto</span>
+              </div>
+            </div>
+            
+            <Separator />
+            
+            <div className="space-y-4">
+              <h3 className="text-sm font-medium">Colores PDF</h3>
+              <div className="flex items-center gap-2">
+                <input 
+                  type="color" 
+                  id="color_factura" 
+                  value={colorFactura}
+                  onChange={(e) => handleColorFacturaChange(e.target.value)}
+                  className="w-12 h-8 cursor-pointer border rounded" 
+                />
+                <span>Color para facturas PDF</span>
+                <Input
+                  value={colorFactura}
+                  onChange={(e) => handleColorFacturaChange(e.target.value)}
+                  onBlur={handleColorFacturaBlur}
+                  className="w-28 h-8 font-mono text-xs"
+                  placeholder="#000000"
+                />
+              </div>
+              <div className="flex items-center gap-2">
+                <input 
+                  type="color" 
+                  id="color_presupuesto" 
+                  value={colorPresupuesto}
+                  onChange={(e) => handleColorPresupuestoChange(e.target.value)}
+                  className="w-12 h-8 cursor-pointer border rounded" 
+                />
+                <span>Color para presupuestos PDF</span>
+                <Input
+                  value={colorPresupuesto}
+                  onChange={(e) => handleColorPresupuestoChange(e.target.value)}
+                  onBlur={handleColorPresupuestoBlur}
+                  className="w-28 h-8 font-mono text-xs"
+                  placeholder="#000000"
+                />
               </div>
             </div>
           </CardContent>

@@ -108,15 +108,30 @@ async function loadImageAsBase64(url: string): Promise<string> {
 export const generateFacturaPDF = async (
   factura: Factura, 
   partidasAgrupadas: GroupedItems[],
-  empresa?: Empresa
+  empresa?: Empresa,
+  colorFactura?: string
 ) => {
   // Crear nuevo documento PDF
   const doc = new jsPDF();
   
   // Configuración de estilos y colores - Usamos un color diferente para facturas
-  const primaryColor = '#3c4e66'; // Azul más oscuro para facturas
+  const primaryColor = colorFactura || '#3c4e66'; // Azul más oscuro para facturas si no se proporciona
   const textColor = '#333333';
-  const headerBgColor: [number, number, number] = [60, 78, 102]; // #3c4e66 en RGB
+  
+  // La función hexToRgb convierte un color hexadecimal a RGB
+  const hexToRgb = (hex: string): [number, number, number] => {
+    // Eliminar el # si existe
+    hex = hex.replace('#', '');
+    
+    // Convertir a valores RGB
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
+    
+    return [r, g, b];
+  };
+  
+  const headerBgColor: [number, number, number] = hexToRgb(primaryColor);
   
   // Configuración de márgenes
   const marginLeft = 8;

@@ -16231,6 +16231,8 @@ export namespace Prisma {
     moneda: string | null
     prefijoFactura: string | null
     prefijoPresupuesto: string | null
+    colorFactura: string | null
+    colorPresupuesto: string | null
   }
 
   export type ConfiguracionMaxAggregateOutputType = {
@@ -16239,6 +16241,8 @@ export namespace Prisma {
     moneda: string | null
     prefijoFactura: string | null
     prefijoPresupuesto: string | null
+    colorFactura: string | null
+    colorPresupuesto: string | null
   }
 
   export type ConfiguracionCountAggregateOutputType = {
@@ -16247,6 +16251,8 @@ export namespace Prisma {
     moneda: number
     prefijoFactura: number
     prefijoPresupuesto: number
+    colorFactura: number
+    colorPresupuesto: number
     _all: number
   }
 
@@ -16265,6 +16271,8 @@ export namespace Prisma {
     moneda?: true
     prefijoFactura?: true
     prefijoPresupuesto?: true
+    colorFactura?: true
+    colorPresupuesto?: true
   }
 
   export type ConfiguracionMaxAggregateInputType = {
@@ -16273,6 +16281,8 @@ export namespace Prisma {
     moneda?: true
     prefijoFactura?: true
     prefijoPresupuesto?: true
+    colorFactura?: true
+    colorPresupuesto?: true
   }
 
   export type ConfiguracionCountAggregateInputType = {
@@ -16281,6 +16291,8 @@ export namespace Prisma {
     moneda?: true
     prefijoFactura?: true
     prefijoPresupuesto?: true
+    colorFactura?: true
+    colorPresupuesto?: true
     _all?: true
   }
 
@@ -16376,6 +16388,8 @@ export namespace Prisma {
     moneda: string
     prefijoFactura: string
     prefijoPresupuesto: string
+    colorFactura: string
+    colorPresupuesto: string
     _count: ConfiguracionCountAggregateOutputType | null
     _avg: ConfiguracionAvgAggregateOutputType | null
     _sum: ConfiguracionSumAggregateOutputType | null
@@ -16403,6 +16417,8 @@ export namespace Prisma {
     moneda?: boolean
     prefijoFactura?: boolean
     prefijoPresupuesto?: boolean
+    colorFactura?: boolean
+    colorPresupuesto?: boolean
   }, ExtArgs["result"]["configuracion"]>
 
   export type ConfiguracionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -16411,6 +16427,8 @@ export namespace Prisma {
     moneda?: boolean
     prefijoFactura?: boolean
     prefijoPresupuesto?: boolean
+    colorFactura?: boolean
+    colorPresupuesto?: boolean
   }, ExtArgs["result"]["configuracion"]>
 
   export type ConfiguracionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -16419,6 +16437,8 @@ export namespace Prisma {
     moneda?: boolean
     prefijoFactura?: boolean
     prefijoPresupuesto?: boolean
+    colorFactura?: boolean
+    colorPresupuesto?: boolean
   }, ExtArgs["result"]["configuracion"]>
 
   export type ConfiguracionSelectScalar = {
@@ -16427,9 +16447,11 @@ export namespace Prisma {
     moneda?: boolean
     prefijoFactura?: boolean
     prefijoPresupuesto?: boolean
+    colorFactura?: boolean
+    colorPresupuesto?: boolean
   }
 
-  export type ConfiguracionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "ivaPorDefecto" | "moneda" | "prefijoFactura" | "prefijoPresupuesto", ExtArgs["result"]["configuracion"]>
+  export type ConfiguracionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "ivaPorDefecto" | "moneda" | "prefijoFactura" | "prefijoPresupuesto" | "colorFactura" | "colorPresupuesto", ExtArgs["result"]["configuracion"]>
 
   export type $ConfiguracionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Configuracion"
@@ -16440,6 +16462,8 @@ export namespace Prisma {
       moneda: string
       prefijoFactura: string
       prefijoPresupuesto: string
+      colorFactura: string
+      colorPresupuesto: string
     }, ExtArgs["result"]["configuracion"]>
     composites: {}
   }
@@ -16868,6 +16892,8 @@ export namespace Prisma {
     readonly moneda: FieldRef<"Configuracion", 'String'>
     readonly prefijoFactura: FieldRef<"Configuracion", 'String'>
     readonly prefijoPresupuesto: FieldRef<"Configuracion", 'String'>
+    readonly colorFactura: FieldRef<"Configuracion", 'String'>
+    readonly colorPresupuesto: FieldRef<"Configuracion", 'String'>
   }
     
 
@@ -25493,7 +25519,9 @@ export namespace Prisma {
     ivaPorDefecto: 'ivaPorDefecto',
     moneda: 'moneda',
     prefijoFactura: 'prefijoFactura',
-    prefijoPresupuesto: 'prefijoPresupuesto'
+    prefijoPresupuesto: 'prefijoPresupuesto',
+    colorFactura: 'colorFactura',
+    colorPresupuesto: 'colorPresupuesto'
   };
 
   export type ConfiguracionScalarFieldEnum = (typeof ConfiguracionScalarFieldEnum)[keyof typeof ConfiguracionScalarFieldEnum]
@@ -26731,6 +26759,8 @@ export namespace Prisma {
     moneda?: StringFilter<"Configuracion"> | string
     prefijoFactura?: StringFilter<"Configuracion"> | string
     prefijoPresupuesto?: StringFilter<"Configuracion"> | string
+    colorFactura?: StringFilter<"Configuracion"> | string
+    colorPresupuesto?: StringFilter<"Configuracion"> | string
   }
 
   export type ConfiguracionOrderByWithRelationInput = {
@@ -26739,6 +26769,8 @@ export namespace Prisma {
     moneda?: SortOrder
     prefijoFactura?: SortOrder
     prefijoPresupuesto?: SortOrder
+    colorFactura?: SortOrder
+    colorPresupuesto?: SortOrder
   }
 
   export type ConfiguracionWhereUniqueInput = Prisma.AtLeast<{
@@ -26750,6 +26782,8 @@ export namespace Prisma {
     moneda?: StringFilter<"Configuracion"> | string
     prefijoFactura?: StringFilter<"Configuracion"> | string
     prefijoPresupuesto?: StringFilter<"Configuracion"> | string
+    colorFactura?: StringFilter<"Configuracion"> | string
+    colorPresupuesto?: StringFilter<"Configuracion"> | string
   }, "id">
 
   export type ConfiguracionOrderByWithAggregationInput = {
@@ -26758,6 +26792,8 @@ export namespace Prisma {
     moneda?: SortOrder
     prefijoFactura?: SortOrder
     prefijoPresupuesto?: SortOrder
+    colorFactura?: SortOrder
+    colorPresupuesto?: SortOrder
     _count?: ConfiguracionCountOrderByAggregateInput
     _avg?: ConfiguracionAvgOrderByAggregateInput
     _max?: ConfiguracionMaxOrderByAggregateInput
@@ -26774,6 +26810,8 @@ export namespace Prisma {
     moneda?: StringWithAggregatesFilter<"Configuracion"> | string
     prefijoFactura?: StringWithAggregatesFilter<"Configuracion"> | string
     prefijoPresupuesto?: StringWithAggregatesFilter<"Configuracion"> | string
+    colorFactura?: StringWithAggregatesFilter<"Configuracion"> | string
+    colorPresupuesto?: StringWithAggregatesFilter<"Configuracion"> | string
   }
 
   export type PuestoWhereInput = {
@@ -28404,6 +28442,8 @@ export namespace Prisma {
     moneda?: string
     prefijoFactura?: string
     prefijoPresupuesto?: string
+    colorFactura?: string
+    colorPresupuesto?: string
   }
 
   export type ConfiguracionUncheckedCreateInput = {
@@ -28412,6 +28452,8 @@ export namespace Prisma {
     moneda?: string
     prefijoFactura?: string
     prefijoPresupuesto?: string
+    colorFactura?: string
+    colorPresupuesto?: string
   }
 
   export type ConfiguracionUpdateInput = {
@@ -28420,6 +28462,8 @@ export namespace Prisma {
     moneda?: StringFieldUpdateOperationsInput | string
     prefijoFactura?: StringFieldUpdateOperationsInput | string
     prefijoPresupuesto?: StringFieldUpdateOperationsInput | string
+    colorFactura?: StringFieldUpdateOperationsInput | string
+    colorPresupuesto?: StringFieldUpdateOperationsInput | string
   }
 
   export type ConfiguracionUncheckedUpdateInput = {
@@ -28428,6 +28472,8 @@ export namespace Prisma {
     moneda?: StringFieldUpdateOperationsInput | string
     prefijoFactura?: StringFieldUpdateOperationsInput | string
     prefijoPresupuesto?: StringFieldUpdateOperationsInput | string
+    colorFactura?: StringFieldUpdateOperationsInput | string
+    colorPresupuesto?: StringFieldUpdateOperationsInput | string
   }
 
   export type ConfiguracionCreateManyInput = {
@@ -28436,6 +28482,8 @@ export namespace Prisma {
     moneda?: string
     prefijoFactura?: string
     prefijoPresupuesto?: string
+    colorFactura?: string
+    colorPresupuesto?: string
   }
 
   export type ConfiguracionUpdateManyMutationInput = {
@@ -28444,6 +28492,8 @@ export namespace Prisma {
     moneda?: StringFieldUpdateOperationsInput | string
     prefijoFactura?: StringFieldUpdateOperationsInput | string
     prefijoPresupuesto?: StringFieldUpdateOperationsInput | string
+    colorFactura?: StringFieldUpdateOperationsInput | string
+    colorPresupuesto?: StringFieldUpdateOperationsInput | string
   }
 
   export type ConfiguracionUncheckedUpdateManyInput = {
@@ -28452,6 +28502,8 @@ export namespace Prisma {
     moneda?: StringFieldUpdateOperationsInput | string
     prefijoFactura?: StringFieldUpdateOperationsInput | string
     prefijoPresupuesto?: StringFieldUpdateOperationsInput | string
+    colorFactura?: StringFieldUpdateOperationsInput | string
+    colorPresupuesto?: StringFieldUpdateOperationsInput | string
   }
 
   export type PuestoCreateInput = {
@@ -29971,6 +30023,8 @@ export namespace Prisma {
     moneda?: SortOrder
     prefijoFactura?: SortOrder
     prefijoPresupuesto?: SortOrder
+    colorFactura?: SortOrder
+    colorPresupuesto?: SortOrder
   }
 
   export type ConfiguracionAvgOrderByAggregateInput = {
@@ -29983,6 +30037,8 @@ export namespace Prisma {
     moneda?: SortOrder
     prefijoFactura?: SortOrder
     prefijoPresupuesto?: SortOrder
+    colorFactura?: SortOrder
+    colorPresupuesto?: SortOrder
   }
 
   export type ConfiguracionMinOrderByAggregateInput = {
@@ -29991,6 +30047,8 @@ export namespace Prisma {
     moneda?: SortOrder
     prefijoFactura?: SortOrder
     prefijoPresupuesto?: SortOrder
+    colorFactura?: SortOrder
+    colorPresupuesto?: SortOrder
   }
 
   export type ConfiguracionSumOrderByAggregateInput = {

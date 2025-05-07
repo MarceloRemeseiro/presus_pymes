@@ -208,6 +208,8 @@ model Configuracion {
   moneda            String  @default("EUR")
   prefijoFactura    String  @default("FAC-")
   prefijoPresupuesto String @default("PRES-")
+  colorFactura      String  @default("#3c4e66")
+  colorPresupuesto  String  @default("#150a4a")
   // Solo existe un registro de configuración
   @@map("configuracion")
 }
