@@ -493,72 +493,142 @@ export const generateFacturaPDF = async (
     doc.text(partida.partidaNombre, marginLeft, tableY);
     tableY += 4;
     
+    // Verificar si es la partida de personal
+    const esPartidaPersonal = partida.partidaNombre.toUpperCase() === 'PERSONAL';
+    
     // Crear la tabla de items
     const tableData = partida.items.map(item => {
       const itemNombre = item.nombre || item.producto?.nombre || '';
       
       // Si es una categoría, crear una fila con una celda que ocupe todas las columnas y texto a la izquierda
       if (item.tipo === 'CATEGORIA') {
-        return [{ content: itemNombre, colSpan: 2, styles: { halign: 'left' as const, fontStyle: 'bold' as const } }];
+        const colSpan = esPartidaPersonal ? 5 : 2;
+        return [{ content: itemNombre, colSpan: colSpan, styles: { halign: 'left' as const, fontStyle: 'bold' as const } }];
       }
       
       // Si es un separador, crear una fila con una celda que ocupe todas las columnas y texto centrado
       if (item.tipo === 'SEPARADOR') {
-        return [{ content: itemNombre, colSpan: 2, styles: { halign: 'center' as const, fontStyle: 'bold' as const } }];
+        const colSpan = esPartidaPersonal ? 5 : 2;
+        return [{ content: itemNombre, colSpan: colSpan, styles: { halign: 'center' as const, fontStyle: 'bold' as const } }];
       }
       
-      return [
-        item.cantidad.toString(),
-        itemNombre
-      ];
-    });
-    
-    // Configuración de la tabla compacta
-    autoTable(doc, {
-      startY: tableY - 2,
-      head: [['Cantidad', 'Descripción']],
-      body: tableData,
-      margin: { left: marginLeft, right: marginLeft },
-      headStyles: { 
-        fillColor: headerBgColor, 
-        textColor: [255, 255, 255],
-        fontStyle: 'bold',
-        halign: 'left',
-        fontSize: 7,
-        cellPadding: 1
-      },
-      bodyStyles: {
-        fontSize: 7,
-        lineWidth: 0.1,
-        lineColor: [220, 220, 220],
-        cellPadding: 1
-      },
-      alternateRowStyles: {
-        fillColor: [245, 245, 245]
-      },
-      columnStyles: {
-        0: { cellWidth: 15, halign: 'center' }, // Cantidad
-        1: { cellWidth: 180, halign: 'left' } // Descripción
-      },
-      didDrawCell: (data: CellHookData) => {
-        // Estilo mejorado para categorías y separadores
-        if (data.row.index >= 0 && data.column.index === 1) { // Cambiado a columna 1 porque ahora es la descripción
-          const item = partida.items[data.row.index];
-          // Estilo para categorías
-          if (item && item.tipo === 'CATEGORIA') {
-            doc.setTextColor(primaryColor);
-            doc.setFontSize(9);
-            doc.setFont('helvetica', 'bold');
-          }
-          // Estilo para separadores (la celda ya está centrada en la definición)
-          else if (item && item.tipo === 'SEPARADOR') {
-            doc.setTextColor(primaryColor);
-            doc.setFontSize(9);
-            doc.setFont('helvetica', 'bold');
-          }
-        }
+      // Si es la partida de personal, mostrar todos los detalles
+      if (esPartidaPersonal) {
+        return [
+          item.cantidad.toString(),
+          itemNombre,
+          item.dias ? item.dias.toString() : '1',
+          formatCurrency(item.precioUnitario),
+          formatCurrency(item.cantidad * item.precioUnitario * (item.dias || 1) * (1 - item.descuento / 100))
+        ];
+      } else {
+        // Para otras partidas, mantener el formato compacto
+        return [
+          item.cantidad.toString(),
+          itemNombre
+        ];
       }
     });
+    
+    // Configuración de la tabla según el tipo de partida
+    if (esPartidaPersonal) {
+      // Tabla detallada para PERSONAL
+      autoTable(doc, {
+        startY: tableY - 2,
+        head: [['Cant.', 'Descripción', 'Días', 'Precio/día', 'Subtotal']],
+        body: tableData,
+        margin: { left: marginLeft, right: marginLeft },
+        headStyles: { 
+          fillColor: headerBgColor, 
+          textColor: [255, 255, 255],
+          fontStyle: 'bold',
+          halign: 'left',
+          fontSize: 7,
+          cellPadding: 1
+        },
+        bodyStyles: {
+          fontSize: 7,
+          lineWidth: 0.1,
+          lineColor: [220, 220, 220],
+          cellPadding: 1
+        },
+        alternateRowStyles: {
+          fillColor: [245, 245, 245]
+        },
+        columnStyles: {
+          0: { cellWidth: 10, halign: 'center' }, // Cantidad
+          1: { cellWidth: 120, halign: 'left' },  // Descripción
+          2: { cellWidth: 10, halign: 'center' }, // Días
+          3: { cellWidth: 25, halign: 'right' },  // Precio/día
+          4: { cellWidth: 30, halign: 'right' }   // Subtotal
+        },
+        didDrawCell: (data: CellHookData) => {
+          // Estilo mejorado para categorías y separadores
+          if (data.row.index >= 0 && data.column.index === 1) { // Ahora es columna 1 para descripción
+            const item = partida.items[data.row.index];
+            // Estilo para categorías
+            if (item && item.tipo === 'CATEGORIA') {
+              doc.setTextColor(primaryColor);
+              doc.setFontSize(9);
+              doc.setFont('helvetica', 'bold');
+            }
+            // Estilo para separadores (la celda ya está centrada en la definición)
+            else if (item && item.tipo === 'SEPARADOR') {
+              doc.setTextColor(primaryColor);
+              doc.setFontSize(9);
+              doc.setFont('helvetica', 'bold');
+            }
+          }
+        }
+      });
+    } else {
+      // Tabla compacta para otras partidas (formato original)
+      autoTable(doc, {
+        startY: tableY - 2,
+        head: [['Cantidad', 'Descripción']],
+        body: tableData,
+        margin: { left: marginLeft, right: marginLeft },
+        headStyles: { 
+          fillColor: headerBgColor, 
+          textColor: [255, 255, 255],
+          fontStyle: 'bold',
+          halign: 'left',
+          fontSize: 7,
+          cellPadding: 1
+        },
+        bodyStyles: {
+          fontSize: 7,
+          lineWidth: 0.1,
+          lineColor: [220, 220, 220],
+          cellPadding: 1
+        },
+        alternateRowStyles: {
+          fillColor: [245, 245, 245]
+        },
+        columnStyles: {
+          0: { cellWidth: 15, halign: 'center' }, // Cantidad
+          1: { cellWidth: 180, halign: 'left' }   // Descripción
+        },
+        didDrawCell: (data: CellHookData) => {
+          // Estilo mejorado para categorías y separadores
+          if (data.row.index >= 0 && data.column.index === 1) { // Columna 1 para descripción
+            const item = partida.items[data.row.index];
+            // Estilo para categorías
+            if (item && item.tipo === 'CATEGORIA') {
+              doc.setTextColor(primaryColor);
+              doc.setFontSize(9);
+              doc.setFont('helvetica', 'bold');
+            }
+            // Estilo para separadores (la celda ya está centrada en la definición)
+            else if (item && item.tipo === 'SEPARADOR') {
+              doc.setTextColor(primaryColor);
+              doc.setFontSize(9);
+              doc.setFont('helvetica', 'bold');
+            }
+          }
+        }
+      });
+    }
     
     // Actualizar la posición Y para el siguiente contenido
     const finalY = (doc as any).lastAutoTable?.finalY || tableY + 20;

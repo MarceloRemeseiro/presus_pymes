@@ -21,7 +21,8 @@ import {
   XCircleIcon,
   TimerIcon,
   FileText,
-  Download
+  Download,
+  ChevronDown
 } from "lucide-react"
 import {
   Table,
@@ -42,6 +43,14 @@ import { MargenCard } from "@/components/presupuestos/margen-card"
 import { generatePresupuestoPDF } from '@/lib/utils/pdfGenerator'
 import { format } from 'date-fns'
 import { es } from 'date-fns/locale'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 interface Presupuesto {
   id: string
@@ -279,7 +288,7 @@ export default function PresupuestoDetallePage({ params }: { params: Promise<{ i
   };
 
   // Función para imprimir el presupuesto
-  const handleImprimirPresupuesto = async () => {
+  const handleImprimirPresupuesto = async (nivelDetalle: 'completo' | 'medio' | 'minimo' = 'completo') => {
     if (!presupuesto) return;
     
     toast.loading('Generando PDF...');
@@ -302,13 +311,13 @@ export default function PresupuestoDetallePage({ params }: { params: Promise<{ i
       // Preparar los datos agrupados
       const partidasAgrupadas = getItemsGroupedByPartida();
       
-      // Generar el PDF con los datos de la empresa
-      // Ahora esperamos a que la promesa se resuelva
+      // Generar el PDF con los datos de la empresa y el nivel de detalle seleccionado
       const doc = await generatePresupuestoPDF(
         presupuesto as any, 
         partidasAgrupadas as any,
         empresa,
-        config.colorPresupuesto
+        config.colorPresupuesto,
+        nivelDetalle
       );
       
       // Cerrar el indicador de carga
@@ -379,14 +388,28 @@ export default function PresupuestoDetallePage({ params }: { params: Promise<{ i
           <EstadoBadge estado={presupuesto.estado} />
         </div>
         <div className="flex gap-2">
-          <Button 
-            variant="outline" 
-            className="gap-1"
-            onClick={handleImprimirPresupuesto}
-          >
-            <Printer className="h-4 w-4" />
-            Imprimir
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="flex gap-1">
+                <Printer className="h-4 w-4" />
+                Imprimir
+                <ChevronDown className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>Nivel de detalle</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => handleImprimirPresupuesto('completo')}>
+                Detalle completo
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleImprimirPresupuesto('medio')}>
+                Detalle medio
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleImprimirPresupuesto('minimo')}>
+                Detalle mínimo
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           <Button 
             variant="outline" 
             className="gap-1"

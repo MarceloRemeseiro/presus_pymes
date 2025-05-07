@@ -147,7 +147,8 @@ export const generatePresupuestoPDF = async (
   presupuesto: Presupuesto, 
   partidasAgrupadas: GroupedItems[],
   empresa?: Empresa,
-  colorPresupuesto?: string
+  colorPresupuesto?: string,
+  nivelDetalle: 'completo' | 'medio' | 'minimo' = 'completo'
 ) => {
   // Crear nuevo documento PDF
   const doc = new jsPDF();
@@ -548,25 +549,60 @@ export const generatePresupuestoPDF = async (
     doc.text(partida.partidaNombre, marginLeft, tableY);
     tableY += 4;
     
+    // Verificar si es la partida de personal para el nivel de detalle "medio"
+    const esPartidaPersonal = partida.partidaNombre.toUpperCase() === 'PERSONAL';
+    
+    // Determinar el formato basado en el nivel de detalle
+    let usarDetalleCompleto = nivelDetalle === 'completo';
+    let usarDetallePersonal = nivelDetalle === 'medio' && esPartidaPersonal;
+    
     // Crear la tabla de items
     const tableData = partida.items.map(item => {
       const itemNombre = item.nombre || item.producto?.nombre || '';
       
-      // Debug: Verificar el tipo de cada item
-      console.log(`Item: ${itemNombre}, Tipo: ${item.tipo || 'normal'}`);
-      
       // Si es una categoría, crear una fila con una celda que ocupe todas las columnas y texto a la izquierda
       if (item.tipo === 'CATEGORIA') {
-        console.log(`Detectada ${item.tipo}: ${itemNombre}`);
-        return [{ content: itemNombre, colSpan: 6, styles: { halign: 'left' as const, fontStyle: 'bold' as const } }];
+        // El número de columnas varía según el nivel de detalle
+        let colSpan = usarDetalleCompleto || usarDetallePersonal ? 6 : 2;
+        return [{ content: itemNombre, colSpan: colSpan, styles: { halign: 'left' as const, fontStyle: 'bold' as const } }];
       }
       
       // Si es un separador, crear una fila con una celda que ocupe todas las columnas y texto centrado
       if (item.tipo === 'SEPARADOR') {
-        console.log(`Detectado ${item.tipo}: ${itemNombre}`);
-        return [{ content: itemNombre, colSpan: 6, styles: { halign: 'center' as const, fontStyle: 'bold' as const } }];
+        let colSpan = usarDetalleCompleto || usarDetallePersonal ? 6 : 2;
+        return [{ content: itemNombre, colSpan: colSpan, styles: { halign: 'center' as const, fontStyle: 'bold' as const } }];
       }
       
+      // Para nivel mínimo, sólo mostrar descripción y cantidad
+      if (nivelDetalle === 'minimo') {
+        return [
+          itemNombre,
+          item.cantidad.toString()
+        ];
+      }
+      
+      // Para nivel medio, mostrar todo el detalle solo para partida de PERSONAL
+      if (nivelDetalle === 'medio') {
+        if (esPartidaPersonal) {
+          // Detalle completo para personal
+          return [
+            itemNombre,
+            item.cantidad.toString(),
+            item.dias ? item.dias.toString() : '1',
+            formatCurrency(item.precioUnitario),
+            `${item.descuento}%`,
+            formatCurrency(item.cantidad * item.precioUnitario * (item.dias || 1) * (1 - item.descuento / 100))
+          ];
+        } else {
+          // Detalle mínimo para el resto
+          return [
+            itemNombre,
+            item.cantidad.toString()
+          ];
+        }
+      }
+      
+      // Para nivel completo, mostrar todo el detalle
       return [
         itemNombre,
         item.cantidad.toString(),
@@ -577,60 +613,119 @@ export const generatePresupuestoPDF = async (
       ];
     });
     
-    // Configuración de la tabla compacta
-    autoTable(doc, {
-      startY: tableY -2,
-      head: [['Descripción', 'Cantidad', 'Días', 'Precio', 'Descuento', 'Subtotal']],
-      body: tableData,
-      margin: { left: marginLeft, right: marginLeft },
-      headStyles: { 
-        fillColor: headerBgColor, 
-        textColor: [255, 255, 255],
-        fontStyle: 'bold',
-        halign: 'left',
-        fontSize: 7,
-        cellPadding: 1
-      },
-      bodyStyles: {
-        fontSize: 7,
-        lineWidth: 0.1,
-        lineColor: [220, 220, 220],
-        cellPadding: 1
-      },
-      alternateRowStyles: {
-        fillColor: [245, 245, 245]
-      },
-      columnStyles: {
-        0: { cellWidth: 100 }, // Descripción
-        1: { cellWidth: 15, halign: 'center' }, // Cantidad
-        2: { cellWidth: 15, halign: 'center' }, // Días
-        3: { cellWidth: 20, halign: 'right' }, // Precio
-        4: { cellWidth: 15, halign: 'center' }, // Descuento
-        5: { cellWidth: 30, halign: 'right' } // Subtotal
-      },
-      didDrawCell: (data: CellHookData) => {
-        // Estilo mejorado para categorías y separadores
-        if (data.row.index >= 0 && data.column.index === 0) {
-          const item = partida.items[data.row.index];
-          // Estilo para categorías
-          if (item && item.tipo === 'CATEGORIA') {
-            doc.setTextColor(primaryColor);
-            doc.setFontSize(9);
-            doc.setFont('helvetica', 'bold');
-          }
-          // Estilo para separadores (la celda ya está centrada en la definición)
-          else if (item && item.tipo === 'SEPARADOR') {
-            doc.setTextColor(primaryColor);
-            doc.setFontSize(9);
-            doc.setFont('helvetica', 'bold');
+    // Configuración de la tabla compacta basada en el nivel de detalle
+    if ((nivelDetalle === 'completo') || (nivelDetalle === 'medio' && esPartidaPersonal)) {
+      // Tabla con detalle completo
+      autoTable(doc, {
+        startY: tableY -2,
+        head: [['Descripción', 'Cantidad', 'Días', 'Precio', 'Descuento', 'Subtotal']],
+        body: tableData,
+        margin: { left: marginLeft, right: marginLeft },
+        headStyles: { 
+          fillColor: headerBgColor, 
+          textColor: [255, 255, 255] as [number, number, number],
+          fontStyle: 'bold',
+          halign: 'left',
+          fontSize: 7,
+          cellPadding: 1
+        },
+        bodyStyles: {
+          fontSize: 7,
+          lineWidth: 0.1,
+          lineColor: [220, 220, 220],
+          cellPadding: 1
+        },
+        alternateRowStyles: {
+          fillColor: [245, 245, 245]
+        },
+        columnStyles: {
+          0: { cellWidth: 100 }, // Descripción
+          1: { cellWidth: 15, halign: 'center' }, // Cantidad
+          2: { cellWidth: 15, halign: 'center' }, // Días
+          3: { cellWidth: 20, halign: 'right' }, // Precio
+          4: { cellWidth: 15, halign: 'center' }, // Descuento
+          5: { cellWidth: 30, halign: 'right' } // Subtotal
+        },
+        didDrawCell: (data: CellHookData) => {
+          // Estilo mejorado para categorías y separadores
+          if (data.row.index >= 0 && data.column.index === 0) {
+            const item = partida.items[data.row.index];
+            // Estilo para categorías
+            if (item && item.tipo === 'CATEGORIA') {
+              doc.setTextColor(primaryColor);
+              doc.setFontSize(9);
+              doc.setFont('helvetica', 'bold');
+            }
+            // Estilo para separadores
+            else if (item && item.tipo === 'SEPARADOR') {
+              doc.setTextColor(primaryColor);
+              doc.setFontSize(9);
+              doc.setFont('helvetica', 'bold');
+            }
           }
         }
-      }
-    });
+      });
+    } else {
+      // Tabla con detalle mínimo (sólo descripción y cantidad)
+      autoTable(doc, {
+        startY: tableY -2,
+        head: [['Descripción', 'Cantidad']],
+        body: tableData,
+        margin: { left: marginLeft, right: marginLeft },
+        headStyles: { 
+          fillColor: headerBgColor, 
+          textColor: [255, 255, 255] as [number, number, number],
+          fontStyle: 'bold',
+          halign: 'left',
+          fontSize: 7,
+          cellPadding: 1
+        },
+        bodyStyles: {
+          fontSize: 7,
+          lineWidth: 0.1,
+          lineColor: [220, 220, 220],
+          cellPadding: 1
+        },
+        alternateRowStyles: {
+          fillColor: [245, 245, 245]
+        },
+        columnStyles: {
+          0: { cellWidth: 170 }, // Descripción
+          1: { cellWidth: 25, halign: 'center' } // Cantidad
+        },
+        didDrawCell: (data: CellHookData) => {
+          // Estilo mejorado para categorías y separadores
+          if (data.row.index >= 0 && data.column.index === 0) {
+            const item = partida.items[data.row.index];
+            // Estilo para categorías
+            if (item && item.tipo === 'CATEGORIA') {
+              doc.setTextColor(primaryColor);
+              doc.setFontSize(9);
+              doc.setFont('helvetica', 'bold');
+            }
+            // Estilo para separadores
+            else if (item && item.tipo === 'SEPARADOR') {
+              doc.setTextColor(primaryColor);
+              doc.setFontSize(9);
+              doc.setFont('helvetica', 'bold');
+            }
+          }
+        }
+      });
+    }
     
     // Actualizar la posición Y para el siguiente contenido
     const finalY = (doc as any).lastAutoTable?.finalY || tableY + 20;
-    tableY = finalY + 6;
+    
+    // Añadir el subtotal debajo de la tabla en todas las versiones de impresión
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(primaryColor);
+    const subtotalText = `Subtotal: ${formatCurrency(partida.subtotal)}`;
+    const subtotalWidth = doc.getTextWidth(subtotalText);
+    doc.text(subtotalText, pageWidth - marginLeft - subtotalWidth, finalY + 4);
+    
+    tableY = finalY + 10;
   });
   
   // Totales después de las tablas
@@ -957,6 +1052,15 @@ export const generateFacturaPDF = (
     
     // Actualizar la posición Y para el siguiente contenido
     const finalY = (doc as any).lastAutoTable?.finalY || tableY + 20;
+    
+    // Añadir el subtotal debajo de la tabla en todas las versiones de impresión
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(primaryColor);
+    const subtotalText = `Subtotal: ${formatCurrency(partida.subtotal)}`;
+    const subtotalWidth = doc.getTextWidth(subtotalText);
+    doc.text(subtotalText, pageWidth - marginLeft - subtotalWidth, finalY + 4);
+    
     tableY = finalY + 10;
   });
   
