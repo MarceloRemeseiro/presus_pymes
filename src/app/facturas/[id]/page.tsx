@@ -134,6 +134,11 @@ interface Factura {
   updatedAt: string
 }
 
+// Función auxiliar para limpiar nombres de archivo (repetida por simplicidad, podría ir a utils)
+function sanitizeFilename(filename: string): string {
+  return filename.replace(/[^a-z0-9_.-]/gi, '_').replace(/_+/g, '_');
+}
+
 export default function FacturaDetallePage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter()
   const resolvedParams = use(params)
@@ -290,7 +295,7 @@ export default function FacturaDetallePage({ params }: { params: Promise<{ id: s
       
       const partidasAgrupadas = getItemsGroupedByPartida();
       
-      // Generar el PDF con los datos de la empresa usando el nuevo generador
+      // Generar el PDF
       const doc = await generateFacturaPDF(
         factura, 
         partidasAgrupadas,
@@ -298,13 +303,20 @@ export default function FacturaDetallePage({ params }: { params: Promise<{ id: s
         config.colorFactura
       );
       
+      // Construir el nombre del archivo
+      const numero = factura.numero || 'SIN_NUMERO';
+      const nombreEmpresa = empresa?.nombre || 'MiEmpresa';
+      // Usar nombre de factura como referencia, o numeroPedido si no hay nombre
+      const referencia = factura.nombre || factura.numeroPedido || 'SIN_REF'; 
+      const baseFilename = `${numero}_Factura${nombreEmpresa}_${referencia}-FACTURA`;
+      const filename = sanitizeFilename(baseFilename) + '.pdf';
+
       // Cerrar el indicador de carga
       toast.dismiss();
       
-      // Abrir el PDF en una nueva pestaña
-      const pdfBlob = doc.output('blob');
-      const pdfUrl = URL.createObjectURL(pdfBlob);
-      window.open(pdfUrl, '_blank');
+      // Guardar el PDF con el nombre personalizado
+      doc.save(filename);
+
     } catch (error) {
       toast.dismiss();
       console.error('Error al generar el PDF:', error);

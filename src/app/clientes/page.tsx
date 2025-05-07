@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { toast, Toaster } from "sonner"
-import { Edit, Trash, Loader2, PlusCircle, Search, MoreHorizontal } from "lucide-react"
+import { Edit, Trash, Loader2, PlusCircle, Search, MoreHorizontal, Download, Upload, FileCode } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { DataTable } from "@/components/ui/data-table"
@@ -21,6 +21,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { ImportExportDialog } from '@/components/clientes/ImportExportDialog'
 
 interface Cliente {
   id: string
@@ -220,12 +221,24 @@ export default function ClientesPage() {
     <div className="py-10">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Clientes</h1>
-        <Button asChild>
-          <Link href="/clientes/nuevo">
-            <PlusCircle className="mr-2 h-4 w-4" />
-            Nuevo Cliente
-          </Link>
-        </Button>
+        <div className="flex gap-2">
+        <ImportExportDialog
+            trigger={
+              <Button variant="outline">
+                <FileCode className="mr-2 h-4 w-4" /> 
+                Importar / Exportar
+              </Button>
+            }
+            onImportSuccess={fetchClientes}
+          />
+          <Button asChild>
+            <Link href="/clientes/nuevo">
+              <PlusCircle className="mr-2 h-4 w-4" />
+              Nuevo Cliente
+            </Link>
+          </Button>
+          
+        </div>
       </div>
 
       <Card>

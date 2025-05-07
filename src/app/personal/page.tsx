@@ -5,10 +5,11 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { toast, Toaster } from "sonner"
-import { PlusCircle, Loader2, Search, MoreHorizontal } from "lucide-react"
+import { PlusCircle, Loader2, Search, MoreHorizontal, FileCode } from "lucide-react"
 import Link from "next/link"
 import { Badge } from "@/components/ui/badge"
 import { DataTable } from "@/components/ui/data-table"
+import { ImportExportDialog } from "@/components/personal/ImportExportDialog"
 
 interface Puesto {
   id: string
@@ -162,12 +163,23 @@ export default function PersonalPage() {
       
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Personal</h1>
-        <Button asChild>
-          <Link href="/personal/nuevo">
-            <PlusCircle className="mr-2 h-4 w-4" />
-            Nuevo Personal
-          </Link>
-        </Button>
+        <div className="flex gap-2">
+          <ImportExportDialog
+            trigger={
+              <Button variant="outline">
+                <FileCode className="mr-2 h-4 w-4" />
+                Importar / Exportar
+              </Button>
+            }
+            onImportSuccess={fetchPersonal}
+          />
+          <Button asChild>
+            <Link href="/personal/nuevo">
+              <PlusCircle className="mr-2 h-4 w-4" />
+              Nuevo Personal
+            </Link>
+          </Button>
+        </div>
       </div>
 
       <Card>

@@ -133,6 +133,13 @@ interface Empresa {
   logoUrl?: string | null;
 }
 
+// Función auxiliar para limpiar nombres de archivo
+function sanitizeFilename(filename: string): string {
+  // Reemplaza caracteres no permitidos en nombres de archivo con guion bajo
+  // Permite letras, números, guiones bajos, guiones y puntos.
+  return filename.replace(/[^a-z0-9_.-]/gi, '_').replace(/_+/g, '_');
+}
+
 export default function PresupuestoDetallePage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter()
   const [presupuesto, setPresupuesto] = useState<Presupuesto | null>(null)
@@ -311,7 +318,7 @@ export default function PresupuestoDetallePage({ params }: { params: Promise<{ i
       // Preparar los datos agrupados
       const partidasAgrupadas = getItemsGroupedByPartida();
       
-      // Generar el PDF con los datos de la empresa y el nivel de detalle seleccionado
+      // Generar el PDF
       const doc = await generatePresupuestoPDF(
         presupuesto as any, 
         partidasAgrupadas as any,
@@ -320,13 +327,24 @@ export default function PresupuestoDetallePage({ params }: { params: Promise<{ i
         nivelDetalle
       );
       
+      // Construir el nombre del archivo
+      const numero = presupuesto.numero || 'SIN_NUMERO';
+      const nombreEmpresa = empresa?.nombre || 'MiEmpresa';
+      const referencia = presupuesto.referencia || 'SIN_REF';
+      const baseFilename = `${numero}_Presupuesto${nombreEmpresa}_${referencia}-PRESUPUESTO`;
+      const filename = sanitizeFilename(baseFilename) + '.pdf';
+
       // Cerrar el indicador de carga
       toast.dismiss();
       
-      // Abrir el PDF en una nueva pestaña
-      const pdfBlob = doc.output('blob');
-      const pdfUrl = URL.createObjectURL(pdfBlob);
-      window.open(pdfUrl, '_blank');
+      // Guardar el PDF con el nombre personalizado
+      doc.save(filename);
+
+      // Quitar la apertura en nueva pestaña
+      // const pdfBlob = doc.output('blob');
+      // const pdfUrl = URL.createObjectURL(pdfBlob);
+      // window.open(pdfUrl, '_blank');
+      
     } catch (error) {
       toast.dismiss();
       console.error('Error al generar el PDF:', error);

@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import Link from "next/link"
 import { Toaster, toast } from "sonner"
 import { useRouter } from "next/navigation"
-import { Loader2, Plus, Search, Trash2, Edit, MoreHorizontal } from "lucide-react"
+import { Loader2, Plus, Search, Trash2, Edit, MoreHorizontal, FileCode } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { DataTable } from "@/components/ui/data-table"
 import {
@@ -16,6 +16,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { ImportExportDialog } from "@/components/proveedores/ImportExportDialog"
 
 interface Proveedor {
   id: string
@@ -37,27 +38,27 @@ export default function ProveedoresPage() {
   const [error, setError] = useState<string | null>(null)
   const [eliminandoId, setEliminandoId] = useState<string | null>(null)
 
-  useEffect(() => {
-    const fetchProveedores = async () => {
-      try {
-        setIsLoading(true)
-        const response = await fetch("/api/proveedores")
-        
-        if (!response.ok) {
-          throw new Error("Error al cargar proveedores")
-        }
-        
-        const data = await response.json()
-        setProveedores(data)
-      } catch (err) {
-        console.error("Error:", err)
-        setError("Error al cargar los proveedores. Por favor, intenta de nuevo.")
-        toast.error("Error al cargar proveedores")
-      } finally {
-        setIsLoading(false)
+  const fetchProveedores = async () => {
+    try {
+      setIsLoading(true)
+      const response = await fetch("/api/proveedores")
+      
+      if (!response.ok) {
+        throw new Error("Error al cargar proveedores")
       }
+      
+      const data = await response.json()
+      setProveedores(data)
+    } catch (err) {
+      console.error("Error:", err)
+      setError("Error al cargar los proveedores. Por favor, intenta de nuevo.")
+      toast.error("Error al cargar proveedores")
+    } finally {
+      setIsLoading(false)
     }
+  }
 
+  useEffect(() => {
     fetchProveedores()
   }, [])
 
@@ -176,11 +177,22 @@ export default function ProveedoresPage() {
       
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Proveedores</h1>
-        <Button asChild>
-          <Link href="/proveedores/nuevo">
-            <Plus className="mr-2 h-4 w-4" /> Nuevo Proveedor
-          </Link>
-        </Button>
+        <div className="flex gap-2">
+          <ImportExportDialog 
+            trigger={
+              <Button variant="outline">
+                 <FileCode className="mr-2 h-4 w-4" /> 
+                 Importar / Exportar
+              </Button>
+            }
+            onImportSuccess={fetchProveedores}
+          />
+          <Button asChild>
+            <Link href="/proveedores/nuevo">
+              <Plus className="mr-2 h-4 w-4" /> Nuevo Proveedor
+            </Link>
+          </Button>
+        </div>
       </div>
 
       <Card>

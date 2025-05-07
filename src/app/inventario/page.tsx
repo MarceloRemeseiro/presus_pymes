@@ -150,14 +150,18 @@ export default function InventarioPage() {
       key: "stock",
       header: "Stock",
       sortable: true,
-      cell: (producto: Producto) => <div className="text-right">{producto.stock}</div>
+      cell: (producto: Producto) => (
+        <div className="flex justify-start gap-2">
+          {producto.stock}
+        </div>
+      )
     },
     {
       key: "precioAlquiler",
       header: "Precio Alquiler",
       sortable: true,
       cell: (producto: Producto) => (
-        <div className="text-right">
+        <div className="flex justify-start gap-2">
           {formatCurrency(producto.precioAlquiler) !== null ? `${formatCurrency(producto.precioAlquiler)}` : "-"}
         </div>
       )
@@ -166,7 +170,7 @@ export default function InventarioPage() {
       key: "actions",
       header: "Acciones",
       cell: (producto: Producto) => (
-        <div className="flex justify-end gap-2">
+        <div className="flex justify-start gap-2">
           <Button 
             variant="ghost" 
             size="icon"

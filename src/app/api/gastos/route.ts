@@ -85,7 +85,7 @@ export async function POST(request: Request) {
         facturaIndependiente = await prisma.factura.create({
           data: {
             numero: "GASTOS-INDEPENDIENTES",
-            nombre: "Gastos Independientes (Sistema)",
+            nombre: "Gastos Generales",
             fecha: new Date(),
             fechaVencimiento: new Date(),
             clienteId: clienteSistema.id,
