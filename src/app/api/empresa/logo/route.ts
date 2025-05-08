@@ -78,7 +78,7 @@ export async function POST(request: NextRequest) {
     await writeFile(filePath, resizedImage);
     
     // URL pública
-    const publicUrl = `/uploads/${fileName}`;
+    const publicUrl = `/public/uploads/${fileName}`;
     
     return NextResponse.json({ logoUrl: publicUrl });
   } catch (error) {
