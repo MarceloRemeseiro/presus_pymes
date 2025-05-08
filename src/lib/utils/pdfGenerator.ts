@@ -526,7 +526,7 @@ async function createPresupuestoPDF(
   }
   
   if (presupuesto.nombre) {
-    presuData.push(['Prooyecto:', presupuesto.nombre]);
+    presuData.push(['Proyecto:', presupuesto.nombre]);
   }
   
   if (presupuesto.referencia) {
