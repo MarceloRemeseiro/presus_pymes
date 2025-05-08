@@ -25,7 +25,7 @@ COPY . .
 RUN npm run build
 
 # Expone el puerto en el que corre la aplicación Next.js
-EXPOSE 3000
+EXPOSE 1011
 
 # Comando por defecto para correr la aplicación
 # Ejecuta las migraciones de Prisma y luego inicia la aplicación
