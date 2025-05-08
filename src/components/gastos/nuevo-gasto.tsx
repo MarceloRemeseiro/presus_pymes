@@ -40,7 +40,7 @@ import {
 const formSchema = z.object({
   nombre: z.string().min(1, { message: 'El concepto es obligatorio' }),
   precio: z.coerce.number().min(0.01, { message: 'El precio debe ser mayor a 0' }),
-  precioConIVA: z.boolean().default(true),
+  precioConIVA: z.boolean(),
   proveedorId: z.string().optional(),
   facturaId: z.string().optional(),
   partidaId: z.string().optional(),
@@ -65,8 +65,12 @@ export default function NuevoGasto() {
       precio: 0,
       precioConIVA: true,
       descripcion: '',
-      documentoNombre: '',
+      proveedorId: undefined,
+      facturaId: undefined,
+      partidaId: undefined,
       tipoEspecial: 'gastos-generales',
+      documentoNombre: '',
+      documentoFecha: undefined,
     },
   })
 

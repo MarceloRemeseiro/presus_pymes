@@ -1,18 +1,22 @@
-version: '3.8'
-
 services:
-  postgres:
-    image: postgres:16
-    container_name: presus-pymes-db
-    restart: always
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env.production # Carga las variables desde este archivo
+    # Las variables de entorno definidas aquí abajo (environment) 
+    # pueden sobreescribir las del env_file si tienen el mismo nombre,
+    # o puedes quitarlas si ya están todas en .env.production.
+    # Por ahora, las comentaré para priorizar .env.production.
+    # environment:
+    #   NODE_ENV: production 
+    #   DATABASE_URL: "postgres://admin:Lumar5998@lumarapp.marceloremeseiro.com:55002/lumar"
+    #   JWT_SECRET: supersecreto123456789
     ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: presus_pymes
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - "3000:3000"
+    # depends_on ya no es necesario porque la BD es externa
 
-volumes:
-  postgres_data: 
+# El volumen db_data ya no es necesario
+# volumes:
+#   db_data: 

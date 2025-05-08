@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma'
 import { NextResponse } from 'next/server'
+import { getOrCreateEspecialProduct, TipoEspecial } from '@/lib/productosEspeciales'
 
 // GET /api/presupuestos/[id] - Obtener un presupuesto específico
 export async function GET(
@@ -114,9 +115,6 @@ export async function PATCH(
     if (body.items && body.items.length > 0) {
       console.log(`Procesando ${body.items.length} items para actualización`)
       
-      // Importar la función para productos especiales
-      const { getOrCreateEspecialProduct } = await import('../items-especiales/route')
-      
       // Calcular totales
       const subtotal = body.items.reduce(
         (acc: number, item: any) => {
@@ -165,7 +163,7 @@ export async function PATCH(
         if ((item.tipo === "CATEGORIA" || item.tipo === "SEPARADOR") && 
             (item.productoId === "categoria" || item.productoId === "separador" || !item.productoId)) {
           // Obtener el ID del producto especial adecuado
-          const productoId = await getOrCreateEspecialProduct(item.tipo)
+          const productoId = await getOrCreateEspecialProduct(item.tipo as TipoEspecial)
           
           itemsToCreate.push({
             presupuestoId,

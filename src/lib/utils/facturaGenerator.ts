@@ -1,6 +1,8 @@
 import { jsPDF } from 'jspdf';
 import { autoTable } from 'jspdf-autotable';
 import { formatCurrency } from '@/lib/utils';
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
 
 // Tipos
 interface Cliente {
@@ -83,6 +85,19 @@ interface CellHookData {
   section: string;
 }
 
+// Interfaz para la configuración del PDF
+interface PDFConfig {
+  color?: string;
+  fontSize?: number;
+  margin?: number;
+}
+
+const pageDimensions = { width: 210, height: 297 }; // A4 en mm
+const margin = 15;
+const marginTop = 20;
+const marginLeft = 15;
+const primaryColor = '#000000'; // Color negro por defecto
+
 // Función para cargar imágenes desde URL a Base64
 async function loadImageAsBase64(url: string): Promise<string> {
   if (url.startsWith('/')) {
@@ -134,14 +149,12 @@ export const generateFacturaPDF = async (
   const headerBgColor: [number, number, number] = hexToRgb(primaryColor);
   
   // Configuración de márgenes
-  const marginLeft = 8;
-  const marginTop = 5;
   const pageWidth = doc.internal.pageSize.width;
   
   // ----- HEADER CON LOGO, NOMBRE DE EMPRESA Y NÚMERO DE FACTURA -----
   
   // Posición Y inicial para el header
-  let headerY = marginTop;
+  const headerY = marginTop;
   
   // Definir ancho y posiciones
   const logoWidth = 40;
@@ -149,10 +162,8 @@ export const generateFacturaPDF = async (
   const logoX = marginLeft;
   
   const empresaNombreX = logoX + logoWidth + 10;
-  const empresaNombreWidth = 80;
   
   const facturaNumeroX = pageWidth - marginLeft - 70;
-  const facturaNumeroWidth = 70;
   
   // 1. LOGO
   // Si hay logo en la empresa, intentar cargarlo
@@ -162,7 +173,7 @@ export const generateFacturaPDF = async (
       const logoBase64 = await loadImageAsBase64(empresa.logoUrl);
       
       // Para determinar las dimensiones originales
-      const getImageDimensions = (base64String: string): Promise<{width: number, height: number}> => {
+      const getImageDimensions = async (base64String: string): Promise<{width: number, height: number}> => {
         return new Promise((resolve, reject) => {
           try {
             if (typeof window !== 'undefined') {
@@ -479,7 +490,7 @@ export const generateFacturaPDF = async (
   let tableY = tituloServiciosY + 10;
   
   // Generar tablas para cada partida
-  partidasAgrupadas.forEach((partida, index) => {
+  partidasAgrupadas.forEach((partida) => {
     // Si no hay suficiente espacio para la tabla, agregar nueva página
     if (tableY > doc.internal.pageSize.height - 50) {
       doc.addPage();
@@ -690,9 +701,52 @@ export const generateFacturaPDF = async (
 // Función auxiliar para formatear fechas
 function formatDate(dateString: string | null): string {
   if (!dateString) return '--';
-  return new Date(dateString).toLocaleDateString('es-ES', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric'
+  const date = new Date(dateString);
+  date.setMinutes(date.getMinutes() + date.getTimezoneOffset()); // Ajustar UTC
+  return format(date, 'dd/MM/yyyy', { locale: es });
+}
+
+// Función para generar el encabezado común
+function addHeader(doc: jsPDF, empresa: Empresa, factura: Factura, config?: PDFConfig): number {
+  let currentY = marginTop;
+  
+  // Título y Número de Factura
+  const headerY = currentY;
+  doc.setFontSize(18);
+  doc.setTextColor(primaryColor);
+  doc.setFont('helvetica', 'bold');
+  doc.text('FACTURA', marginLeft, headerY);
+  
+  doc.setFontSize(10);
+  doc.setFont('helvetica', 'normal');
+  doc.setTextColor(0, 0, 0); // Reset color
+  doc.text(`Nº: ${factura.numero}`, pageDimensions.width - margin, headerY, { align: 'right' });
+  currentY = headerY + 5;
+  
+  return currentY;
+}
+
+// Función para añadir la tabla de items
+function addItemsTable(doc: jsPDF, partidas: GroupedItems[], startY: number, config?: PDFConfig): number {
+  let currentY = startY;
+  const tableHeadersCompleto = ['Cant.', 'Descripción', 'Días', 'P.U.', 'DTO %', 'IVA %', 'Subtotal'];
+  const tableHeadersCompacto = ['Descripción', 'Subtotal'];
+  const columnWidthsCompleto = [15, 75, 15, 20, 15, 15, 25]; 
+  const columnWidthsCompacto = [155, 25]; 
+  const tableMargin = margin;
+  const tableWidth = pageDimensions.width - 2 * tableMargin;
+  
+  partidas.forEach((partida) => {
+    // ... existing code ...
+    // Subtotal de la partida
+    currentY += 5;
+    doc.setFont('helvetica', 'bold');
+    const subtotalPartidaTexto = `Subtotal ${partida.partidaNombre || 'Otros'}: ${formatCurrency(partida.subtotal)}`;
+    doc.text(subtotalPartidaTexto, pageDimensions.width - margin, currentY, { align: 'right' });
+    currentY += 5;
   });
-} 
+
+  return currentY;
+}
+
+// ... (resto de funciones) 

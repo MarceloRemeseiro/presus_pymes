@@ -180,7 +180,7 @@ export const generatePresupuestoPDF = async (
   // ----- HEADER CON LOGO, NOMBRE DE EMPRESA Y NÚMERO DE PRESUPUESTO -----
   
   // Posición Y inicial para el header
-  let headerY = marginTop;
+  const headerY = marginTop;
   
   // Definir ancho y posiciones
   const logoWidth = 40;
@@ -188,10 +188,10 @@ export const generatePresupuestoPDF = async (
   const logoX = marginLeft;
   
   const empresaNombreX = logoX + logoWidth + 10;
-  const empresaNombreWidth = 80;
+  // const empresaNombreWidth = 80;
   
   const presupuestoNumeroX = pageWidth - marginLeft - 70;
-  const presupuestoNumeroWidth = 70;
+  // const presupuestoNumeroWidth = 70;
   
   // 1. LOGO
   // Si hay logo en la empresa, intentar cargarlo
@@ -326,7 +326,7 @@ export const generatePresupuestoPDF = async (
   doc.line(marginLeft, headerY + logoHeight + 5, pageWidth - marginLeft, headerY + logoHeight + 5);
   
   // Ajustar la posición Y inicial para el contenido que viene después del header
-  const startY = headerY - 5 + logoHeight + 15;
+  const startY = headerY + logoHeight + 15;
   
   // ----- FIN DEL HEADER -----
   
@@ -535,7 +535,7 @@ export const generatePresupuestoPDF = async (
   let tableY = tituloServiciosY + 10;
   
   // Generar tablas para cada partida
-  partidasAgrupadas.forEach((partida, index) => {
+  partidasAgrupadas.forEach((partida) => {
     // Si no hay suficiente espacio para la tabla, agregar nueva página
     if (tableY > doc.internal.pageSize.height - 50) {
       doc.addPage();
@@ -553,8 +553,7 @@ export const generatePresupuestoPDF = async (
     const esPartidaPersonal = partida.partidaNombre.toUpperCase() === 'PERSONAL';
     
     // Determinar el formato basado en el nivel de detalle
-    let usarDetalleCompleto = nivelDetalle === 'completo';
-    let usarDetallePersonal = nivelDetalle === 'medio' && esPartidaPersonal;
+    const usarDetalleCompleto = nivelDetalle === 'completo' || (nivelDetalle === 'medio' && esPartidaPersonal);
     
     // Crear la tabla de items
     const tableData = partida.items.map(item => {
@@ -563,14 +562,14 @@ export const generatePresupuestoPDF = async (
       // Si es una categoría, crear una fila con una celda que ocupe todas las columnas y texto a la izquierda
       if (item.tipo === 'CATEGORIA') {
         // El número de columnas varía según el nivel de detalle
-        let colSpan = usarDetalleCompleto || usarDetallePersonal ? 6 : 2;
+        let colSpan = usarDetalleCompleto ? 6 : 2;
         return [{ content: itemNombre, colSpan: colSpan, styles: { halign: 'left' as const, fontStyle: 'bold' as const } }];
       }
       
       // Si es un separador, crear una fila con una celda que ocupe todas las columnas y texto centrado
       if (item.tipo === 'SEPARADOR') {
-        let colSpan = usarDetalleCompleto || usarDetallePersonal ? 6 : 2;
-        return [{ content: itemNombre, colSpan: colSpan, styles: { halign: 'center' as const, fontStyle: 'bold' as const } }];
+        console.log(`Detectado ${item.tipo}: ${itemNombre}`);
+        return [{ content: itemNombre, colSpan: 6, styles: { halign: 'center' as const, fontStyle: 'bold' as const } }];
       }
       
       // Para nivel mínimo, sólo mostrar descripción y cantidad
@@ -956,7 +955,7 @@ export const generateFacturaPDF = (
   let tableY = startY + 35; // Espacio fijo para las cabeceras y datos principales
   
   // Generar tablas para cada partida
-  partidasAgrupadas.forEach((partida, index) => {
+  partidasAgrupadas.forEach((partida) => {
     // Si no hay suficiente espacio para la tabla, agregar nueva página
     if (tableY > doc.internal.pageSize.height - 50) {
       doc.addPage();

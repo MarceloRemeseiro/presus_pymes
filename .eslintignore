@@ -1,0 +1,5 @@
+# Ignorar archivos generados por Prisma
+src/generated/**
+
+# Ignorar directorio node_modules (generalmente ya ignorado por defecto, pero explícito por si acaso)
+node_modules/**

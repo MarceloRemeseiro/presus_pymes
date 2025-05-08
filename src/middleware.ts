@@ -60,7 +60,7 @@ export async function middleware(request: NextRequest) {
   // Si no está autenticado y la ruta no es pública, redirigir a login
   if (!isAuthenticated) {
     console.log("[Middleware] Usuario NO autenticado para ruta protegida. Redirigiendo a /login.");
-    let loginUrl = new URL('/login', request.url);
+    const loginUrl = new URL('/login', request.url);
     // Opcional: añadir la URL original como parámetro para redirigir de vuelta después del login
     // loginUrl.searchParams.set('redirect_to', pathname);
     return NextResponse.redirect(loginUrl);
