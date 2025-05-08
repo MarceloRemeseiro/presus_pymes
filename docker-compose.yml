@@ -14,7 +14,7 @@ services:
     #   DATABASE_URL: "postgres://admin:Lumar5998@lumarapp.marceloremeseiro.com:55002/lumar"
     #   JWT_SECRET: supersecreto123456789
     ports:
-      - "1011:1011"
+      - "1011:1011"  # Asegurarse que sea 1011:1011 para coincidir con el Dockerfile
     volumes:
       - ./uploads:/app/public/uploads  # Monta la carpeta uploads entre host y contenedor
     # depends_on ya no es necesario porque la BD es externa

@@ -6,7 +6,7 @@ WORKDIR /app
 
 # Copiar archivos de dependencias
 COPY package.json package-lock.json* ./
-RUN npm ci
+RUN npm ci --legacy-peer-deps
 
 # Etapa de compilación: instalar todas las dependencias y compilar
 FROM base AS builder
