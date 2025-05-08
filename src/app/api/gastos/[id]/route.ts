@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import path from 'path'
 
 // GET /api/gastos/[id] - Obtener un gasto específico
 export async function GET(
@@ -58,10 +59,11 @@ async function deleteFile(fileUrl: string) {
     
     // Importar las funciones necesarias
     const { unlink, access } = await import('fs/promises');
-    const { join } = await import('path');
     
     // Construir la ruta absoluta al archivo
-    const filePath = join(process.cwd(), 'public', 'uploads', fileName);
+    const rootDir = process.cwd();
+    const filePath = path.join(rootDir, 'public', 'uploads', fileName);
+    console.log("Ruta absoluta del archivo a eliminar:", filePath);
     
     // Verificar si el archivo existe
     try {

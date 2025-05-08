@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import sharp from 'sharp';
 import { writeFile, mkdir } from 'fs/promises';
-import { dirname } from 'path';
+import path from 'path';
 import { v4 as uuidv4 } from 'uuid';
 
 const MAX_LOGO_HEIGHT = 100; // Altura máxima para el logo en el PDF
@@ -64,12 +64,17 @@ export async function POST(request: NextRequest) {
     // Crear nombre de archivo único
     const fileName = `logo-${uuidv4()}.png`;
     
+    // Usar rutas absolutas
+    const rootDir = process.cwd();
+    const uploadDir = path.join(rootDir, 'public', 'uploads');
+    
     // Crear directorio si no existe
-    const uploadDir = 'public/uploads';
     await mkdir(uploadDir, { recursive: true });
     
-    // Guardar archivo
-    const filePath = `${uploadDir}/${fileName}`;
+    // Guardar archivo con ruta absoluta
+    const filePath = path.join(uploadDir, fileName);
+    console.log('Guardando logo en:', filePath);
+    
     await writeFile(filePath, resizedImage);
     
     // URL pública

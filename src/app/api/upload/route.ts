@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { writeFile, unlink, access } from 'fs/promises';
-import { join } from 'path';
+import path from 'path';
 import * as crypto from 'crypto';
 
 // Función auxiliar para verificar si un archivo existe
@@ -50,20 +50,23 @@ export async function POST(request: Request) {
     // Crear el nuevo nombre con el ID único al final
     const fileName = `${nameWithoutExt}_${uniqueId}.${extension}`;
     
-    // Definir directorio de uploads
-    const uploadDir = join(process.cwd(), 'public', 'uploads');
+    // Definir directorio de uploads usando rutas absolutas
+    const rootDir = process.cwd();
+    const uploadDir = path.join(rootDir, 'public', 'uploads');
     console.log(`Directorio de uploads: ${uploadDir}`);
     
     // Asegurar que el directorio existe
     await ensureUploadDirExists(uploadDir);
     
     // Ruta completa del archivo
-    const filePath = join(uploadDir, fileName);
+    const filePath = path.join(uploadDir, fileName);
     console.log(`Guardando archivo en: ${filePath}`);
     
     try {
+      // Asegurar permisos
+      console.log('Intentando escribir archivo...');
       await writeFile(filePath, bytes);
-      console.log(`Archivo guardado con éxito: ${fileName}`);
+      console.log(`Archivo guardado con éxito: ${fileName} en ${filePath}`);
     } catch (error) {
       console.error('Error al guardar el archivo:', error);
       throw error;
@@ -114,8 +117,9 @@ export async function DELETE(request: Request) {
     }
     
     // Construir la ruta absoluta al archivo
-    const filePath2 = join(process.cwd(), 'public', 'uploads', fileName);
-    console.log("Ruta absoluta del archivo:", filePath2);
+    const rootDir = process.cwd();
+    const filePath2 = path.join(rootDir, 'public', 'uploads', fileName);
+    console.log("Ruta absoluta del archivo a eliminar:", filePath2);
     
     // Verificar si el archivo existe antes de intentar eliminarlo
     if (await fileExists(filePath2)) {

@@ -18,6 +18,14 @@ services:
     volumes:
       - ./uploads:/app/public/uploads  # Monta la carpeta uploads entre host y contenedor
     # depends_on ya no es necesario porque la BD es externa
+    # Crear el directorio localmente si no existe
+    init: true # Usar init system para manejar la terminación correcta de procesos
+    restart: unless-stopped # Reiniciar el contenedor a menos que sea detenido manualmente
+
+# Crear los volúmenes explícitamente para asegurar permisos
+volumes:
+  uploads:
+    driver: local
 
 # El volumen db_data ya no es necesario
 # volumes:

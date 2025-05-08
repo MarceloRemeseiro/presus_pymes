@@ -43,8 +43,11 @@ COPY --from=builder /app/src/generated/prisma ./src/generated/prisma
 COPY docker-entrypoint.sh ./
 RUN chmod +x ./docker-entrypoint.sh
 
-# Crear directorio de uploads y darle permisos al usuario nextjs
-RUN mkdir -p ./public/uploads && chown -R nextjs:nodejs ./public/uploads
+# Crear directorio de uploads y establecer permisos amplios
+RUN mkdir -p ./public/uploads && chmod -R 777 ./public/uploads
+
+# Asegurar que nextjs tenga propiedad del directorio de uploads
+RUN chown -R nextjs:nodejs ./public/uploads
 
 # Cambiar al usuario non-root para producción
 USER nextjs

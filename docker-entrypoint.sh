@@ -19,10 +19,14 @@ if [ ! -w "$UPLOADS_DIR" ]; then
   echo "Intentando corregir permisos..."
   chmod -R 777 "$UPLOADS_DIR" || true
 else
-  echo "Permisos del directorio de uploads OK."
+  echo "Asegurando permisos del directorio de uploads..."
+  # Asegurar que el directorio tenga permisos adecuados incluso si ya es escribible
+  chmod -R 777 "$UPLOADS_DIR" || true
+  echo "Permisos del directorio de uploads establecidos a 777."
 fi
 
 # Mostrar información del directorio
+echo "Contenido del directorio de uploads:"
 ls -la "$UPLOADS_DIR"
 
 # Verificar estructura de archivos clave
@@ -43,6 +47,10 @@ if [ -d "/app/.next" ]; then
 else
   echo "❌ ERROR: Directorio .next no encontrado"
 fi
+
+# Identificar usuario actual
+echo "Usuario actual ejecutando la aplicación:"
+id
 
 # Iniciar la aplicación
 echo "Iniciando servidor Next.js..."
