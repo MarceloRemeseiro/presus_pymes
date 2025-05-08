@@ -31,13 +31,17 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
 # Copiar archivos necesarios desde la etapa de builder
-COPY --from=builder /app/next.config.js ./
+COPY --from=builder /app/next.config.ts ./
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 COPY --from=builder /app/prisma ./prisma
 COPY --from=builder /app/src/generated/prisma ./src/generated/prisma
+
+# Copiar script de entrada
+COPY docker-entrypoint.sh ./
+RUN chmod +x ./docker-entrypoint.sh
 
 # Crear directorio de uploads y darle permisos al usuario nextjs
 RUN mkdir -p ./public/uploads && chown -R nextjs:nodejs ./public/uploads
@@ -49,4 +53,6 @@ USER nextjs
 EXPOSE 1011
 ENV PORT 1011
 
+# Usar el script de entrada para iniciar la aplicación
+ENTRYPOINT ["./docker-entrypoint.sh"]
 CMD ["node", "server.js"]

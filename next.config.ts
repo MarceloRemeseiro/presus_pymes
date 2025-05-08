@@ -8,7 +8,8 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizeCss: false
   },
-  optimizeFonts: false
+  optimizeFonts: false,
+  output: 'standalone'
 };
 
 export default nextConfig;

@@ -25,6 +25,25 @@ fi
 # Mostrar información del directorio
 ls -la "$UPLOADS_DIR"
 
+# Verificar estructura de archivos clave
+echo "Verificando archivos clave de la aplicación..."
+if [ -f "/app/server.js" ]; then
+  echo "✅ server.js encontrado"
+else
+  echo "❌ ERROR: server.js no encontrado"
+  echo "Contenido del directorio raíz:"
+  ls -la /app
+fi
+
+# Verificar estructura de .next
+if [ -d "/app/.next" ]; then
+  echo "✅ Directorio .next encontrado"
+  echo "Contenido de .next:"
+  ls -la /app/.next
+else
+  echo "❌ ERROR: Directorio .next no encontrado"
+fi
+
 # Iniciar la aplicación
 echo "Iniciando servidor Next.js..."
 exec "$@" 
