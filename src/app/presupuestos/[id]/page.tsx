@@ -318,8 +318,8 @@ export default function PresupuestoDetallePage({ params }: { params: Promise<{ i
       // Preparar los datos agrupados
       const partidasAgrupadas = getItemsGroupedByPartida();
       
-      // Generar el PDF
-      const doc = await generatePresupuestoPDF(
+      // Generar el PDF y abrirlo en nueva pestaña (manejado dentro de generatePresupuestoPDF)
+      await generatePresupuestoPDF(
         presupuesto as any, 
         partidasAgrupadas as any,
         empresa,
@@ -327,20 +327,20 @@ export default function PresupuestoDetallePage({ params }: { params: Promise<{ i
         nivelDetalle
       );
       
-      // Construir el nombre del archivo
-      const numero = presupuesto.numero || 'SIN_NUMERO';
-      const nombreEmpresa = empresa?.nombre || 'MiEmpresa';
-      const referencia = presupuesto.referencia || 'SIN_REF';
-      const baseFilename = `${numero}_Presupuesto${nombreEmpresa}_${referencia}-PRESUPUESTO`;
-      const filename = sanitizeFilename(baseFilename) + '.pdf';
+      // Ya no necesitamos procesar 'doc' aquí, generatePresupuestoPDF lo maneja.
+      // const numero = presupuesto.numero || 'SIN_NUMERO';
+      // const nombreEmpresa = empresa?.nombre || 'MiEmpresa';
+      // const referencia = presupuesto.referencia || 'SIN_REF';
+      // const baseFilename = `${numero}_Presupuesto${nombreEmpresa}_${referencia}-PRESUPUESTO`;
+      // const filename = sanitizeFilename(baseFilename) + '.pdf';
 
       // Cerrar el indicador de carga
       toast.dismiss();
       
-      // Guardar el PDF con el nombre personalizado
-      doc.save(filename);
+      // // Guardar el PDF con el nombre personalizado
+      // // doc.save(filename); // Comentado para evitar descarga directa
 
-      // Quitar la apertura en nueva pestaña
+      // // Apertura en nueva pestaña ahora se maneja dentro de generatePresupuestoPDF
       // const pdfBlob = doc.output('blob');
       // const pdfUrl = URL.createObjectURL(pdfBlob);
       // window.open(pdfUrl, '_blank');

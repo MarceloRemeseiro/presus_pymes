@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { toast, Toaster } from "sonner"
-import { Plus, Search, Eye, Pencil, Trash2, LayoutList, Loader2, MoreHorizontal } from "lucide-react"
+import { Plus, Search, Eye, Pencil, Trash2, LayoutList, Loader2, MoreHorizontal, FileCode } from "lucide-react"
 import { formatCurrency } from "@/lib/utils"
 import { DataTable } from "@/components/ui/data-table"
 import {
@@ -15,6 +15,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { ImportExportDialogInventario } from "@/components/inventario/ImportExportDialogInventario"
 
 interface Producto {
   id: string
@@ -23,7 +24,7 @@ interface Producto {
   stock: number
   precio: number
   precioCompra: number | null
-  precioAlquiler: number
+  precioAlquiler: number | null
   categoriaId: string
   marcaId: string | null
   modelo: string | null
@@ -44,31 +45,30 @@ export default function InventarioPage() {
   const [error, setError] = useState<string | null>(null)
   const [eliminandoId, setEliminandoId] = useState<string | null>(null)
 
-  useEffect(() => {
-    const fetchProductos = async () => {
-      try {
-        setIsLoading(true)
-        const response = await fetch('/api/productos')
-        
-        if (!response.ok) {
-          throw new Error('Error al cargar productos')
-        }
-        
-        const data = await response.json()
-        // Filtrar productos que no sean de categoría __SISTEMA__
-        const filteredData = Array.isArray(data) 
-          ? data.filter(p => p.categoria.nombre !== '__SISTEMA__') 
-          : []
-        setProductos(filteredData)
-        setError(null)
-      } catch (err) {
-        console.error('Error al cargar datos:', err)
-        setError('Error al cargar los productos. Por favor, intente de nuevo más tarde.')
-      } finally {
-        setIsLoading(false)
+  const fetchProductos = async () => {
+    try {
+      setIsLoading(true)
+      const response = await fetch('/api/productos')
+      
+      if (!response.ok) {
+        throw new Error('Error al cargar productos')
       }
+      
+      const data = await response.json()
+      const filteredData = Array.isArray(data) 
+        ? data.filter(p => p.categoria?.nombre !== '__SISTEMA__')
+        : []
+      setProductos(filteredData)
+      setError(null)
+    } catch (err) {
+      console.error('Error al cargar datos:', err)
+      setError('Error al cargar los productos. Por favor, intente de nuevo más tarde.')
+    } finally {
+      setIsLoading(false)
     }
-    
+  }
+
+  useEffect(() => {
     fetchProductos()
   }, [])
 
@@ -78,7 +78,7 @@ export default function InventarioPage() {
       producto.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (producto.marca?.nombre && producto.marca.nombre.toLowerCase().includes(searchTerm.toLowerCase())) ||
       (producto.modelo && producto.modelo.toLowerCase().includes(searchTerm.toLowerCase())) ||
-      producto.categoria.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+      (producto.categoria?.nombre && producto.categoria.nombre.toLowerCase().includes(searchTerm.toLowerCase()))
   )
 
   // Eliminar un producto
@@ -144,7 +144,7 @@ export default function InventarioPage() {
       key: "categoria.nombre",
       header: "Categoría",
       sortable: true,
-      cell: (producto: Producto) => <div>{producto.categoria.nombre}</div>
+      cell: (producto: Producto) => <div>{producto.categoria?.nombre || '-'}</div>
     },
     {
       key: "stock",
@@ -162,7 +162,7 @@ export default function InventarioPage() {
       sortable: true,
       cell: (producto: Producto) => (
         <div className="flex justify-start gap-2">
-          {formatCurrency(producto.precioAlquiler) !== null ? `${formatCurrency(producto.precioAlquiler)}` : "-"}
+          {producto.precioAlquiler !== null ? formatCurrency(producto.precioAlquiler) : "-"}
         </div>
       )
     },
@@ -231,11 +231,22 @@ export default function InventarioPage() {
       
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Inventario</h1>
-        <Button asChild>
-          <Link href="/inventario/nuevo">
-            <Plus className="mr-2 h-4 w-4" /> Nuevo Producto
-          </Link>
-        </Button>
+        <div className="flex gap-2">
+          <ImportExportDialogInventario 
+            trigger={
+              <Button variant="outline">
+                <FileCode className="mr-2 h-4 w-4" /> 
+                Importar / Exportar
+              </Button>
+            }
+            onImportSuccess={fetchProductos}
+          />
+          <Button asChild>
+            <Link href="/inventario/nuevo">
+              <Plus className="mr-2 h-4 w-4" /> Nuevo Producto
+            </Link>
+          </Button>
+        </div>
       </div>
 
       <Card>

@@ -143,6 +143,13 @@ async function loadImageAsBase64(url: string): Promise<string> {
   }
 }
 
+// Función para sanitizar nombres de archivo
+function sanitizeFilename(filename: string): string {
+  return filename
+    .replace(/[^a-z0-9áéíóúüñ_.-]/gi, '_')
+    .replace(/_+/g, '_');
+}
+
 export const generatePresupuestoPDF = async (
   presupuesto: Presupuesto, 
   partidasAgrupadas: GroupedItems[],
@@ -150,6 +157,109 @@ export const generatePresupuestoPDF = async (
   colorPresupuesto?: string,
   nivelDetalle: 'completo' | 'medio' | 'minimo' = 'completo'
 ) => {
+  // Crear el documento PDF utilizando la función compartida
+  const { doc, filename } = await createPresupuestoPDF(
+    presupuesto, 
+    partidasAgrupadas, 
+    empresa, 
+    colorPresupuesto, 
+    nivelDetalle
+  );
+
+  // Nombre personalizado para el archivo
+  const nombreArchivo = presupuesto.nombre || `Presupuesto_${presupuesto.numero}`;
+  
+  // Establecer propiedades del documento para mejorar la visualización
+  doc.setProperties({ 
+    title: nombreArchivo,
+    subject: `Presupuesto ${presupuesto.numero}`,
+    author: empresa?.nombre || 'PresupPymes',
+    creator: 'PresupPymes'
+  });
+
+  try {
+    // Método alternativo para mostrar PDF sin perder el nombre: crear un documento HTML con iframe embebido
+    const dataUri = doc.output('datauristring');
+    
+    // Crear una ventana nueva
+    const win = window.open('', '_blank');
+    if (!win) {
+      throw new Error('No se pudo abrir una nueva ventana');
+    }
+    
+    // Escribir el contenido HTML con el iframe para mostrar el PDF y opción de descarga
+    win.document.write(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>${nombreArchivo}</title>
+          <style>
+            body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+            #pdf-container { width: 100%; height: 100%; position: absolute; top: 0; left: 0; }
+            #download-btn {
+              position: fixed; top: 20px; right: 20px; z-index: 9999;
+              padding: 8px 16px; background-color: #4a5568; color: white;
+              border: none; border-radius: 4px; cursor: pointer;
+              font-family: Arial, sans-serif; font-size: 14px;
+            }
+            #download-btn:hover { background-color: #2d3748; }
+          </style>
+        </head>
+        <body>
+          <button id="download-btn" onclick="downloadPdf()">Descargar PDF</button>
+          <iframe id="pdf-container" src="${dataUri}" width="100%" height="100%" frameborder="0"></iframe>
+          <script>
+            function downloadPdf() {
+              const link = document.createElement('a');
+              link.href = '${dataUri}';
+              link.download = '${filename}';
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+            }
+          </script>
+        </body>
+      </html>
+    `);
+    win.document.close();
+  } catch (error) {
+    console.error('Error al abrir el PDF:', error);
+    // Como fallback, guardarlo directamente
+    doc.save(filename);
+  }
+};
+
+// Función para descargar el PDF directamente con el nombre correcto
+export const downloadPresupuestoPDF = async (
+  presupuesto: Presupuesto, 
+  partidasAgrupadas: GroupedItems[],
+  empresa?: Empresa,
+  colorPresupuesto?: string,
+  nivelDetalle: 'completo' | 'medio' | 'minimo' = 'completo'
+) => {
+  // Crear el documento PDF utilizando la función compartida
+  const { doc, filename } = await createPresupuestoPDF(
+    presupuesto, 
+    partidasAgrupadas, 
+    empresa, 
+    colorPresupuesto, 
+    nivelDetalle
+  );
+  
+  // Descargar el PDF con el nombre correcto
+  doc.save(filename);
+  
+  return;
+};
+
+// Función interna compartida que genera el documento PDF
+async function createPresupuestoPDF(
+  presupuesto: Presupuesto, 
+  partidasAgrupadas: GroupedItems[],
+  empresa?: Empresa,
+  colorPresupuesto?: string,
+  nivelDetalle: 'completo' | 'medio' | 'minimo' = 'completo'
+): Promise<{ doc: jsPDF, filename: string }> {
   // Crear nuevo documento PDF
   const doc = new jsPDF();
   
@@ -188,10 +298,8 @@ export const generatePresupuestoPDF = async (
   const logoX = marginLeft;
   
   const empresaNombreX = logoX + logoWidth + 10;
-  // const empresaNombreWidth = 80;
   
   const presupuestoNumeroX = pageWidth - marginLeft - 70;
-  // const presupuestoNumeroWidth = 70;
   
   // 1. LOGO
   // Si hay logo en la empresa, intentar cargarlo
@@ -317,8 +425,6 @@ export const generatePresupuestoPDF = async (
     botonY + botonHeight/2, 
     { align: 'center', baseline: 'middle' }
   );
-  
- 
   
   // Línea separadora debajo del header
   doc.setDrawColor(220, 220, 220);
@@ -789,8 +895,16 @@ export const generatePresupuestoPDF = async (
     doc.text(splitObservaciones, marginLeft, tableY + 5);
   }
   
-  return doc;
-};
+  // Construir el nombre del archivo para usarlo como título del PDF
+  const numero = presupuesto.numero || 'SIN_NUMERO';
+  const nombreEmpresa = empresa?.nombre || 'MiEmpresa';
+  const referencia = presupuesto.referencia || 'SIN_REF';
+  const baseFilename = `${numero}_Presupuesto${nombreEmpresa}_${referencia}-PRESUPUESTO`;
+  const filename = sanitizeFilename(baseFilename) + '.pdf';
+
+  // Devolver el documento generado y el nombre del archivo
+  return { doc, filename };
+}
 
 export const generateFacturaPDF = (
   factura: Factura, 

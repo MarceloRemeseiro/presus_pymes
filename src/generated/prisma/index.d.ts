@@ -18404,14 +18404,25 @@ export namespace Prisma {
 
   export type AggregatePuesto = {
     _count: PuestoCountAggregateOutputType | null
+    _avg: PuestoAvgAggregateOutputType | null
+    _sum: PuestoSumAggregateOutputType | null
     _min: PuestoMinAggregateOutputType | null
     _max: PuestoMaxAggregateOutputType | null
+  }
+
+  export type PuestoAvgAggregateOutputType = {
+    tarifa: number | null
+  }
+
+  export type PuestoSumAggregateOutputType = {
+    tarifa: number | null
   }
 
   export type PuestoMinAggregateOutputType = {
     id: string | null
     nombre: string | null
     descripcion: string | null
+    tarifa: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -18420,6 +18431,7 @@ export namespace Prisma {
     id: string | null
     nombre: string | null
     descripcion: string | null
+    tarifa: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -18428,16 +18440,26 @@ export namespace Prisma {
     id: number
     nombre: number
     descripcion: number
+    tarifa: number
     createdAt: number
     updatedAt: number
     _all: number
   }
 
 
+  export type PuestoAvgAggregateInputType = {
+    tarifa?: true
+  }
+
+  export type PuestoSumAggregateInputType = {
+    tarifa?: true
+  }
+
   export type PuestoMinAggregateInputType = {
     id?: true
     nombre?: true
     descripcion?: true
+    tarifa?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -18446,6 +18468,7 @@ export namespace Prisma {
     id?: true
     nombre?: true
     descripcion?: true
+    tarifa?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -18454,6 +18477,7 @@ export namespace Prisma {
     id?: true
     nombre?: true
     descripcion?: true
+    tarifa?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -18497,6 +18521,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: PuestoAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PuestoSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: PuestoMinAggregateInputType
@@ -18527,6 +18563,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: PuestoCountAggregateInputType | true
+    _avg?: PuestoAvgAggregateInputType
+    _sum?: PuestoSumAggregateInputType
     _min?: PuestoMinAggregateInputType
     _max?: PuestoMaxAggregateInputType
   }
@@ -18535,9 +18573,12 @@ export namespace Prisma {
     id: string
     nombre: string
     descripcion: string | null
+    tarifa: number | null
     createdAt: Date
     updatedAt: Date
     _count: PuestoCountAggregateOutputType | null
+    _avg: PuestoAvgAggregateOutputType | null
+    _sum: PuestoSumAggregateOutputType | null
     _min: PuestoMinAggregateOutputType | null
     _max: PuestoMaxAggregateOutputType | null
   }
@@ -18560,6 +18601,7 @@ export namespace Prisma {
     id?: boolean
     nombre?: boolean
     descripcion?: boolean
+    tarifa?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     personal?: boolean | Puesto$personalArgs<ExtArgs>
@@ -18570,6 +18612,7 @@ export namespace Prisma {
     id?: boolean
     nombre?: boolean
     descripcion?: boolean
+    tarifa?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["puesto"]>
@@ -18578,6 +18621,7 @@ export namespace Prisma {
     id?: boolean
     nombre?: boolean
     descripcion?: boolean
+    tarifa?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["puesto"]>
@@ -18586,11 +18630,12 @@ export namespace Prisma {
     id?: boolean
     nombre?: boolean
     descripcion?: boolean
+    tarifa?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type PuestoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "descripcion" | "createdAt" | "updatedAt", ExtArgs["result"]["puesto"]>
+  export type PuestoOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "descripcion" | "tarifa" | "createdAt" | "updatedAt", ExtArgs["result"]["puesto"]>
   export type PuestoInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     personal?: boolean | Puesto$personalArgs<ExtArgs>
     _count?: boolean | PuestoCountOutputTypeDefaultArgs<ExtArgs>
@@ -18607,6 +18652,7 @@ export namespace Prisma {
       id: string
       nombre: string
       descripcion: string | null
+      tarifa: number | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["puesto"]>
@@ -19036,6 +19082,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Puesto", 'String'>
     readonly nombre: FieldRef<"Puesto", 'String'>
     readonly descripcion: FieldRef<"Puesto", 'String'>
+    readonly tarifa: FieldRef<"Puesto", 'Float'>
     readonly createdAt: FieldRef<"Puesto", 'DateTime'>
     readonly updatedAt: FieldRef<"Puesto", 'DateTime'>
   }
@@ -26684,6 +26731,7 @@ export namespace Prisma {
     id: 'id',
     nombre: 'nombre',
     descripcion: 'descripcion',
+    tarifa: 'tarifa',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -28046,6 +28094,7 @@ export namespace Prisma {
     id?: StringFilter<"Puesto"> | string
     nombre?: StringFilter<"Puesto"> | string
     descripcion?: StringNullableFilter<"Puesto"> | string | null
+    tarifa?: FloatNullableFilter<"Puesto"> | number | null
     createdAt?: DateTimeFilter<"Puesto"> | Date | string
     updatedAt?: DateTimeFilter<"Puesto"> | Date | string
     personal?: PersonalPuestoListRelationFilter
@@ -28055,6 +28104,7 @@ export namespace Prisma {
     id?: SortOrder
     nombre?: SortOrder
     descripcion?: SortOrderInput | SortOrder
+    tarifa?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     personal?: PersonalPuestoOrderByRelationAggregateInput
@@ -28067,6 +28117,7 @@ export namespace Prisma {
     OR?: PuestoWhereInput[]
     NOT?: PuestoWhereInput | PuestoWhereInput[]
     descripcion?: StringNullableFilter<"Puesto"> | string | null
+    tarifa?: FloatNullableFilter<"Puesto"> | number | null
     createdAt?: DateTimeFilter<"Puesto"> | Date | string
     updatedAt?: DateTimeFilter<"Puesto"> | Date | string
     personal?: PersonalPuestoListRelationFilter
@@ -28076,11 +28127,14 @@ export namespace Prisma {
     id?: SortOrder
     nombre?: SortOrder
     descripcion?: SortOrderInput | SortOrder
+    tarifa?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: PuestoCountOrderByAggregateInput
+    _avg?: PuestoAvgOrderByAggregateInput
     _max?: PuestoMaxOrderByAggregateInput
     _min?: PuestoMinOrderByAggregateInput
+    _sum?: PuestoSumOrderByAggregateInput
   }
 
   export type PuestoScalarWhereWithAggregatesInput = {
@@ -28090,6 +28144,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Puesto"> | string
     nombre?: StringWithAggregatesFilter<"Puesto"> | string
     descripcion?: StringNullableWithAggregatesFilter<"Puesto"> | string | null
+    tarifa?: FloatNullableWithAggregatesFilter<"Puesto"> | number | null
     createdAt?: DateTimeWithAggregatesFilter<"Puesto"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Puesto"> | Date | string
   }
@@ -29819,6 +29874,7 @@ export namespace Prisma {
     id?: string
     nombre: string
     descripcion?: string | null
+    tarifa?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     personal?: PersonalPuestoCreateNestedManyWithoutPuestoInput
@@ -29828,6 +29884,7 @@ export namespace Prisma {
     id?: string
     nombre: string
     descripcion?: string | null
+    tarifa?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
     personal?: PersonalPuestoUncheckedCreateNestedManyWithoutPuestoInput
@@ -29837,6 +29894,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     nombre?: StringFieldUpdateOperationsInput | string
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    tarifa?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     personal?: PersonalPuestoUpdateManyWithoutPuestoNestedInput
@@ -29846,6 +29904,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     nombre?: StringFieldUpdateOperationsInput | string
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    tarifa?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     personal?: PersonalPuestoUncheckedUpdateManyWithoutPuestoNestedInput
@@ -29855,6 +29914,7 @@ export namespace Prisma {
     id?: string
     nombre: string
     descripcion?: string | null
+    tarifa?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -29863,6 +29923,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     nombre?: StringFieldUpdateOperationsInput | string
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    tarifa?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -29871,6 +29932,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     nombre?: StringFieldUpdateOperationsInput | string
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    tarifa?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -31414,14 +31476,20 @@ export namespace Prisma {
     id?: SortOrder
     nombre?: SortOrder
     descripcion?: SortOrder
+    tarifa?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type PuestoAvgOrderByAggregateInput = {
+    tarifa?: SortOrder
   }
 
   export type PuestoMaxOrderByAggregateInput = {
     id?: SortOrder
     nombre?: SortOrder
     descripcion?: SortOrder
+    tarifa?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -31430,8 +31498,13 @@ export namespace Prisma {
     id?: SortOrder
     nombre?: SortOrder
     descripcion?: SortOrder
+    tarifa?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type PuestoSumOrderByAggregateInput = {
+    tarifa?: SortOrder
   }
 
   export type PersonalCountOrderByAggregateInput = {
@@ -35563,6 +35636,7 @@ export namespace Prisma {
     id?: string
     nombre: string
     descripcion?: string | null
+    tarifa?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -35571,6 +35645,7 @@ export namespace Prisma {
     id?: string
     nombre: string
     descripcion?: string | null
+    tarifa?: number | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -35626,6 +35701,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     nombre?: StringFieldUpdateOperationsInput | string
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    tarifa?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -35634,6 +35710,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     nombre?: StringFieldUpdateOperationsInput | string
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
+    tarifa?: NullableFloatFieldUpdateOperationsInput | number | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

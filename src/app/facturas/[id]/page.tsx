@@ -295,27 +295,19 @@ export default function FacturaDetallePage({ params }: { params: Promise<{ id: s
       
       const partidasAgrupadas = getItemsGroupedByPartida();
       
-      // Generar el PDF
-      const doc = await generateFacturaPDF(
+      // Generar el PDF y abrirlo en una nueva pestaña (manejado dentro de generateFacturaPDF)
+      await generateFacturaPDF(
         factura, 
         partidasAgrupadas,
         empresa,
         config.colorFactura
       );
       
-      // Construir el nombre del archivo
-      const numero = factura.numero || 'SIN_NUMERO';
-      const nombreEmpresa = empresa?.nombre || 'MiEmpresa';
-      // Usar nombre de factura como referencia, o numeroPedido si no hay nombre
-      const referencia = factura.nombre || factura.numeroPedido || 'SIN_REF'; 
-      const baseFilename = `${numero}_Factura${nombreEmpresa}_${referencia}-FACTURA`;
-      const filename = sanitizeFilename(baseFilename) + '.pdf';
-
       // Cerrar el indicador de carga
       toast.dismiss();
       
-      // Guardar el PDF con el nombre personalizado
-      doc.save(filename);
+      // Opcional: Mostrar un mensaje de éxito si se desea
+      // toast.success('Factura PDF abierta en una nueva pestaña.');
 
     } catch (error) {
       toast.dismiss();

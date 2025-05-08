@@ -69,6 +69,7 @@ interface Puesto {
   id: string
   nombre: string
   descripcion?: string | null
+  tarifa?: number | null
 }
 
 interface ItemPresupuesto {
@@ -136,7 +137,7 @@ export function AgregarElementoDialog({
   
   // Campos comunes para todos los tipos
   const [cantidad, setCantidad] = useState(1)
-  const [precioUnitario, setPrecioUnitario] = useState(0)
+  const [precioUnitario, setPrecioUnitario] = useState<number>(0)
   const [descuento, setDescuento] = useState(0)
   const [iva, setIva] = useState(21) // Valor por defecto
   const [dias, setDias] = useState(1) // Valor por defecto para días
@@ -253,6 +254,15 @@ export function AgregarElementoDialog({
     
     fetchPuestos()
   }, [])
+  
+  // Función para manejar el cambio de puesto seleccionado
+  const handlePuestoChange = (puestoId: string) => {
+    setPuestoSeleccionado(puestoId);
+    const puesto = puestos.find(p => p.id === puestoId);
+    // Obtener la tarifa. Si es null/undefined, usar 0.
+    const tarifaNumerica = puesto?.tarifa ?? 0;
+    setPrecioUnitario(Number(tarifaNumerica)); // Asegurar que siempre sea number
+  };
   
   // Función para calcular el subtotal y total
   const calcularTotal = (cantidad: number, precio: number, descuento: number, iva: number, dias: number) => {
@@ -811,7 +821,7 @@ export function AgregarElementoDialog({
                   <label className="block text-sm font-medium mb-1">Puesto</label>
                   <Select 
                     value={puestoSeleccionado}
-                    onValueChange={setPuestoSeleccionado}
+                    onValueChange={handlePuestoChange}
                     disabled={puestosLoading || puestos.length === 0}
                   >
                     <SelectTrigger>

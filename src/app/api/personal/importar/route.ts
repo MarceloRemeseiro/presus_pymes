@@ -1,6 +1,17 @@
 import { prisma } from '@/lib/prisma';
 import { NextResponse } from 'next/server';
 import { parse } from 'csv-parse/sync';
+import { z } from 'zod';
+
+// Zod schema para validar cada fila del CSV
+const CsvRowPersonalSchema = z.object({
+  //id: z.string().optional(), // No importaremos ID, se generará o buscaremos por otros campos
+  nombre: z.string().min(1, "El nombre del personal es requerido."),
+  telefono: z.string().optional().nullable(),
+  email: z.string().email("Email inválido").optional().nullable(),
+  notas: z.string().optional().nullable(),
+  puestos: z.string().optional().nullable(), // Nombres de puestos separados por coma
+});
 
 // POST /api/personal/importar - Importar personal desde CSV
 export async function POST(req: Request) {
@@ -29,55 +40,104 @@ export async function POST(req: Request) {
     }
 
     let personalCreado = 0;
-    let errores: string[] = [];
-    const personalParaCrear = [];
+    let personalActualizado = 0; // Para futura implementación de actualización
+    let puestosAsignados = 0;
+    const erroresDetallados: { fila: number; mensaje: string; datos: any }[] = [];
 
     for (let i = 0; i < records.length; i++) {
       const record = records[i];
-      const linea = i + 2;
+      const filaActual = i + 2; // +1 por el header, +1 por el índice base 0
 
-      if (!record.nombre || typeof record.nombre !== 'string') {
-        errores.push(`Línea ${linea}: El campo 'nombre' es obligatorio y debe ser texto.`);
-        continue;
-      }
-      // Podríamos añadir validación para email/telefono si es necesario
-
-      // Por simplicidad, no comprobamos duplicados aquí, pero podría añadirse por email o teléfono si fueran únicos.
-
-      personalParaCrear.push({
-        nombre: record.nombre,
-        telefono: record.telefono || null,
-        email: record.email || null,
-        notas: record.notas || null,
-        // Los puestos no se importan en esta versión simplificada
-      });
-    }
-
-    if (personalParaCrear.length > 0) {
       try {
-        const resultadoCreacion = await prisma.personal.createMany({
-          data: personalParaCrear,
-          skipDuplicates: false, // No hay campos únicos definidos para personal (aparte de ID)
+        const validatedData = CsvRowPersonalSchema.parse(record);
+
+        // Buscar si el personal ya existe (ej. por email si es único, o nombre)
+        // Por ahora, crearemos siempre, a menos que implementemos una lógica de "upsert" más compleja.
+        // Si se implementa upsert, se necesitaría un identificador en el CSV.
+        
+        const personaTransaccion = await prisma.$transaction(async (tx) => {
+          const nuevaPersona = await tx.personal.create({
+            data: {
+              nombre: validatedData.nombre,
+              telefono: validatedData.telefono,
+              email: validatedData.email,
+              notas: validatedData.notas,
+            },
+          });
+          personalCreado++;
+
+          if (validatedData.puestos) {
+            const nombresPuestos = validatedData.puestos.split(',').map(p => p.trim()).filter(p => p.length > 0);
+            
+            for (const nombrePuesto of nombresPuestos) {
+              let puesto = await tx.puesto.findUnique({
+                where: { nombre: nombrePuesto },
+              });
+
+              if (!puesto) {
+                puesto = await tx.puesto.create({
+                  data: { nombre: nombrePuesto },
+                });
+              }
+
+              // Asignar puesto a persona
+              await tx.personalPuesto.create({
+                data: {
+                  personalId: nuevaPersona.id,
+                  puestoId: puesto.id,
+                },
+              });
+              puestosAsignados++;
+            }
+          }
+          return nuevaPersona;
         });
-        personalCreado = resultadoCreacion.count;
-      } catch (dbError) {
-        console.error('Error de base de datos al crear personal:', dbError);
-        return NextResponse.json({ error: 'Error al guardar personal en la base de datos.', detalles: errores }, { status: 500 });
+
+      } catch (e: any) {
+        const mensajeError =
+          e instanceof z.ZodError
+            ? e.errors.map((err) => `${err.path.join('.')}: ${err.message}`).join('; ')
+            : e.message || 'Error desconocido al procesar la fila.';
+        erroresDetallados.push({ fila: filaActual, mensaje: mensajeError, datos: record });
       }
     }
 
-    let mensaje = `Importación completada. Personal creado: ${personalCreado}.`;
-    if (errores.length > 0) {
-      mensaje += ` Se encontraron ${errores.length} errores o advertencias.`;
-      return NextResponse.json({ message: mensaje, errores: errores, personalCreado }, { status: 207 }); // 207 Multi-Status
+    const resumen = {
+      personalCreado,
+      personalActualizado,
+      puestosAsignados,
+      filasProcesadas: records.length,
+      errores: erroresDetallados.length,
+      detallesErrores: erroresDetallados,
+    };
+
+    if (erroresDetallados.length > 0 && personalCreado === 0) {
+      return NextResponse.json(
+        { 
+            message: 'La importación de personal falló completamente o no se procesaron datos válidos.', 
+            summary: resumen 
+        },
+        { status: 400 }
+      );
+    } else if (erroresDetallados.length > 0) {
+      return NextResponse.json(
+        { 
+            message: 'Importación de personal completada con algunos errores.', 
+            summary: resumen 
+        },
+        { status: 207 } // Multi-Status
+      );
     }
 
-    return NextResponse.json({ message: mensaje, personalCreado });
+    return NextResponse.json(
+      { message: 'Personal importado correctamente.', summary: resumen },
+      { status: 201 }
+    );
 
   } catch (error: any) {
-    console.error('Error al importar personal:', error);
+    console.error('Error en el proceso de importación de personal:', error);
     if (error.name === 'CSVParseError') {
-      return NextResponse.json({ error: 'Error al parsear el archivo CSV. Verifique el formato.' }, { status: 400 });
+      return NextResponse.json({ error: 'Error al parsear el archivo CSV de personal. Verifique el formato.' }, { status: 400 });
     }
     return NextResponse.json({ error: 'Error interno del servidor al importar personal.' }, { status: 500 });
   }

@@ -95,6 +95,14 @@ export function AppSidebar() {
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
+                  <Link href="/puestos">
+                    <UserCircle className="w-4 h-4 mr-2" />
+                    Puestos
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild>
                   <Link href="/proveedores">
                     <ShoppingBag className="w-4 h-4 mr-2" />
                     Proveedores

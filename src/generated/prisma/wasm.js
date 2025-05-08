@@ -293,6 +293,7 @@ exports.Prisma.PuestoScalarFieldEnum = {
   id: 'id',
   nombre: 'nombre',
   descripcion: 'descripcion',
+  tarifa: 'tarifa',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

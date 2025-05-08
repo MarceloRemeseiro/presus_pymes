@@ -34,9 +34,13 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
-# vercel
-.vercel
+/public/uploads
+src/generated/prisma
+
+**.sql
 
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+src/generated/prisma/index.d.ts
+src/generated/prisma/wasm.js

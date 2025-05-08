@@ -51,7 +51,8 @@ export async function POST(req: Request) {
     const puesto = await prisma.puesto.create({
       data: {
         nombre: body.nombre,
-        descripcion: body.descripcion
+        descripcion: body.descripcion,
+        tarifa: body.tarifa ? parseFloat(body.tarifa) : null,
       }
     })
     

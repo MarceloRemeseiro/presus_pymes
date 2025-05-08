@@ -93,10 +93,10 @@ interface PDFConfig {
 }
 
 const pageDimensions = { width: 210, height: 297 }; // A4 en mm
-const margin = 15;
-const marginTop = 20;
-const marginLeft = 15;
-const primaryColor = '#000000'; // Color negro por defecto
+const margin = 8;
+const marginTop = 5;
+const marginLeft = 8;
+const primaryColorGlobal = '#000000'; // Renombrado para evitar conflicto con primaryColor dentro de la función
 
 // Función para cargar imágenes desde URL a Base64
 async function loadImageAsBase64(url: string): Promise<string> {
@@ -120,6 +120,13 @@ async function loadImageAsBase64(url: string): Promise<string> {
   }
 }
 
+// Función para sanitizar nombres de archivo
+function sanitizeFilename(filename: string): string {
+  return filename
+    .replace(/[^a-z0-9áéíóúüñ_.-]/gi, '_')
+    .replace(/_+/g, '_');
+}
+
 export const generateFacturaPDF = async (
   factura: Factura, 
   partidasAgrupadas: GroupedItems[],
@@ -130,7 +137,7 @@ export const generateFacturaPDF = async (
   const doc = new jsPDF();
   
   // Configuración de estilos y colores - Usamos un color diferente para facturas
-  const primaryColor = colorFactura || '#3c4e66'; // Azul más oscuro para facturas si no se proporciona
+  const localPrimaryColor = colorFactura || '#3c4e66'; // Nombre local para evitar conflicto con la constante global
   const textColor = '#333333';
   
   // La función hexToRgb convierte un color hexadecimal a RGB
@@ -146,24 +153,24 @@ export const generateFacturaPDF = async (
     return [r, g, b];
   };
   
-  const headerBgColor: [number, number, number] = hexToRgb(primaryColor);
+  const headerBgColor: [number, number, number] = hexToRgb(localPrimaryColor);
   
-  // Configuración de márgenes
+  // Usar las constantes globales marginLeft y marginTop directamente
   const pageWidth = doc.internal.pageSize.width;
   
   // ----- HEADER CON LOGO, NOMBRE DE EMPRESA Y NÚMERO DE FACTURA -----
   
   // Posición Y inicial para el header
-  const headerY = marginTop;
+  const headerY = marginTop; // Usar marginTop global (5)
   
   // Definir ancho y posiciones
   const logoWidth = 40;
   const logoHeight = 20;
-  const logoX = marginLeft;
+  const logoX = marginLeft; // Usar marginLeft global (8)
   
   const empresaNombreX = logoX + logoWidth + 10;
   
-  const facturaNumeroX = pageWidth - marginLeft - 70;
+  const facturaNumeroX = pageWidth - marginLeft - 70; // Usar marginLeft global (8)
   
   // 1. LOGO
   // Si hay logo en la empresa, intentar cargarlo
@@ -255,7 +262,7 @@ export const generateFacturaPDF = async (
   
   // 2. NOMBRE DE LA EMPRESA
   doc.setFontSize(16);
-  doc.setTextColor(primaryColor);
+  doc.setTextColor(localPrimaryColor);
   doc.setFont('helvetica', 'bold');
   const empresaNombre = empresa?.nombre || 'Presus Pymes S.L.';
   doc.text(empresaNombre, empresaNombreX, headerY + 10);
@@ -286,20 +293,20 @@ export const generateFacturaPDF = async (
   // Línea separadora debajo del header
   doc.setDrawColor(220, 220, 220);
   doc.setLineWidth(0.5);
-  doc.line(marginLeft, headerY + logoHeight + 5, pageWidth - marginLeft, headerY + logoHeight + 5);
+  doc.line(marginLeft, headerY + logoHeight + 5, pageWidth - marginLeft, headerY + logoHeight + 5); // Usar marginLeft global (8)
   
-  // Ajustar la posición Y inicial para el contenido que viene después del header
-  const startY = headerY - 5 + logoHeight + 15;
+  // Ajustar la posición Y inicial para el contenido que viene después del header, igual que en presupuestos
+  const startY = headerY + logoHeight + 15; 
   
   // ----- FIN DEL HEADER -----
   
   // Inicio de las 4 columnas de datos usando tablas
   // Nueva disposición de columnas: EMPRESA / CLIENTE / FACTURA / FECHAS
   // Calculamos el ancho para cada columna
-  const columnWidth = (pageWidth - (marginLeft * 2)) / 4;
+  const columnWidth = (pageWidth - (marginLeft * 2)) / 4; // Usar marginLeft global (8)
   
   // Posiciones iniciales de cada columna
-  const empresaCol = marginLeft + 2;
+  const empresaCol = marginLeft + 2; // Usar marginLeft global (8)
   const clienteCol = empresaCol + columnWidth;
   const facturaCol = clienteCol + columnWidth;
   const fechasCol = facturaCol + columnWidth;
@@ -477,31 +484,34 @@ export const generateFacturaPDF = async (
   
   // Añadir el título "Servicios facturados" centrado
   doc.setFontSize(11);
-  doc.setTextColor(primaryColor);
+  doc.setTextColor(localPrimaryColor);
   doc.setFont('helvetica', 'bold');
   doc.text('SERVICIOS FACTURADOS', pageWidth / 2, tituloServiciosY, { align: 'center' });
   
   // Línea debajo del título
   doc.setDrawColor(220, 220, 220);  
   doc.setLineWidth(0.5);
-  doc.line(marginLeft, tituloServiciosY + 3, pageWidth - marginLeft, tituloServiciosY + 3);
+  doc.line(marginLeft, tituloServiciosY + 3, pageWidth - marginLeft, tituloServiciosY + 3); // Usar marginLeft global (8)
   
   // Espacio para empezar las tablas de partidas
   let tableY = tituloServiciosY + 10;
   
+  // itemsTableMargin ahora debe ser igual a marginLeft global (8)
+  const itemsTableMargin = marginLeft; 
+
   // Generar tablas para cada partida
   partidasAgrupadas.forEach((partida) => {
     // Si no hay suficiente espacio para la tabla, agregar nueva página
     if (tableY > doc.internal.pageSize.height - 50) {
       doc.addPage();
-      tableY = marginTop;
+      tableY = marginTop; // Usar marginTop global (5)
     }
     
     // Título de la partida en azul
     doc.setFontSize(8);
-    doc.setTextColor(primaryColor);
+    doc.setTextColor(localPrimaryColor);
     doc.setFont('helvetica', 'bold');
-    doc.text(partida.partidaNombre, marginLeft, tableY);
+    doc.text(partida.partidaNombre, marginLeft, tableY); // Usar marginLeft global (8) para el título de la partida
     tableY += 4;
     
     // Verificar si es la partida de personal
@@ -548,7 +558,7 @@ export const generateFacturaPDF = async (
         startY: tableY - 2,
         head: [['Cant.', 'Descripción', 'Días', 'Precio/día', 'Subtotal']],
         body: tableData,
-        margin: { left: marginLeft, right: marginLeft },
+        margin: { left: itemsTableMargin, right: itemsTableMargin },
         headStyles: { 
           fillColor: headerBgColor, 
           textColor: [255, 255, 255],
@@ -567,11 +577,11 @@ export const generateFacturaPDF = async (
           fillColor: [245, 245, 245]
         },
         columnStyles: {
-          0: { cellWidth: 10, halign: 'center' }, // Cantidad
-          1: { cellWidth: 120, halign: 'left' },  // Descripción
-          2: { cellWidth: 10, halign: 'center' }, // Días
-          3: { cellWidth: 25, halign: 'right' },  // Precio/día
-          4: { cellWidth: 30, halign: 'right' }   // Subtotal
+          0: { cellWidth: 15, halign: 'center' },  // Cantidad (sin cambios)
+          1: { cellWidth: 109, halign: 'left' }, // Descripción (ajustado para llenar espacio)
+          2: { cellWidth: 15, halign: 'center' },  // Días (sin cambios)
+          3: { cellWidth: 25, halign: 'right' },   // Precio/día (sin cambios)
+          4: { cellWidth: 30, halign: 'right' }    // Subtotal (sin cambios)
         },
         didDrawCell: (data: CellHookData) => {
           // Estilo mejorado para categorías y separadores
@@ -579,13 +589,13 @@ export const generateFacturaPDF = async (
             const item = partida.items[data.row.index];
             // Estilo para categorías
             if (item && item.tipo === 'CATEGORIA') {
-              doc.setTextColor(primaryColor);
+              doc.setTextColor(localPrimaryColor);
               doc.setFontSize(9);
               doc.setFont('helvetica', 'bold');
             }
             // Estilo para separadores (la celda ya está centrada en la definición)
             else if (item && item.tipo === 'SEPARADOR') {
-              doc.setTextColor(primaryColor);
+              doc.setTextColor(localPrimaryColor);
               doc.setFontSize(9);
               doc.setFont('helvetica', 'bold');
             }
@@ -598,7 +608,7 @@ export const generateFacturaPDF = async (
         startY: tableY - 2,
         head: [['Cantidad', 'Descripción']],
         body: tableData,
-        margin: { left: marginLeft, right: marginLeft },
+        margin: { left: itemsTableMargin, right: itemsTableMargin },
         headStyles: { 
           fillColor: headerBgColor, 
           textColor: [255, 255, 255],
@@ -617,8 +627,8 @@ export const generateFacturaPDF = async (
           fillColor: [245, 245, 245]
         },
         columnStyles: {
-          0: { cellWidth: 15, halign: 'center' }, // Cantidad
-          1: { cellWidth: 180, halign: 'left' }   // Descripción
+          0: { cellWidth: 20, halign: 'center' }, // Cantidad (sin cambios)
+          1: { cellWidth: 174, halign: 'left' }  // Descripción (ajustado para llenar espacio)
         },
         didDrawCell: (data: CellHookData) => {
           // Estilo mejorado para categorías y separadores
@@ -626,13 +636,13 @@ export const generateFacturaPDF = async (
             const item = partida.items[data.row.index];
             // Estilo para categorías
             if (item && item.tipo === 'CATEGORIA') {
-              doc.setTextColor(primaryColor);
+              doc.setTextColor(localPrimaryColor);
               doc.setFontSize(9);
               doc.setFont('helvetica', 'bold');
             }
             // Estilo para separadores (la celda ya está centrada en la definición)
             else if (item && item.tipo === 'SEPARADOR') {
-              doc.setTextColor(primaryColor);
+              doc.setTextColor(localPrimaryColor);
               doc.setFontSize(9);
               doc.setFont('helvetica', 'bold');
             }
@@ -647,10 +657,10 @@ export const generateFacturaPDF = async (
     // Añadir el subtotal debajo de la tabla
     doc.setFontSize(8);
     doc.setFont('helvetica', 'bold');
-    doc.setTextColor(primaryColor);
+    doc.setTextColor(localPrimaryColor);
     const subtotalText = `Subtotal: ${formatCurrency(partida.subtotal)}`;
     const subtotalWidth = doc.getTextWidth(subtotalText);
-    doc.text(subtotalText, pageWidth - marginLeft - subtotalWidth, finalY + 4);
+    doc.text(subtotalText, pageWidth - marginLeft - subtotalWidth, finalY + 4); // Usar marginLeft global (8)
     
     // Actualizar la posición Y para la siguiente partida
     tableY = finalY + 10;
@@ -659,7 +669,7 @@ export const generateFacturaPDF = async (
   // Totales
   if (tableY > doc.internal.pageSize.height - 40) {
     doc.addPage();
-    tableY = startY;
+    tableY = marginTop; // Usar marginTop global (5) en lugar de startY para consistencia
   }
   
   // Totales con mejor presentación
@@ -668,7 +678,7 @@ export const generateFacturaPDF = async (
   doc.setFont('helvetica', 'normal');
   
   const totalsBoxWidth = 60;
-  const totalsBoxX = pageWidth - marginLeft - totalsBoxWidth;
+  const totalsBoxX = pageWidth - marginLeft - totalsBoxWidth; // Usar marginLeft global (8)
   
   // Rectángulo con borde para los totales
   doc.setDrawColor(220, 220, 220);
@@ -689,13 +699,81 @@ export const generateFacturaPDF = async (
   // Total
   doc.setFontSize(11);
   doc.setFont('helvetica', 'bold');
-  doc.setTextColor(primaryColor);
+  doc.setTextColor(localPrimaryColor);
   doc.text('TOTAL:', totalsBoxX + 8, tableY + 28);
   doc.text(formatCurrency(factura.total), totalsBoxX + totalsBoxWidth - 8, tableY + 28, { align: 'right' });
   
-  tableY += 36;
+  // Generar el nombre del archivo PDF con el formato solicitado:
+  // [numero de factura]__Factura[nombreEmpresa]_[referencia]-FACTURA
+  const numeroFactura = factura.numero || 'SIN_NUMERO';
+  const nombreEmpresa = empresa?.nombre || 'MiEmpresa';
+  // Usar numeroPedido como referencia, o una cadena genérica si no hay
+  const referencia = factura.numeroPedido || factura.nombre?.replace(/\s+/g, '_') || 'SIN_REF';
   
-  return doc;
+  const baseFilename = `${numeroFactura}__Factura_${nombreEmpresa}_${referencia}-FACTURA`;
+  const filename = sanitizeFilename(baseFilename) + '.pdf';
+
+  // Establecer el título del documento PDF
+  doc.setProperties({ 
+    title: filename,
+    subject: `Factura ${factura.numero}`,
+    author: empresa?.nombre || 'PresupPymes',
+    creator: 'PresupPymes'
+  });
+  
+  try {
+    // Método alternativo para mostrar PDF sin perder el nombre: crear un documento HTML con iframe embebido
+    const dataUri = doc.output('datauristring');
+    
+    // Crear una ventana nueva
+    const win = window.open('', '_blank');
+    if (!win) {
+      throw new Error('No se pudo abrir una nueva ventana');
+    }
+    
+    // Nombre personalizado para el archivo
+    const nombreArchivo = factura.nombre || `Factura_${factura.numero}`;
+    
+    // Escribir el contenido HTML con el iframe para mostrar el PDF y opción de descarga
+    win.document.write(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>${nombreArchivo}</title>
+          <style>
+            body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; }
+            #pdf-container { width: 100%; height: 100%; position: absolute; top: 0; left: 0; }
+            #download-btn {
+              position: fixed; top: 20px; right: 20px; z-index: 9999;
+              padding: 8px 16px; background-color: #4a5568; color: white;
+              border: none; border-radius: 4px; cursor: pointer;
+              font-family: Arial, sans-serif; font-size: 14px;
+            }
+            #download-btn:hover { background-color: #2d3748; }
+          </style>
+        </head>
+        <body>
+          <button id="download-btn" onclick="downloadPdf()">Descargar PDF</button>
+          <iframe id="pdf-container" src="${dataUri}" width="100%" height="100%" frameborder="0"></iframe>
+          <script>
+            function downloadPdf() {
+              const link = document.createElement('a');
+              link.href = '${dataUri}';
+              link.download = '${filename}';
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+            }
+          </script>
+        </body>
+      </html>
+    `);
+    win.document.close();
+  } catch (error) {
+    console.error('Error al abrir el PDF:', error);
+    // Como fallback, guardarlo directamente
+    doc.save(filename);
+  }
 };
 
 // Función auxiliar para formatear fechas
@@ -713,14 +791,14 @@ function addHeader(doc: jsPDF, empresa: Empresa, factura: Factura, config?: PDFC
   // Título y Número de Factura
   const headerY = currentY;
   doc.setFontSize(18);
-  doc.setTextColor(primaryColor);
+  doc.setTextColor(primaryColorGlobal);
   doc.setFont('helvetica', 'bold');
   doc.text('FACTURA', marginLeft, headerY);
   
   doc.setFontSize(10);
   doc.setFont('helvetica', 'normal');
   doc.setTextColor(0, 0, 0); // Reset color
-  doc.text(`Nº: ${factura.numero}`, pageDimensions.width - margin, headerY, { align: 'right' });
+  doc.text(`Nº: ${factura.numero}`, pageDimensions.width - marginLeft, headerY, { align: 'right' });
   currentY = headerY + 5;
   
   return currentY;
@@ -733,7 +811,7 @@ function addItemsTable(doc: jsPDF, partidas: GroupedItems[], startY: number, con
   const tableHeadersCompacto = ['Descripción', 'Subtotal'];
   const columnWidthsCompleto = [15, 75, 15, 20, 15, 15, 25]; 
   const columnWidthsCompacto = [155, 25]; 
-  const tableMargin = margin;
+  const tableMargin = marginLeft;
   const tableWidth = pageDimensions.width - 2 * tableMargin;
   
   partidas.forEach((partida) => {
@@ -742,7 +820,7 @@ function addItemsTable(doc: jsPDF, partidas: GroupedItems[], startY: number, con
     currentY += 5;
     doc.setFont('helvetica', 'bold');
     const subtotalPartidaTexto = `Subtotal ${partida.partidaNombre || 'Otros'}: ${formatCurrency(partida.subtotal)}`;
-    doc.text(subtotalPartidaTexto, pageDimensions.width - margin, currentY, { align: 'right' });
+    doc.text(subtotalPartidaTexto, pageDimensions.width - marginLeft, currentY, { align: 'right' });
     currentY += 5;
   });
 

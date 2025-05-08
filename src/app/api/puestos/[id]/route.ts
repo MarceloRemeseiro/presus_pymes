@@ -91,6 +91,7 @@ export async function PUT(
       data: {
         nombre: body.nombre,
         descripcion: body.descripcion,
+        tarifa: body.tarifa ? parseFloat(body.tarifa) : null,
       },
     })
 

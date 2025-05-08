@@ -38,12 +38,14 @@ export async function POST(req: Request, context: { params: Promise<{ id: string
       )
     }
     
-    // 3. Obtener el siguiente número de factura
-    const numeroResponse = await fetch(`${req.headers.get('origin')}/api/configuracion/siguiente-numero?tipo=factura`)
-    if (!numeroResponse.ok) {
-      throw new Error('Error al generar el número de factura')
-    }
-    const { numero: numeroFactura } = await numeroResponse.json()
+    // 3. Obtener el siguiente número de factura (usando prefijo de DB y secuencia manual)
+    let config = await prisma.configuracion.findFirst();
+    const prefijoFactura = config?.prefijoFactura || "FAC-"; // Usa el prefijo de config o fallback
+    const year = new Date().getFullYear();
+    const secuencia = "001"; // Secuencia manual temporal
+    const numeroFactura = `${prefijoFactura}${year}${secuencia}`;
+    console.log(`Usando número de factura manual (ruta /api/facturas/desde-presupuesto): ${numeroFactura}`);
+    // ---- Fin de asignación manual ----
     
     // 4. Obtener la fecha actual y fecha de vencimiento (30 días después)
     const today = new Date()
