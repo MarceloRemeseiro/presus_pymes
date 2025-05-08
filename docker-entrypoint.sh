@@ -1,32 +1,30 @@
 #!/bin/sh
 set -e
 
-# Verificar y crear el directorio de uploads si no existe
 UPLOADS_DIR="/app/public/uploads"
+
+echo "Running as $(id)"
+
+# Asegurar que el directorio de uploads exista (puede ser creado por el mount)
 echo "Verificando directorio de uploads: $UPLOADS_DIR"
 if [ ! -d "$UPLOADS_DIR" ]; then
   echo "Creando directorio de uploads..."
   mkdir -p "$UPLOADS_DIR"
   echo "Directorio de uploads creado."
-else
-  echo "El directorio de uploads ya existe."
 fi
 
-# Verificar permisos
-echo "Verificando permisos del directorio de uploads..."
-if [ ! -w "$UPLOADS_DIR" ]; then
-  echo "ADVERTENCIA: El directorio de uploads no tiene permisos de escritura."
-  echo "Intentando corregir permisos..."
-  chmod -R 777 "$UPLOADS_DIR" || true
-else
-  echo "Asegurando permisos del directorio de uploads..."
-  # Asegurar que el directorio tenga permisos adecuados incluso si ya es escribible
-  chmod -R 777 "$UPLOADS_DIR" || true
-  echo "Permisos del directorio de uploads establecidos a 777."
-fi
+# Cambiar propietario del directorio montado al usuario/grupo nextjs (UID/GID 1001)
+echo "Asegurando propiedad de $UPLOADS_DIR para el usuario 1001:1001..."
+chown -R 1001:1001 "$UPLOADS_DIR"
 
-# Mostrar información del directorio
-echo "Contenido del directorio de uploads:"
+# Opcional: Establecer permisos si es necesario (chown debería ser suficiente)
+# echo "Estableciendo permisos para $UPLOADS_DIR..."
+# chmod -R 777 "$UPLOADS_DIR"
+
+echo "Permisos de $UPLOADS_DIR después de chown:"
+ls -la /app/public
+
+echo "Contenido de $UPLOADS_DIR después de chown:"
 ls -la "$UPLOADS_DIR"
 
 # Verificar estructura de archivos clave
@@ -54,4 +52,4 @@ id
 
 # Iniciar la aplicación
 echo "Iniciando servidor Next.js..."
-exec "$@" 
+exec su-exec nextjs "$@" 
