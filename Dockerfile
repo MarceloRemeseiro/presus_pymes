@@ -1,32 +1,52 @@
-# Usa una imagen oficial de Node.js (Debian-based slim version)
-FROM node:20-slim
+FROM node:20-alpine AS base
 
+# Instalar dependencias solo en la etapa de compilación
+FROM base AS deps
 WORKDIR /app
 
-# Instala OpenSSL y limpia el caché de apt
-RUN apt-get update && apt-get install -y openssl --no-install-recommends && rm -rf /var/lib/apt/lists/*
+# Copiar archivos de dependencias
+COPY package.json package-lock.json* ./
+RUN npm ci
 
-# Copia los archivos de definición de paquetes y el lockfile
-COPY package*.json ./
-
-# Instala las dependencias
-RUN npm install --legacy-peer-deps
-
-# Copia el esquema de Prisma
-COPY prisma ./prisma/
-
-# Genera el cliente de Prisma (después de instalar dependencias y copiar schema)
-RUN npx prisma generate
-
-# Copia el resto del código de la aplicación
+# Etapa de compilación: instalar todas las dependencias y compilar
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Construye la aplicación Next.js para producción
+# Configuración específica para Prisma en Docker
+RUN npx prisma generate
+
+# Compilar la aplicación Next.js
 RUN npm run build
 
-# Expone el puerto en el que corre la aplicación Next.js
-EXPOSE 1011
+# Etapa de producción: copiar solo los archivos necesarios
+FROM base AS runner
+WORKDIR /app
 
-# Comando por defecto para correr la aplicación
-# Ejecuta las migraciones de Prisma y luego inicia la aplicación
-CMD ["sh", "-c", "npx prisma migrate deploy && npm run start"]
+ENV NODE_ENV=production
+
+# Crear usuario para producción
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+# Copiar archivos necesarios desde la etapa de builder
+COPY --from=builder /app/next.config.js ./
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder /app/prisma ./prisma
+COPY --from=builder /app/src/generated/prisma ./src/generated/prisma
+
+# Crear directorio de uploads y darle permisos al usuario nextjs
+RUN mkdir -p ./public/uploads && chown -R nextjs:nodejs ./public/uploads
+
+# Cambiar al usuario non-root para producción
+USER nextjs
+
+# Exponer el puerto y definir comando de inicio
+EXPOSE 1011
+ENV PORT 1011
+
+CMD ["node", "server.js"]

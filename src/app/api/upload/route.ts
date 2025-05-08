@@ -13,6 +13,17 @@ async function fileExists(path: string): Promise<boolean> {
   }
 }
 
+// Función para asegurar que el directorio de uploads existe
+async function ensureUploadDirExists(uploadDir: string): Promise<void> {
+  try {
+    await access(uploadDir);
+  } catch {
+    const { mkdir } = await import('fs/promises');
+    await mkdir(uploadDir, { recursive: true });
+    console.log(`Directorio de uploads creado: ${uploadDir}`);
+  }
+}
+
 export async function POST(request: Request) {
   try {
     const formData = await request.formData();
@@ -39,18 +50,23 @@ export async function POST(request: Request) {
     // Crear el nuevo nombre con el ID único al final
     const fileName = `${nameWithoutExt}_${uniqueId}.${extension}`;
     
-    // Crear directorio si no existe
+    // Definir directorio de uploads
     const uploadDir = join(process.cwd(), 'public', 'uploads');
+    console.log(`Directorio de uploads: ${uploadDir}`);
+    
+    // Asegurar que el directorio existe
+    await ensureUploadDirExists(uploadDir);
+    
+    // Ruta completa del archivo
+    const filePath = join(uploadDir, fileName);
+    console.log(`Guardando archivo en: ${filePath}`);
     
     try {
-      await writeFile(join(uploadDir, fileName), bytes);
+      await writeFile(filePath, bytes);
+      console.log(`Archivo guardado con éxito: ${fileName}`);
     } catch (error) {
       console.error('Error al guardar el archivo:', error);
-      
-      // Intentar crear el directorio si no existe y reintentar
-      const { mkdir } = await import('fs/promises');
-      await mkdir(uploadDir, { recursive: true });
-      await writeFile(join(uploadDir, fileName), bytes);
+      throw error;
     }
     
     const publicPath = `/uploads/${fileName}`;
@@ -63,7 +79,10 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error('Error al subir el archivo:', error);
     return NextResponse.json(
-      { error: 'Error al subir el archivo' },
+      { 
+        error: 'Error al subir el archivo',
+        message: error instanceof Error ? error.message : 'Error desconocido'
+      },
       { status: 500 }
     );
   }
