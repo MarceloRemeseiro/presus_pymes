@@ -90,7 +90,7 @@ interface ItemFacturaLocalState {
   iva: number
   subtotal: number
   total: number
-  dias: number // Campo para días
+  dias: number // Campo para días (ahora puede tener decimales)
   partidaId?: string | null // ID de la partida a la que pertenece
   datosExtra?: any // Campos adicionales según el tipo
 }
@@ -1130,11 +1130,12 @@ export default function EditarFacturaPage({ params }: { params: Promise<{ id: st
                                         <Input 
                                           type="number"
                                           min="1"
+                                          step="1"
                                           className="w-16 h-8"
                                           value={item.cantidad}
                                           onChange={(e) => {
                                             const nuevasPartidas = [...partidasFactura];
-                                            nuevasPartidas[index].items[itemIndex].cantidad = parseInt(e.target.value, 10) || 1;
+                                            nuevasPartidas[index].items[itemIndex].cantidad = parseFloat(e.target.value) || 1;
                                             
                                             // Recalcular subtotal y total
                                             const cantidad = nuevasPartidas[index].items[itemIndex].cantidad;
@@ -1158,11 +1159,12 @@ export default function EditarFacturaPage({ params }: { params: Promise<{ id: st
                                         <Input 
                                           type="number"
                                           min="1"
+                                          step="1"
                                           className="w-16 h-8"
                                           value={item.dias}
                                           onChange={(e) => {
                                             const nuevasPartidas = [...partidasFactura];
-                                            nuevasPartidas[index].items[itemIndex].dias = parseInt(e.target.value, 10) || 1;
+                                            nuevasPartidas[index].items[itemIndex].dias = parseFloat(e.target.value) || 1;
                                             
                                             // Recalcular subtotal y total
                                             const cantidad = nuevasPartidas[index].items[itemIndex].cantidad;
@@ -1187,7 +1189,7 @@ export default function EditarFacturaPage({ params }: { params: Promise<{ id: st
                                           <Input 
                                             type="number"
                                             min="0"
-                                            step="0.01"
+                                            step="1"
                                             className="w-20 h-8"
                                             value={item.precioUnitario}
                                             onChange={(e) => {

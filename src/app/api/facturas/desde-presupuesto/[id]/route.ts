@@ -38,14 +38,38 @@ export async function POST(req: Request, context: { params: Promise<{ id: string
       )
     }
     
-    // 3. Obtener el siguiente número de factura (usando prefijo de DB y secuencia manual)
+    // 3. Obtener el siguiente número de factura (usando secuencia automática)
     let config = await prisma.configuracion.findFirst();
     const prefijoFactura = config?.prefijoFactura || "FAC-"; // Usa el prefijo de config o fallback
     const year = new Date().getFullYear();
-    const secuencia = "001"; // Secuencia manual temporal
+    
+    // Obtener la última factura para generar el siguiente número secuencial
+    const ultimaFactura = await prisma.factura.findFirst({
+      where: {
+        numero: {
+          startsWith: `${prefijoFactura}${year}`
+        }
+      },
+      orderBy: {
+        numero: 'desc'
+      }
+    });
+
+    // Extraer el número secuencial y aumentarlo en 1
+    let numeroSecuencial = 1;
+    if (ultimaFactura && ultimaFactura.numero) {
+      const secuenciaActual = ultimaFactura.numero.substring(prefijoFactura.length + 4); // 4 es la longitud del año
+      const secuenciaComoNumero = parseInt(secuenciaActual, 10);
+      if (!isNaN(secuenciaComoNumero)) {
+        numeroSecuencial = secuenciaComoNumero + 1;
+      }
+    }
+
+    // Formatear el número secuencial con ceros a la izquierda (3 dígitos)
+    const secuencia = numeroSecuencial.toString().padStart(3, '0');
     const numeroFactura = `${prefijoFactura}${year}${secuencia}`;
-    console.log(`Usando número de factura manual (ruta /api/facturas/desde-presupuesto): ${numeroFactura}`);
-    // ---- Fin de asignación manual ----
+    console.log(`Generando número de factura secuencial: ${numeroFactura}`);
+    // ---- Fin de generación de número secuencial ----
     
     // 4. Obtener la fecha actual y fecha de vencimiento (30 días después)
     const today = new Date()

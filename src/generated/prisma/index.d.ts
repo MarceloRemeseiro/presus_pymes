@@ -13245,7 +13245,7 @@ export namespace Prisma {
     readonly descuento: FieldRef<"ItemPresupuesto", 'Float'>
     readonly iva: FieldRef<"ItemPresupuesto", 'Float'>
     readonly total: FieldRef<"ItemPresupuesto", 'Float'>
-    readonly dias: FieldRef<"ItemPresupuesto", 'Int'>
+    readonly dias: FieldRef<"ItemPresupuesto", 'Float'>
     readonly partidaId: FieldRef<"ItemPresupuesto", 'String'>
     readonly createdAt: FieldRef<"ItemPresupuesto", 'DateTime'>
     readonly updatedAt: FieldRef<"ItemPresupuesto", 'DateTime'>
@@ -15859,7 +15859,7 @@ export namespace Prisma {
     readonly descuento: FieldRef<"ItemFactura", 'Float'>
     readonly iva: FieldRef<"ItemFactura", 'Float'>
     readonly total: FieldRef<"ItemFactura", 'Float'>
-    readonly dias: FieldRef<"ItemFactura", 'Int'>
+    readonly dias: FieldRef<"ItemFactura", 'Float'>
     readonly partidaId: FieldRef<"ItemFactura", 'String'>
     readonly createdAt: FieldRef<"ItemFactura", 'DateTime'>
     readonly updatedAt: FieldRef<"ItemFactura", 'DateTime'>
@@ -27635,7 +27635,7 @@ export namespace Prisma {
     descuento?: FloatFilter<"ItemPresupuesto"> | number
     iva?: FloatFilter<"ItemPresupuesto"> | number
     total?: FloatFilter<"ItemPresupuesto"> | number
-    dias?: IntFilter<"ItemPresupuesto"> | number
+    dias?: FloatFilter<"ItemPresupuesto"> | number
     partidaId?: StringNullableFilter<"ItemPresupuesto"> | string | null
     createdAt?: DateTimeFilter<"ItemPresupuesto"> | Date | string
     updatedAt?: DateTimeFilter<"ItemPresupuesto"> | Date | string
@@ -27678,7 +27678,7 @@ export namespace Prisma {
     descuento?: FloatFilter<"ItemPresupuesto"> | number
     iva?: FloatFilter<"ItemPresupuesto"> | number
     total?: FloatFilter<"ItemPresupuesto"> | number
-    dias?: IntFilter<"ItemPresupuesto"> | number
+    dias?: FloatFilter<"ItemPresupuesto"> | number
     partidaId?: StringNullableFilter<"ItemPresupuesto"> | string | null
     createdAt?: DateTimeFilter<"ItemPresupuesto"> | Date | string
     updatedAt?: DateTimeFilter<"ItemPresupuesto"> | Date | string
@@ -27723,7 +27723,7 @@ export namespace Prisma {
     descuento?: FloatWithAggregatesFilter<"ItemPresupuesto"> | number
     iva?: FloatWithAggregatesFilter<"ItemPresupuesto"> | number
     total?: FloatWithAggregatesFilter<"ItemPresupuesto"> | number
-    dias?: IntWithAggregatesFilter<"ItemPresupuesto"> | number
+    dias?: FloatWithAggregatesFilter<"ItemPresupuesto"> | number
     partidaId?: StringNullableWithAggregatesFilter<"ItemPresupuesto"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"ItemPresupuesto"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ItemPresupuesto"> | Date | string
@@ -27857,7 +27857,7 @@ export namespace Prisma {
     descuento?: FloatFilter<"ItemFactura"> | number
     iva?: FloatFilter<"ItemFactura"> | number
     total?: FloatFilter<"ItemFactura"> | number
-    dias?: IntFilter<"ItemFactura"> | number
+    dias?: FloatFilter<"ItemFactura"> | number
     partidaId?: StringNullableFilter<"ItemFactura"> | string | null
     createdAt?: DateTimeFilter<"ItemFactura"> | Date | string
     updatedAt?: DateTimeFilter<"ItemFactura"> | Date | string
@@ -27900,7 +27900,7 @@ export namespace Prisma {
     descuento?: FloatFilter<"ItemFactura"> | number
     iva?: FloatFilter<"ItemFactura"> | number
     total?: FloatFilter<"ItemFactura"> | number
-    dias?: IntFilter<"ItemFactura"> | number
+    dias?: FloatFilter<"ItemFactura"> | number
     partidaId?: StringNullableFilter<"ItemFactura"> | string | null
     createdAt?: DateTimeFilter<"ItemFactura"> | Date | string
     updatedAt?: DateTimeFilter<"ItemFactura"> | Date | string
@@ -27945,7 +27945,7 @@ export namespace Prisma {
     descuento?: FloatWithAggregatesFilter<"ItemFactura"> | number
     iva?: FloatWithAggregatesFilter<"ItemFactura"> | number
     total?: FloatWithAggregatesFilter<"ItemFactura"> | number
-    dias?: IntWithAggregatesFilter<"ItemFactura"> | number
+    dias?: FloatWithAggregatesFilter<"ItemFactura"> | number
     partidaId?: StringNullableWithAggregatesFilter<"ItemFactura"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"ItemFactura"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"ItemFactura"> | Date | string
@@ -29393,7 +29393,7 @@ export namespace Prisma {
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
-    dias?: IntFieldUpdateOperationsInput | number
+    dias?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     presupuesto?: PresupuestoUpdateOneRequiredWithoutItemsNestedInput
@@ -29412,7 +29412,7 @@ export namespace Prisma {
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
-    dias?: IntFieldUpdateOperationsInput | number
+    dias?: FloatFieldUpdateOperationsInput | number
     partidaId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29444,7 +29444,7 @@ export namespace Prisma {
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
-    dias?: IntFieldUpdateOperationsInput | number
+    dias?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -29460,7 +29460,7 @@ export namespace Prisma {
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
-    dias?: IntFieldUpdateOperationsInput | number
+    dias?: FloatFieldUpdateOperationsInput | number
     partidaId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29643,7 +29643,7 @@ export namespace Prisma {
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
-    dias?: IntFieldUpdateOperationsInput | number
+    dias?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     factura?: FacturaUpdateOneRequiredWithoutItemsNestedInput
@@ -29662,7 +29662,7 @@ export namespace Prisma {
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
-    dias?: IntFieldUpdateOperationsInput | number
+    dias?: FloatFieldUpdateOperationsInput | number
     partidaId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29694,7 +29694,7 @@ export namespace Prisma {
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
-    dias?: IntFieldUpdateOperationsInput | number
+    dias?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -29710,7 +29710,7 @@ export namespace Prisma {
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
-    dias?: IntFieldUpdateOperationsInput | number
+    dias?: FloatFieldUpdateOperationsInput | number
     partidaId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33753,7 +33753,7 @@ export namespace Prisma {
     descuento?: FloatFilter<"ItemPresupuesto"> | number
     iva?: FloatFilter<"ItemPresupuesto"> | number
     total?: FloatFilter<"ItemPresupuesto"> | number
-    dias?: IntFilter<"ItemPresupuesto"> | number
+    dias?: FloatFilter<"ItemPresupuesto"> | number
     partidaId?: StringNullableFilter<"ItemPresupuesto"> | string | null
     createdAt?: DateTimeFilter<"ItemPresupuesto"> | Date | string
     updatedAt?: DateTimeFilter<"ItemPresupuesto"> | Date | string
@@ -33789,7 +33789,7 @@ export namespace Prisma {
     descuento?: FloatFilter<"ItemFactura"> | number
     iva?: FloatFilter<"ItemFactura"> | number
     total?: FloatFilter<"ItemFactura"> | number
-    dias?: IntFilter<"ItemFactura"> | number
+    dias?: FloatFilter<"ItemFactura"> | number
     partidaId?: StringNullableFilter<"ItemFactura"> | string | null
     createdAt?: DateTimeFilter<"ItemFactura"> | Date | string
     updatedAt?: DateTimeFilter<"ItemFactura"> | Date | string
@@ -36626,7 +36626,7 @@ export namespace Prisma {
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
-    dias?: IntFieldUpdateOperationsInput | number
+    dias?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     presupuesto?: PresupuestoUpdateOneRequiredWithoutItemsNestedInput
@@ -36643,7 +36643,7 @@ export namespace Prisma {
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
-    dias?: IntFieldUpdateOperationsInput | number
+    dias?: FloatFieldUpdateOperationsInput | number
     partidaId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -36659,7 +36659,7 @@ export namespace Prisma {
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
-    dias?: IntFieldUpdateOperationsInput | number
+    dias?: FloatFieldUpdateOperationsInput | number
     partidaId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -36674,7 +36674,7 @@ export namespace Prisma {
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
-    dias?: IntFieldUpdateOperationsInput | number
+    dias?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     factura?: FacturaUpdateOneRequiredWithoutItemsNestedInput
@@ -36691,7 +36691,7 @@ export namespace Prisma {
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
-    dias?: IntFieldUpdateOperationsInput | number
+    dias?: FloatFieldUpdateOperationsInput | number
     partidaId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -36707,7 +36707,7 @@ export namespace Prisma {
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
-    dias?: IntFieldUpdateOperationsInput | number
+    dias?: FloatFieldUpdateOperationsInput | number
     partidaId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -36978,7 +36978,7 @@ export namespace Prisma {
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
-    dias?: IntFieldUpdateOperationsInput | number
+    dias?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     presupuesto?: PresupuestoUpdateOneRequiredWithoutItemsNestedInput
@@ -36996,7 +36996,7 @@ export namespace Prisma {
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
-    dias?: IntFieldUpdateOperationsInput | number
+    dias?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37012,7 +37012,7 @@ export namespace Prisma {
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
-    dias?: IntFieldUpdateOperationsInput | number
+    dias?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37074,7 +37074,7 @@ export namespace Prisma {
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
-    dias?: IntFieldUpdateOperationsInput | number
+    dias?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     factura?: FacturaUpdateOneRequiredWithoutItemsNestedInput
@@ -37092,7 +37092,7 @@ export namespace Prisma {
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
-    dias?: IntFieldUpdateOperationsInput | number
+    dias?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37108,7 +37108,7 @@ export namespace Prisma {
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
-    dias?: IntFieldUpdateOperationsInput | number
+    dias?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -37202,7 +37202,7 @@ export namespace Prisma {
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
-    dias?: IntFieldUpdateOperationsInput | number
+    dias?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     producto?: ProductoUpdateOneRequiredWithoutItemsPresupuestoNestedInput
@@ -37219,7 +37219,7 @@ export namespace Prisma {
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
-    dias?: IntFieldUpdateOperationsInput | number
+    dias?: FloatFieldUpdateOperationsInput | number
     partidaId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37235,7 +37235,7 @@ export namespace Prisma {
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
-    dias?: IntFieldUpdateOperationsInput | number
+    dias?: FloatFieldUpdateOperationsInput | number
     partidaId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37359,7 +37359,7 @@ export namespace Prisma {
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
-    dias?: IntFieldUpdateOperationsInput | number
+    dias?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     producto?: ProductoUpdateOneRequiredWithoutItemsFacturaNestedInput
@@ -37376,7 +37376,7 @@ export namespace Prisma {
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
-    dias?: IntFieldUpdateOperationsInput | number
+    dias?: FloatFieldUpdateOperationsInput | number
     partidaId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -37392,7 +37392,7 @@ export namespace Prisma {
     descuento?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
-    dias?: IntFieldUpdateOperationsInput | number
+    dias?: FloatFieldUpdateOperationsInput | number
     partidaId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

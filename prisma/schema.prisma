@@ -151,7 +151,7 @@ model ItemPresupuesto {
   descuento        Float              @default(0)
   iva              Float
   total            Float
-  dias             Int                @default(1)
+  dias             Float              @default(1)
   // Relación con la partida
   partidaId        String?
   partida          PartidaPresupuesto? @relation(fields: [partidaId], references: [id])
@@ -194,7 +194,7 @@ model ItemFactura {
   descuento     Float    @default(0)
   iva           Float
   total         Float
-  dias          Int      @default(1)
+  dias          Float    @default(1)
   // Relación con la partida
   partidaId     String?
   partida       PartidaPresupuesto? @relation(fields: [partidaId], references: [id])

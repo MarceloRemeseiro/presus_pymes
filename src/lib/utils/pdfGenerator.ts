@@ -899,7 +899,7 @@ async function createPresupuestoPDF(
   const numero = presupuesto.numero || 'SIN_NUMERO';
   const nombreEmpresa = empresa?.nombre || 'MiEmpresa';
   const referencia = presupuesto.referencia || 'SIN_REF';
-  const baseFilename = `${numero}_Presupuesto${nombreEmpresa}_${referencia}-PRESUPUESTO`;
+  const baseFilename = `${numero}_Presupuesto_${nombreEmpresa}_${referencia}-PRESUPUESTO`;
   const filename = sanitizeFilename(baseFilename) + '.pdf';
 
   // Devolver el documento generado y el nombre del archivo

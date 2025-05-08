@@ -86,7 +86,7 @@ interface ItemPartidaLocalState {
   iva: number
   subtotal: number
   total: number
-  dias: number // Nuevo campo para días
+  dias: number // Campo para días (ahora puede tener decimales)
   datosExtra?: any // Campos adicionales según el tipo
   partidaId?: string | null // ID de la partida a la que pertenece
 }
@@ -1123,11 +1123,12 @@ export default function EditarPresupuestoPage({ params }: { params: Promise<{ id
                                       <Input
                                         type="number"
                                         min="0"
+                                        step="1"
                                         className="w-16 h-8"
                                         value={item.cantidad}
                                         onChange={(e) => {
                                           const nuevasPartidas = [...partidasPresupuesto];
-                                          nuevasPartidas[index].items[itemIndex].cantidad = parseInt(e.target.value) || 0;
+                                          nuevasPartidas[index].items[itemIndex].cantidad = parseFloat(e.target.value) || 0;
                                           
                                           // Recalcular subtotal
                                           const cantidad = nuevasPartidas[index].items[itemIndex].cantidad;
@@ -1151,11 +1152,12 @@ export default function EditarPresupuestoPage({ params }: { params: Promise<{ id
                                       <Input
                                         type="number"
                                         min="0"
+                                        step="1"
                                         className="w-16 h-8"
                                         value={item.dias}
                                         onChange={(e) => {
                                           const nuevasPartidas = [...partidasPresupuesto];
-                                          nuevasPartidas[index].items[itemIndex].dias = parseInt(e.target.value) || 0;
+                                          nuevasPartidas[index].items[itemIndex].dias = parseFloat(e.target.value) || 0;
                                           
                                           // Recalcular subtotal
                                           const cantidad = nuevasPartidas[index].items[itemIndex].cantidad;
@@ -1180,7 +1182,7 @@ export default function EditarPresupuestoPage({ params }: { params: Promise<{ id
                                         <Input
                                           type="number"
                                           min="0"
-                                          step="0.01"
+                                          step="1"
                                           className="w-20 h-8"
                                           value={item.precioUnitario}
                                           onChange={(e) => {
@@ -1263,11 +1265,12 @@ export default function EditarPresupuestoPage({ params }: { params: Promise<{ id
                                       <Input
                                         type="number"
                                         min="0"
+                                        step="1"
                                         className="w-16 h-8"
                                         value={item.cantidad}
                                         onChange={(e) => {
                                           const nuevasPartidas = [...partidasPresupuesto];
-                                          nuevasPartidas[index].items[itemIndex].cantidad = parseInt(e.target.value) || 0;
+                                          nuevasPartidas[index].items[itemIndex].cantidad = parseFloat(e.target.value) || 0;
                                           
                                           // Recalcular subtotal
                                           const cantidad = nuevasPartidas[index].items[itemIndex].cantidad;
@@ -1290,11 +1293,12 @@ export default function EditarPresupuestoPage({ params }: { params: Promise<{ id
                                       <Input
                                         type="number"
                                         min="0"
+                                        step="1"
                                         className="w-16 h-8"
                                         value={item.dias}
                                         onChange={(e) => {
                                           const nuevasPartidas = [...partidasPresupuesto];
-                                          nuevasPartidas[index].items[itemIndex].dias = parseInt(e.target.value) || 0;
+                                          nuevasPartidas[index].items[itemIndex].dias = parseFloat(e.target.value) || 0;
                                           
                                           // Recalcular subtotal
                                           const cantidad = nuevasPartidas[index].items[itemIndex].cantidad;
@@ -1318,7 +1322,7 @@ export default function EditarPresupuestoPage({ params }: { params: Promise<{ id
                                         <Input
                                           type="number"
                                           min="0"
-                                          step="0.01"
+                                          step="1"
                                           className="w-20 h-8"
                                           value={item.precioUnitario}
                                           onChange={(e) => {
