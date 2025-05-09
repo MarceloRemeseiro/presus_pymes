@@ -75,10 +75,10 @@ export async function POST(request: NextRequest) {
     const filePath = path.join(uploadDir, fileName);
     console.log('Guardando logo en:', filePath);
     
-    await writeFile(filePath, resizedImage);
+    await writeFile(filePath, resizedImage);  
     
     // URL pública
-    const publicUrl = `/public/uploads/${fileName}`;
+    const publicUrl = `/uploads/${fileName}`;
     
     return NextResponse.json({ logoUrl: publicUrl });
   } catch (error) {

@@ -16,8 +16,8 @@ services:
     ports:
       - "1011:1011"  # Asegurarse que sea 1011:1011 para coincidir con el Dockerfile
     volumes:
-      # Bind mount simple: mapea el directorio local ./uploads al directorio del contenedor
-      - ./uploads:/app/public/uploads  
+      # Bind mount simple: mapea el directorio local ./public/uploads al directorio del contenedor
+      - ./public/uploads:/app/public/uploads  
     # depends_on ya no es necesario porque la BD es externa
     # Crear el directorio localmente si no existe
     init: true # Usar init system para manejar la terminación correcta de procesos
