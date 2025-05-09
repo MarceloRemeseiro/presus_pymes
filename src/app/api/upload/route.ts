@@ -24,6 +24,15 @@ async function ensureUploadDirExists(uploadDir: string): Promise<void> {
   }
 }
 
+// Función para limpiar nombre de archivo (eliminar caracteres problemáticos)
+function sanitizeFileName(fileName: string): string {
+  // Eliminar comillas, caracteres especiales y reemplazar espacios con guiones bajos
+  return fileName
+    .replace(/['"]/g, '') // Eliminar comillas simples y dobles
+    .replace(/[&\/\\#,+()$~%'":*?<>{}]/g, '') // Eliminar caracteres especiales
+    .replace(/\s+/g, '_'); // Reemplazar espacios con guion bajo
+}
+
 export async function POST(request: Request) {
   try {
     const formData = await request.formData();
@@ -47,8 +56,11 @@ export async function POST(request: Request) {
     const nameWithoutExt = lastDotIndex !== -1 ? originalName.slice(0, lastDotIndex) : originalName;
     const extension = lastDotIndex !== -1 ? originalName.slice(lastDotIndex + 1) : '';
     
+    // Limpiar el nombre para evitar caracteres problemáticos
+    const cleanNameWithoutExt = sanitizeFileName(nameWithoutExt);
+    
     // Crear el nuevo nombre con el ID único al final
-    const fileName = `${nameWithoutExt}_${uniqueId}.${extension}`;
+    const fileName = `${cleanNameWithoutExt}_${uniqueId}.${extension}`;
     
     // Definir directorio de uploads usando rutas absolutas
     const rootDir = process.cwd();
