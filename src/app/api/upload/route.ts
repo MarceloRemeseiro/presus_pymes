@@ -84,8 +84,8 @@ export async function POST(request: Request) {
       throw error;
     }
     
-    // La URL pública para acceder al archivo desde el navegador
-    const publicPath = `/public/uploads/${fileName}`;
+    // La URL pública para acceder al archivo desde el navegador usando la ruta API
+    const publicPath = `/api/static/uploads/${fileName}`;
     
     // Devolver tanto la URL como el nombre original del archivo
     return NextResponse.json({ 

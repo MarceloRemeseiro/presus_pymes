@@ -77,8 +77,8 @@ export async function POST(request: NextRequest) {
     
     await writeFile(filePath, resizedImage);  
     
-    // URL pública
-    const publicUrl = `/public/uploads/${fileName}`;
+    // URL pública usando la ruta API para acceder al archivo
+    const publicUrl = `/api/static/uploads/${fileName}`;
     
     return NextResponse.json({ logoUrl: publicUrl });
   } catch (error) {
