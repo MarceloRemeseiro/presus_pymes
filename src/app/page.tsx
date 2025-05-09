@@ -12,6 +12,8 @@ import { FiltroPeriodo } from "@/components/dashboard/filtro-periodo"
 import { ResumenFacturacion } from "@/components/dashboard/resumen-facturacion"
 import { ResumenGastos } from "@/components/dashboard/resumen-gastos"
 import { TopClientes } from "@/components/dashboard/top-clientes"
+import { ResumenFinanciero } from "@/components/dashboard/resumen-financiero"
+import { GraficoEvolucion } from "@/components/dashboard/grafico-evolucion"
 
 export default function Home() {
   const [filtros, setFiltros] = useState({
@@ -37,6 +39,11 @@ export default function Home() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         <ResumenFacturacion filtros={filtros} />
         <ResumenGastos filtros={filtros} />
+      </div>
+      
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <ResumenFinanciero filtros={filtros} />
+        <GraficoEvolucion filtros={filtros} />
       </div>
       
       <div className="grid grid-cols-1 gap-6">
