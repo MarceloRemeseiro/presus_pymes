@@ -10,6 +10,11 @@ export async function GET() {
           include: {
             puesto: true
           }
+        },
+        idiomas: {
+          include: {
+            idioma: true
+          }
         }
       },
       orderBy: {
@@ -23,11 +28,17 @@ export async function GET() {
       nombre: p.nombre,
       telefono: p.telefono,
       email: p.email,
+      ciudad: p.ciudad,
       notas: p.notas,
       puestos: p.puestos.map(pp => ({
         id: pp.puesto.id,
         nombre: pp.puesto.nombre,
         asignadoEn: pp.asignadoEn
+      })),
+      idiomas: p.idiomas.map(i => ({
+        id: i.idioma.id,
+        nombre: i.idioma.nombre,
+        asignadoEn: i.asignadoEn
       })),
       createdAt: p.createdAt,
       updatedAt: p.updatedAt
@@ -62,36 +73,49 @@ export async function POST(req: Request) {
         nombre: body.nombre,
         telefono: body.telefono,
         email: body.email,
+        ciudad: body.ciudad,
         notas: body.notas,
       }
     })
     
     // Si hay puestos a asignar, crear las relaciones
     if (body.puestos && Array.isArray(body.puestos) && body.puestos.length > 0) {
-      // Crear todas las relaciones de una vez
       await prisma.personalPuesto.createMany({
         data: body.puestos.map((puestoId: string) => ({
           personalId: persona.id,
           puestoId: puestoId
         }))
       })
-      
-      // Volvemos a consultar para incluir los puestos en la respuesta
-      const personaConPuestos = await prisma.personal.findUnique({
-        where: { id: persona.id },
-        include: {
-          puestos: {
-            include: {
-              puesto: true
-            }
-          }
-        }
-      })
-      
-      return NextResponse.json(personaConPuestos, { status: 201 })
     }
     
-    return NextResponse.json(persona, { status: 201 })
+    // Si hay idiomas a asignar, crear las relaciones
+    if (body.idiomas && Array.isArray(body.idiomas) && body.idiomas.length > 0) {
+      await prisma.personalIdioma.createMany({
+        data: body.idiomas.map((idiomaId: string) => ({
+          personalId: persona.id,
+          idiomaId: idiomaId
+        }))
+      })
+    }
+    
+    // Volvemos a consultar para incluir los puestos e idiomas en la respuesta
+    const personaConRelaciones = await prisma.personal.findUnique({
+      where: { id: persona.id },
+      include: {
+        puestos: {
+          include: {
+            puesto: true
+          }
+        },
+        idiomas: {
+          include: {
+            idioma: true
+          }
+        }
+      }
+    })
+    
+    return NextResponse.json(personaConRelaciones, { status: 201 })
   } catch (error) {
     console.error('Error al crear persona:', error)
     return NextResponse.json(

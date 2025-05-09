@@ -12,6 +12,11 @@ export async function GET() {
             puesto: true, // Incluir los datos del Puesto relacionado
           },
         },
+        idiomas: { // Incluir la relación con PersonalIdioma
+          include: {
+            idioma: true, // Incluir los datos del Idioma relacionado
+          },
+        },
       },
       orderBy: {
         nombre: 'asc',
@@ -27,8 +32,10 @@ export async function GET() {
       'nombre',
       'telefono',
       'email',
+      'ciudad',
       'notas',
       'puestos', // Columna para los nombres de los puestos
+      'idiomas', // Columna para los nombres de los idiomas
       'createdAt',
       'updatedAt',
     ];
@@ -38,9 +45,12 @@ export async function GET() {
       p.nombre,
       p.telefono || '',
       p.email || '',
+      p.ciudad || '',
       p.notas || '',
       // Mapear los puestos a una cadena separada por comas
       p.puestos.map(pp => pp.puesto.nombre).join(', ') || '',
+      // Mapear los idiomas a una cadena separada por comas
+      p.idiomas.map(i => i.idioma.nombre).join(', ') || '',
       p.createdAt.toISOString(),
       p.updatedAt.toISOString(),
     ]);

@@ -22,8 +22,10 @@ interface Personal {
   nombre: string
   telefono?: string | null
   email?: string | null
+  ciudad?: string | null
   notas?: string | null
   puestos: { id: string; nombre: string; asignadoEn: string }[]
+  idiomas?: { id: string; nombre: string; asignadoEn: string }[]
   createdAt: string
   updatedAt: string
 }
@@ -177,7 +179,16 @@ export default function DetallesPersonalPage({ params }: PageParams) {
                 <span>{personal.email}</span>
               </div>
             )}
-            {!personal?.telefono && !personal?.email && (
+            {personal?.ciudad && (
+              <div className="flex items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4 mr-2 text-muted-foreground">
+                  <path d="M12 22s-8-4.5-8-11.8a8 8 0 0 1 16 0c0 7.3-8 11.8-8 11.8z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                <span>{personal.ciudad}</span>
+              </div>
+            )}
+            {!personal?.telefono && !personal?.email && !personal?.ciudad && (
               <p className="text-muted-foreground">No hay información de contacto registrada</p>
             )}
           </CardContent>
@@ -207,6 +218,25 @@ export default function DetallesPersonalPage({ params }: PageParams) {
           </CardContent>
         </Card>
       </div>
+      
+      <Card className="mt-6">
+        <CardHeader>
+          <CardTitle>Idiomas</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {personal?.idiomas && personal.idiomas.length > 0 ? (
+            <div className="flex flex-wrap gap-2">
+              {personal.idiomas.map(idioma => (
+                <Badge key={idioma.id} variant="outline" className="py-1 px-3">
+                  {idioma.nombre}
+                </Badge>
+              ))}
+            </div>
+          ) : (
+            <p className="text-muted-foreground">No hay idiomas registrados</p>
+          )}
+        </CardContent>
+      </Card>
       
       {personal?.notas && (
         <Card className="mt-6">

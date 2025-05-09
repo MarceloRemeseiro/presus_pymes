@@ -303,6 +303,7 @@ exports.Prisma.PersonalScalarFieldEnum = {
   nombre: 'nombre',
   telefono: 'telefono',
   email: 'email',
+  ciudad: 'ciudad',
   notas: 'notas',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -371,6 +372,19 @@ exports.Prisma.FacturaProveedorScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.IdiomaScalarFieldEnum = {
+  id: 'id',
+  nombre: 'nombre',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PersonalIdiomaScalarFieldEnum = {
+  personalId: 'personalId',
+  idiomaId: 'idiomaId',
+  asignadoEn: 'asignadoEn'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -432,7 +446,9 @@ exports.Prisma.ModelName = {
   Proveedor: 'Proveedor',
   Tikelia: 'Tikelia',
   PresupuestoProveedor: 'PresupuestoProveedor',
-  FacturaProveedor: 'FacturaProveedor'
+  FacturaProveedor: 'FacturaProveedor',
+  Idioma: 'Idioma',
+  PersonalIdioma: 'PersonalIdioma'
 };
 
 /**

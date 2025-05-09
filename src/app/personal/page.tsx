@@ -17,13 +17,21 @@ interface Puesto {
   asignadoEn: string
 }
 
+interface Idioma {
+  id: string
+  nombre: string
+  asignadoEn: string
+}
+
 interface Personal {
   id: string
   nombre: string
   telefono?: string | null
   email?: string | null
+  ciudad?: string | null
   notas?: string | null
   puestos: Puesto[]
+  idiomas: Idioma[]
   createdAt: string
   updatedAt: string
 }
@@ -65,8 +73,12 @@ export default function PersonalPage() {
       persona.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
       (persona.email && persona.email.toLowerCase().includes(searchTerm.toLowerCase())) ||
       (persona.telefono && persona.telefono.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (persona.ciudad && persona.ciudad.toLowerCase().includes(searchTerm.toLowerCase())) ||
       persona.puestos.some(puesto => 
         puesto.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+      ) ||
+      persona.idiomas.some(idioma =>
+        idioma.nombre.toLowerCase().includes(searchTerm.toLowerCase())
       )
   )
 
@@ -93,6 +105,7 @@ export default function PersonalPage() {
         <div className="text-sm">
           {persona.email && <div className="mb-1">{persona.email}</div>}
           {persona.telefono && <div>{persona.telefono}</div>}
+          {persona.ciudad && <div className="text-muted-foreground mt-1">{persona.ciudad}</div>}
         </div>
       )
     },
@@ -109,6 +122,23 @@ export default function PersonalPage() {
           ))}
           {persona.puestos.length === 0 && (
             <span className="text-muted-foreground text-sm">Sin puesto asignado</span>
+          )}
+        </div>
+      )
+    },
+    {
+      key: "idiomas",
+      header: "Idiomas",
+      sortable: false,
+      cell: (persona: Personal) => (
+        <div className="flex flex-wrap gap-1">
+          {persona.idiomas.map(idioma => (
+            <Badge key={idioma.id} variant="outline">
+              {idioma.nombre}
+            </Badge>
+          ))}
+          {persona.idiomas.length === 0 && (
+            <span className="text-muted-foreground text-sm">Sin idiomas registrados</span>
           )}
         </div>
       )
@@ -192,7 +222,7 @@ export default function PersonalPage() {
           <div className="flex items-center mt-4">
             <Search className="h-4 w-4 mr-2 opacity-50" />
             <Input
-              placeholder="Buscar por nombre, email, teléfono o puesto..."
+              placeholder="Buscar por nombre, email, teléfono, ciudad, puesto o idioma..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="max-w-sm"

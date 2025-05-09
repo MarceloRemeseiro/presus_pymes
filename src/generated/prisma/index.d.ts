@@ -113,6 +113,16 @@ export type PresupuestoProveedor = $Result.DefaultSelection<Prisma.$PresupuestoP
  * 
  */
 export type FacturaProveedor = $Result.DefaultSelection<Prisma.$FacturaProveedorPayload>
+/**
+ * Model Idioma
+ * 
+ */
+export type Idioma = $Result.DefaultSelection<Prisma.$IdiomaPayload>
+/**
+ * Model PersonalIdioma
+ * 
+ */
+export type PersonalIdioma = $Result.DefaultSelection<Prisma.$PersonalIdiomaPayload>
 
 /**
  * Enums
@@ -498,6 +508,26 @@ export class PrismaClient<
     * ```
     */
   get facturaProveedor(): Prisma.FacturaProveedorDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.idioma`: Exposes CRUD operations for the **Idioma** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Idiomas
+    * const idiomas = await prisma.idioma.findMany()
+    * ```
+    */
+  get idioma(): Prisma.IdiomaDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.personalIdioma`: Exposes CRUD operations for the **PersonalIdioma** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more PersonalIdiomas
+    * const personalIdiomas = await prisma.personalIdioma.findMany()
+    * ```
+    */
+  get personalIdioma(): Prisma.PersonalIdiomaDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -957,7 +987,9 @@ export namespace Prisma {
     Proveedor: 'Proveedor',
     Tikelia: 'Tikelia',
     PresupuestoProveedor: 'PresupuestoProveedor',
-    FacturaProveedor: 'FacturaProveedor'
+    FacturaProveedor: 'FacturaProveedor',
+    Idioma: 'Idioma',
+    PersonalIdioma: 'PersonalIdioma'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -976,7 +1008,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "empresa" | "categoria" | "marca" | "producto" | "equipoItem" | "cliente" | "partidaPresupuesto" | "presupuesto" | "itemPresupuesto" | "factura" | "itemFactura" | "configuracion" | "user" | "puesto" | "personal" | "personalPuesto" | "proveedor" | "tikelia" | "presupuestoProveedor" | "facturaProveedor"
+      modelProps: "empresa" | "categoria" | "marca" | "producto" | "equipoItem" | "cliente" | "partidaPresupuesto" | "presupuesto" | "itemPresupuesto" | "factura" | "itemFactura" | "configuracion" | "user" | "puesto" | "personal" | "personalPuesto" | "proveedor" | "tikelia" | "presupuestoProveedor" | "facturaProveedor" | "idioma" | "personalIdioma"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2460,6 +2492,154 @@ export namespace Prisma {
           }
         }
       }
+      Idioma: {
+        payload: Prisma.$IdiomaPayload<ExtArgs>
+        fields: Prisma.IdiomaFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.IdiomaFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IdiomaPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.IdiomaFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IdiomaPayload>
+          }
+          findFirst: {
+            args: Prisma.IdiomaFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IdiomaPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.IdiomaFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IdiomaPayload>
+          }
+          findMany: {
+            args: Prisma.IdiomaFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IdiomaPayload>[]
+          }
+          create: {
+            args: Prisma.IdiomaCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IdiomaPayload>
+          }
+          createMany: {
+            args: Prisma.IdiomaCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.IdiomaCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IdiomaPayload>[]
+          }
+          delete: {
+            args: Prisma.IdiomaDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IdiomaPayload>
+          }
+          update: {
+            args: Prisma.IdiomaUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IdiomaPayload>
+          }
+          deleteMany: {
+            args: Prisma.IdiomaDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.IdiomaUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.IdiomaUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IdiomaPayload>[]
+          }
+          upsert: {
+            args: Prisma.IdiomaUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$IdiomaPayload>
+          }
+          aggregate: {
+            args: Prisma.IdiomaAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateIdioma>
+          }
+          groupBy: {
+            args: Prisma.IdiomaGroupByArgs<ExtArgs>
+            result: $Utils.Optional<IdiomaGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.IdiomaCountArgs<ExtArgs>
+            result: $Utils.Optional<IdiomaCountAggregateOutputType> | number
+          }
+        }
+      }
+      PersonalIdioma: {
+        payload: Prisma.$PersonalIdiomaPayload<ExtArgs>
+        fields: Prisma.PersonalIdiomaFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.PersonalIdiomaFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalIdiomaPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.PersonalIdiomaFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalIdiomaPayload>
+          }
+          findFirst: {
+            args: Prisma.PersonalIdiomaFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalIdiomaPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.PersonalIdiomaFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalIdiomaPayload>
+          }
+          findMany: {
+            args: Prisma.PersonalIdiomaFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalIdiomaPayload>[]
+          }
+          create: {
+            args: Prisma.PersonalIdiomaCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalIdiomaPayload>
+          }
+          createMany: {
+            args: Prisma.PersonalIdiomaCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.PersonalIdiomaCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalIdiomaPayload>[]
+          }
+          delete: {
+            args: Prisma.PersonalIdiomaDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalIdiomaPayload>
+          }
+          update: {
+            args: Prisma.PersonalIdiomaUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalIdiomaPayload>
+          }
+          deleteMany: {
+            args: Prisma.PersonalIdiomaDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.PersonalIdiomaUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.PersonalIdiomaUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalIdiomaPayload>[]
+          }
+          upsert: {
+            args: Prisma.PersonalIdiomaUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$PersonalIdiomaPayload>
+          }
+          aggregate: {
+            args: Prisma.PersonalIdiomaAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregatePersonalIdioma>
+          }
+          groupBy: {
+            args: Prisma.PersonalIdiomaGroupByArgs<ExtArgs>
+            result: $Utils.Optional<PersonalIdiomaGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.PersonalIdiomaCountArgs<ExtArgs>
+            result: $Utils.Optional<PersonalIdiomaCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2564,6 +2744,8 @@ export namespace Prisma {
     tikelia?: TikeliaOmit
     presupuestoProveedor?: PresupuestoProveedorOmit
     facturaProveedor?: FacturaProveedorOmit
+    idioma?: IdiomaOmit
+    personalIdioma?: PersonalIdiomaOmit
   }
 
   /* Types for Logging */
@@ -2997,10 +3179,12 @@ export namespace Prisma {
 
   export type PersonalCountOutputType = {
     puestos: number
+    idiomas: number
   }
 
   export type PersonalCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     puestos?: boolean | PersonalCountOutputTypeCountPuestosArgs
+    idiomas?: boolean | PersonalCountOutputTypeCountIdiomasArgs
   }
 
   // Custom InputTypes
@@ -3019,6 +3203,13 @@ export namespace Prisma {
    */
   export type PersonalCountOutputTypeCountPuestosArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: PersonalPuestoWhereInput
+  }
+
+  /**
+   * PersonalCountOutputType without action
+   */
+  export type PersonalCountOutputTypeCountIdiomasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PersonalIdiomaWhereInput
   }
 
 
@@ -3068,6 +3259,37 @@ export namespace Prisma {
    */
   export type ProveedorCountOutputTypeCountFacturasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: FacturaProveedorWhereInput
+  }
+
+
+  /**
+   * Count Type IdiomaCountOutputType
+   */
+
+  export type IdiomaCountOutputType = {
+    personal: number
+  }
+
+  export type IdiomaCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    personal?: boolean | IdiomaCountOutputTypeCountPersonalArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * IdiomaCountOutputType without action
+   */
+  export type IdiomaCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the IdiomaCountOutputType
+     */
+    select?: IdiomaCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * IdiomaCountOutputType without action
+   */
+  export type IdiomaCountOutputTypeCountPersonalArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PersonalIdiomaWhereInput
   }
 
 
@@ -19530,6 +19752,7 @@ export namespace Prisma {
     nombre: string | null
     telefono: string | null
     email: string | null
+    ciudad: string | null
     notas: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -19540,6 +19763,7 @@ export namespace Prisma {
     nombre: string | null
     telefono: string | null
     email: string | null
+    ciudad: string | null
     notas: string | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -19550,6 +19774,7 @@ export namespace Prisma {
     nombre: number
     telefono: number
     email: number
+    ciudad: number
     notas: number
     createdAt: number
     updatedAt: number
@@ -19562,6 +19787,7 @@ export namespace Prisma {
     nombre?: true
     telefono?: true
     email?: true
+    ciudad?: true
     notas?: true
     createdAt?: true
     updatedAt?: true
@@ -19572,6 +19798,7 @@ export namespace Prisma {
     nombre?: true
     telefono?: true
     email?: true
+    ciudad?: true
     notas?: true
     createdAt?: true
     updatedAt?: true
@@ -19582,6 +19809,7 @@ export namespace Prisma {
     nombre?: true
     telefono?: true
     email?: true
+    ciudad?: true
     notas?: true
     createdAt?: true
     updatedAt?: true
@@ -19665,6 +19893,7 @@ export namespace Prisma {
     nombre: string
     telefono: string | null
     email: string | null
+    ciudad: string | null
     notas: string | null
     createdAt: Date
     updatedAt: Date
@@ -19692,10 +19921,12 @@ export namespace Prisma {
     nombre?: boolean
     telefono?: boolean
     email?: boolean
+    ciudad?: boolean
     notas?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     puestos?: boolean | Personal$puestosArgs<ExtArgs>
+    idiomas?: boolean | Personal$idiomasArgs<ExtArgs>
     _count?: boolean | PersonalCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["personal"]>
 
@@ -19704,6 +19935,7 @@ export namespace Prisma {
     nombre?: boolean
     telefono?: boolean
     email?: boolean
+    ciudad?: boolean
     notas?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -19714,6 +19946,7 @@ export namespace Prisma {
     nombre?: boolean
     telefono?: boolean
     email?: boolean
+    ciudad?: boolean
     notas?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -19724,14 +19957,16 @@ export namespace Prisma {
     nombre?: boolean
     telefono?: boolean
     email?: boolean
+    ciudad?: boolean
     notas?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type PersonalOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "telefono" | "email" | "notas" | "createdAt" | "updatedAt", ExtArgs["result"]["personal"]>
+  export type PersonalOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "telefono" | "email" | "ciudad" | "notas" | "createdAt" | "updatedAt", ExtArgs["result"]["personal"]>
   export type PersonalInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     puestos?: boolean | Personal$puestosArgs<ExtArgs>
+    idiomas?: boolean | Personal$idiomasArgs<ExtArgs>
     _count?: boolean | PersonalCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PersonalIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -19741,12 +19976,14 @@ export namespace Prisma {
     name: "Personal"
     objects: {
       puestos: Prisma.$PersonalPuestoPayload<ExtArgs>[]
+      idiomas: Prisma.$PersonalIdiomaPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       nombre: string
       telefono: string | null
       email: string | null
+      ciudad: string | null
       notas: string | null
       createdAt: Date
       updatedAt: Date
@@ -20145,6 +20382,7 @@ export namespace Prisma {
   export interface Prisma__PersonalClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     puestos<T extends Personal$puestosArgs<ExtArgs> = {}>(args?: Subset<T, Personal$puestosArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PersonalPuestoPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    idiomas<T extends Personal$idiomasArgs<ExtArgs> = {}>(args?: Subset<T, Personal$idiomasArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PersonalIdiomaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -20178,6 +20416,7 @@ export namespace Prisma {
     readonly nombre: FieldRef<"Personal", 'String'>
     readonly telefono: FieldRef<"Personal", 'String'>
     readonly email: FieldRef<"Personal", 'String'>
+    readonly ciudad: FieldRef<"Personal", 'String'>
     readonly notas: FieldRef<"Personal", 'String'>
     readonly createdAt: FieldRef<"Personal", 'DateTime'>
     readonly updatedAt: FieldRef<"Personal", 'DateTime'>
@@ -20590,6 +20829,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: PersonalPuestoScalarFieldEnum | PersonalPuestoScalarFieldEnum[]
+  }
+
+  /**
+   * Personal.idiomas
+   */
+  export type Personal$idiomasArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalIdioma
+     */
+    select?: PersonalIdiomaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalIdioma
+     */
+    omit?: PersonalIdiomaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalIdiomaInclude<ExtArgs> | null
+    where?: PersonalIdiomaWhereInput
+    orderBy?: PersonalIdiomaOrderByWithRelationInput | PersonalIdiomaOrderByWithRelationInput[]
+    cursor?: PersonalIdiomaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PersonalIdiomaScalarFieldEnum | PersonalIdiomaScalarFieldEnum[]
   }
 
   /**
@@ -26506,6 +26769,2103 @@ export namespace Prisma {
 
 
   /**
+   * Model Idioma
+   */
+
+  export type AggregateIdioma = {
+    _count: IdiomaCountAggregateOutputType | null
+    _min: IdiomaMinAggregateOutputType | null
+    _max: IdiomaMaxAggregateOutputType | null
+  }
+
+  export type IdiomaMinAggregateOutputType = {
+    id: string | null
+    nombre: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type IdiomaMaxAggregateOutputType = {
+    id: string | null
+    nombre: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type IdiomaCountAggregateOutputType = {
+    id: number
+    nombre: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type IdiomaMinAggregateInputType = {
+    id?: true
+    nombre?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type IdiomaMaxAggregateInputType = {
+    id?: true
+    nombre?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type IdiomaCountAggregateInputType = {
+    id?: true
+    nombre?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type IdiomaAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Idioma to aggregate.
+     */
+    where?: IdiomaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Idiomas to fetch.
+     */
+    orderBy?: IdiomaOrderByWithRelationInput | IdiomaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: IdiomaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Idiomas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Idiomas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Idiomas
+    **/
+    _count?: true | IdiomaCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: IdiomaMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: IdiomaMaxAggregateInputType
+  }
+
+  export type GetIdiomaAggregateType<T extends IdiomaAggregateArgs> = {
+        [P in keyof T & keyof AggregateIdioma]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateIdioma[P]>
+      : GetScalarType<T[P], AggregateIdioma[P]>
+  }
+
+
+
+
+  export type IdiomaGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: IdiomaWhereInput
+    orderBy?: IdiomaOrderByWithAggregationInput | IdiomaOrderByWithAggregationInput[]
+    by: IdiomaScalarFieldEnum[] | IdiomaScalarFieldEnum
+    having?: IdiomaScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: IdiomaCountAggregateInputType | true
+    _min?: IdiomaMinAggregateInputType
+    _max?: IdiomaMaxAggregateInputType
+  }
+
+  export type IdiomaGroupByOutputType = {
+    id: string
+    nombre: string
+    createdAt: Date
+    updatedAt: Date
+    _count: IdiomaCountAggregateOutputType | null
+    _min: IdiomaMinAggregateOutputType | null
+    _max: IdiomaMaxAggregateOutputType | null
+  }
+
+  type GetIdiomaGroupByPayload<T extends IdiomaGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<IdiomaGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof IdiomaGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], IdiomaGroupByOutputType[P]>
+            : GetScalarType<T[P], IdiomaGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type IdiomaSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nombre?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    personal?: boolean | Idioma$personalArgs<ExtArgs>
+    _count?: boolean | IdiomaCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["idioma"]>
+
+  export type IdiomaSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nombre?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["idioma"]>
+
+  export type IdiomaSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    nombre?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["idioma"]>
+
+  export type IdiomaSelectScalar = {
+    id?: boolean
+    nombre?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type IdiomaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "createdAt" | "updatedAt", ExtArgs["result"]["idioma"]>
+  export type IdiomaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    personal?: boolean | Idioma$personalArgs<ExtArgs>
+    _count?: boolean | IdiomaCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type IdiomaIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type IdiomaIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $IdiomaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Idioma"
+    objects: {
+      personal: Prisma.$PersonalIdiomaPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      nombre: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["idioma"]>
+    composites: {}
+  }
+
+  type IdiomaGetPayload<S extends boolean | null | undefined | IdiomaDefaultArgs> = $Result.GetResult<Prisma.$IdiomaPayload, S>
+
+  type IdiomaCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<IdiomaFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: IdiomaCountAggregateInputType | true
+    }
+
+  export interface IdiomaDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Idioma'], meta: { name: 'Idioma' } }
+    /**
+     * Find zero or one Idioma that matches the filter.
+     * @param {IdiomaFindUniqueArgs} args - Arguments to find a Idioma
+     * @example
+     * // Get one Idioma
+     * const idioma = await prisma.idioma.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends IdiomaFindUniqueArgs>(args: SelectSubset<T, IdiomaFindUniqueArgs<ExtArgs>>): Prisma__IdiomaClient<$Result.GetResult<Prisma.$IdiomaPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Idioma that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {IdiomaFindUniqueOrThrowArgs} args - Arguments to find a Idioma
+     * @example
+     * // Get one Idioma
+     * const idioma = await prisma.idioma.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends IdiomaFindUniqueOrThrowArgs>(args: SelectSubset<T, IdiomaFindUniqueOrThrowArgs<ExtArgs>>): Prisma__IdiomaClient<$Result.GetResult<Prisma.$IdiomaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Idioma that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IdiomaFindFirstArgs} args - Arguments to find a Idioma
+     * @example
+     * // Get one Idioma
+     * const idioma = await prisma.idioma.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends IdiomaFindFirstArgs>(args?: SelectSubset<T, IdiomaFindFirstArgs<ExtArgs>>): Prisma__IdiomaClient<$Result.GetResult<Prisma.$IdiomaPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Idioma that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IdiomaFindFirstOrThrowArgs} args - Arguments to find a Idioma
+     * @example
+     * // Get one Idioma
+     * const idioma = await prisma.idioma.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends IdiomaFindFirstOrThrowArgs>(args?: SelectSubset<T, IdiomaFindFirstOrThrowArgs<ExtArgs>>): Prisma__IdiomaClient<$Result.GetResult<Prisma.$IdiomaPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Idiomas that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IdiomaFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Idiomas
+     * const idiomas = await prisma.idioma.findMany()
+     * 
+     * // Get first 10 Idiomas
+     * const idiomas = await prisma.idioma.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const idiomaWithIdOnly = await prisma.idioma.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends IdiomaFindManyArgs>(args?: SelectSubset<T, IdiomaFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IdiomaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Idioma.
+     * @param {IdiomaCreateArgs} args - Arguments to create a Idioma.
+     * @example
+     * // Create one Idioma
+     * const Idioma = await prisma.idioma.create({
+     *   data: {
+     *     // ... data to create a Idioma
+     *   }
+     * })
+     * 
+     */
+    create<T extends IdiomaCreateArgs>(args: SelectSubset<T, IdiomaCreateArgs<ExtArgs>>): Prisma__IdiomaClient<$Result.GetResult<Prisma.$IdiomaPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Idiomas.
+     * @param {IdiomaCreateManyArgs} args - Arguments to create many Idiomas.
+     * @example
+     * // Create many Idiomas
+     * const idioma = await prisma.idioma.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends IdiomaCreateManyArgs>(args?: SelectSubset<T, IdiomaCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Idiomas and returns the data saved in the database.
+     * @param {IdiomaCreateManyAndReturnArgs} args - Arguments to create many Idiomas.
+     * @example
+     * // Create many Idiomas
+     * const idioma = await prisma.idioma.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Idiomas and only return the `id`
+     * const idiomaWithIdOnly = await prisma.idioma.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends IdiomaCreateManyAndReturnArgs>(args?: SelectSubset<T, IdiomaCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IdiomaPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Idioma.
+     * @param {IdiomaDeleteArgs} args - Arguments to delete one Idioma.
+     * @example
+     * // Delete one Idioma
+     * const Idioma = await prisma.idioma.delete({
+     *   where: {
+     *     // ... filter to delete one Idioma
+     *   }
+     * })
+     * 
+     */
+    delete<T extends IdiomaDeleteArgs>(args: SelectSubset<T, IdiomaDeleteArgs<ExtArgs>>): Prisma__IdiomaClient<$Result.GetResult<Prisma.$IdiomaPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Idioma.
+     * @param {IdiomaUpdateArgs} args - Arguments to update one Idioma.
+     * @example
+     * // Update one Idioma
+     * const idioma = await prisma.idioma.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends IdiomaUpdateArgs>(args: SelectSubset<T, IdiomaUpdateArgs<ExtArgs>>): Prisma__IdiomaClient<$Result.GetResult<Prisma.$IdiomaPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Idiomas.
+     * @param {IdiomaDeleteManyArgs} args - Arguments to filter Idiomas to delete.
+     * @example
+     * // Delete a few Idiomas
+     * const { count } = await prisma.idioma.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends IdiomaDeleteManyArgs>(args?: SelectSubset<T, IdiomaDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Idiomas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IdiomaUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Idiomas
+     * const idioma = await prisma.idioma.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends IdiomaUpdateManyArgs>(args: SelectSubset<T, IdiomaUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Idiomas and returns the data updated in the database.
+     * @param {IdiomaUpdateManyAndReturnArgs} args - Arguments to update many Idiomas.
+     * @example
+     * // Update many Idiomas
+     * const idioma = await prisma.idioma.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Idiomas and only return the `id`
+     * const idiomaWithIdOnly = await prisma.idioma.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends IdiomaUpdateManyAndReturnArgs>(args: SelectSubset<T, IdiomaUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IdiomaPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Idioma.
+     * @param {IdiomaUpsertArgs} args - Arguments to update or create a Idioma.
+     * @example
+     * // Update or create a Idioma
+     * const idioma = await prisma.idioma.upsert({
+     *   create: {
+     *     // ... data to create a Idioma
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Idioma we want to update
+     *   }
+     * })
+     */
+    upsert<T extends IdiomaUpsertArgs>(args: SelectSubset<T, IdiomaUpsertArgs<ExtArgs>>): Prisma__IdiomaClient<$Result.GetResult<Prisma.$IdiomaPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Idiomas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IdiomaCountArgs} args - Arguments to filter Idiomas to count.
+     * @example
+     * // Count the number of Idiomas
+     * const count = await prisma.idioma.count({
+     *   where: {
+     *     // ... the filter for the Idiomas we want to count
+     *   }
+     * })
+    **/
+    count<T extends IdiomaCountArgs>(
+      args?: Subset<T, IdiomaCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], IdiomaCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Idioma.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IdiomaAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends IdiomaAggregateArgs>(args: Subset<T, IdiomaAggregateArgs>): Prisma.PrismaPromise<GetIdiomaAggregateType<T>>
+
+    /**
+     * Group by Idioma.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {IdiomaGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends IdiomaGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: IdiomaGroupByArgs['orderBy'] }
+        : { orderBy?: IdiomaGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, IdiomaGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetIdiomaGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Idioma model
+   */
+  readonly fields: IdiomaFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Idioma.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__IdiomaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    personal<T extends Idioma$personalArgs<ExtArgs> = {}>(args?: Subset<T, Idioma$personalArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PersonalIdiomaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Idioma model
+   */
+  interface IdiomaFieldRefs {
+    readonly id: FieldRef<"Idioma", 'String'>
+    readonly nombre: FieldRef<"Idioma", 'String'>
+    readonly createdAt: FieldRef<"Idioma", 'DateTime'>
+    readonly updatedAt: FieldRef<"Idioma", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Idioma findUnique
+   */
+  export type IdiomaFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Idioma
+     */
+    select?: IdiomaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Idioma
+     */
+    omit?: IdiomaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IdiomaInclude<ExtArgs> | null
+    /**
+     * Filter, which Idioma to fetch.
+     */
+    where: IdiomaWhereUniqueInput
+  }
+
+  /**
+   * Idioma findUniqueOrThrow
+   */
+  export type IdiomaFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Idioma
+     */
+    select?: IdiomaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Idioma
+     */
+    omit?: IdiomaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IdiomaInclude<ExtArgs> | null
+    /**
+     * Filter, which Idioma to fetch.
+     */
+    where: IdiomaWhereUniqueInput
+  }
+
+  /**
+   * Idioma findFirst
+   */
+  export type IdiomaFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Idioma
+     */
+    select?: IdiomaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Idioma
+     */
+    omit?: IdiomaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IdiomaInclude<ExtArgs> | null
+    /**
+     * Filter, which Idioma to fetch.
+     */
+    where?: IdiomaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Idiomas to fetch.
+     */
+    orderBy?: IdiomaOrderByWithRelationInput | IdiomaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Idiomas.
+     */
+    cursor?: IdiomaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Idiomas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Idiomas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Idiomas.
+     */
+    distinct?: IdiomaScalarFieldEnum | IdiomaScalarFieldEnum[]
+  }
+
+  /**
+   * Idioma findFirstOrThrow
+   */
+  export type IdiomaFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Idioma
+     */
+    select?: IdiomaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Idioma
+     */
+    omit?: IdiomaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IdiomaInclude<ExtArgs> | null
+    /**
+     * Filter, which Idioma to fetch.
+     */
+    where?: IdiomaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Idiomas to fetch.
+     */
+    orderBy?: IdiomaOrderByWithRelationInput | IdiomaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Idiomas.
+     */
+    cursor?: IdiomaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Idiomas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Idiomas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Idiomas.
+     */
+    distinct?: IdiomaScalarFieldEnum | IdiomaScalarFieldEnum[]
+  }
+
+  /**
+   * Idioma findMany
+   */
+  export type IdiomaFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Idioma
+     */
+    select?: IdiomaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Idioma
+     */
+    omit?: IdiomaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IdiomaInclude<ExtArgs> | null
+    /**
+     * Filter, which Idiomas to fetch.
+     */
+    where?: IdiomaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Idiomas to fetch.
+     */
+    orderBy?: IdiomaOrderByWithRelationInput | IdiomaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Idiomas.
+     */
+    cursor?: IdiomaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Idiomas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Idiomas.
+     */
+    skip?: number
+    distinct?: IdiomaScalarFieldEnum | IdiomaScalarFieldEnum[]
+  }
+
+  /**
+   * Idioma create
+   */
+  export type IdiomaCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Idioma
+     */
+    select?: IdiomaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Idioma
+     */
+    omit?: IdiomaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IdiomaInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Idioma.
+     */
+    data: XOR<IdiomaCreateInput, IdiomaUncheckedCreateInput>
+  }
+
+  /**
+   * Idioma createMany
+   */
+  export type IdiomaCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Idiomas.
+     */
+    data: IdiomaCreateManyInput | IdiomaCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Idioma createManyAndReturn
+   */
+  export type IdiomaCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Idioma
+     */
+    select?: IdiomaSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Idioma
+     */
+    omit?: IdiomaOmit<ExtArgs> | null
+    /**
+     * The data used to create many Idiomas.
+     */
+    data: IdiomaCreateManyInput | IdiomaCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Idioma update
+   */
+  export type IdiomaUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Idioma
+     */
+    select?: IdiomaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Idioma
+     */
+    omit?: IdiomaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IdiomaInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Idioma.
+     */
+    data: XOR<IdiomaUpdateInput, IdiomaUncheckedUpdateInput>
+    /**
+     * Choose, which Idioma to update.
+     */
+    where: IdiomaWhereUniqueInput
+  }
+
+  /**
+   * Idioma updateMany
+   */
+  export type IdiomaUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Idiomas.
+     */
+    data: XOR<IdiomaUpdateManyMutationInput, IdiomaUncheckedUpdateManyInput>
+    /**
+     * Filter which Idiomas to update
+     */
+    where?: IdiomaWhereInput
+    /**
+     * Limit how many Idiomas to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Idioma updateManyAndReturn
+   */
+  export type IdiomaUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Idioma
+     */
+    select?: IdiomaSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Idioma
+     */
+    omit?: IdiomaOmit<ExtArgs> | null
+    /**
+     * The data used to update Idiomas.
+     */
+    data: XOR<IdiomaUpdateManyMutationInput, IdiomaUncheckedUpdateManyInput>
+    /**
+     * Filter which Idiomas to update
+     */
+    where?: IdiomaWhereInput
+    /**
+     * Limit how many Idiomas to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Idioma upsert
+   */
+  export type IdiomaUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Idioma
+     */
+    select?: IdiomaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Idioma
+     */
+    omit?: IdiomaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IdiomaInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Idioma to update in case it exists.
+     */
+    where: IdiomaWhereUniqueInput
+    /**
+     * In case the Idioma found by the `where` argument doesn't exist, create a new Idioma with this data.
+     */
+    create: XOR<IdiomaCreateInput, IdiomaUncheckedCreateInput>
+    /**
+     * In case the Idioma was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<IdiomaUpdateInput, IdiomaUncheckedUpdateInput>
+  }
+
+  /**
+   * Idioma delete
+   */
+  export type IdiomaDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Idioma
+     */
+    select?: IdiomaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Idioma
+     */
+    omit?: IdiomaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IdiomaInclude<ExtArgs> | null
+    /**
+     * Filter which Idioma to delete.
+     */
+    where: IdiomaWhereUniqueInput
+  }
+
+  /**
+   * Idioma deleteMany
+   */
+  export type IdiomaDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Idiomas to delete
+     */
+    where?: IdiomaWhereInput
+    /**
+     * Limit how many Idiomas to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Idioma.personal
+   */
+  export type Idioma$personalArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalIdioma
+     */
+    select?: PersonalIdiomaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalIdioma
+     */
+    omit?: PersonalIdiomaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalIdiomaInclude<ExtArgs> | null
+    where?: PersonalIdiomaWhereInput
+    orderBy?: PersonalIdiomaOrderByWithRelationInput | PersonalIdiomaOrderByWithRelationInput[]
+    cursor?: PersonalIdiomaWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: PersonalIdiomaScalarFieldEnum | PersonalIdiomaScalarFieldEnum[]
+  }
+
+  /**
+   * Idioma without action
+   */
+  export type IdiomaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Idioma
+     */
+    select?: IdiomaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Idioma
+     */
+    omit?: IdiomaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: IdiomaInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model PersonalIdioma
+   */
+
+  export type AggregatePersonalIdioma = {
+    _count: PersonalIdiomaCountAggregateOutputType | null
+    _min: PersonalIdiomaMinAggregateOutputType | null
+    _max: PersonalIdiomaMaxAggregateOutputType | null
+  }
+
+  export type PersonalIdiomaMinAggregateOutputType = {
+    personalId: string | null
+    idiomaId: string | null
+    asignadoEn: Date | null
+  }
+
+  export type PersonalIdiomaMaxAggregateOutputType = {
+    personalId: string | null
+    idiomaId: string | null
+    asignadoEn: Date | null
+  }
+
+  export type PersonalIdiomaCountAggregateOutputType = {
+    personalId: number
+    idiomaId: number
+    asignadoEn: number
+    _all: number
+  }
+
+
+  export type PersonalIdiomaMinAggregateInputType = {
+    personalId?: true
+    idiomaId?: true
+    asignadoEn?: true
+  }
+
+  export type PersonalIdiomaMaxAggregateInputType = {
+    personalId?: true
+    idiomaId?: true
+    asignadoEn?: true
+  }
+
+  export type PersonalIdiomaCountAggregateInputType = {
+    personalId?: true
+    idiomaId?: true
+    asignadoEn?: true
+    _all?: true
+  }
+
+  export type PersonalIdiomaAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PersonalIdioma to aggregate.
+     */
+    where?: PersonalIdiomaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PersonalIdiomas to fetch.
+     */
+    orderBy?: PersonalIdiomaOrderByWithRelationInput | PersonalIdiomaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: PersonalIdiomaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PersonalIdiomas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PersonalIdiomas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned PersonalIdiomas
+    **/
+    _count?: true | PersonalIdiomaCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: PersonalIdiomaMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: PersonalIdiomaMaxAggregateInputType
+  }
+
+  export type GetPersonalIdiomaAggregateType<T extends PersonalIdiomaAggregateArgs> = {
+        [P in keyof T & keyof AggregatePersonalIdioma]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregatePersonalIdioma[P]>
+      : GetScalarType<T[P], AggregatePersonalIdioma[P]>
+  }
+
+
+
+
+  export type PersonalIdiomaGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: PersonalIdiomaWhereInput
+    orderBy?: PersonalIdiomaOrderByWithAggregationInput | PersonalIdiomaOrderByWithAggregationInput[]
+    by: PersonalIdiomaScalarFieldEnum[] | PersonalIdiomaScalarFieldEnum
+    having?: PersonalIdiomaScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: PersonalIdiomaCountAggregateInputType | true
+    _min?: PersonalIdiomaMinAggregateInputType
+    _max?: PersonalIdiomaMaxAggregateInputType
+  }
+
+  export type PersonalIdiomaGroupByOutputType = {
+    personalId: string
+    idiomaId: string
+    asignadoEn: Date
+    _count: PersonalIdiomaCountAggregateOutputType | null
+    _min: PersonalIdiomaMinAggregateOutputType | null
+    _max: PersonalIdiomaMaxAggregateOutputType | null
+  }
+
+  type GetPersonalIdiomaGroupByPayload<T extends PersonalIdiomaGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<PersonalIdiomaGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof PersonalIdiomaGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], PersonalIdiomaGroupByOutputType[P]>
+            : GetScalarType<T[P], PersonalIdiomaGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type PersonalIdiomaSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    personalId?: boolean
+    idiomaId?: boolean
+    asignadoEn?: boolean
+    personal?: boolean | PersonalDefaultArgs<ExtArgs>
+    idioma?: boolean | IdiomaDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["personalIdioma"]>
+
+  export type PersonalIdiomaSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    personalId?: boolean
+    idiomaId?: boolean
+    asignadoEn?: boolean
+    personal?: boolean | PersonalDefaultArgs<ExtArgs>
+    idioma?: boolean | IdiomaDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["personalIdioma"]>
+
+  export type PersonalIdiomaSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    personalId?: boolean
+    idiomaId?: boolean
+    asignadoEn?: boolean
+    personal?: boolean | PersonalDefaultArgs<ExtArgs>
+    idioma?: boolean | IdiomaDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["personalIdioma"]>
+
+  export type PersonalIdiomaSelectScalar = {
+    personalId?: boolean
+    idiomaId?: boolean
+    asignadoEn?: boolean
+  }
+
+  export type PersonalIdiomaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"personalId" | "idiomaId" | "asignadoEn", ExtArgs["result"]["personalIdioma"]>
+  export type PersonalIdiomaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    personal?: boolean | PersonalDefaultArgs<ExtArgs>
+    idioma?: boolean | IdiomaDefaultArgs<ExtArgs>
+  }
+  export type PersonalIdiomaIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    personal?: boolean | PersonalDefaultArgs<ExtArgs>
+    idioma?: boolean | IdiomaDefaultArgs<ExtArgs>
+  }
+  export type PersonalIdiomaIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    personal?: boolean | PersonalDefaultArgs<ExtArgs>
+    idioma?: boolean | IdiomaDefaultArgs<ExtArgs>
+  }
+
+  export type $PersonalIdiomaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "PersonalIdioma"
+    objects: {
+      personal: Prisma.$PersonalPayload<ExtArgs>
+      idioma: Prisma.$IdiomaPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      personalId: string
+      idiomaId: string
+      asignadoEn: Date
+    }, ExtArgs["result"]["personalIdioma"]>
+    composites: {}
+  }
+
+  type PersonalIdiomaGetPayload<S extends boolean | null | undefined | PersonalIdiomaDefaultArgs> = $Result.GetResult<Prisma.$PersonalIdiomaPayload, S>
+
+  type PersonalIdiomaCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<PersonalIdiomaFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: PersonalIdiomaCountAggregateInputType | true
+    }
+
+  export interface PersonalIdiomaDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['PersonalIdioma'], meta: { name: 'PersonalIdioma' } }
+    /**
+     * Find zero or one PersonalIdioma that matches the filter.
+     * @param {PersonalIdiomaFindUniqueArgs} args - Arguments to find a PersonalIdioma
+     * @example
+     * // Get one PersonalIdioma
+     * const personalIdioma = await prisma.personalIdioma.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends PersonalIdiomaFindUniqueArgs>(args: SelectSubset<T, PersonalIdiomaFindUniqueArgs<ExtArgs>>): Prisma__PersonalIdiomaClient<$Result.GetResult<Prisma.$PersonalIdiomaPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one PersonalIdioma that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {PersonalIdiomaFindUniqueOrThrowArgs} args - Arguments to find a PersonalIdioma
+     * @example
+     * // Get one PersonalIdioma
+     * const personalIdioma = await prisma.personalIdioma.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends PersonalIdiomaFindUniqueOrThrowArgs>(args: SelectSubset<T, PersonalIdiomaFindUniqueOrThrowArgs<ExtArgs>>): Prisma__PersonalIdiomaClient<$Result.GetResult<Prisma.$PersonalIdiomaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PersonalIdioma that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonalIdiomaFindFirstArgs} args - Arguments to find a PersonalIdioma
+     * @example
+     * // Get one PersonalIdioma
+     * const personalIdioma = await prisma.personalIdioma.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends PersonalIdiomaFindFirstArgs>(args?: SelectSubset<T, PersonalIdiomaFindFirstArgs<ExtArgs>>): Prisma__PersonalIdiomaClient<$Result.GetResult<Prisma.$PersonalIdiomaPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first PersonalIdioma that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonalIdiomaFindFirstOrThrowArgs} args - Arguments to find a PersonalIdioma
+     * @example
+     * // Get one PersonalIdioma
+     * const personalIdioma = await prisma.personalIdioma.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends PersonalIdiomaFindFirstOrThrowArgs>(args?: SelectSubset<T, PersonalIdiomaFindFirstOrThrowArgs<ExtArgs>>): Prisma__PersonalIdiomaClient<$Result.GetResult<Prisma.$PersonalIdiomaPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more PersonalIdiomas that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonalIdiomaFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all PersonalIdiomas
+     * const personalIdiomas = await prisma.personalIdioma.findMany()
+     * 
+     * // Get first 10 PersonalIdiomas
+     * const personalIdiomas = await prisma.personalIdioma.findMany({ take: 10 })
+     * 
+     * // Only select the `personalId`
+     * const personalIdiomaWithPersonalIdOnly = await prisma.personalIdioma.findMany({ select: { personalId: true } })
+     * 
+     */
+    findMany<T extends PersonalIdiomaFindManyArgs>(args?: SelectSubset<T, PersonalIdiomaFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PersonalIdiomaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a PersonalIdioma.
+     * @param {PersonalIdiomaCreateArgs} args - Arguments to create a PersonalIdioma.
+     * @example
+     * // Create one PersonalIdioma
+     * const PersonalIdioma = await prisma.personalIdioma.create({
+     *   data: {
+     *     // ... data to create a PersonalIdioma
+     *   }
+     * })
+     * 
+     */
+    create<T extends PersonalIdiomaCreateArgs>(args: SelectSubset<T, PersonalIdiomaCreateArgs<ExtArgs>>): Prisma__PersonalIdiomaClient<$Result.GetResult<Prisma.$PersonalIdiomaPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many PersonalIdiomas.
+     * @param {PersonalIdiomaCreateManyArgs} args - Arguments to create many PersonalIdiomas.
+     * @example
+     * // Create many PersonalIdiomas
+     * const personalIdioma = await prisma.personalIdioma.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends PersonalIdiomaCreateManyArgs>(args?: SelectSubset<T, PersonalIdiomaCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many PersonalIdiomas and returns the data saved in the database.
+     * @param {PersonalIdiomaCreateManyAndReturnArgs} args - Arguments to create many PersonalIdiomas.
+     * @example
+     * // Create many PersonalIdiomas
+     * const personalIdioma = await prisma.personalIdioma.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many PersonalIdiomas and only return the `personalId`
+     * const personalIdiomaWithPersonalIdOnly = await prisma.personalIdioma.createManyAndReturn({
+     *   select: { personalId: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends PersonalIdiomaCreateManyAndReturnArgs>(args?: SelectSubset<T, PersonalIdiomaCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PersonalIdiomaPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a PersonalIdioma.
+     * @param {PersonalIdiomaDeleteArgs} args - Arguments to delete one PersonalIdioma.
+     * @example
+     * // Delete one PersonalIdioma
+     * const PersonalIdioma = await prisma.personalIdioma.delete({
+     *   where: {
+     *     // ... filter to delete one PersonalIdioma
+     *   }
+     * })
+     * 
+     */
+    delete<T extends PersonalIdiomaDeleteArgs>(args: SelectSubset<T, PersonalIdiomaDeleteArgs<ExtArgs>>): Prisma__PersonalIdiomaClient<$Result.GetResult<Prisma.$PersonalIdiomaPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one PersonalIdioma.
+     * @param {PersonalIdiomaUpdateArgs} args - Arguments to update one PersonalIdioma.
+     * @example
+     * // Update one PersonalIdioma
+     * const personalIdioma = await prisma.personalIdioma.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends PersonalIdiomaUpdateArgs>(args: SelectSubset<T, PersonalIdiomaUpdateArgs<ExtArgs>>): Prisma__PersonalIdiomaClient<$Result.GetResult<Prisma.$PersonalIdiomaPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more PersonalIdiomas.
+     * @param {PersonalIdiomaDeleteManyArgs} args - Arguments to filter PersonalIdiomas to delete.
+     * @example
+     * // Delete a few PersonalIdiomas
+     * const { count } = await prisma.personalIdioma.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends PersonalIdiomaDeleteManyArgs>(args?: SelectSubset<T, PersonalIdiomaDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PersonalIdiomas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonalIdiomaUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many PersonalIdiomas
+     * const personalIdioma = await prisma.personalIdioma.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends PersonalIdiomaUpdateManyArgs>(args: SelectSubset<T, PersonalIdiomaUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more PersonalIdiomas and returns the data updated in the database.
+     * @param {PersonalIdiomaUpdateManyAndReturnArgs} args - Arguments to update many PersonalIdiomas.
+     * @example
+     * // Update many PersonalIdiomas
+     * const personalIdioma = await prisma.personalIdioma.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more PersonalIdiomas and only return the `personalId`
+     * const personalIdiomaWithPersonalIdOnly = await prisma.personalIdioma.updateManyAndReturn({
+     *   select: { personalId: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends PersonalIdiomaUpdateManyAndReturnArgs>(args: SelectSubset<T, PersonalIdiomaUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PersonalIdiomaPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one PersonalIdioma.
+     * @param {PersonalIdiomaUpsertArgs} args - Arguments to update or create a PersonalIdioma.
+     * @example
+     * // Update or create a PersonalIdioma
+     * const personalIdioma = await prisma.personalIdioma.upsert({
+     *   create: {
+     *     // ... data to create a PersonalIdioma
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the PersonalIdioma we want to update
+     *   }
+     * })
+     */
+    upsert<T extends PersonalIdiomaUpsertArgs>(args: SelectSubset<T, PersonalIdiomaUpsertArgs<ExtArgs>>): Prisma__PersonalIdiomaClient<$Result.GetResult<Prisma.$PersonalIdiomaPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of PersonalIdiomas.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonalIdiomaCountArgs} args - Arguments to filter PersonalIdiomas to count.
+     * @example
+     * // Count the number of PersonalIdiomas
+     * const count = await prisma.personalIdioma.count({
+     *   where: {
+     *     // ... the filter for the PersonalIdiomas we want to count
+     *   }
+     * })
+    **/
+    count<T extends PersonalIdiomaCountArgs>(
+      args?: Subset<T, PersonalIdiomaCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], PersonalIdiomaCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a PersonalIdioma.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonalIdiomaAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends PersonalIdiomaAggregateArgs>(args: Subset<T, PersonalIdiomaAggregateArgs>): Prisma.PrismaPromise<GetPersonalIdiomaAggregateType<T>>
+
+    /**
+     * Group by PersonalIdioma.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {PersonalIdiomaGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends PersonalIdiomaGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: PersonalIdiomaGroupByArgs['orderBy'] }
+        : { orderBy?: PersonalIdiomaGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, PersonalIdiomaGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetPersonalIdiomaGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the PersonalIdioma model
+   */
+  readonly fields: PersonalIdiomaFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for PersonalIdioma.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__PersonalIdiomaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    personal<T extends PersonalDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PersonalDefaultArgs<ExtArgs>>): Prisma__PersonalClient<$Result.GetResult<Prisma.$PersonalPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    idioma<T extends IdiomaDefaultArgs<ExtArgs> = {}>(args?: Subset<T, IdiomaDefaultArgs<ExtArgs>>): Prisma__IdiomaClient<$Result.GetResult<Prisma.$IdiomaPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the PersonalIdioma model
+   */
+  interface PersonalIdiomaFieldRefs {
+    readonly personalId: FieldRef<"PersonalIdioma", 'String'>
+    readonly idiomaId: FieldRef<"PersonalIdioma", 'String'>
+    readonly asignadoEn: FieldRef<"PersonalIdioma", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * PersonalIdioma findUnique
+   */
+  export type PersonalIdiomaFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalIdioma
+     */
+    select?: PersonalIdiomaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalIdioma
+     */
+    omit?: PersonalIdiomaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalIdiomaInclude<ExtArgs> | null
+    /**
+     * Filter, which PersonalIdioma to fetch.
+     */
+    where: PersonalIdiomaWhereUniqueInput
+  }
+
+  /**
+   * PersonalIdioma findUniqueOrThrow
+   */
+  export type PersonalIdiomaFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalIdioma
+     */
+    select?: PersonalIdiomaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalIdioma
+     */
+    omit?: PersonalIdiomaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalIdiomaInclude<ExtArgs> | null
+    /**
+     * Filter, which PersonalIdioma to fetch.
+     */
+    where: PersonalIdiomaWhereUniqueInput
+  }
+
+  /**
+   * PersonalIdioma findFirst
+   */
+  export type PersonalIdiomaFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalIdioma
+     */
+    select?: PersonalIdiomaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalIdioma
+     */
+    omit?: PersonalIdiomaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalIdiomaInclude<ExtArgs> | null
+    /**
+     * Filter, which PersonalIdioma to fetch.
+     */
+    where?: PersonalIdiomaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PersonalIdiomas to fetch.
+     */
+    orderBy?: PersonalIdiomaOrderByWithRelationInput | PersonalIdiomaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PersonalIdiomas.
+     */
+    cursor?: PersonalIdiomaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PersonalIdiomas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PersonalIdiomas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PersonalIdiomas.
+     */
+    distinct?: PersonalIdiomaScalarFieldEnum | PersonalIdiomaScalarFieldEnum[]
+  }
+
+  /**
+   * PersonalIdioma findFirstOrThrow
+   */
+  export type PersonalIdiomaFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalIdioma
+     */
+    select?: PersonalIdiomaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalIdioma
+     */
+    omit?: PersonalIdiomaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalIdiomaInclude<ExtArgs> | null
+    /**
+     * Filter, which PersonalIdioma to fetch.
+     */
+    where?: PersonalIdiomaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PersonalIdiomas to fetch.
+     */
+    orderBy?: PersonalIdiomaOrderByWithRelationInput | PersonalIdiomaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for PersonalIdiomas.
+     */
+    cursor?: PersonalIdiomaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PersonalIdiomas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PersonalIdiomas.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of PersonalIdiomas.
+     */
+    distinct?: PersonalIdiomaScalarFieldEnum | PersonalIdiomaScalarFieldEnum[]
+  }
+
+  /**
+   * PersonalIdioma findMany
+   */
+  export type PersonalIdiomaFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalIdioma
+     */
+    select?: PersonalIdiomaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalIdioma
+     */
+    omit?: PersonalIdiomaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalIdiomaInclude<ExtArgs> | null
+    /**
+     * Filter, which PersonalIdiomas to fetch.
+     */
+    where?: PersonalIdiomaWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of PersonalIdiomas to fetch.
+     */
+    orderBy?: PersonalIdiomaOrderByWithRelationInput | PersonalIdiomaOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing PersonalIdiomas.
+     */
+    cursor?: PersonalIdiomaWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` PersonalIdiomas from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` PersonalIdiomas.
+     */
+    skip?: number
+    distinct?: PersonalIdiomaScalarFieldEnum | PersonalIdiomaScalarFieldEnum[]
+  }
+
+  /**
+   * PersonalIdioma create
+   */
+  export type PersonalIdiomaCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalIdioma
+     */
+    select?: PersonalIdiomaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalIdioma
+     */
+    omit?: PersonalIdiomaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalIdiomaInclude<ExtArgs> | null
+    /**
+     * The data needed to create a PersonalIdioma.
+     */
+    data: XOR<PersonalIdiomaCreateInput, PersonalIdiomaUncheckedCreateInput>
+  }
+
+  /**
+   * PersonalIdioma createMany
+   */
+  export type PersonalIdiomaCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many PersonalIdiomas.
+     */
+    data: PersonalIdiomaCreateManyInput | PersonalIdiomaCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * PersonalIdioma createManyAndReturn
+   */
+  export type PersonalIdiomaCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalIdioma
+     */
+    select?: PersonalIdiomaSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalIdioma
+     */
+    omit?: PersonalIdiomaOmit<ExtArgs> | null
+    /**
+     * The data used to create many PersonalIdiomas.
+     */
+    data: PersonalIdiomaCreateManyInput | PersonalIdiomaCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalIdiomaIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PersonalIdioma update
+   */
+  export type PersonalIdiomaUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalIdioma
+     */
+    select?: PersonalIdiomaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalIdioma
+     */
+    omit?: PersonalIdiomaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalIdiomaInclude<ExtArgs> | null
+    /**
+     * The data needed to update a PersonalIdioma.
+     */
+    data: XOR<PersonalIdiomaUpdateInput, PersonalIdiomaUncheckedUpdateInput>
+    /**
+     * Choose, which PersonalIdioma to update.
+     */
+    where: PersonalIdiomaWhereUniqueInput
+  }
+
+  /**
+   * PersonalIdioma updateMany
+   */
+  export type PersonalIdiomaUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update PersonalIdiomas.
+     */
+    data: XOR<PersonalIdiomaUpdateManyMutationInput, PersonalIdiomaUncheckedUpdateManyInput>
+    /**
+     * Filter which PersonalIdiomas to update
+     */
+    where?: PersonalIdiomaWhereInput
+    /**
+     * Limit how many PersonalIdiomas to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * PersonalIdioma updateManyAndReturn
+   */
+  export type PersonalIdiomaUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalIdioma
+     */
+    select?: PersonalIdiomaSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalIdioma
+     */
+    omit?: PersonalIdiomaOmit<ExtArgs> | null
+    /**
+     * The data used to update PersonalIdiomas.
+     */
+    data: XOR<PersonalIdiomaUpdateManyMutationInput, PersonalIdiomaUncheckedUpdateManyInput>
+    /**
+     * Filter which PersonalIdiomas to update
+     */
+    where?: PersonalIdiomaWhereInput
+    /**
+     * Limit how many PersonalIdiomas to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalIdiomaIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * PersonalIdioma upsert
+   */
+  export type PersonalIdiomaUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalIdioma
+     */
+    select?: PersonalIdiomaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalIdioma
+     */
+    omit?: PersonalIdiomaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalIdiomaInclude<ExtArgs> | null
+    /**
+     * The filter to search for the PersonalIdioma to update in case it exists.
+     */
+    where: PersonalIdiomaWhereUniqueInput
+    /**
+     * In case the PersonalIdioma found by the `where` argument doesn't exist, create a new PersonalIdioma with this data.
+     */
+    create: XOR<PersonalIdiomaCreateInput, PersonalIdiomaUncheckedCreateInput>
+    /**
+     * In case the PersonalIdioma was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<PersonalIdiomaUpdateInput, PersonalIdiomaUncheckedUpdateInput>
+  }
+
+  /**
+   * PersonalIdioma delete
+   */
+  export type PersonalIdiomaDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalIdioma
+     */
+    select?: PersonalIdiomaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalIdioma
+     */
+    omit?: PersonalIdiomaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalIdiomaInclude<ExtArgs> | null
+    /**
+     * Filter which PersonalIdioma to delete.
+     */
+    where: PersonalIdiomaWhereUniqueInput
+  }
+
+  /**
+   * PersonalIdioma deleteMany
+   */
+  export type PersonalIdiomaDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which PersonalIdiomas to delete
+     */
+    where?: PersonalIdiomaWhereInput
+    /**
+     * Limit how many PersonalIdiomas to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * PersonalIdioma without action
+   */
+  export type PersonalIdiomaDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the PersonalIdioma
+     */
+    select?: PersonalIdiomaSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the PersonalIdioma
+     */
+    omit?: PersonalIdiomaOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PersonalIdiomaInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -26744,6 +29104,7 @@ export namespace Prisma {
     nombre: 'nombre',
     telefono: 'telefono',
     email: 'email',
+    ciudad: 'ciudad',
     notas: 'notas',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -26828,6 +29189,25 @@ export namespace Prisma {
   };
 
   export type FacturaProveedorScalarFieldEnum = (typeof FacturaProveedorScalarFieldEnum)[keyof typeof FacturaProveedorScalarFieldEnum]
+
+
+  export const IdiomaScalarFieldEnum: {
+    id: 'id',
+    nombre: 'nombre',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type IdiomaScalarFieldEnum = (typeof IdiomaScalarFieldEnum)[keyof typeof IdiomaScalarFieldEnum]
+
+
+  export const PersonalIdiomaScalarFieldEnum: {
+    personalId: 'personalId',
+    idiomaId: 'idiomaId',
+    asignadoEn: 'asignadoEn'
+  };
+
+  export type PersonalIdiomaScalarFieldEnum = (typeof PersonalIdiomaScalarFieldEnum)[keyof typeof PersonalIdiomaScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -28157,10 +30537,12 @@ export namespace Prisma {
     nombre?: StringFilter<"Personal"> | string
     telefono?: StringNullableFilter<"Personal"> | string | null
     email?: StringNullableFilter<"Personal"> | string | null
+    ciudad?: StringNullableFilter<"Personal"> | string | null
     notas?: StringNullableFilter<"Personal"> | string | null
     createdAt?: DateTimeFilter<"Personal"> | Date | string
     updatedAt?: DateTimeFilter<"Personal"> | Date | string
     puestos?: PersonalPuestoListRelationFilter
+    idiomas?: PersonalIdiomaListRelationFilter
   }
 
   export type PersonalOrderByWithRelationInput = {
@@ -28168,10 +30550,12 @@ export namespace Prisma {
     nombre?: SortOrder
     telefono?: SortOrderInput | SortOrder
     email?: SortOrderInput | SortOrder
+    ciudad?: SortOrderInput | SortOrder
     notas?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     puestos?: PersonalPuestoOrderByRelationAggregateInput
+    idiomas?: PersonalIdiomaOrderByRelationAggregateInput
   }
 
   export type PersonalWhereUniqueInput = Prisma.AtLeast<{
@@ -28182,10 +30566,12 @@ export namespace Prisma {
     nombre?: StringFilter<"Personal"> | string
     telefono?: StringNullableFilter<"Personal"> | string | null
     email?: StringNullableFilter<"Personal"> | string | null
+    ciudad?: StringNullableFilter<"Personal"> | string | null
     notas?: StringNullableFilter<"Personal"> | string | null
     createdAt?: DateTimeFilter<"Personal"> | Date | string
     updatedAt?: DateTimeFilter<"Personal"> | Date | string
     puestos?: PersonalPuestoListRelationFilter
+    idiomas?: PersonalIdiomaListRelationFilter
   }, "id">
 
   export type PersonalOrderByWithAggregationInput = {
@@ -28193,6 +30579,7 @@ export namespace Prisma {
     nombre?: SortOrder
     telefono?: SortOrderInput | SortOrder
     email?: SortOrderInput | SortOrder
+    ciudad?: SortOrderInput | SortOrder
     notas?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -28209,6 +30596,7 @@ export namespace Prisma {
     nombre?: StringWithAggregatesFilter<"Personal"> | string
     telefono?: StringNullableWithAggregatesFilter<"Personal"> | string | null
     email?: StringNullableWithAggregatesFilter<"Personal"> | string | null
+    ciudad?: StringNullableWithAggregatesFilter<"Personal"> | string | null
     notas?: StringNullableWithAggregatesFilter<"Personal"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Personal"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Personal"> | Date | string
@@ -28630,6 +31018,105 @@ export namespace Prisma {
     documentoFecha?: DateTimeNullableWithAggregatesFilter<"FacturaProveedor"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"FacturaProveedor"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"FacturaProveedor"> | Date | string
+  }
+
+  export type IdiomaWhereInput = {
+    AND?: IdiomaWhereInput | IdiomaWhereInput[]
+    OR?: IdiomaWhereInput[]
+    NOT?: IdiomaWhereInput | IdiomaWhereInput[]
+    id?: StringFilter<"Idioma"> | string
+    nombre?: StringFilter<"Idioma"> | string
+    createdAt?: DateTimeFilter<"Idioma"> | Date | string
+    updatedAt?: DateTimeFilter<"Idioma"> | Date | string
+    personal?: PersonalIdiomaListRelationFilter
+  }
+
+  export type IdiomaOrderByWithRelationInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    personal?: PersonalIdiomaOrderByRelationAggregateInput
+  }
+
+  export type IdiomaWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    nombre?: string
+    AND?: IdiomaWhereInput | IdiomaWhereInput[]
+    OR?: IdiomaWhereInput[]
+    NOT?: IdiomaWhereInput | IdiomaWhereInput[]
+    createdAt?: DateTimeFilter<"Idioma"> | Date | string
+    updatedAt?: DateTimeFilter<"Idioma"> | Date | string
+    personal?: PersonalIdiomaListRelationFilter
+  }, "id" | "nombre">
+
+  export type IdiomaOrderByWithAggregationInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: IdiomaCountOrderByAggregateInput
+    _max?: IdiomaMaxOrderByAggregateInput
+    _min?: IdiomaMinOrderByAggregateInput
+  }
+
+  export type IdiomaScalarWhereWithAggregatesInput = {
+    AND?: IdiomaScalarWhereWithAggregatesInput | IdiomaScalarWhereWithAggregatesInput[]
+    OR?: IdiomaScalarWhereWithAggregatesInput[]
+    NOT?: IdiomaScalarWhereWithAggregatesInput | IdiomaScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Idioma"> | string
+    nombre?: StringWithAggregatesFilter<"Idioma"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Idioma"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Idioma"> | Date | string
+  }
+
+  export type PersonalIdiomaWhereInput = {
+    AND?: PersonalIdiomaWhereInput | PersonalIdiomaWhereInput[]
+    OR?: PersonalIdiomaWhereInput[]
+    NOT?: PersonalIdiomaWhereInput | PersonalIdiomaWhereInput[]
+    personalId?: StringFilter<"PersonalIdioma"> | string
+    idiomaId?: StringFilter<"PersonalIdioma"> | string
+    asignadoEn?: DateTimeFilter<"PersonalIdioma"> | Date | string
+    personal?: XOR<PersonalScalarRelationFilter, PersonalWhereInput>
+    idioma?: XOR<IdiomaScalarRelationFilter, IdiomaWhereInput>
+  }
+
+  export type PersonalIdiomaOrderByWithRelationInput = {
+    personalId?: SortOrder
+    idiomaId?: SortOrder
+    asignadoEn?: SortOrder
+    personal?: PersonalOrderByWithRelationInput
+    idioma?: IdiomaOrderByWithRelationInput
+  }
+
+  export type PersonalIdiomaWhereUniqueInput = Prisma.AtLeast<{
+    personalId_idiomaId?: PersonalIdiomaPersonalIdIdiomaIdCompoundUniqueInput
+    AND?: PersonalIdiomaWhereInput | PersonalIdiomaWhereInput[]
+    OR?: PersonalIdiomaWhereInput[]
+    NOT?: PersonalIdiomaWhereInput | PersonalIdiomaWhereInput[]
+    personalId?: StringFilter<"PersonalIdioma"> | string
+    idiomaId?: StringFilter<"PersonalIdioma"> | string
+    asignadoEn?: DateTimeFilter<"PersonalIdioma"> | Date | string
+    personal?: XOR<PersonalScalarRelationFilter, PersonalWhereInput>
+    idioma?: XOR<IdiomaScalarRelationFilter, IdiomaWhereInput>
+  }, "personalId_idiomaId">
+
+  export type PersonalIdiomaOrderByWithAggregationInput = {
+    personalId?: SortOrder
+    idiomaId?: SortOrder
+    asignadoEn?: SortOrder
+    _count?: PersonalIdiomaCountOrderByAggregateInput
+    _max?: PersonalIdiomaMaxOrderByAggregateInput
+    _min?: PersonalIdiomaMinOrderByAggregateInput
+  }
+
+  export type PersonalIdiomaScalarWhereWithAggregatesInput = {
+    AND?: PersonalIdiomaScalarWhereWithAggregatesInput | PersonalIdiomaScalarWhereWithAggregatesInput[]
+    OR?: PersonalIdiomaScalarWhereWithAggregatesInput[]
+    NOT?: PersonalIdiomaScalarWhereWithAggregatesInput | PersonalIdiomaScalarWhereWithAggregatesInput[]
+    personalId?: StringWithAggregatesFilter<"PersonalIdioma"> | string
+    idiomaId?: StringWithAggregatesFilter<"PersonalIdioma"> | string
+    asignadoEn?: DateTimeWithAggregatesFilter<"PersonalIdioma"> | Date | string
   }
 
   export type EmpresaCreateInput = {
@@ -29942,10 +32429,12 @@ export namespace Prisma {
     nombre: string
     telefono?: string | null
     email?: string | null
+    ciudad?: string | null
     notas?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     puestos?: PersonalPuestoCreateNestedManyWithoutPersonalInput
+    idiomas?: PersonalIdiomaCreateNestedManyWithoutPersonalInput
   }
 
   export type PersonalUncheckedCreateInput = {
@@ -29953,10 +32442,12 @@ export namespace Prisma {
     nombre: string
     telefono?: string | null
     email?: string | null
+    ciudad?: string | null
     notas?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     puestos?: PersonalPuestoUncheckedCreateNestedManyWithoutPersonalInput
+    idiomas?: PersonalIdiomaUncheckedCreateNestedManyWithoutPersonalInput
   }
 
   export type PersonalUpdateInput = {
@@ -29964,10 +32455,12 @@ export namespace Prisma {
     nombre?: StringFieldUpdateOperationsInput | string
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    ciudad?: NullableStringFieldUpdateOperationsInput | string | null
     notas?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     puestos?: PersonalPuestoUpdateManyWithoutPersonalNestedInput
+    idiomas?: PersonalIdiomaUpdateManyWithoutPersonalNestedInput
   }
 
   export type PersonalUncheckedUpdateInput = {
@@ -29975,10 +32468,12 @@ export namespace Prisma {
     nombre?: StringFieldUpdateOperationsInput | string
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    ciudad?: NullableStringFieldUpdateOperationsInput | string | null
     notas?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     puestos?: PersonalPuestoUncheckedUpdateManyWithoutPersonalNestedInput
+    idiomas?: PersonalIdiomaUncheckedUpdateManyWithoutPersonalNestedInput
   }
 
   export type PersonalCreateManyInput = {
@@ -29986,6 +32481,7 @@ export namespace Prisma {
     nombre: string
     telefono?: string | null
     email?: string | null
+    ciudad?: string | null
     notas?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -29996,6 +32492,7 @@ export namespace Prisma {
     nombre?: StringFieldUpdateOperationsInput | string
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    ciudad?: NullableStringFieldUpdateOperationsInput | string | null
     notas?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30006,6 +32503,7 @@ export namespace Prisma {
     nombre?: StringFieldUpdateOperationsInput | string
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    ciudad?: NullableStringFieldUpdateOperationsInput | string | null
     notas?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30453,6 +32951,99 @@ export namespace Prisma {
     documentoFecha?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type IdiomaCreateInput = {
+    id?: string
+    nombre: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    personal?: PersonalIdiomaCreateNestedManyWithoutIdiomaInput
+  }
+
+  export type IdiomaUncheckedCreateInput = {
+    id?: string
+    nombre: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    personal?: PersonalIdiomaUncheckedCreateNestedManyWithoutIdiomaInput
+  }
+
+  export type IdiomaUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    personal?: PersonalIdiomaUpdateManyWithoutIdiomaNestedInput
+  }
+
+  export type IdiomaUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    personal?: PersonalIdiomaUncheckedUpdateManyWithoutIdiomaNestedInput
+  }
+
+  export type IdiomaCreateManyInput = {
+    id?: string
+    nombre: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type IdiomaUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type IdiomaUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PersonalIdiomaCreateInput = {
+    asignadoEn?: Date | string
+    personal: PersonalCreateNestedOneWithoutIdiomasInput
+    idioma: IdiomaCreateNestedOneWithoutPersonalInput
+  }
+
+  export type PersonalIdiomaUncheckedCreateInput = {
+    personalId: string
+    idiomaId: string
+    asignadoEn?: Date | string
+  }
+
+  export type PersonalIdiomaUpdateInput = {
+    asignadoEn?: DateTimeFieldUpdateOperationsInput | Date | string
+    personal?: PersonalUpdateOneRequiredWithoutIdiomasNestedInput
+    idioma?: IdiomaUpdateOneRequiredWithoutPersonalNestedInput
+  }
+
+  export type PersonalIdiomaUncheckedUpdateInput = {
+    personalId?: StringFieldUpdateOperationsInput | string
+    idiomaId?: StringFieldUpdateOperationsInput | string
+    asignadoEn?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PersonalIdiomaCreateManyInput = {
+    personalId: string
+    idiomaId: string
+    asignadoEn?: Date | string
+  }
+
+  export type PersonalIdiomaUpdateManyMutationInput = {
+    asignadoEn?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PersonalIdiomaUncheckedUpdateManyInput = {
+    personalId?: StringFieldUpdateOperationsInput | string
+    idiomaId?: StringFieldUpdateOperationsInput | string
+    asignadoEn?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -31507,11 +34098,22 @@ export namespace Prisma {
     tarifa?: SortOrder
   }
 
+  export type PersonalIdiomaListRelationFilter = {
+    every?: PersonalIdiomaWhereInput
+    some?: PersonalIdiomaWhereInput
+    none?: PersonalIdiomaWhereInput
+  }
+
+  export type PersonalIdiomaOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type PersonalCountOrderByAggregateInput = {
     id?: SortOrder
     nombre?: SortOrder
     telefono?: SortOrder
     email?: SortOrder
+    ciudad?: SortOrder
     notas?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -31522,6 +34124,7 @@ export namespace Prisma {
     nombre?: SortOrder
     telefono?: SortOrder
     email?: SortOrder
+    ciudad?: SortOrder
     notas?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -31532,6 +34135,7 @@ export namespace Prisma {
     nombre?: SortOrder
     telefono?: SortOrder
     email?: SortOrder
+    ciudad?: SortOrder
     notas?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -31776,6 +34380,55 @@ export namespace Prisma {
 
   export type FacturaProveedorSumOrderByAggregateInput = {
     precio?: SortOrder
+  }
+
+  export type IdiomaCountOrderByAggregateInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type IdiomaMaxOrderByAggregateInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type IdiomaMinOrderByAggregateInput = {
+    id?: SortOrder
+    nombre?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type IdiomaScalarRelationFilter = {
+    is?: IdiomaWhereInput
+    isNot?: IdiomaWhereInput
+  }
+
+  export type PersonalIdiomaPersonalIdIdiomaIdCompoundUniqueInput = {
+    personalId: string
+    idiomaId: string
+  }
+
+  export type PersonalIdiomaCountOrderByAggregateInput = {
+    personalId?: SortOrder
+    idiomaId?: SortOrder
+    asignadoEn?: SortOrder
+  }
+
+  export type PersonalIdiomaMaxOrderByAggregateInput = {
+    personalId?: SortOrder
+    idiomaId?: SortOrder
+    asignadoEn?: SortOrder
+  }
+
+  export type PersonalIdiomaMinOrderByAggregateInput = {
+    personalId?: SortOrder
+    idiomaId?: SortOrder
+    asignadoEn?: SortOrder
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -32793,11 +35446,25 @@ export namespace Prisma {
     connect?: PersonalPuestoWhereUniqueInput | PersonalPuestoWhereUniqueInput[]
   }
 
+  export type PersonalIdiomaCreateNestedManyWithoutPersonalInput = {
+    create?: XOR<PersonalIdiomaCreateWithoutPersonalInput, PersonalIdiomaUncheckedCreateWithoutPersonalInput> | PersonalIdiomaCreateWithoutPersonalInput[] | PersonalIdiomaUncheckedCreateWithoutPersonalInput[]
+    connectOrCreate?: PersonalIdiomaCreateOrConnectWithoutPersonalInput | PersonalIdiomaCreateOrConnectWithoutPersonalInput[]
+    createMany?: PersonalIdiomaCreateManyPersonalInputEnvelope
+    connect?: PersonalIdiomaWhereUniqueInput | PersonalIdiomaWhereUniqueInput[]
+  }
+
   export type PersonalPuestoUncheckedCreateNestedManyWithoutPersonalInput = {
     create?: XOR<PersonalPuestoCreateWithoutPersonalInput, PersonalPuestoUncheckedCreateWithoutPersonalInput> | PersonalPuestoCreateWithoutPersonalInput[] | PersonalPuestoUncheckedCreateWithoutPersonalInput[]
     connectOrCreate?: PersonalPuestoCreateOrConnectWithoutPersonalInput | PersonalPuestoCreateOrConnectWithoutPersonalInput[]
     createMany?: PersonalPuestoCreateManyPersonalInputEnvelope
     connect?: PersonalPuestoWhereUniqueInput | PersonalPuestoWhereUniqueInput[]
+  }
+
+  export type PersonalIdiomaUncheckedCreateNestedManyWithoutPersonalInput = {
+    create?: XOR<PersonalIdiomaCreateWithoutPersonalInput, PersonalIdiomaUncheckedCreateWithoutPersonalInput> | PersonalIdiomaCreateWithoutPersonalInput[] | PersonalIdiomaUncheckedCreateWithoutPersonalInput[]
+    connectOrCreate?: PersonalIdiomaCreateOrConnectWithoutPersonalInput | PersonalIdiomaCreateOrConnectWithoutPersonalInput[]
+    createMany?: PersonalIdiomaCreateManyPersonalInputEnvelope
+    connect?: PersonalIdiomaWhereUniqueInput | PersonalIdiomaWhereUniqueInput[]
   }
 
   export type PersonalPuestoUpdateManyWithoutPersonalNestedInput = {
@@ -32814,6 +35481,20 @@ export namespace Prisma {
     deleteMany?: PersonalPuestoScalarWhereInput | PersonalPuestoScalarWhereInput[]
   }
 
+  export type PersonalIdiomaUpdateManyWithoutPersonalNestedInput = {
+    create?: XOR<PersonalIdiomaCreateWithoutPersonalInput, PersonalIdiomaUncheckedCreateWithoutPersonalInput> | PersonalIdiomaCreateWithoutPersonalInput[] | PersonalIdiomaUncheckedCreateWithoutPersonalInput[]
+    connectOrCreate?: PersonalIdiomaCreateOrConnectWithoutPersonalInput | PersonalIdiomaCreateOrConnectWithoutPersonalInput[]
+    upsert?: PersonalIdiomaUpsertWithWhereUniqueWithoutPersonalInput | PersonalIdiomaUpsertWithWhereUniqueWithoutPersonalInput[]
+    createMany?: PersonalIdiomaCreateManyPersonalInputEnvelope
+    set?: PersonalIdiomaWhereUniqueInput | PersonalIdiomaWhereUniqueInput[]
+    disconnect?: PersonalIdiomaWhereUniqueInput | PersonalIdiomaWhereUniqueInput[]
+    delete?: PersonalIdiomaWhereUniqueInput | PersonalIdiomaWhereUniqueInput[]
+    connect?: PersonalIdiomaWhereUniqueInput | PersonalIdiomaWhereUniqueInput[]
+    update?: PersonalIdiomaUpdateWithWhereUniqueWithoutPersonalInput | PersonalIdiomaUpdateWithWhereUniqueWithoutPersonalInput[]
+    updateMany?: PersonalIdiomaUpdateManyWithWhereWithoutPersonalInput | PersonalIdiomaUpdateManyWithWhereWithoutPersonalInput[]
+    deleteMany?: PersonalIdiomaScalarWhereInput | PersonalIdiomaScalarWhereInput[]
+  }
+
   export type PersonalPuestoUncheckedUpdateManyWithoutPersonalNestedInput = {
     create?: XOR<PersonalPuestoCreateWithoutPersonalInput, PersonalPuestoUncheckedCreateWithoutPersonalInput> | PersonalPuestoCreateWithoutPersonalInput[] | PersonalPuestoUncheckedCreateWithoutPersonalInput[]
     connectOrCreate?: PersonalPuestoCreateOrConnectWithoutPersonalInput | PersonalPuestoCreateOrConnectWithoutPersonalInput[]
@@ -32826,6 +35507,20 @@ export namespace Prisma {
     update?: PersonalPuestoUpdateWithWhereUniqueWithoutPersonalInput | PersonalPuestoUpdateWithWhereUniqueWithoutPersonalInput[]
     updateMany?: PersonalPuestoUpdateManyWithWhereWithoutPersonalInput | PersonalPuestoUpdateManyWithWhereWithoutPersonalInput[]
     deleteMany?: PersonalPuestoScalarWhereInput | PersonalPuestoScalarWhereInput[]
+  }
+
+  export type PersonalIdiomaUncheckedUpdateManyWithoutPersonalNestedInput = {
+    create?: XOR<PersonalIdiomaCreateWithoutPersonalInput, PersonalIdiomaUncheckedCreateWithoutPersonalInput> | PersonalIdiomaCreateWithoutPersonalInput[] | PersonalIdiomaUncheckedCreateWithoutPersonalInput[]
+    connectOrCreate?: PersonalIdiomaCreateOrConnectWithoutPersonalInput | PersonalIdiomaCreateOrConnectWithoutPersonalInput[]
+    upsert?: PersonalIdiomaUpsertWithWhereUniqueWithoutPersonalInput | PersonalIdiomaUpsertWithWhereUniqueWithoutPersonalInput[]
+    createMany?: PersonalIdiomaCreateManyPersonalInputEnvelope
+    set?: PersonalIdiomaWhereUniqueInput | PersonalIdiomaWhereUniqueInput[]
+    disconnect?: PersonalIdiomaWhereUniqueInput | PersonalIdiomaWhereUniqueInput[]
+    delete?: PersonalIdiomaWhereUniqueInput | PersonalIdiomaWhereUniqueInput[]
+    connect?: PersonalIdiomaWhereUniqueInput | PersonalIdiomaWhereUniqueInput[]
+    update?: PersonalIdiomaUpdateWithWhereUniqueWithoutPersonalInput | PersonalIdiomaUpdateWithWhereUniqueWithoutPersonalInput[]
+    updateMany?: PersonalIdiomaUpdateManyWithWhereWithoutPersonalInput | PersonalIdiomaUpdateManyWithWhereWithoutPersonalInput[]
+    deleteMany?: PersonalIdiomaScalarWhereInput | PersonalIdiomaScalarWhereInput[]
   }
 
   export type PersonalCreateNestedOneWithoutPuestosInput = {
@@ -33092,6 +35787,76 @@ export namespace Prisma {
     delete?: PartidaPresupuestoWhereInput | boolean
     connect?: PartidaPresupuestoWhereUniqueInput
     update?: XOR<XOR<PartidaPresupuestoUpdateToOneWithWhereWithoutFacturasProveedoresInput, PartidaPresupuestoUpdateWithoutFacturasProveedoresInput>, PartidaPresupuestoUncheckedUpdateWithoutFacturasProveedoresInput>
+  }
+
+  export type PersonalIdiomaCreateNestedManyWithoutIdiomaInput = {
+    create?: XOR<PersonalIdiomaCreateWithoutIdiomaInput, PersonalIdiomaUncheckedCreateWithoutIdiomaInput> | PersonalIdiomaCreateWithoutIdiomaInput[] | PersonalIdiomaUncheckedCreateWithoutIdiomaInput[]
+    connectOrCreate?: PersonalIdiomaCreateOrConnectWithoutIdiomaInput | PersonalIdiomaCreateOrConnectWithoutIdiomaInput[]
+    createMany?: PersonalIdiomaCreateManyIdiomaInputEnvelope
+    connect?: PersonalIdiomaWhereUniqueInput | PersonalIdiomaWhereUniqueInput[]
+  }
+
+  export type PersonalIdiomaUncheckedCreateNestedManyWithoutIdiomaInput = {
+    create?: XOR<PersonalIdiomaCreateWithoutIdiomaInput, PersonalIdiomaUncheckedCreateWithoutIdiomaInput> | PersonalIdiomaCreateWithoutIdiomaInput[] | PersonalIdiomaUncheckedCreateWithoutIdiomaInput[]
+    connectOrCreate?: PersonalIdiomaCreateOrConnectWithoutIdiomaInput | PersonalIdiomaCreateOrConnectWithoutIdiomaInput[]
+    createMany?: PersonalIdiomaCreateManyIdiomaInputEnvelope
+    connect?: PersonalIdiomaWhereUniqueInput | PersonalIdiomaWhereUniqueInput[]
+  }
+
+  export type PersonalIdiomaUpdateManyWithoutIdiomaNestedInput = {
+    create?: XOR<PersonalIdiomaCreateWithoutIdiomaInput, PersonalIdiomaUncheckedCreateWithoutIdiomaInput> | PersonalIdiomaCreateWithoutIdiomaInput[] | PersonalIdiomaUncheckedCreateWithoutIdiomaInput[]
+    connectOrCreate?: PersonalIdiomaCreateOrConnectWithoutIdiomaInput | PersonalIdiomaCreateOrConnectWithoutIdiomaInput[]
+    upsert?: PersonalIdiomaUpsertWithWhereUniqueWithoutIdiomaInput | PersonalIdiomaUpsertWithWhereUniqueWithoutIdiomaInput[]
+    createMany?: PersonalIdiomaCreateManyIdiomaInputEnvelope
+    set?: PersonalIdiomaWhereUniqueInput | PersonalIdiomaWhereUniqueInput[]
+    disconnect?: PersonalIdiomaWhereUniqueInput | PersonalIdiomaWhereUniqueInput[]
+    delete?: PersonalIdiomaWhereUniqueInput | PersonalIdiomaWhereUniqueInput[]
+    connect?: PersonalIdiomaWhereUniqueInput | PersonalIdiomaWhereUniqueInput[]
+    update?: PersonalIdiomaUpdateWithWhereUniqueWithoutIdiomaInput | PersonalIdiomaUpdateWithWhereUniqueWithoutIdiomaInput[]
+    updateMany?: PersonalIdiomaUpdateManyWithWhereWithoutIdiomaInput | PersonalIdiomaUpdateManyWithWhereWithoutIdiomaInput[]
+    deleteMany?: PersonalIdiomaScalarWhereInput | PersonalIdiomaScalarWhereInput[]
+  }
+
+  export type PersonalIdiomaUncheckedUpdateManyWithoutIdiomaNestedInput = {
+    create?: XOR<PersonalIdiomaCreateWithoutIdiomaInput, PersonalIdiomaUncheckedCreateWithoutIdiomaInput> | PersonalIdiomaCreateWithoutIdiomaInput[] | PersonalIdiomaUncheckedCreateWithoutIdiomaInput[]
+    connectOrCreate?: PersonalIdiomaCreateOrConnectWithoutIdiomaInput | PersonalIdiomaCreateOrConnectWithoutIdiomaInput[]
+    upsert?: PersonalIdiomaUpsertWithWhereUniqueWithoutIdiomaInput | PersonalIdiomaUpsertWithWhereUniqueWithoutIdiomaInput[]
+    createMany?: PersonalIdiomaCreateManyIdiomaInputEnvelope
+    set?: PersonalIdiomaWhereUniqueInput | PersonalIdiomaWhereUniqueInput[]
+    disconnect?: PersonalIdiomaWhereUniqueInput | PersonalIdiomaWhereUniqueInput[]
+    delete?: PersonalIdiomaWhereUniqueInput | PersonalIdiomaWhereUniqueInput[]
+    connect?: PersonalIdiomaWhereUniqueInput | PersonalIdiomaWhereUniqueInput[]
+    update?: PersonalIdiomaUpdateWithWhereUniqueWithoutIdiomaInput | PersonalIdiomaUpdateWithWhereUniqueWithoutIdiomaInput[]
+    updateMany?: PersonalIdiomaUpdateManyWithWhereWithoutIdiomaInput | PersonalIdiomaUpdateManyWithWhereWithoutIdiomaInput[]
+    deleteMany?: PersonalIdiomaScalarWhereInput | PersonalIdiomaScalarWhereInput[]
+  }
+
+  export type PersonalCreateNestedOneWithoutIdiomasInput = {
+    create?: XOR<PersonalCreateWithoutIdiomasInput, PersonalUncheckedCreateWithoutIdiomasInput>
+    connectOrCreate?: PersonalCreateOrConnectWithoutIdiomasInput
+    connect?: PersonalWhereUniqueInput
+  }
+
+  export type IdiomaCreateNestedOneWithoutPersonalInput = {
+    create?: XOR<IdiomaCreateWithoutPersonalInput, IdiomaUncheckedCreateWithoutPersonalInput>
+    connectOrCreate?: IdiomaCreateOrConnectWithoutPersonalInput
+    connect?: IdiomaWhereUniqueInput
+  }
+
+  export type PersonalUpdateOneRequiredWithoutIdiomasNestedInput = {
+    create?: XOR<PersonalCreateWithoutIdiomasInput, PersonalUncheckedCreateWithoutIdiomasInput>
+    connectOrCreate?: PersonalCreateOrConnectWithoutIdiomasInput
+    upsert?: PersonalUpsertWithoutIdiomasInput
+    connect?: PersonalWhereUniqueInput
+    update?: XOR<XOR<PersonalUpdateToOneWithWhereWithoutIdiomasInput, PersonalUpdateWithoutIdiomasInput>, PersonalUncheckedUpdateWithoutIdiomasInput>
+  }
+
+  export type IdiomaUpdateOneRequiredWithoutPersonalNestedInput = {
+    create?: XOR<IdiomaCreateWithoutPersonalInput, IdiomaUncheckedCreateWithoutPersonalInput>
+    connectOrCreate?: IdiomaCreateOrConnectWithoutPersonalInput
+    upsert?: IdiomaUpsertWithoutPersonalInput
+    connect?: IdiomaWhereUniqueInput
+    update?: XOR<XOR<IdiomaUpdateToOneWithWhereWithoutPersonalInput, IdiomaUpdateWithoutPersonalInput>, IdiomaUncheckedUpdateWithoutPersonalInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -35591,6 +38356,26 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type PersonalIdiomaCreateWithoutPersonalInput = {
+    asignadoEn?: Date | string
+    idioma: IdiomaCreateNestedOneWithoutPersonalInput
+  }
+
+  export type PersonalIdiomaUncheckedCreateWithoutPersonalInput = {
+    idiomaId: string
+    asignadoEn?: Date | string
+  }
+
+  export type PersonalIdiomaCreateOrConnectWithoutPersonalInput = {
+    where: PersonalIdiomaWhereUniqueInput
+    create: XOR<PersonalIdiomaCreateWithoutPersonalInput, PersonalIdiomaUncheckedCreateWithoutPersonalInput>
+  }
+
+  export type PersonalIdiomaCreateManyPersonalInputEnvelope = {
+    data: PersonalIdiomaCreateManyPersonalInput | PersonalIdiomaCreateManyPersonalInput[]
+    skipDuplicates?: boolean
+  }
+
   export type PersonalPuestoUpsertWithWhereUniqueWithoutPersonalInput = {
     where: PersonalPuestoWhereUniqueInput
     update: XOR<PersonalPuestoUpdateWithoutPersonalInput, PersonalPuestoUncheckedUpdateWithoutPersonalInput>
@@ -35607,14 +38392,41 @@ export namespace Prisma {
     data: XOR<PersonalPuestoUpdateManyMutationInput, PersonalPuestoUncheckedUpdateManyWithoutPersonalInput>
   }
 
+  export type PersonalIdiomaUpsertWithWhereUniqueWithoutPersonalInput = {
+    where: PersonalIdiomaWhereUniqueInput
+    update: XOR<PersonalIdiomaUpdateWithoutPersonalInput, PersonalIdiomaUncheckedUpdateWithoutPersonalInput>
+    create: XOR<PersonalIdiomaCreateWithoutPersonalInput, PersonalIdiomaUncheckedCreateWithoutPersonalInput>
+  }
+
+  export type PersonalIdiomaUpdateWithWhereUniqueWithoutPersonalInput = {
+    where: PersonalIdiomaWhereUniqueInput
+    data: XOR<PersonalIdiomaUpdateWithoutPersonalInput, PersonalIdiomaUncheckedUpdateWithoutPersonalInput>
+  }
+
+  export type PersonalIdiomaUpdateManyWithWhereWithoutPersonalInput = {
+    where: PersonalIdiomaScalarWhereInput
+    data: XOR<PersonalIdiomaUpdateManyMutationInput, PersonalIdiomaUncheckedUpdateManyWithoutPersonalInput>
+  }
+
+  export type PersonalIdiomaScalarWhereInput = {
+    AND?: PersonalIdiomaScalarWhereInput | PersonalIdiomaScalarWhereInput[]
+    OR?: PersonalIdiomaScalarWhereInput[]
+    NOT?: PersonalIdiomaScalarWhereInput | PersonalIdiomaScalarWhereInput[]
+    personalId?: StringFilter<"PersonalIdioma"> | string
+    idiomaId?: StringFilter<"PersonalIdioma"> | string
+    asignadoEn?: DateTimeFilter<"PersonalIdioma"> | Date | string
+  }
+
   export type PersonalCreateWithoutPuestosInput = {
     id?: string
     nombre: string
     telefono?: string | null
     email?: string | null
+    ciudad?: string | null
     notas?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    idiomas?: PersonalIdiomaCreateNestedManyWithoutPersonalInput
   }
 
   export type PersonalUncheckedCreateWithoutPuestosInput = {
@@ -35622,9 +38434,11 @@ export namespace Prisma {
     nombre: string
     telefono?: string | null
     email?: string | null
+    ciudad?: string | null
     notas?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    idiomas?: PersonalIdiomaUncheckedCreateNestedManyWithoutPersonalInput
   }
 
   export type PersonalCreateOrConnectWithoutPuestosInput = {
@@ -35671,9 +38485,11 @@ export namespace Prisma {
     nombre?: StringFieldUpdateOperationsInput | string
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    ciudad?: NullableStringFieldUpdateOperationsInput | string | null
     notas?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    idiomas?: PersonalIdiomaUpdateManyWithoutPersonalNestedInput
   }
 
   export type PersonalUncheckedUpdateWithoutPuestosInput = {
@@ -35681,9 +38497,11 @@ export namespace Prisma {
     nombre?: StringFieldUpdateOperationsInput | string
     telefono?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
+    ciudad?: NullableStringFieldUpdateOperationsInput | string | null
     notas?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    idiomas?: PersonalIdiomaUncheckedUpdateManyWithoutPersonalNestedInput
   }
 
   export type PuestoUpsertWithoutPersonalInput = {
@@ -36447,6 +39265,150 @@ export namespace Prisma {
     items?: ItemPresupuestoUncheckedUpdateManyWithoutPartidaNestedInput
     presupuestosProveedores?: PresupuestoProveedorUncheckedUpdateManyWithoutPartidaNestedInput
     itemsFactura?: ItemFacturaUncheckedUpdateManyWithoutPartidaNestedInput
+  }
+
+  export type PersonalIdiomaCreateWithoutIdiomaInput = {
+    asignadoEn?: Date | string
+    personal: PersonalCreateNestedOneWithoutIdiomasInput
+  }
+
+  export type PersonalIdiomaUncheckedCreateWithoutIdiomaInput = {
+    personalId: string
+    asignadoEn?: Date | string
+  }
+
+  export type PersonalIdiomaCreateOrConnectWithoutIdiomaInput = {
+    where: PersonalIdiomaWhereUniqueInput
+    create: XOR<PersonalIdiomaCreateWithoutIdiomaInput, PersonalIdiomaUncheckedCreateWithoutIdiomaInput>
+  }
+
+  export type PersonalIdiomaCreateManyIdiomaInputEnvelope = {
+    data: PersonalIdiomaCreateManyIdiomaInput | PersonalIdiomaCreateManyIdiomaInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type PersonalIdiomaUpsertWithWhereUniqueWithoutIdiomaInput = {
+    where: PersonalIdiomaWhereUniqueInput
+    update: XOR<PersonalIdiomaUpdateWithoutIdiomaInput, PersonalIdiomaUncheckedUpdateWithoutIdiomaInput>
+    create: XOR<PersonalIdiomaCreateWithoutIdiomaInput, PersonalIdiomaUncheckedCreateWithoutIdiomaInput>
+  }
+
+  export type PersonalIdiomaUpdateWithWhereUniqueWithoutIdiomaInput = {
+    where: PersonalIdiomaWhereUniqueInput
+    data: XOR<PersonalIdiomaUpdateWithoutIdiomaInput, PersonalIdiomaUncheckedUpdateWithoutIdiomaInput>
+  }
+
+  export type PersonalIdiomaUpdateManyWithWhereWithoutIdiomaInput = {
+    where: PersonalIdiomaScalarWhereInput
+    data: XOR<PersonalIdiomaUpdateManyMutationInput, PersonalIdiomaUncheckedUpdateManyWithoutIdiomaInput>
+  }
+
+  export type PersonalCreateWithoutIdiomasInput = {
+    id?: string
+    nombre: string
+    telefono?: string | null
+    email?: string | null
+    ciudad?: string | null
+    notas?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    puestos?: PersonalPuestoCreateNestedManyWithoutPersonalInput
+  }
+
+  export type PersonalUncheckedCreateWithoutIdiomasInput = {
+    id?: string
+    nombre: string
+    telefono?: string | null
+    email?: string | null
+    ciudad?: string | null
+    notas?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    puestos?: PersonalPuestoUncheckedCreateNestedManyWithoutPersonalInput
+  }
+
+  export type PersonalCreateOrConnectWithoutIdiomasInput = {
+    where: PersonalWhereUniqueInput
+    create: XOR<PersonalCreateWithoutIdiomasInput, PersonalUncheckedCreateWithoutIdiomasInput>
+  }
+
+  export type IdiomaCreateWithoutPersonalInput = {
+    id?: string
+    nombre: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type IdiomaUncheckedCreateWithoutPersonalInput = {
+    id?: string
+    nombre: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type IdiomaCreateOrConnectWithoutPersonalInput = {
+    where: IdiomaWhereUniqueInput
+    create: XOR<IdiomaCreateWithoutPersonalInput, IdiomaUncheckedCreateWithoutPersonalInput>
+  }
+
+  export type PersonalUpsertWithoutIdiomasInput = {
+    update: XOR<PersonalUpdateWithoutIdiomasInput, PersonalUncheckedUpdateWithoutIdiomasInput>
+    create: XOR<PersonalCreateWithoutIdiomasInput, PersonalUncheckedCreateWithoutIdiomasInput>
+    where?: PersonalWhereInput
+  }
+
+  export type PersonalUpdateToOneWithWhereWithoutIdiomasInput = {
+    where?: PersonalWhereInput
+    data: XOR<PersonalUpdateWithoutIdiomasInput, PersonalUncheckedUpdateWithoutIdiomasInput>
+  }
+
+  export type PersonalUpdateWithoutIdiomasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    ciudad?: NullableStringFieldUpdateOperationsInput | string | null
+    notas?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    puestos?: PersonalPuestoUpdateManyWithoutPersonalNestedInput
+  }
+
+  export type PersonalUncheckedUpdateWithoutIdiomasInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    telefono?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: NullableStringFieldUpdateOperationsInput | string | null
+    ciudad?: NullableStringFieldUpdateOperationsInput | string | null
+    notas?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    puestos?: PersonalPuestoUncheckedUpdateManyWithoutPersonalNestedInput
+  }
+
+  export type IdiomaUpsertWithoutPersonalInput = {
+    update: XOR<IdiomaUpdateWithoutPersonalInput, IdiomaUncheckedUpdateWithoutPersonalInput>
+    create: XOR<IdiomaCreateWithoutPersonalInput, IdiomaUncheckedCreateWithoutPersonalInput>
+    where?: IdiomaWhereInput
+  }
+
+  export type IdiomaUpdateToOneWithWhereWithoutPersonalInput = {
+    where?: IdiomaWhereInput
+    data: XOR<IdiomaUpdateWithoutPersonalInput, IdiomaUncheckedUpdateWithoutPersonalInput>
+  }
+
+  export type IdiomaUpdateWithoutPersonalInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type IdiomaUncheckedUpdateWithoutPersonalInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    nombre?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ProductoCreateManyCategoriaInput = {
@@ -37562,6 +40524,11 @@ export namespace Prisma {
     asignadoEn?: Date | string
   }
 
+  export type PersonalIdiomaCreateManyPersonalInput = {
+    idiomaId: string
+    asignadoEn?: Date | string
+  }
+
   export type PersonalPuestoUpdateWithoutPersonalInput = {
     asignadoEn?: DateTimeFieldUpdateOperationsInput | Date | string
     puesto?: PuestoUpdateOneRequiredWithoutPersonalNestedInput
@@ -37574,6 +40541,21 @@ export namespace Prisma {
 
   export type PersonalPuestoUncheckedUpdateManyWithoutPersonalInput = {
     puestoId?: StringFieldUpdateOperationsInput | string
+    asignadoEn?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PersonalIdiomaUpdateWithoutPersonalInput = {
+    asignadoEn?: DateTimeFieldUpdateOperationsInput | Date | string
+    idioma?: IdiomaUpdateOneRequiredWithoutPersonalNestedInput
+  }
+
+  export type PersonalIdiomaUncheckedUpdateWithoutPersonalInput = {
+    idiomaId?: StringFieldUpdateOperationsInput | string
+    asignadoEn?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PersonalIdiomaUncheckedUpdateManyWithoutPersonalInput = {
+    idiomaId?: StringFieldUpdateOperationsInput | string
     asignadoEn?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -37751,6 +40733,26 @@ export namespace Prisma {
     documentoFecha?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PersonalIdiomaCreateManyIdiomaInput = {
+    personalId: string
+    asignadoEn?: Date | string
+  }
+
+  export type PersonalIdiomaUpdateWithoutIdiomaInput = {
+    asignadoEn?: DateTimeFieldUpdateOperationsInput | Date | string
+    personal?: PersonalUpdateOneRequiredWithoutIdiomasNestedInput
+  }
+
+  export type PersonalIdiomaUncheckedUpdateWithoutIdiomaInput = {
+    personalId?: StringFieldUpdateOperationsInput | string
+    asignadoEn?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PersonalIdiomaUncheckedUpdateManyWithoutIdiomaInput = {
+    personalId?: StringFieldUpdateOperationsInput | string
+    asignadoEn?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 

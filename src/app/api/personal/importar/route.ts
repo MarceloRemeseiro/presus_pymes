@@ -9,8 +9,10 @@ const CsvRowPersonalSchema = z.object({
   nombre: z.string().min(1, "El nombre del personal es requerido."),
   telefono: z.string().optional().nullable(),
   email: z.string().email("Email inválido").optional().nullable(),
+  ciudad: z.string().optional().nullable(),
   notas: z.string().optional().nullable(),
   puestos: z.string().optional().nullable(), // Nombres de puestos separados por coma
+  idiomas: z.string().optional().nullable(), // Nombres de idiomas separados por coma
 });
 
 // POST /api/personal/importar - Importar personal desde CSV
@@ -42,6 +44,7 @@ export async function POST(req: Request) {
     let personalCreado = 0;
     let personalActualizado = 0; // Para futura implementación de actualización
     let puestosAsignados = 0;
+    let idiomasAsignados = 0;
     const erroresDetallados: { fila: number; mensaje: string; datos: any }[] = [];
 
     for (let i = 0; i < records.length; i++) {
@@ -61,11 +64,13 @@ export async function POST(req: Request) {
               nombre: validatedData.nombre,
               telefono: validatedData.telefono,
               email: validatedData.email,
+              ciudad: validatedData.ciudad,
               notas: validatedData.notas,
             },
           });
           personalCreado++;
 
+          // Procesar puestos
           if (validatedData.puestos) {
             const nombresPuestos = validatedData.puestos.split(',').map(p => p.trim()).filter(p => p.length > 0);
             
@@ -90,6 +95,33 @@ export async function POST(req: Request) {
               puestosAsignados++;
             }
           }
+
+          // Procesar idiomas
+          if (validatedData.idiomas) {
+            const nombresIdiomas = validatedData.idiomas.split(',').map(i => i.trim()).filter(i => i.length > 0);
+            
+            for (const nombreIdioma of nombresIdiomas) {
+              let idioma = await tx.idioma.findUnique({
+                where: { nombre: nombreIdioma },
+              });
+
+              if (!idioma) {
+                idioma = await tx.idioma.create({
+                  data: { nombre: nombreIdioma },
+                });
+              }
+
+              // Asignar idioma a persona
+              await tx.personalIdioma.create({
+                data: {
+                  personalId: nuevaPersona.id,
+                  idiomaId: idioma.id,
+                },
+              });
+              idiomasAsignados++;
+            }
+          }
+
           return nuevaPersona;
         });
 
@@ -106,6 +138,7 @@ export async function POST(req: Request) {
       personalCreado,
       personalActualizado,
       puestosAsignados,
+      idiomasAsignados,
       filasProcesadas: records.length,
       errores: erroresDetallados.length,
       detallesErrores: erroresDetallados,

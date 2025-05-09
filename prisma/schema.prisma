@@ -248,11 +248,14 @@ model Personal {
   nombre      String
   telefono    String?
   email       String?
+  ciudad      String?            // Nuevo campo para la ciudad
   notas       String?
   createdAt   DateTime           @default(now())
   updatedAt   DateTime           @updatedAt
   // Relación muchos a muchos con puestos
   puestos     PersonalPuesto[]
+  // Relación muchos a muchos con idiomas
+  idiomas     PersonalIdioma[]
 }
 
 // Tabla intermedia para la relación muchos a muchos entre Personal y Puesto
@@ -333,6 +336,27 @@ model FacturaProveedor {
   documentoFecha DateTime?  // Fecha del documento
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @updatedAt
+}
+
+// Modelo para idiomas
+model Idioma {
+  id           String           @id @default(cuid())
+  nombre       String           @unique
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+  // Relación muchos a muchos con personal
+  personal     PersonalIdioma[]
+}
+
+// Tabla intermedia para la relación muchos a muchos entre Personal e Idioma
+model PersonalIdioma {
+  personalId   String
+  idiomaId     String
+  personal     Personal        @relation(fields: [personalId], references: [id], onDelete: Cascade)
+  idioma       Idioma          @relation(fields: [idiomaId], references: [id], onDelete: Cascade)
+  asignadoEn   DateTime        @default(now())
+  
+  @@id([personalId, idiomaId])
 }
 
 // Enumeraciones

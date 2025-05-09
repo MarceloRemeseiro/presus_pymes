@@ -16,6 +16,11 @@ export async function GET(
           include: {
             puesto: true
           }
+        },
+        idiomas: {
+          include: {
+            idioma: true
+          }
         }
       }
     })
@@ -34,6 +39,11 @@ export async function GET(
         id: p.puesto.id,
         nombre: p.puesto.nombre,
         asignadoEn: p.asignadoEn
+      })),
+      idiomas: persona.idiomas.map(i => ({
+        id: i.idioma.id,
+        nombre: i.idioma.nombre,
+        asignadoEn: i.asignadoEn
       }))
     }
     
@@ -75,6 +85,7 @@ export async function PUT(
         nombre: body.nombre,
         telefono: body.telefono,
         email: body.email,
+        ciudad: body.ciudad,
         notas: body.notas
       }
     })
@@ -95,23 +106,44 @@ export async function PUT(
           }))
         })
       }
-      
-      // Obtener datos actualizados con los puestos
-      const personaConPuestos = await prisma.personal.findUnique({
-        where: { id },
-        include: {
-          puestos: {
-            include: {
-              puesto: true
-            }
-          }
-        }
-      })
-      
-      return NextResponse.json(personaConPuestos)
     }
     
-    return NextResponse.json(personaActualizada)
+    // Si se están actualizando los idiomas
+    if (body.idiomas && Array.isArray(body.idiomas)) {
+      // Eliminar todas las asignaciones actuales
+      await prisma.personalIdioma.deleteMany({
+        where: { personalId: id }
+      })
+      
+      // Crear las nuevas asignaciones
+      if (body.idiomas.length > 0) {
+        await prisma.personalIdioma.createMany({
+          data: body.idiomas.map((idiomaId: string) => ({
+            personalId: id,
+            idiomaId: idiomaId
+          }))
+        })
+      }
+    }
+    
+    // Obtener datos actualizados con las relaciones
+    const personaConRelaciones = await prisma.personal.findUnique({
+      where: { id },
+      include: {
+        puestos: {
+          include: {
+            puesto: true
+          }
+        },
+        idiomas: {
+          include: {
+            idioma: true
+          }
+        }
+      }
+    })
+    
+    return NextResponse.json(personaConRelaciones)
   } catch (error) {
     console.error('Error al actualizar persona:', error)
     return NextResponse.json(
