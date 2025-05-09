@@ -6,7 +6,7 @@ export async function PUT(req: Request, context: { params: Promise<{ id: string 
   try {
     const params = await context.params
     const facturaId = params.id
-    const { estado } = await req.json()
+    const { estado, actualizarGastosAsociados = false } = await req.json()
     
     // Validar que el estado sea válido
     const estadosValidos = ["PENDIENTE", "ENVIADA", "COBRADA", "VENCIDA", "ANULADA"]
@@ -43,6 +43,32 @@ export async function PUT(req: Request, context: { params: Promise<{ id: string 
         presupuestos: true,
       },
     })
+    
+    // Si se solicita actualizar los gastos asociados
+    if (actualizarGastosAsociados) {
+      // Convertir estado de factura a estado de gasto
+      const estadoGasto = 
+        estado === 'COBRADA' ? 'PAGADO' :
+        estado === 'VENCIDA' ? 'VENCIDO' :
+        estado === 'ANULADA' ? 'ANULADO' : 'PENDIENTE'
+      
+      // Buscar todos los gastos asociados a esta factura
+      const gastosAsociados = await prisma.facturaProveedor.findMany({
+        where: { facturaId: facturaId }
+      })
+      
+      // Actualizar el estado de cada gasto
+      if (gastosAsociados.length > 0) {
+        await prisma.facturaProveedor.updateMany({
+          where: { facturaId: facturaId },
+          data: {
+            tipoEspecial: `estado_${estadoGasto.toLowerCase()}`
+          }
+        })
+        
+        console.log(`${gastosAsociados.length} gastos asociados a la factura ${facturaId} actualizados a estado: ${estadoGasto}`)
+      }
+    }
     
     return NextResponse.json(facturaActualizada)
   } catch (error) {

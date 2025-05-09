@@ -176,6 +176,37 @@ export default function GastosPage() {
     try {
       setEliminandoId(gastoId);
       
+      // Primero obtener la información del gasto para ver si tiene archivo
+      const gastoResponse = await fetch(`/api/gastos/${gastoId}`);
+      if (!gastoResponse.ok) {
+        throw new Error('Error al obtener información del gasto');
+      }
+      
+      const gastoData = await gastoResponse.json();
+      
+      // Si hay un archivo, eliminarlo primero
+      if (gastoData.archivoUrl) {
+        try {
+          const fileResponse = await fetch('/api/upload', {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ filePath: gastoData.archivoUrl }),
+          });
+          
+          if (!fileResponse.ok) {
+            console.error('Error al eliminar archivo del gasto, continuando con la eliminación del gasto');
+          } else {
+            console.log('Archivo eliminado correctamente:', gastoData.archivoUrl);
+          }
+        } catch (fileError) {
+          console.error('Error al eliminar archivo:', fileError);
+          // Continuamos con la eliminación del gasto aunque falle la eliminación del archivo
+        }
+      }
+      
+      // Eliminar el gasto
       const response = await fetch(`/api/gastos/${gastoId}`, {
         method: 'DELETE',
       });

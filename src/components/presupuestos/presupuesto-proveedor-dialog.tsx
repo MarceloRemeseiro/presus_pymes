@@ -436,6 +436,23 @@ export function PresupuestoProveedorDialog({
     setLoading(true)
 
     try {
+      // Primero eliminamos el archivo si existe
+      if (archivoUrl) {
+        try {
+          await fetch('/api/upload', {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ filePath: archivoUrl }),
+          });
+          console.log("Archivo eliminado al borrar presupuesto proveedor:", archivoUrl);
+        } catch (fileError) {
+          console.error('Error al eliminar archivo:', fileError);
+          // Continuamos con la eliminación del presupuesto aunque falle la eliminación del archivo
+        }
+      }
+
       const response = await fetch(`/api/presupuestos/proveedores/${presupuestoProveedorId}`, {
         method: "DELETE",
       })

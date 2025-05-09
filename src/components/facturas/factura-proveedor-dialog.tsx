@@ -449,6 +449,8 @@ export function FacturaProveedorDialog({
 
           if (!fileResponse.ok) {
             console.error('No se pudo eliminar el archivo, pero continuamos con la eliminación de la factura');
+          } else {
+            console.log("Archivo eliminado al borrar factura proveedor:", archivoUrl);
           }
         } catch (fileError) {
           console.error('Error al eliminar archivo:', fileError);
