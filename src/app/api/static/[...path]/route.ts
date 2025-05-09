@@ -1,28 +1,34 @@
 import { NextRequest, NextResponse } from 'next/server';
-import fs from 'fs';
+import fs from 'fs/promises';
+import { existsSync } from 'fs';
 import path from 'path';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { path: string[] } }
-) {
+  { params }: { params: Promise<{ path: string[] }> }
+): Promise<NextResponse> {
   try {
+    const resolvedParams = await params;
+    
     const filePath = path.join(
       process.cwd(),
       'public',
-      ...params.path
+      ...resolvedParams.path
     );
 
     console.log(`Intentando servir archivo: ${filePath}`);
 
     // Verificar si el archivo existe
-    if (!fs.existsSync(filePath)) {
+    if (!existsSync(filePath)) {
       console.log(`Archivo no encontrado: ${filePath}`);
-      return new NextResponse('Archivo no encontrado', { status: 404 });
+      return NextResponse.json(
+        { error: 'Archivo no encontrado' },
+        { status: 404 }
+      );
     }
 
     // Leer el archivo
-    const fileBuffer = fs.readFileSync(filePath);
+    const fileBuffer = await fs.readFile(filePath);
     const contentType = getContentType(filePath);
     
     console.log(`Sirviendo archivo: ${filePath} con tipo de contenido: ${contentType}`);
@@ -37,7 +43,10 @@ export async function GET(
     });
   } catch (error) {
     console.error(`Error al servir archivo: ${error}`);
-    return new NextResponse('Error al procesar el archivo', { status: 500 });
+    return NextResponse.json(
+      { error: 'Error al procesar el archivo' },
+      { status: 500 }
+    );
   }
 }
 
