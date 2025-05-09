@@ -32,7 +32,7 @@ export async function POST(request: Request) {
     const fileName = `${nameWithoutExt}_${uniqueId}.${extension}`;
     
     // Almacenar el archivo en nuestro mock
-    const publicPath = `/uploads/${fileName}`;
+    const publicPath = `/public/uploads/${fileName}`;
     mockedFiles[publicPath] = bytes;
     
     // Devolver tanto la URL como el nombre original del archivo
