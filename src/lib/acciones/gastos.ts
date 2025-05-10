@@ -11,6 +11,7 @@ export type Gasto = {
   nombre: string
   precio: number
   precioConIVA?: boolean
+  esFactura?: boolean
   descripcion?: string | null
   factura: {
     id: string

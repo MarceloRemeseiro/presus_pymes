@@ -47,27 +47,58 @@ export async function GET() {
 // POST /api/gastos - Crear un nuevo gasto
 export async function POST(request: Request) {
   try {
-    const data = await request.json()
-    
-    // Si hay fecha en string, convertirla a Date
-    if (data.documentoFecha && typeof data.documentoFecha === 'string') {
-      data.documentoFecha = new Date(data.documentoFecha)
+    const body = await request.json()
+
+    // Convertir fecha si es string
+    if (body.documentoFecha && typeof body.documentoFecha === 'string') {
+      body.documentoFecha = new Date(body.documentoFecha)
     }
 
-    // SOLUCIÓN TEMPORAL: Si no hay facturaId, asignar uno predeterminado
-    // En el futuro, debería modificarse el schema para hacer facturaId opcional
-    if (!data.facturaId) {
-      // Buscar si existe la factura "GASTOS-INDEPENDIENTES"
-      // NOTA: Esta es una factura especial interna que NO debe mostrarse en la lista de facturas normales
-      // Se filtra en la API de facturas para excluirla de los resultados
+    // Obtener configuración de IVA por defecto
+    const configuracion = await prisma.configuracion.findFirst();
+    const ivaPorDefecto = configuracion?.ivaPorDefecto || 21; // Usar 21 si no hay configuración
+
+    let { 
+      precio, 
+      precioConIVA, 
+      esFactura, 
+      // Extraer los campos que no deben ir directamente al 'data' de create
+      facturaId: bodyFacturaId, 
+      ...restOfBody 
+    } = body;
+
+    let datosIva = {};
+
+    if (esFactura) {
+      const porcentajeIvaAplicado = ivaPorDefecto; // Podríamos añadir un campo para porcentajeIva en el request si queremos que sea variable
+      let baseImponibleCalc: number;
+      let ivaDesglosadoCalc: number;
+
+      if (precioConIVA) {
+        // El precio YA incluye IVA
+        baseImponibleCalc = precio / (1 + (porcentajeIvaAplicado / 100));
+        ivaDesglosadoCalc = precio - baseImponibleCalc;
+      } else {
+        // El precio NO incluye IVA (es la base imponible)
+        baseImponibleCalc = precio;
+        ivaDesglosadoCalc = precio * (porcentajeIvaAplicado / 100);
+      }
+      
+      datosIva = {
+        baseImponible: parseFloat(baseImponibleCalc.toFixed(2)),
+        ivaDesglosado: parseFloat(ivaDesglosadoCalc.toFixed(2)),
+        porcentajeIva: porcentajeIvaAplicado,
+      };
+    }
+
+    // Manejo de facturaId (lógica existente)
+    let facturaIdFinal = bodyFacturaId;
+    if (!facturaIdFinal) {
       let facturaIndependiente = await prisma.factura.findFirst({
         where: { numero: "GASTOS-INDEPENDIENTES" }
       });
       
-      // Si no existe, crearla
       if (!facturaIndependiente) {
-        // Buscar un cliente de sistema para asignar a la factura (o crear uno)
-        // NOTA: Todas las facturas asociadas a este cliente son internas y no deben mostrarse
         let clienteSistema = await prisma.cliente.findFirst({
           where: { nombre: "SISTEMA" }
         });
@@ -76,12 +107,11 @@ export async function POST(request: Request) {
           clienteSistema = await prisma.cliente.create({
             data: {
               nombre: "SISTEMA",
-              email: "sistema@localhost",
+              email: "sistema@localhost", // Añadido email para el cliente
             }
           });
         }
         
-        // Crear factura para gastos independientes (no visible en la lista de facturas)
         facturaIndependiente = await prisma.factura.create({
           data: {
             numero: "GASTOS-INDEPENDIENTES",
@@ -89,21 +119,27 @@ export async function POST(request: Request) {
             fecha: new Date(),
             fechaVencimiento: new Date(),
             clienteId: clienteSistema.id,
-            estado: "PENDIENTE",
+            estado: "PENDIENTE", // Usar el tipo Enum directamente
             subtotal: 0,
             iva: 0,
             total: 0
           }
         });
       }
-      
-      // Asignar la factura independiente a este gasto
-      data.facturaId = facturaIndependiente.id;
-      console.log("Asignando factura independiente:", facturaIndependiente.id);
+      facturaIdFinal = facturaIndependiente.id;
     }
 
+    const dataParaCrear = {
+      ...restOfBody,
+      precio, // Se guarda el precio original tal como se introdujo
+      precioConIVA,
+      esFactura,
+      ...datosIva, // Añadimos los campos de IVA calculados
+      facturaId: facturaIdFinal, // Aseguramos que facturaId se incluye
+    };
+
     const gasto = await prisma.facturaProveedor.create({
-      data,
+      data: dataParaCrear,
       include: {
         proveedor: true,
         factura: true,
@@ -114,8 +150,9 @@ export async function POST(request: Request) {
     return NextResponse.json(gasto)
   } catch (error) {
     console.error('Error al crear el gasto:', error)
+    const errorMessage = error instanceof Error ? error.message : 'Error desconocido al crear el gasto';
     return NextResponse.json(
-      { error: 'Error al crear el gasto' },
+      { error: 'Error al crear el gasto', details: errorMessage },
       { status: 500 }
     )
   }

@@ -58,7 +58,6 @@ const mesANumero: Record<string, string> = {
 // Componente personalizado para el tooltip
 const CustomTooltip = ({ active, payload, label }: TooltipProps<number, string>) => {
   if (active && payload && payload.length) {
-    // En el tooltip mostramos el nombre completo del mes en lugar del número
     const nombreMes = payload[0]?.payload?.mes || label;
     
     return (
@@ -66,7 +65,7 @@ const CustomTooltip = ({ active, payload, label }: TooltipProps<number, string>)
         <p className="font-medium mb-1">{nombreMes}</p>
         {payload.map((entry, index) => (
           <p key={index} style={{ color: entry.color }}>
-            {entry.name}: {formatearMoneda(entry.value as number)}
+            {entry.name === 'Gastos' ? 'Coste Gastos' : entry.name}: {formatearMoneda(entry.value as number)}
           </p>
         ))}
       </div>
@@ -190,8 +189,8 @@ export function GraficoEvolucion({ filtros }: GraficoEvolucionProps) {
             ? `del año ${filtros.año}` 
             : filtros.periodo === 'trimestral' 
               ? `del ${filtros.trimestre}º trimestre de ${filtros.año}`
-              : `de ${new Date(filtros.año, (filtros.mes || 1) - 1).toLocaleString('es-ES', { month: 'long' })} de ${filtros.año}`
-          }
+              : `de ${new Date(filtros.año, (filtros.mes ? filtros.mes -1 : 0)).toLocaleString('es-ES', { month: 'long' })} de ${filtros.año}`
+          }. Ingresos (sin IVA) y Coste Total de Gastos.
         </CardDescription>
       </CardHeader>
       <CardContent>

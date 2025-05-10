@@ -15,8 +15,8 @@ export async function GET(request: Request) {
 
     // Configurar fechas según el período
     if (periodo === 'anual') {
-      fechaInicio = new Date(año, 0, 1); // 1 de enero del año seleccionado
-      fechaFin = new Date(año, 11, 31, 23, 59, 59); // 31 de diciembre del año seleccionado
+      fechaInicio = new Date(año, 0, 1);
+      fechaFin = new Date(año, 11, 31, 23, 59, 59);
     } else if (periodo === 'trimestral' && trimestre >= 1 && trimestre <= 4) {
       const mesInicio = (trimestre - 1) * 3;
       fechaInicio = new Date(año, mesInicio, 1);
@@ -25,79 +25,79 @@ export async function GET(request: Request) {
       fechaInicio = new Date(año, mes - 1, 1);
       fechaFin = new Date(año, mes, 0, 23, 59, 59);
     } else {
-      // Período por defecto: año actual
       fechaInicio = new Date(new Date().getFullYear(), 0, 1);
       fechaFin = new Date(new Date().getFullYear(), 11, 31, 23, 59, 59);
     }
 
-    // 1. Total de gastos en el período
-    const totalGastos = await prisma.facturaProveedor.aggregate({
-      _sum: {
-        precio: true
-      },
+    // 1. Obtener todos los gastos del período para cálculos manuales más precisos
+    const todosLosGastosDelPeriodo = await prisma.facturaProveedor.findMany({
       where: {
-        createdAt: {
-          gte: fechaInicio,
-          lte: fechaFin
-        }
+        // Usar documentoFecha si está disponible y es más relevante que createdAt para el período del gasto
+        OR: [
+          { documentoFecha: { gte: fechaInicio, lte: fechaFin } },
+          { AND: [{ documentoFecha: null }, { createdAt: { gte: fechaInicio, lte: fechaFin } }] }
+        ]
+        // Si siempre se debe usar createdAt para el filtro de período, cambiar a:
+        // createdAt: { gte: fechaInicio, lte: fechaFin }
       }
     });
 
-    // 2. Total de gastos por estado (pagados vs pendientes)
-    // Nota: Asumimos que los gastos con "tipoEspecial" que contiene "estado_pagado" están pagados
-    const gastosPagados = await prisma.facturaProveedor.aggregate({
-      _sum: {
-        precio: true
-      },
-      where: {
-        createdAt: {
-          gte: fechaInicio,
-          lte: fechaFin
-        },
-        tipoEspecial: {
-          contains: 'estado_pagado'
+    let totalGastosConIVA = 0;
+    let totalGastosSinIVA_Deducibles = 0;
+    let totalIVASoportado_Deducible = 0;
+    let gastosPagadosConIVA = 0;
+    let gastosPendientesConIVA = 0;
+
+    todosLosGastosDelPeriodo.forEach(gasto => {
+      let gastoConIVA = 0;
+      if (gasto.precioConIVA) {
+        gastoConIVA = gasto.precio;
+      } else {
+        if (gasto.esFactura && gasto.baseImponible !== null && gasto.ivaDesglosado !== null) {
+          // Asegurarse que baseImponible e ivaDesglosado son números
+          const base = typeof gasto.baseImponible === 'number' ? gasto.baseImponible : parseFloat(gasto.baseImponible?.toString() || '0');
+          const iva = typeof gasto.ivaDesglosado === 'number' ? gasto.ivaDesglosado : parseFloat(gasto.ivaDesglosado?.toString() || '0');
+          gastoConIVA = base + iva;
+        } else {
+          gastoConIVA = gasto.precio; // Si no es factura o no hay desglose, precio es el total
         }
       }
-    });
+      totalGastosConIVA += gastoConIVA;
 
-    const gastosPendientes = await prisma.facturaProveedor.aggregate({
-      _sum: {
-        precio: true
-      },
-      where: {
-        createdAt: {
-          gte: fechaInicio,
-          lte: fechaFin
-        },
-        tipoEspecial: {
-          not: {
-            contains: 'estado_pagado'
-          }
-        }
+      if (gasto.esFactura) {
+        const baseDeducible = typeof gasto.baseImponible === 'number' ? gasto.baseImponible : parseFloat(gasto.baseImponible?.toString() || '0');
+        const ivaDeducible = typeof gasto.ivaDesglosado === 'number' ? gasto.ivaDesglosado : parseFloat(gasto.ivaDesglosado?.toString() || '0');
+        totalGastosSinIVA_Deducibles += baseDeducible;
+        totalIVASoportado_Deducible += ivaDeducible;
+      }
+
+      // Asumimos la misma lógica para pagado/pendiente basada en tipoEspecial
+      // Esta parte podría necesitar ajustarse si el estado de pago es más complejo
+      if (gasto.tipoEspecial?.includes('estado_pagado')) {
+        gastosPagadosConIVA += gastoConIVA;
+      } else {
+        gastosPendientesConIVA += gastoConIVA;
       }
     });
+    
+    // 2. Número de gastos registrados
+    const numeroGastos = todosLosGastosDelPeriodo.length;
 
-    // 3. Número de gastos registrados
-    const numeroGastos = await prisma.facturaProveedor.count({
-      where: {
-        createdAt: {
-          gte: fechaInicio,
-          lte: fechaFin
-        }
-      }
-    });
-
-    // 4. Gastos por tipo/categoría (Top 5)
+    // 3. Gastos por tipo/categoría (Top 5) - Se mantiene la lógica original, pero podría recalcularse con gastoConIVA
     const gastosPorTipo = await prisma.facturaProveedor.groupBy({
       by: ['tipoEspecial'],
       _sum: {
-        precio: true
+        // Esta suma es sobre el campo 'precio'. Si queremos el total con IVA,
+        // necesitaríamos agregar los gastos individualmente como arriba o añadir un campo totalConIva al modelo.
+        // Por simplicidad y consistencia con el código original, lo dejamos así, 
+        // pero ten en cuenta que este 'total' por categoría puede no ser el total con IVA real.
+        precio: true 
       },
       where: {
-        createdAt: {
-          gte: fechaInicio,
-          lte: fechaFin
-        },
+        OR: [
+          { documentoFecha: { gte: fechaInicio, lte: fechaFin } },
+          { AND: [{ documentoFecha: null }, { createdAt: { gte: fechaInicio, lte: fechaFin } }] }
+        ],
         tipoEspecial: {
           not: null
         }
@@ -110,27 +110,23 @@ export async function GET(request: Request) {
       take: 5
     });
 
-    // Limpiar los datos de tipoEspecial (quitar prefijos "estado_")
     const gastosPorTipoFormateados = gastosPorTipo.map(gasto => {
       let tipo = gasto.tipoEspecial || 'Sin categoría';
-      
-      // Si comienza con "estado_", quitarlo ya que no es un tipo real sino un estado
       if (tipo.startsWith('estado_')) {
         tipo = 'Sin categoría';
       }
-      
+      // Aquí también, el total es la suma de 'precio'
       return {
         tipo,
-        total: gasto._sum.precio || 0
+        total: gasto._sum.precio || 0 
       };
     });
 
-    // 5. Gasto promedio
+    // 4. Gasto promedio (calculado sobre el total CON IVA)
     const promedioGasto = numeroGastos > 0 
-      ? (totalGastos._sum.precio || 0) / numeroGastos 
+      ? totalGastosConIVA / numeroGastos 
       : 0;
 
-    // Retornar datos
     return NextResponse.json({
       periodo: {
         tipo: periodo,
@@ -141,12 +137,14 @@ export async function GET(request: Request) {
         fechaFin: fechaFin.toISOString()
       },
       gastos: {
-        total: totalGastos._sum.precio || 0,
-        totalPagado: gastosPagados._sum.precio || 0,
-        totalPendiente: gastosPendientes._sum.precio || 0,
+        totalGastosConIVA: parseFloat(totalGastosConIVA.toFixed(2)),
+        totalGastosSinIVA_Deducibles: parseFloat(totalGastosSinIVA_Deducibles.toFixed(2)),
+        totalIVASoportado_Deducible: parseFloat(totalIVASoportado_Deducible.toFixed(2)),
+        totalPagado: parseFloat(gastosPagadosConIVA.toFixed(2)), // Anteriormente sumaba 'precio'
+        totalPendiente: parseFloat(gastosPendientesConIVA.toFixed(2)), // Anteriormente sumaba 'precio'
         numeroGastos,
-        promedioGasto,
-        porCategoria: gastosPorTipoFormateados
+        promedioGasto: parseFloat(promedioGasto.toFixed(2)),
+        porCategoria: gastosPorTipoFormateados 
       }
     });
   } catch (error) {

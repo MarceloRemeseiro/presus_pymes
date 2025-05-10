@@ -850,30 +850,25 @@ async function createPresupuestoPDF(
   // Ajuste para alinear con el resto del contenido a la derecha
   const totalsBoxX = pageWidth - marginLeft - totalsBoxWidth;
   
+  // Altura de la caja de totales (reducida para una sola línea)
+  const totalsBoxHeight = 10; // Suficiente para una línea de total
+
   // Rectángulo con borde para los totales
   doc.setDrawColor(220, 220, 220);
   doc.setFillColor(250, 250, 250);
-  doc.roundedRect(totalsBoxX, tableY, totalsBoxWidth, 32, 2, 2, 'FD');
+  // Ajustar altura de la caja de totales para una sola línea
+  doc.roundedRect(totalsBoxX, tableY, totalsBoxWidth, totalsBoxHeight, 2, 2, 'FD');
   
-  // Textos y valores con menos espacio horizontal
-  doc.text('Subtotal:', totalsBoxX + 8, tableY + 8);
-  doc.text(formatCurrency(presupuesto.subtotal), totalsBoxX + totalsBoxWidth - 8, tableY + 8, { align: 'right' });
-  
-  doc.text('IVA (21%):', totalsBoxX + 8, tableY + 16);
-  doc.text(formatCurrency(presupuesto.iva), totalsBoxX + totalsBoxWidth - 8, tableY + 16, { align: 'right' });
-  
-  // Línea separadora, más fina y sin llegar a los bordes
-  doc.setDrawColor(220, 220, 220);
-  doc.line(totalsBoxX + 8, tableY + 20, totalsBoxX + totalsBoxWidth - 8, tableY + 20);
-  
-  // Total - menos espacio vertical con el resto
+  // Total - ajustado para mostrar la base imponible y única línea
   doc.setFontSize(11);
   doc.setFont('helvetica', 'bold');
   doc.setTextColor(primaryColor);
-  doc.text('TOTAL:', totalsBoxX + 8, tableY + 28);
-  doc.text(formatCurrency(presupuesto.total), totalsBoxX + totalsBoxWidth - 8, tableY + 28, { align: 'right' });
+  const totalLabel = 'TOTAL (Base Impon.):'; // Etiqueta actualizada
+  // Posicionar en el centro vertical de la nueva caja más pequeña
+  doc.text(totalLabel, totalsBoxX + 8, tableY + totalsBoxHeight - 3); 
+  doc.text(formatCurrency(presupuesto.subtotal), totalsBoxX + totalsBoxWidth - 8, tableY + totalsBoxHeight - 3, { align: 'right' });
   
-  tableY += 36; // Espacio reducido después de los totales
+  tableY += totalsBoxHeight + 4; // Espacio ajustado después de los totales
   
   // Observaciones
   if (presupuesto.observaciones) {

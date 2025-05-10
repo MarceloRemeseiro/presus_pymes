@@ -91,7 +91,6 @@ export async function PUT(
   const id = resolvedParams.id
   
   try {
-    // Primero obtenemos el gasto actual para verificar el archivo
     const gastoActual = await prisma.facturaProveedor.findUnique({
       where: { id },
       select: { archivoUrl: true }
@@ -99,31 +98,80 @@ export async function PUT(
     
     if (!gastoActual) {
       return NextResponse.json(
-        { error: 'Gasto no encontrado' },
+        { error: 'Gasto no encontrado para actualizar' },
         { status: 404 }
       );
     }
     
-    const data = await request.json()
+    const body = await request.json()
     
-    // Si hay fecha en string, convertirla a Date
-    if (data.documentoFecha && typeof data.documentoFecha === 'string') {
-      data.documentoFecha = new Date(data.documentoFecha)
+    // Convertir fecha si es string
+    if (body.documentoFecha && typeof body.documentoFecha === 'string') {
+      body.documentoFecha = new Date(body.documentoFecha)
+    }
+    
+    // Obtener configuración de IVA por defecto
+    const configuracion = await prisma.configuracion.findFirst();
+    const ivaPorDefecto = configuracion?.ivaPorDefecto || 21; // Usar 21 si no hay configuración
+
+    let { 
+      precio, 
+      precioConIVA, 
+      esFactura, 
+      // facturaId no se debería modificar directamente en la actualización de un gasto individual,
+      // se maneja a través de la asignación a una factura general si es necesario.
+      // Si se necesita cambiar la factura asociada, se haría con otra lógica.
+      ...restOfBody 
+    } = body;
+
+    let datosIva = {};
+    let dataFinal = { ...restOfBody, precio, precioConIVA, esFactura }; // Incluimos los campos base por defecto
+
+    if (esFactura !== undefined) { // Solo recalculamos si esFactura se envía en el body
+      if (esFactura) {
+        const porcentajeIvaAplicado = ivaPorDefecto;
+        let baseImponibleCalc: number;
+        let ivaDesglosadoCalc: number;
+
+        if (precioConIVA) {
+          baseImponibleCalc = precio / (1 + (porcentajeIvaAplicado / 100));
+          ivaDesglosadoCalc = precio - baseImponibleCalc;
+        } else {
+          baseImponibleCalc = precio;
+          ivaDesglosadoCalc = precio * (porcentajeIvaAplicado / 100);
+        }
+        
+        datosIva = {
+          baseImponible: parseFloat(baseImponibleCalc.toFixed(2)),
+          ivaDesglosado: parseFloat(ivaDesglosadoCalc.toFixed(2)),
+          porcentajeIva: porcentajeIvaAplicado,
+        };
+      } else {
+        // Si no es factura, los campos de IVA se ponen a null o 0
+        datosIva = {
+          baseImponible: null,
+          ivaDesglosado: null,
+          porcentajeIva: null,
+        };
+      }
+      dataFinal = { ...dataFinal, ...datosIva };
+    } else {
+      // Si esFactura no viene en el body, no modificamos los campos de IVA existentes.
+      // Esto permite actualizaciones parciales sin afectar el IVA si no se cambia esFactura.
+      // Para borrar los campos de IVA, esFactura debe enviarse explícitamente como false.
     }
     
     // Verificar si el archivo ha cambiado o se ha eliminado
     const archivoAnterior = gastoActual.archivoUrl;
-    const archivoNuevo = data.archivoUrl;
+    const archivoNuevo = body.archivoUrl; // body.archivoUrl en lugar de data.archivoUrl
     
-    // Si el archivo ha cambiado o se ha eliminado, eliminamos el archivo anterior
     if (archivoAnterior && archivoAnterior !== archivoNuevo) {
-      console.log("El archivo ha cambiado o ha sido eliminado, eliminando archivo anterior");
       await deleteFile(archivoAnterior);
     }
     
     const gasto = await prisma.facturaProveedor.update({
       where: { id },
-      data,
+      data: dataFinal, // Usar dataFinal que contiene los campos de IVA actualizados
       include: {
         proveedor: true,
         factura: {
@@ -142,8 +190,9 @@ export async function PUT(
     return NextResponse.json(gasto)
   } catch (error) {
     console.error('Error al actualizar el gasto:', error)
+    const errorMessage = error instanceof Error ? error.message : 'Error desconocido al actualizar el gasto';
     return NextResponse.json(
-      { error: 'Error al actualizar el gasto' },
+      { error: 'Error al actualizar el gasto', details: errorMessage },
       { status: 500 }
     )
   }

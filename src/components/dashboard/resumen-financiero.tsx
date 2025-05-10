@@ -119,8 +119,8 @@ export function ResumenFinanciero({ filtros }: ResumenFinancieroProps) {
             ? `del año ${filtros.año}` 
             : filtros.periodo === 'trimestral' 
               ? `del ${filtros.trimestre}º trimestre de ${filtros.año}`
-              : `de ${new Date(filtros.año, (filtros.mes || 1) - 1).toLocaleString('es-ES', { month: 'long' })} de ${filtros.año}`
-          }
+              : `de ${new Date(filtros.año, (filtros.mes ? filtros.mes -1 : 0)).toLocaleString('es-ES', { month: 'long' })} de ${filtros.año}`
+          }. Ingresos (sin IVA) vs Coste Total de Gastos.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -145,8 +145,8 @@ export function ResumenFinanciero({ filtros }: ResumenFinancieroProps) {
                     </span>
                   </div>
                   <p className="text-sm text-muted-foreground mt-1">
-                    Ingresos: {formatearMoneda(datos?.ingresos || 0)} | 
-                    Gastos: {formatearMoneda(datos?.gastos || 0)}
+                    Ingresos (sin IVA): {formatearMoneda(datos?.ingresos || 0)} | 
+                    Coste Total Gastos: {formatearMoneda(datos?.gastos || 0)}
                   </p>
                 </div>
                 <div className="h-8 w-8 rounded-full flex items-center justify-center">
@@ -164,7 +164,7 @@ export function ResumenFinanciero({ filtros }: ResumenFinancieroProps) {
           <div className="space-y-2 pt-4 border-t">
             <h3 className="text-sm font-medium text-muted-foreground flex items-center gap-1">
               <Clock className="h-4 w-4" />
-              <span>Pendiente de Cobro</span>
+              <span>Pendiente de Cobro (con IVA)</span>
             </h3>
             {cargando ? (
               <Skeleton className="h-8 w-full" />
@@ -186,7 +186,7 @@ export function ResumenFinanciero({ filtros }: ResumenFinancieroProps) {
           <div className="space-y-2 pt-4 border-t">
             <h3 className="text-sm font-medium text-muted-foreground flex items-center gap-1">
               <CalendarClock className="h-4 w-4" />
-              <span>Proyección de Ingresos</span>
+              <span>Proyección de Ingresos (sin IVA)</span>
             </h3>
             {cargando ? (
               <Skeleton className="h-8 w-full" />

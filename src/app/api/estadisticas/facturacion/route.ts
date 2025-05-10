@@ -31,9 +31,11 @@ export async function GET(request: Request) {
     }
 
     // 1. Total facturado en el período
-    const totalFacturado = await prisma.factura.aggregate({
+    const agregadosFacturacion = await prisma.factura.aggregate({
       _sum: {
-        total: true
+        subtotal: true, // Suma de bases imponibles (SIN IVA)
+        iva: true,      // Suma de los importes de IVA
+        total: true     // Suma de los totales (CON IVA)
       },
       where: {
         fecha: {
@@ -45,6 +47,10 @@ export async function GET(request: Request) {
         }
       }
     });
+
+    const totalFacturadoSinIVA = agregadosFacturacion._sum.subtotal || 0;
+    const totalIVARepercutido = agregadosFacturacion._sum.iva || 0;
+    const totalFacturadoConIVA = agregadosFacturacion._sum.total || 0;
 
     // 2. Total de facturas pendientes de cobro
     const pendienteCobro = await prisma.factura.aggregate({
@@ -88,8 +94,8 @@ export async function GET(request: Request) {
     });
 
     // 5. Valor promedio de factura
-    const promedioFactura = numeroFacturas > 0 
-      ? (totalFacturado._sum.total || 0) / numeroFacturas 
+    const promedioFacturaConIVA = numeroFacturas > 0 
+      ? totalFacturadoConIVA / numeroFacturas 
       : 0;
 
     // Retornar datos
@@ -103,11 +109,13 @@ export async function GET(request: Request) {
         fechaFin: fechaFin.toISOString()
       },
       facturacion: {
-        total: totalFacturado._sum.total || 0,
+        totalFacturadoSinIVA,
+        totalIVARepercutido,
+        totalFacturadoConIVA,
         pendienteCobro: pendienteCobro._sum.total || 0,
         totalCobrado: totalCobrado._sum.total || 0,
         numeroFacturas,
-        promedioFactura
+        promedioFactura: promedioFacturaConIVA
       }
     });
   } catch (error) {

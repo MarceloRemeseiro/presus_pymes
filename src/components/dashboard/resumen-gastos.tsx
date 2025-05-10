@@ -26,7 +26,9 @@ interface ResumenGastosProps {
 }
 
 interface DatosGastos {
-  total: number;
+  totalGastosConIVA: number;
+  totalGastosSinIVA_Deducibles: number;
+  totalIVASoportado_Deducible: number;
   totalPagado: number;
   totalPendiente: number;
   numeroGastos: number;
@@ -114,34 +116,43 @@ export function ResumenGastos({ filtros }: ResumenGastosProps) {
             ? `del año ${filtros.año}` 
             : filtros.periodo === 'trimestral' 
               ? `del ${filtros.trimestre}º trimestre de ${filtros.año}`
-              : `de ${new Date(filtros.año, (filtros.mes || 1) - 1).toLocaleString('es-ES', { month: 'long' })} de ${filtros.año}`
+              : `de ${new Date(filtros.año, (filtros.mes ? filtros.mes -1 : 0)).toLocaleString('es-ES', { month: 'long' })} de ${filtros.año}`
           }
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <h3 className="text-sm font-medium text-muted-foreground">Total gastos</h3>
+        <div className="grid grid-cols-2 gap-6 mb-4">
+          <div className="space-y-1">
+            <h3 className="text-sm font-medium text-muted-foreground">Total Gastos (con IVA)</h3>
             {cargando ? (
               <Skeleton className="h-10 w-full" />
             ) : (
-              <p className="text-2xl font-bold text-destructive">{formatearMoneda(datos?.total || 0)}</p>
+              <p className="text-2xl font-bold text-destructive">{formatearMoneda(datos?.totalGastosConIVA || 0)}</p>
             )}
           </div>
           
-          <div className="space-y-2">
-            <h3 className="text-sm font-medium text-muted-foreground">Pendiente de pago</h3>
+          <div className="space-y-1">
+            <h3 className="text-sm font-medium text-muted-foreground">Gastos Deducibles (sin IVA)</h3>
             {cargando ? (
               <Skeleton className="h-10 w-full" />
             ) : (
-              <p className="text-2xl font-bold text-amber-600">{formatearMoneda(datos?.totalPendiente || 0)}</p>
+              <p className="text-2xl font-bold">{formatearMoneda(datos?.totalGastosSinIVA_Deducibles || 0)}</p>
+            )}
+          </div>
+
+          <div className="space-y-1">
+            <h3 className="text-sm font-medium text-muted-foreground">Pendiente de pago (con IVA)</h3>
+            {cargando ? (
+              <Skeleton className="h-8 w-full" />
+            ) : (
+              <p className="text-xl font-semibold text-amber-600">{formatearMoneda(datos?.totalPendiente || 0)}</p>
             )}
           </div>
           
-          <div className="space-y-2">
+          <div className="space-y-1">
             <h3 className="text-sm font-medium text-muted-foreground flex items-center gap-1">
               <BanknoteIcon className="h-4 w-4" />
-              <span>Pagado</span>
+              <span>Pagado (con IVA)</span>
             </h3>
             {cargando ? (
               <Skeleton className="h-8 w-full" />
@@ -149,16 +160,26 @@ export function ResumenGastos({ filtros }: ResumenGastosProps) {
               <p className="text-xl font-semibold">{formatearMoneda(datos?.totalPagado || 0)}</p>
             )}
           </div>
-          
-          <div className="space-y-2">
+        </div>
+        
+        <div className="grid grid-cols-2 gap-6 pt-4 border-t">
+           <div className="space-y-1">
             <h3 className="text-sm font-medium text-muted-foreground flex items-center gap-1">
               <BarChart3 className="h-4 w-4" />
-              <span>Promedio por gasto</span>
+              <span>Promedio por Gasto (con IVA)</span>
             </h3>
             {cargando ? (
               <Skeleton className="h-8 w-full" />
             ) : (
               <p className="text-xl font-semibold">{formatearMoneda(datos?.promedioGasto || 0)}</p>
+            )}
+          </div>
+          <div className="space-y-1">
+            <h3 className="text-sm font-medium text-muted-foreground">IVA Soportado (Deducible)</h3>
+            {cargando ? (
+              <Skeleton className="h-8 w-full" />
+            ) : (
+              <p className="text-xl font-semibold">{formatearMoneda(datos?.totalIVASoportado_Deducible || 0)}</p>
             )}
           </div>
         </div>

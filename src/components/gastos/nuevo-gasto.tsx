@@ -36,11 +36,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { Checkbox } from '@/components/ui/checkbox'
 
 const formSchema = z.object({
   nombre: z.string().min(1, { message: 'El concepto es obligatorio' }),
   precio: z.coerce.number().min(0.01, { message: 'El precio debe ser mayor a 0' }),
   precioConIVA: z.boolean(),
+  esFactura: z.boolean(),
   proveedorId: z.string().optional(),
   facturaId: z.string().optional(),
   partidaId: z.string().optional(),
@@ -64,6 +66,7 @@ export default function NuevoGasto() {
       nombre: '',
       precio: 0,
       precioConIVA: true,
+      esFactura: true,
       descripcion: '',
       proveedorId: undefined,
       facturaId: undefined,
@@ -298,6 +301,50 @@ export default function NuevoGasto() {
                 </FormItem>
               )}
             />
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="precioConIVA"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm col-span-1 md:col-span-2">
+                    <div className="space-y-0.5">
+                      <FormLabel>¿El precio incluye IVA?</FormLabel>
+                      <FormDescription>
+                        Marca esta casilla si el importe introducido ya tiene el IVA incluido.
+                      </FormDescription>
+                    </div>
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="esFactura"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm col-span-1 md:col-span-2">
+                    <div className="space-y-0.5">
+                      <FormLabel>¿Es una factura?</FormLabel>
+                      <FormDescription>
+                        Marca esta casilla si el gasto es una factura (IVA deducible).
+                      </FormDescription>
+                    </div>
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </div>
             
             <DialogFooter>
               <Button 

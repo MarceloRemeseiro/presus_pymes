@@ -25519,10 +25519,16 @@ export namespace Prisma {
 
   export type FacturaProveedorAvgAggregateOutputType = {
     precio: number | null
+    baseImponible: Decimal | null
+    ivaDesglosado: Decimal | null
+    porcentajeIva: Decimal | null
   }
 
   export type FacturaProveedorSumAggregateOutputType = {
     precio: number | null
+    baseImponible: Decimal | null
+    ivaDesglosado: Decimal | null
+    porcentajeIva: Decimal | null
   }
 
   export type FacturaProveedorMinAggregateOutputType = {
@@ -25532,6 +25538,10 @@ export namespace Prisma {
     descripcion: string | null
     precio: number | null
     precioConIVA: boolean | null
+    esFactura: boolean | null
+    baseImponible: Decimal | null
+    ivaDesglosado: Decimal | null
+    porcentajeIva: Decimal | null
     proveedorId: string | null
     partidaId: string | null
     tipoEspecial: string | null
@@ -25549,6 +25559,10 @@ export namespace Prisma {
     descripcion: string | null
     precio: number | null
     precioConIVA: boolean | null
+    esFactura: boolean | null
+    baseImponible: Decimal | null
+    ivaDesglosado: Decimal | null
+    porcentajeIva: Decimal | null
     proveedorId: string | null
     partidaId: string | null
     tipoEspecial: string | null
@@ -25566,6 +25580,10 @@ export namespace Prisma {
     descripcion: number
     precio: number
     precioConIVA: number
+    esFactura: number
+    baseImponible: number
+    ivaDesglosado: number
+    porcentajeIva: number
     proveedorId: number
     partidaId: number
     tipoEspecial: number
@@ -25580,10 +25598,16 @@ export namespace Prisma {
 
   export type FacturaProveedorAvgAggregateInputType = {
     precio?: true
+    baseImponible?: true
+    ivaDesglosado?: true
+    porcentajeIva?: true
   }
 
   export type FacturaProveedorSumAggregateInputType = {
     precio?: true
+    baseImponible?: true
+    ivaDesglosado?: true
+    porcentajeIva?: true
   }
 
   export type FacturaProveedorMinAggregateInputType = {
@@ -25593,6 +25617,10 @@ export namespace Prisma {
     descripcion?: true
     precio?: true
     precioConIVA?: true
+    esFactura?: true
+    baseImponible?: true
+    ivaDesglosado?: true
+    porcentajeIva?: true
     proveedorId?: true
     partidaId?: true
     tipoEspecial?: true
@@ -25610,6 +25638,10 @@ export namespace Prisma {
     descripcion?: true
     precio?: true
     precioConIVA?: true
+    esFactura?: true
+    baseImponible?: true
+    ivaDesglosado?: true
+    porcentajeIva?: true
     proveedorId?: true
     partidaId?: true
     tipoEspecial?: true
@@ -25627,6 +25659,10 @@ export namespace Prisma {
     descripcion?: true
     precio?: true
     precioConIVA?: true
+    esFactura?: true
+    baseImponible?: true
+    ivaDesglosado?: true
+    porcentajeIva?: true
     proveedorId?: true
     partidaId?: true
     tipoEspecial?: true
@@ -25731,6 +25767,10 @@ export namespace Prisma {
     descripcion: string | null
     precio: number
     precioConIVA: boolean
+    esFactura: boolean
+    baseImponible: Decimal | null
+    ivaDesglosado: Decimal | null
+    porcentajeIva: Decimal | null
     proveedorId: string | null
     partidaId: string | null
     tipoEspecial: string | null
@@ -25767,6 +25807,10 @@ export namespace Prisma {
     descripcion?: boolean
     precio?: boolean
     precioConIVA?: boolean
+    esFactura?: boolean
+    baseImponible?: boolean
+    ivaDesglosado?: boolean
+    porcentajeIva?: boolean
     proveedorId?: boolean
     partidaId?: boolean
     tipoEspecial?: boolean
@@ -25787,6 +25831,10 @@ export namespace Prisma {
     descripcion?: boolean
     precio?: boolean
     precioConIVA?: boolean
+    esFactura?: boolean
+    baseImponible?: boolean
+    ivaDesglosado?: boolean
+    porcentajeIva?: boolean
     proveedorId?: boolean
     partidaId?: boolean
     tipoEspecial?: boolean
@@ -25807,6 +25855,10 @@ export namespace Prisma {
     descripcion?: boolean
     precio?: boolean
     precioConIVA?: boolean
+    esFactura?: boolean
+    baseImponible?: boolean
+    ivaDesglosado?: boolean
+    porcentajeIva?: boolean
     proveedorId?: boolean
     partidaId?: boolean
     tipoEspecial?: boolean
@@ -25827,6 +25879,10 @@ export namespace Prisma {
     descripcion?: boolean
     precio?: boolean
     precioConIVA?: boolean
+    esFactura?: boolean
+    baseImponible?: boolean
+    ivaDesglosado?: boolean
+    porcentajeIva?: boolean
     proveedorId?: boolean
     partidaId?: boolean
     tipoEspecial?: boolean
@@ -25837,7 +25893,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type FacturaProveedorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "facturaId" | "nombre" | "descripcion" | "precio" | "precioConIVA" | "proveedorId" | "partidaId" | "tipoEspecial" | "archivoUrl" | "documentoNombre" | "documentoFecha" | "createdAt" | "updatedAt", ExtArgs["result"]["facturaProveedor"]>
+  export type FacturaProveedorOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "facturaId" | "nombre" | "descripcion" | "precio" | "precioConIVA" | "esFactura" | "baseImponible" | "ivaDesglosado" | "porcentajeIva" | "proveedorId" | "partidaId" | "tipoEspecial" | "archivoUrl" | "documentoNombre" | "documentoFecha" | "createdAt" | "updatedAt", ExtArgs["result"]["facturaProveedor"]>
   export type FacturaProveedorInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     factura?: boolean | FacturaDefaultArgs<ExtArgs>
     proveedor?: boolean | FacturaProveedor$proveedorArgs<ExtArgs>
@@ -25868,6 +25924,10 @@ export namespace Prisma {
       descripcion: string | null
       precio: number
       precioConIVA: boolean
+      esFactura: boolean
+      baseImponible: Prisma.Decimal | null
+      ivaDesglosado: Prisma.Decimal | null
+      porcentajeIva: Prisma.Decimal | null
       proveedorId: string | null
       partidaId: string | null
       tipoEspecial: string | null
@@ -26308,6 +26368,10 @@ export namespace Prisma {
     readonly descripcion: FieldRef<"FacturaProveedor", 'String'>
     readonly precio: FieldRef<"FacturaProveedor", 'Float'>
     readonly precioConIVA: FieldRef<"FacturaProveedor", 'Boolean'>
+    readonly esFactura: FieldRef<"FacturaProveedor", 'Boolean'>
+    readonly baseImponible: FieldRef<"FacturaProveedor", 'Decimal'>
+    readonly ivaDesglosado: FieldRef<"FacturaProveedor", 'Decimal'>
+    readonly porcentajeIva: FieldRef<"FacturaProveedor", 'Decimal'>
     readonly proveedorId: FieldRef<"FacturaProveedor", 'String'>
     readonly partidaId: FieldRef<"FacturaProveedor", 'String'>
     readonly tipoEspecial: FieldRef<"FacturaProveedor", 'String'>
@@ -29178,6 +29242,10 @@ export namespace Prisma {
     descripcion: 'descripcion',
     precio: 'precio',
     precioConIVA: 'precioConIVA',
+    esFactura: 'esFactura',
+    baseImponible: 'baseImponible',
+    ivaDesglosado: 'ivaDesglosado',
+    porcentajeIva: 'porcentajeIva',
     proveedorId: 'proveedorId',
     partidaId: 'partidaId',
     tipoEspecial: 'tipoEspecial',
@@ -29355,6 +29423,20 @@ export namespace Prisma {
    * Reference to a field of type 'Boolean'
    */
   export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
+   * Reference to a field of type 'Decimal'
+   */
+  export type DecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal'>
+    
+
+
+  /**
+   * Reference to a field of type 'Decimal[]'
+   */
+  export type ListDecimalFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Decimal[]'>
     
   /**
    * Deep Input Types
@@ -30922,6 +31004,10 @@ export namespace Prisma {
     descripcion?: StringNullableFilter<"FacturaProveedor"> | string | null
     precio?: FloatFilter<"FacturaProveedor"> | number
     precioConIVA?: BoolFilter<"FacturaProveedor"> | boolean
+    esFactura?: BoolFilter<"FacturaProveedor"> | boolean
+    baseImponible?: DecimalNullableFilter<"FacturaProveedor"> | Decimal | DecimalJsLike | number | string | null
+    ivaDesglosado?: DecimalNullableFilter<"FacturaProveedor"> | Decimal | DecimalJsLike | number | string | null
+    porcentajeIva?: DecimalNullableFilter<"FacturaProveedor"> | Decimal | DecimalJsLike | number | string | null
     proveedorId?: StringNullableFilter<"FacturaProveedor"> | string | null
     partidaId?: StringNullableFilter<"FacturaProveedor"> | string | null
     tipoEspecial?: StringNullableFilter<"FacturaProveedor"> | string | null
@@ -30942,6 +31028,10 @@ export namespace Prisma {
     descripcion?: SortOrderInput | SortOrder
     precio?: SortOrder
     precioConIVA?: SortOrder
+    esFactura?: SortOrder
+    baseImponible?: SortOrderInput | SortOrder
+    ivaDesglosado?: SortOrderInput | SortOrder
+    porcentajeIva?: SortOrderInput | SortOrder
     proveedorId?: SortOrderInput | SortOrder
     partidaId?: SortOrderInput | SortOrder
     tipoEspecial?: SortOrderInput | SortOrder
@@ -30965,6 +31055,10 @@ export namespace Prisma {
     descripcion?: StringNullableFilter<"FacturaProveedor"> | string | null
     precio?: FloatFilter<"FacturaProveedor"> | number
     precioConIVA?: BoolFilter<"FacturaProveedor"> | boolean
+    esFactura?: BoolFilter<"FacturaProveedor"> | boolean
+    baseImponible?: DecimalNullableFilter<"FacturaProveedor"> | Decimal | DecimalJsLike | number | string | null
+    ivaDesglosado?: DecimalNullableFilter<"FacturaProveedor"> | Decimal | DecimalJsLike | number | string | null
+    porcentajeIva?: DecimalNullableFilter<"FacturaProveedor"> | Decimal | DecimalJsLike | number | string | null
     proveedorId?: StringNullableFilter<"FacturaProveedor"> | string | null
     partidaId?: StringNullableFilter<"FacturaProveedor"> | string | null
     tipoEspecial?: StringNullableFilter<"FacturaProveedor"> | string | null
@@ -30985,6 +31079,10 @@ export namespace Prisma {
     descripcion?: SortOrderInput | SortOrder
     precio?: SortOrder
     precioConIVA?: SortOrder
+    esFactura?: SortOrder
+    baseImponible?: SortOrderInput | SortOrder
+    ivaDesglosado?: SortOrderInput | SortOrder
+    porcentajeIva?: SortOrderInput | SortOrder
     proveedorId?: SortOrderInput | SortOrder
     partidaId?: SortOrderInput | SortOrder
     tipoEspecial?: SortOrderInput | SortOrder
@@ -31010,6 +31108,10 @@ export namespace Prisma {
     descripcion?: StringNullableWithAggregatesFilter<"FacturaProveedor"> | string | null
     precio?: FloatWithAggregatesFilter<"FacturaProveedor"> | number
     precioConIVA?: BoolWithAggregatesFilter<"FacturaProveedor"> | boolean
+    esFactura?: BoolWithAggregatesFilter<"FacturaProveedor"> | boolean
+    baseImponible?: DecimalNullableWithAggregatesFilter<"FacturaProveedor"> | Decimal | DecimalJsLike | number | string | null
+    ivaDesglosado?: DecimalNullableWithAggregatesFilter<"FacturaProveedor"> | Decimal | DecimalJsLike | number | string | null
+    porcentajeIva?: DecimalNullableWithAggregatesFilter<"FacturaProveedor"> | Decimal | DecimalJsLike | number | string | null
     proveedorId?: StringNullableWithAggregatesFilter<"FacturaProveedor"> | string | null
     partidaId?: StringNullableWithAggregatesFilter<"FacturaProveedor"> | string | null
     tipoEspecial?: StringNullableWithAggregatesFilter<"FacturaProveedor"> | string | null
@@ -32843,6 +32945,10 @@ export namespace Prisma {
     descripcion?: string | null
     precio: number
     precioConIVA: boolean
+    esFactura?: boolean
+    baseImponible?: Decimal | DecimalJsLike | number | string | null
+    ivaDesglosado?: Decimal | DecimalJsLike | number | string | null
+    porcentajeIva?: Decimal | DecimalJsLike | number | string | null
     tipoEspecial?: string | null
     archivoUrl?: string | null
     documentoNombre?: string | null
@@ -32861,6 +32967,10 @@ export namespace Prisma {
     descripcion?: string | null
     precio: number
     precioConIVA: boolean
+    esFactura?: boolean
+    baseImponible?: Decimal | DecimalJsLike | number | string | null
+    ivaDesglosado?: Decimal | DecimalJsLike | number | string | null
+    porcentajeIva?: Decimal | DecimalJsLike | number | string | null
     proveedorId?: string | null
     partidaId?: string | null
     tipoEspecial?: string | null
@@ -32877,6 +32987,10 @@ export namespace Prisma {
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
     precio?: FloatFieldUpdateOperationsInput | number
     precioConIVA?: BoolFieldUpdateOperationsInput | boolean
+    esFactura?: BoolFieldUpdateOperationsInput | boolean
+    baseImponible?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    ivaDesglosado?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    porcentajeIva?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     tipoEspecial?: NullableStringFieldUpdateOperationsInput | string | null
     archivoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     documentoNombre?: NullableStringFieldUpdateOperationsInput | string | null
@@ -32895,6 +33009,10 @@ export namespace Prisma {
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
     precio?: FloatFieldUpdateOperationsInput | number
     precioConIVA?: BoolFieldUpdateOperationsInput | boolean
+    esFactura?: BoolFieldUpdateOperationsInput | boolean
+    baseImponible?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    ivaDesglosado?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    porcentajeIva?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     proveedorId?: NullableStringFieldUpdateOperationsInput | string | null
     partidaId?: NullableStringFieldUpdateOperationsInput | string | null
     tipoEspecial?: NullableStringFieldUpdateOperationsInput | string | null
@@ -32912,6 +33030,10 @@ export namespace Prisma {
     descripcion?: string | null
     precio: number
     precioConIVA: boolean
+    esFactura?: boolean
+    baseImponible?: Decimal | DecimalJsLike | number | string | null
+    ivaDesglosado?: Decimal | DecimalJsLike | number | string | null
+    porcentajeIva?: Decimal | DecimalJsLike | number | string | null
     proveedorId?: string | null
     partidaId?: string | null
     tipoEspecial?: string | null
@@ -32928,6 +33050,10 @@ export namespace Prisma {
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
     precio?: FloatFieldUpdateOperationsInput | number
     precioConIVA?: BoolFieldUpdateOperationsInput | boolean
+    esFactura?: BoolFieldUpdateOperationsInput | boolean
+    baseImponible?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    ivaDesglosado?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    porcentajeIva?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     tipoEspecial?: NullableStringFieldUpdateOperationsInput | string | null
     archivoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     documentoNombre?: NullableStringFieldUpdateOperationsInput | string | null
@@ -32943,6 +33069,10 @@ export namespace Prisma {
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
     precio?: FloatFieldUpdateOperationsInput | number
     precioConIVA?: BoolFieldUpdateOperationsInput | boolean
+    esFactura?: BoolFieldUpdateOperationsInput | boolean
+    baseImponible?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    ivaDesglosado?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    porcentajeIva?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     proveedorId?: NullableStringFieldUpdateOperationsInput | string | null
     partidaId?: NullableStringFieldUpdateOperationsInput | string | null
     tipoEspecial?: NullableStringFieldUpdateOperationsInput | string | null
@@ -34323,6 +34453,17 @@ export namespace Prisma {
     _max?: NestedBoolFilter<$PrismaModel>
   }
 
+  export type DecimalNullableFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+  }
+
   export type FacturaProveedorCountOrderByAggregateInput = {
     id?: SortOrder
     facturaId?: SortOrder
@@ -34330,6 +34471,10 @@ export namespace Prisma {
     descripcion?: SortOrder
     precio?: SortOrder
     precioConIVA?: SortOrder
+    esFactura?: SortOrder
+    baseImponible?: SortOrder
+    ivaDesglosado?: SortOrder
+    porcentajeIva?: SortOrder
     proveedorId?: SortOrder
     partidaId?: SortOrder
     tipoEspecial?: SortOrder
@@ -34342,6 +34487,9 @@ export namespace Prisma {
 
   export type FacturaProveedorAvgOrderByAggregateInput = {
     precio?: SortOrder
+    baseImponible?: SortOrder
+    ivaDesglosado?: SortOrder
+    porcentajeIva?: SortOrder
   }
 
   export type FacturaProveedorMaxOrderByAggregateInput = {
@@ -34351,6 +34499,10 @@ export namespace Prisma {
     descripcion?: SortOrder
     precio?: SortOrder
     precioConIVA?: SortOrder
+    esFactura?: SortOrder
+    baseImponible?: SortOrder
+    ivaDesglosado?: SortOrder
+    porcentajeIva?: SortOrder
     proveedorId?: SortOrder
     partidaId?: SortOrder
     tipoEspecial?: SortOrder
@@ -34368,6 +34520,10 @@ export namespace Prisma {
     descripcion?: SortOrder
     precio?: SortOrder
     precioConIVA?: SortOrder
+    esFactura?: SortOrder
+    baseImponible?: SortOrder
+    ivaDesglosado?: SortOrder
+    porcentajeIva?: SortOrder
     proveedorId?: SortOrder
     partidaId?: SortOrder
     tipoEspecial?: SortOrder
@@ -34380,6 +34536,25 @@ export namespace Prisma {
 
   export type FacturaProveedorSumOrderByAggregateInput = {
     precio?: SortOrder
+    baseImponible?: SortOrder
+    ivaDesglosado?: SortOrder
+    porcentajeIva?: SortOrder
+  }
+
+  export type DecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedDecimalNullableFilter<$PrismaModel>
+    _sum?: NestedDecimalNullableFilter<$PrismaModel>
+    _min?: NestedDecimalNullableFilter<$PrismaModel>
+    _max?: NestedDecimalNullableFilter<$PrismaModel>
   }
 
   export type IdiomaCountOrderByAggregateInput = {
@@ -35761,6 +35936,14 @@ export namespace Prisma {
     connect?: PartidaPresupuestoWhereUniqueInput
   }
 
+  export type NullableDecimalFieldUpdateOperationsInput = {
+    set?: Decimal | DecimalJsLike | number | string | null
+    increment?: Decimal | DecimalJsLike | number | string
+    decrement?: Decimal | DecimalJsLike | number | string
+    multiply?: Decimal | DecimalJsLike | number | string
+    divide?: Decimal | DecimalJsLike | number | string
+  }
+
   export type FacturaUpdateOneRequiredWithoutFacturasProveedoresNestedInput = {
     create?: XOR<FacturaCreateWithoutFacturasProveedoresInput, FacturaUncheckedCreateWithoutFacturasProveedoresInput>
     connectOrCreate?: FacturaCreateOrConnectWithoutFacturasProveedoresInput
@@ -36142,6 +36325,33 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedDecimalNullableFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+  }
+
+  export type NestedDecimalNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel> | null
+    in?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    notIn?: Decimal[] | DecimalJsLike[] | number[] | string[] | ListDecimalFieldRefInput<$PrismaModel> | null
+    lt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    lte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gt?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    gte?: Decimal | DecimalJsLike | number | string | DecimalFieldRefInput<$PrismaModel>
+    not?: NestedDecimalNullableWithAggregatesFilter<$PrismaModel> | Decimal | DecimalJsLike | number | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedDecimalNullableFilter<$PrismaModel>
+    _sum?: NestedDecimalNullableFilter<$PrismaModel>
+    _min?: NestedDecimalNullableFilter<$PrismaModel>
+    _max?: NestedDecimalNullableFilter<$PrismaModel>
   }
 
   export type ProductoCreateWithoutCategoriaInput = {
@@ -37064,6 +37274,10 @@ export namespace Prisma {
     descripcion?: string | null
     precio: number
     precioConIVA: boolean
+    esFactura?: boolean
+    baseImponible?: Decimal | DecimalJsLike | number | string | null
+    ivaDesglosado?: Decimal | DecimalJsLike | number | string | null
+    porcentajeIva?: Decimal | DecimalJsLike | number | string | null
     tipoEspecial?: string | null
     archivoUrl?: string | null
     documentoNombre?: string | null
@@ -37081,6 +37295,10 @@ export namespace Prisma {
     descripcion?: string | null
     precio: number
     precioConIVA: boolean
+    esFactura?: boolean
+    baseImponible?: Decimal | DecimalJsLike | number | string | null
+    ivaDesglosado?: Decimal | DecimalJsLike | number | string | null
+    porcentajeIva?: Decimal | DecimalJsLike | number | string | null
     proveedorId?: string | null
     tipoEspecial?: string | null
     archivoUrl?: string | null
@@ -37194,6 +37412,10 @@ export namespace Prisma {
     descripcion?: StringNullableFilter<"FacturaProveedor"> | string | null
     precio?: FloatFilter<"FacturaProveedor"> | number
     precioConIVA?: BoolFilter<"FacturaProveedor"> | boolean
+    esFactura?: BoolFilter<"FacturaProveedor"> | boolean
+    baseImponible?: DecimalNullableFilter<"FacturaProveedor"> | Decimal | DecimalJsLike | number | string | null
+    ivaDesglosado?: DecimalNullableFilter<"FacturaProveedor"> | Decimal | DecimalJsLike | number | string | null
+    porcentajeIva?: DecimalNullableFilter<"FacturaProveedor"> | Decimal | DecimalJsLike | number | string | null
     proveedorId?: StringNullableFilter<"FacturaProveedor"> | string | null
     partidaId?: StringNullableFilter<"FacturaProveedor"> | string | null
     tipoEspecial?: StringNullableFilter<"FacturaProveedor"> | string | null
@@ -37899,6 +38121,10 @@ export namespace Prisma {
     descripcion?: string | null
     precio: number
     precioConIVA: boolean
+    esFactura?: boolean
+    baseImponible?: Decimal | DecimalJsLike | number | string | null
+    ivaDesglosado?: Decimal | DecimalJsLike | number | string | null
+    porcentajeIva?: Decimal | DecimalJsLike | number | string | null
     tipoEspecial?: string | null
     archivoUrl?: string | null
     documentoNombre?: string | null
@@ -37915,6 +38141,10 @@ export namespace Prisma {
     descripcion?: string | null
     precio: number
     precioConIVA: boolean
+    esFactura?: boolean
+    baseImponible?: Decimal | DecimalJsLike | number | string | null
+    ivaDesglosado?: Decimal | DecimalJsLike | number | string | null
+    porcentajeIva?: Decimal | DecimalJsLike | number | string | null
     proveedorId?: string | null
     partidaId?: string | null
     tipoEspecial?: string | null
@@ -38615,6 +38845,10 @@ export namespace Prisma {
     descripcion?: string | null
     precio: number
     precioConIVA: boolean
+    esFactura?: boolean
+    baseImponible?: Decimal | DecimalJsLike | number | string | null
+    ivaDesglosado?: Decimal | DecimalJsLike | number | string | null
+    porcentajeIva?: Decimal | DecimalJsLike | number | string | null
     tipoEspecial?: string | null
     archivoUrl?: string | null
     documentoNombre?: string | null
@@ -38632,6 +38866,10 @@ export namespace Prisma {
     descripcion?: string | null
     precio: number
     precioConIVA: boolean
+    esFactura?: boolean
+    baseImponible?: Decimal | DecimalJsLike | number | string | null
+    ivaDesglosado?: Decimal | DecimalJsLike | number | string | null
+    porcentajeIva?: Decimal | DecimalJsLike | number | string | null
     partidaId?: string | null
     tipoEspecial?: string | null
     archivoUrl?: string | null
@@ -39922,6 +40160,10 @@ export namespace Prisma {
     descripcion?: string | null
     precio: number
     precioConIVA: boolean
+    esFactura?: boolean
+    baseImponible?: Decimal | DecimalJsLike | number | string | null
+    ivaDesglosado?: Decimal | DecimalJsLike | number | string | null
+    porcentajeIva?: Decimal | DecimalJsLike | number | string | null
     proveedorId?: string | null
     tipoEspecial?: string | null
     archivoUrl?: string | null
@@ -40081,6 +40323,10 @@ export namespace Prisma {
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
     precio?: FloatFieldUpdateOperationsInput | number
     precioConIVA?: BoolFieldUpdateOperationsInput | boolean
+    esFactura?: BoolFieldUpdateOperationsInput | boolean
+    baseImponible?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    ivaDesglosado?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    porcentajeIva?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     tipoEspecial?: NullableStringFieldUpdateOperationsInput | string | null
     archivoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     documentoNombre?: NullableStringFieldUpdateOperationsInput | string | null
@@ -40098,6 +40344,10 @@ export namespace Prisma {
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
     precio?: FloatFieldUpdateOperationsInput | number
     precioConIVA?: BoolFieldUpdateOperationsInput | boolean
+    esFactura?: BoolFieldUpdateOperationsInput | boolean
+    baseImponible?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    ivaDesglosado?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    porcentajeIva?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     proveedorId?: NullableStringFieldUpdateOperationsInput | string | null
     tipoEspecial?: NullableStringFieldUpdateOperationsInput | string | null
     archivoUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -40114,6 +40364,10 @@ export namespace Prisma {
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
     precio?: FloatFieldUpdateOperationsInput | number
     precioConIVA?: BoolFieldUpdateOperationsInput | boolean
+    esFactura?: BoolFieldUpdateOperationsInput | boolean
+    baseImponible?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    ivaDesglosado?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    porcentajeIva?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     proveedorId?: NullableStringFieldUpdateOperationsInput | string | null
     tipoEspecial?: NullableStringFieldUpdateOperationsInput | string | null
     archivoUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -40302,6 +40556,10 @@ export namespace Prisma {
     descripcion?: string | null
     precio: number
     precioConIVA: boolean
+    esFactura?: boolean
+    baseImponible?: Decimal | DecimalJsLike | number | string | null
+    ivaDesglosado?: Decimal | DecimalJsLike | number | string | null
+    porcentajeIva?: Decimal | DecimalJsLike | number | string | null
     proveedorId?: string | null
     partidaId?: string | null
     tipoEspecial?: string | null
@@ -40457,6 +40715,10 @@ export namespace Prisma {
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
     precio?: FloatFieldUpdateOperationsInput | number
     precioConIVA?: BoolFieldUpdateOperationsInput | boolean
+    esFactura?: BoolFieldUpdateOperationsInput | boolean
+    baseImponible?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    ivaDesglosado?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    porcentajeIva?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     tipoEspecial?: NullableStringFieldUpdateOperationsInput | string | null
     archivoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     documentoNombre?: NullableStringFieldUpdateOperationsInput | string | null
@@ -40473,6 +40735,10 @@ export namespace Prisma {
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
     precio?: FloatFieldUpdateOperationsInput | number
     precioConIVA?: BoolFieldUpdateOperationsInput | boolean
+    esFactura?: BoolFieldUpdateOperationsInput | boolean
+    baseImponible?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    ivaDesglosado?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    porcentajeIva?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     proveedorId?: NullableStringFieldUpdateOperationsInput | string | null
     partidaId?: NullableStringFieldUpdateOperationsInput | string | null
     tipoEspecial?: NullableStringFieldUpdateOperationsInput | string | null
@@ -40489,6 +40755,10 @@ export namespace Prisma {
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
     precio?: FloatFieldUpdateOperationsInput | number
     precioConIVA?: BoolFieldUpdateOperationsInput | boolean
+    esFactura?: BoolFieldUpdateOperationsInput | boolean
+    baseImponible?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    ivaDesglosado?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    porcentajeIva?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     proveedorId?: NullableStringFieldUpdateOperationsInput | string | null
     partidaId?: NullableStringFieldUpdateOperationsInput | string | null
     tipoEspecial?: NullableStringFieldUpdateOperationsInput | string | null
@@ -40594,6 +40864,10 @@ export namespace Prisma {
     descripcion?: string | null
     precio: number
     precioConIVA: boolean
+    esFactura?: boolean
+    baseImponible?: Decimal | DecimalJsLike | number | string | null
+    ivaDesglosado?: Decimal | DecimalJsLike | number | string | null
+    porcentajeIva?: Decimal | DecimalJsLike | number | string | null
     partidaId?: string | null
     tipoEspecial?: string | null
     archivoUrl?: string | null
@@ -40693,6 +40967,10 @@ export namespace Prisma {
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
     precio?: FloatFieldUpdateOperationsInput | number
     precioConIVA?: BoolFieldUpdateOperationsInput | boolean
+    esFactura?: BoolFieldUpdateOperationsInput | boolean
+    baseImponible?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    ivaDesglosado?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    porcentajeIva?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     tipoEspecial?: NullableStringFieldUpdateOperationsInput | string | null
     archivoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     documentoNombre?: NullableStringFieldUpdateOperationsInput | string | null
@@ -40710,6 +40988,10 @@ export namespace Prisma {
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
     precio?: FloatFieldUpdateOperationsInput | number
     precioConIVA?: BoolFieldUpdateOperationsInput | boolean
+    esFactura?: BoolFieldUpdateOperationsInput | boolean
+    baseImponible?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    ivaDesglosado?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    porcentajeIva?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     partidaId?: NullableStringFieldUpdateOperationsInput | string | null
     tipoEspecial?: NullableStringFieldUpdateOperationsInput | string | null
     archivoUrl?: NullableStringFieldUpdateOperationsInput | string | null
@@ -40726,6 +41008,10 @@ export namespace Prisma {
     descripcion?: NullableStringFieldUpdateOperationsInput | string | null
     precio?: FloatFieldUpdateOperationsInput | number
     precioConIVA?: BoolFieldUpdateOperationsInput | boolean
+    esFactura?: BoolFieldUpdateOperationsInput | boolean
+    baseImponible?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    ivaDesglosado?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
+    porcentajeIva?: NullableDecimalFieldUpdateOperationsInput | Decimal | DecimalJsLike | number | string | null
     partidaId?: NullableStringFieldUpdateOperationsInput | string | null
     tipoEspecial?: NullableStringFieldUpdateOperationsInput | string | null
     archivoUrl?: NullableStringFieldUpdateOperationsInput | string | null

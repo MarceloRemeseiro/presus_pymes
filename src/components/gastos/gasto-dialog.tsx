@@ -43,6 +43,7 @@ export interface GastoDialogProps {
   montoInicial?: number
   nombreInicial?: string
   precioConIVAInicial?: boolean
+  esFacturaInicial?: boolean
   descripcionInicial?: string
   documentoNombreInicial?: string
   documentoFechaInicial?: string
@@ -60,6 +61,7 @@ export function GastoDialog({
   montoInicial = 0,
   nombreInicial = "",
   precioConIVAInicial = true,
+  esFacturaInicial = true,
   descripcionInicial = "",
   documentoNombreInicial = "",
   documentoFechaInicial = "",
@@ -82,6 +84,7 @@ export function GastoDialog({
   const [nombre, setNombre] = useState(nombreInicial)
   const [descripcion, setDescripcion] = useState(descripcionInicial)
   const [precioConIVA, setPrecioConIVA] = useState(precioConIVAInicial)
+  const [esFactura, setEsFactura] = useState(esFacturaInicial)
   const [tipoEspecial, setTipoEspecial] = useState(tipoEspecialInicial)
   
   // Campos para el documento
@@ -110,6 +113,7 @@ export function GastoDialog({
       setNombre(nombreInicial)
       setDescripcion(descripcionInicial)
       setPrecioConIVA(precioConIVAInicial)
+      setEsFactura(esFacturaInicial)
       setTipoEspecial(tipoEspecialInicial)
       setArchivoUrl("")
       setFileName("")
@@ -127,7 +131,7 @@ export function GastoDialog({
       const fileNameFromUrl = archivoUrlInicial.split('/').pop() || documentoNombreInicial || "";
       setFileName(fileNameFromUrl)
     }
-  }, [open, modoEdicion, proveedorIdInicial, partidaIdInicial, montoInicial, nombreInicial, descripcionInicial, precioConIVAInicial, tipoEspecialInicial, archivoUrlInicial, documentoNombreInicial])
+  }, [open, modoEdicion, proveedorIdInicial, partidaIdInicial, montoInicial, nombreInicial, descripcionInicial, precioConIVAInicial, esFacturaInicial, tipoEspecialInicial, archivoUrlInicial, documentoNombreInicial])
 
   // Cargar partidas cuando se abre el diálogo
   useEffect(() => {
@@ -192,6 +196,7 @@ export function GastoDialog({
         setNombre(data.nombre || "")
         setDescripcion(data.descripcion || "")
         setPrecioConIVA(data.precioConIVA || false)
+        setEsFactura(data.esFactura === undefined ? true : data.esFactura)
         setTipoEspecial(data.tipoEspecial || "")
         
         // Campos del documento
@@ -420,6 +425,7 @@ export function GastoDialog({
         precio: monto,
         nombre,
         precioConIVA,
+        esFactura,
         descripcion: descripcion || null,
         // Agregar bandera para proveedores especiales
         tipoEspecial: (proveedorId === "gastos-generales" || proveedorId === "freelance" || proveedorId === "dietas") ? proveedorId : tipoEspecial,
@@ -632,6 +638,18 @@ export function GastoDialog({
               />
               <Label htmlFor="precioConIVA" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                 El precio incluye IVA
+              </Label>
+            </div>
+            {/* NUEVO: Checkbox Es Factura */}
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="esFactura"
+                checked={esFactura}
+                onCheckedChange={(checked) => setEsFactura(checked === true)}
+                disabled={loading}
+              />
+              <Label htmlFor="esFactura" className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                ¿Es una factura? (Marcar si el IVA es deducible)
               </Label>
             </div>
             {/* Notas */}

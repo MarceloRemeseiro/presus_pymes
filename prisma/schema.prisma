@@ -324,8 +324,12 @@ model FacturaProveedor {
   factura        Factura    @relation(fields: [facturaId], references: [id], onDelete: Cascade)
   nombre         String     // Nombre o concepto de la factura/gasto
   descripcion    String?    // Descripción opcional
-  precio         Float      // Precio de la factura/gasto
+  precio         Float      // Precio de la factura/gasto. Si precioConIVA es true, este es el total. Si es false, esta es la base.
   precioConIVA   Boolean    // Indica si el precio incluye IVA
+  esFactura      Boolean    @default(true) // Indica si el gasto es una factura deducible
+  baseImponible  Decimal?   // Base imponible del gasto (calculada)
+  ivaDesglosado  Decimal?   // Importe del IVA del gasto (calculado)
+  porcentajeIva  Decimal?   // Porcentaje de IVA aplicado (e.g., 21)
   proveedorId    String?    // Relación opcional con proveedor
   proveedor      Proveedor? @relation(fields: [proveedorId], references: [id])
   partidaId      String?    // Relación opcional con partida de presupuesto

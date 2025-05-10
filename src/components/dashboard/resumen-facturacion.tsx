@@ -26,7 +26,9 @@ interface ResumenFacturacionProps {
 }
 
 interface DatosFacturacion {
-  total: number;
+  totalFacturadoSinIVA: number;
+  totalIVARepercutido: number;
+  totalFacturadoConIVA: number;
   pendienteCobro: number;
   totalCobrado: number;
   numeroFacturas: number;
@@ -110,21 +112,29 @@ export function ResumenFacturacion({ filtros }: ResumenFacturacionProps) {
             ? `del año ${filtros.año}` 
             : filtros.periodo === 'trimestral' 
               ? `del ${filtros.trimestre}º trimestre de ${filtros.año}`
-              : `de ${new Date(filtros.año, (filtros.mes || 1) - 1).toLocaleString('es-ES', { month: 'long' })} de ${filtros.año}`
+              : `de ${new Date(filtros.año, (filtros.mes ? filtros.mes -1 : 0) ).toLocaleString('es-ES', { month: 'long' })} de ${filtros.año}`
           }
         </CardDescription>
       </CardHeader>
       <CardContent>
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <h3 className="text-sm font-medium text-muted-foreground">Total facturado</h3>
+            <h3 className="text-sm font-medium text-muted-foreground">Total facturado (sin IVA)</h3>
             {cargando ? (
               <Skeleton className="h-10 w-full" />
             ) : (
-              <p className="text-2xl font-bold">{formatearMoneda(datos?.total || 0)}</p>
+              <p className="text-2xl font-bold">{formatearMoneda(datos?.totalFacturadoSinIVA || 0)}</p>
             )}
           </div>
-          
+
+          <div className="space-y-2">
+            <h3 className="text-sm font-medium text-muted-foreground">Total facturado (con IVA)</h3>
+            {cargando ? (
+              <Skeleton className="h-10 w-full" />
+            ) : (
+              <p className="text-2xl font-bold">{formatearMoneda(datos?.totalFacturadoConIVA || 0)}</p>
+            )}
+          </div>
           <div className="space-y-2">
             <h3 className="text-sm font-medium text-muted-foreground">Pendiente de cobro</h3>
             {cargando ? (

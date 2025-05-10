@@ -15,25 +15,24 @@ export async function GET(request: Request) {
 
     // Configurar fechas según el período
     if (periodo === 'anual') {
-      fechaInicio = new Date(año, 0, 1); // 1 de enero del año seleccionado
-      fechaFin = new Date(año, 11, 31, 23, 59, 59); // 31 de diciembre del año seleccionado
+      fechaInicio = new Date(año, 0, 1);
+      fechaFin = new Date(año, 11, 31, 23, 59, 59);
     } else if (periodo === 'trimestral' && trimestre >= 1 && trimestre <= 4) {
-      const mesInicio = (trimestre - 1) * 3;
-      fechaInicio = new Date(año, mesInicio, 1);
-      fechaFin = new Date(año, mesInicio + 3, 0, 23, 59, 59);
+      const mesInicioNum = (trimestre - 1) * 3;
+      fechaInicio = new Date(año, mesInicioNum, 1);
+      fechaFin = new Date(año, mesInicioNum + 3, 0, 23, 59, 59);
     } else if (periodo === 'mensual' && mes >= 1 && mes <= 12) {
       fechaInicio = new Date(año, mes - 1, 1);
       fechaFin = new Date(año, mes, 0, 23, 59, 59);
     } else {
-      // Período por defecto: año actual
       fechaInicio = new Date(new Date().getFullYear(), 0, 1);
       fechaFin = new Date(new Date().getFullYear(), 11, 31, 23, 59, 59);
     }
 
-    // 1. Total facturado en el período
-    const totalFacturado = await prisma.factura.aggregate({
+    // 1. Total Ingresos (Facturado SIN IVA) en el período
+    const ingresosData = await prisma.factura.aggregate({
       _sum: {
-        total: true
+        subtotal: true // Suma de bases imponibles (SIN IVA)
       },
       where: {
         fecha: {
@@ -45,22 +44,31 @@ export async function GET(request: Request) {
         }
       }
     });
+    const ingresosSinIVA = ingresosData._sum.subtotal || 0;
 
-    // 2. Total de gastos en el período
-    const totalGastos = await prisma.facturaProveedor.aggregate({
-      _sum: {
-        precio: true
-      },
+    // 2. Total Gastos Operativos (para cálculo de beneficio)
+    // Incluye base imponible de gastos con factura y el total de gastos sin factura (tickets)
+    const todosLosGastosDelPeriodo = await prisma.facturaProveedor.findMany({
       where: {
-        createdAt: {
-          gte: fechaInicio,
-          lte: fechaFin
-        }
+        OR: [
+          { documentoFecha: { gte: fechaInicio, lte: fechaFin } },
+          { AND: [{ documentoFecha: null }, { createdAt: { gte: fechaInicio, lte: fechaFin } }] }
+        ]
       }
     });
 
-    // 3. Total de facturas pendientes de cobro
-    const pendienteCobro = await prisma.factura.aggregate({
+    const costeTotalGastos = todosLosGastosDelPeriodo.reduce((acc, gasto) => {
+      if (gasto.esFactura) {
+        const base = typeof gasto.baseImponible === 'number' ? gasto.baseImponible : parseFloat(gasto.baseImponible?.toString() || '0');
+        return acc + base;
+      } else {
+        // Para gastos sin factura (tickets), el 'precio' es el coste total para la empresa
+        return acc + gasto.precio;
+      }
+    }, 0);
+
+    // 3. Total de facturas pendientes de cobro (esto se mantiene sobre el total CON IVA)
+    const pendienteCobroData = await prisma.factura.aggregate({
       _sum: {
         total: true
       },
@@ -69,99 +77,98 @@ export async function GET(request: Request) {
           gte: fechaInicio,
           lte: fechaFin
         },
-        estado: 'ENVIADA'
+        estado: 'ENVIADA' // O cualquier estado que signifique pendiente
       }
     });
+    const pendienteCobroConIVA = pendienteCobroData._sum.total || 0;
 
     // 4. Datos para evolución temporal (por mes)
     const evolucionMensual = [];
-    
-    // Definir el número de meses a mostrar según el período
-    let mesesAMostrar;
+    let mesesBucle: number[];
+    let inicioMesBucle: number;
+
     if (periodo === 'anual') {
-      mesesAMostrar = 12;
+      mesesBucle = Array.from({ length: 12 }, (_, i) => i); // 0 (Enero) a 11 (Diciembre)
+      inicioMesBucle = 0;
     } else if (periodo === 'trimestral') {
-      mesesAMostrar = 3;
-    } else {
-      mesesAMostrar = 1;
+      inicioMesBucle = (trimestre - 1) * 3;
+      mesesBucle = Array.from({ length: 3 }, (_, i) => inicioMesBucle + i);
+    } else { // mensual
+      mesesBucle = [mes - 1]; // El mes ya viene 1-indexado
+      inicioMesBucle = mes - 1;
     }
     
-    // Obtener datos mensuales
-    for (let i = 0; i < mesesAMostrar; i++) {
-      let mesInicio: Date;
-      let mesFin: Date;
+    for (const mesIndex of mesesBucle) {
+      const mesActualInicio = new Date(año, mesIndex, 1);
+      const mesActualFin = new Date(año, mesIndex + 1, 0, 23, 59, 59);
       
-      if (periodo === 'anual') {
-        mesInicio = new Date(año, i, 1);
-        mesFin = new Date(año, i + 1, 0, 23, 59, 59);
-      } else if (periodo === 'trimestral') {
-        const mesBase = (trimestre - 1) * 3;
-        mesInicio = new Date(año, mesBase + i, 1);
-        mesFin = new Date(año, mesBase + i + 1, 0, 23, 59, 59);
-      } else {
-        mesInicio = new Date(año, mes - 1, 1);
-        mesFin = new Date(año, mes, 0, 23, 59, 59);
-      }
-      
-      // Facturación del mes
+      // Facturación del mes (SIN IVA)
       const facturacionMes = await prisma.factura.aggregate({
         _sum: {
-          total: true
+          subtotal: true
         },
         where: {
           fecha: {
-            gte: mesInicio,
-            lte: mesFin
+            gte: mesActualInicio,
+            lte: mesActualFin
           },
           estado: {
             not: 'ANULADA'
           }
         }
       });
+      const ingresosMesSinIVA = facturacionMes._sum.subtotal || 0;
       
-      // Gastos del mes
-      const gastosMes = await prisma.facturaProveedor.aggregate({
-        _sum: {
-          precio: true
-        },
+      // Gastos del mes (para beneficio)
+      const gastosMesRecords = await prisma.facturaProveedor.findMany({
         where: {
-          createdAt: {
-            gte: mesInicio,
-            lte: mesFin
-          }
+          // No filtramos por esFactura aquí, ya que los sumaremos de forma diferente
+          OR: [
+            { documentoFecha: { gte: mesActualInicio, lte: mesActualFin } },
+            { AND: [{ documentoFecha: null }, { createdAt: { gte: mesActualInicio, lte: mesActualFin } }] }
+          ]
         }
       });
+      const costeTotalGastosMes = gastosMesRecords.reduce((acc, gasto) => {
+        if (gasto.esFactura) {
+          const base = typeof gasto.baseImponible === 'number' ? gasto.baseImponible : parseFloat(gasto.baseImponible?.toString() || '0');
+          return acc + base;
+        } else {
+          return acc + gasto.precio;
+        }
+      }, 0);
       
-      // Nombre del mes
-      const nombreMes = mesInicio.toLocaleString('es-ES', { month: 'long' });
+      const nombreMes = mesActualInicio.toLocaleString('es-ES', { month: 'long' });
       
       evolucionMensual.push({
         mes: nombreMes,
-        ingresos: facturacionMes._sum.total || 0,
-        gastos: gastosMes._sum.precio || 0,
-        beneficio: (facturacionMes._sum.total || 0) - (gastosMes._sum.precio || 0)
+        ingresos: parseFloat(ingresosMesSinIVA.toFixed(2)),
+        gastos: parseFloat(costeTotalGastosMes.toFixed(2)), // Usar el nuevo cálculo
+        beneficio: parseFloat((ingresosMesSinIVA - costeTotalGastosMes).toFixed(2))
       });
     }
 
-    // 5. Proyección de ingresos basada en presupuestos pendientes
-    // Nota: Ajustado según el modelo de datos actual, asumiendo que los presupuestos
-    // tienen un estado 'APROBADO' y no tienen factura asociada
-    const presupuestosPendientes = await prisma.presupuesto.aggregate({
+    // 5. Proyección de ingresos (SIN IVA) basada en presupuestos APROBADOS
+    const proyeccionData = await prisma.presupuesto.aggregate({
       _sum: {
-        total: true
+        subtotal: true // Sumamos el subtotal (SIN IVA)
       },
       where: {
         estado: 'APROBADO',
-        // Si la relación no existe en el modelo, omitimos la condición
-        // y confiamos en el estado 'APROBADO' para indicar pendiente de facturar
+        // Aquí podríamos añadir una condición para excluir presupuestos que ya han sido facturados
+        // Por ejemplo, si tienes una relación o un campo que lo indique.
+        // facturaId: null, // Si tienes un campo así en tu modelo Presupuesto
+        fecha: { // Opcional: filtrar por presupuestos aprobados en el período actual
+          gte: fechaInicio,
+          lte: fechaFin
+        }
       }
     });
+    const proyeccionIngresosSinIVA = proyeccionData._sum.subtotal || 0;
 
     // Calcular margen de beneficio
-    const ingresos = totalFacturado._sum.total || 0;
-    const gastos = totalGastos._sum.precio || 0;
-    const beneficio = ingresos - gastos;
-    const margenPorcentaje = ingresos > 0 ? (beneficio / ingresos) * 100 : 0;
+    const beneficio = ingresosSinIVA - costeTotalGastos; // Usar costeTotalGastos
+    const margenPorcentaje = ingresosSinIVA > 0 ? (beneficio / ingresosSinIVA) * 100 : 0;
 
     // Retornar datos
     return NextResponse.json({
@@ -174,13 +181,13 @@ export async function GET(request: Request) {
         fechaFin: fechaFin.toISOString()
       },
       financieras: {
-        ingresos,
-        gastos,
-        beneficio,
-        margenPorcentaje,
-        pendienteCobro: pendienteCobro._sum.total || 0,
-        proyeccionIngresos: presupuestosPendientes._sum?.total || 0,
-        evolucionMensual
+        ingresos: parseFloat(ingresosSinIVA.toFixed(2)),
+        gastos: parseFloat(costeTotalGastos.toFixed(2)), // Usar costeTotalGastos
+        beneficio: parseFloat(beneficio.toFixed(2)),
+        margenPorcentaje: parseFloat(margenPorcentaje.toFixed(2)),
+        pendienteCobro: parseFloat(pendienteCobroConIVA.toFixed(2)), 
+        proyeccionIngresos: parseFloat(proyeccionIngresosSinIVA.toFixed(2)), 
+        evolucionMensual 
       }
     });
   } catch (error) {
