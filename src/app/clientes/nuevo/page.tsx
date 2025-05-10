@@ -9,20 +9,29 @@ import { toast, Toaster } from "sonner"
 import { ArrowLeft } from "lucide-react"
 import Link from "next/link"
 
+// Importar el tipo desde el componente del formulario
+import { type ClienteFormValues } from "@/components/clientes/cliente-form";
+
 export default function NuevoClientePage() {
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleSubmit = async (data: any) => {
+  const handleSubmit = async (data: ClienteFormValues) => {
     try {
       setIsSubmitting(true)
       
+      // Asegurarse de que esIntracomunitario se envíe, incluso si es false
+      const dataToSend = {
+        ...data,
+        esIntracomunitario: data.esIntracomunitario || false,
+      };
+
       const response = await fetch("/api/clientes", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(dataToSend),
       })
       
       if (!response.ok) {

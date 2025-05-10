@@ -27,6 +27,8 @@ export async function GET(req: Request, context: { params: Promise<{ id: string 
       }
     })
     
+    // Añadir log específico para el campo esOperacionIntracomunitaria
+    console.log('Factura esOperacionIntracomunitaria:', factura?.esOperacionIntracomunitaria)
     console.log('Factura recuperada:', JSON.stringify(factura, null, 2))
     if (factura && factura.items) {
       factura.items.forEach((item: any, idx: number) => {
@@ -61,6 +63,7 @@ export async function PUT(req: Request, context: { params: Promise<{ id: string 
     console.log("==== BACKEND: ACTUALIZANDO FACTURA ====");
     console.log(`Factura ID: ${facturaId}`);
     console.log(`Número de items recibidos: ${body.items.length}`);
+    console.log(`esOperacionIntracomunitaria: ${body.esOperacionIntracomunitaria}`);
     
     // Verificar que la factura existe
     const facturaExistente = await prisma.factura.findUnique({
@@ -93,7 +96,8 @@ export async function PUT(req: Request, context: { params: Promise<{ id: string 
         } : {}),
         ...(body.clienteId !== undefined ? { clienteId: body.clienteId } : {}),
         ...(body.observaciones !== undefined ? { observaciones: body.observaciones } : {}),
-        ...(body.estado ? { estado: body.estado } : {})
+        ...(body.estado ? { estado: body.estado } : {}),
+        ...(body.esOperacionIntracomunitaria !== undefined ? { esOperacionIntracomunitaria: body.esOperacionIntracomunitaria } : {})
       },
     })
     
@@ -178,6 +182,8 @@ export async function PUT(req: Request, context: { params: Promise<{ id: string 
         presupuestos: true
       }
     })
+    
+    console.log('Factura actualizada esOperacionIntracomunitaria:', facturaFinal?.esOperacionIntracomunitaria)
     
     return NextResponse.json(facturaFinal)
     

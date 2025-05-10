@@ -28,6 +28,7 @@ import {
 const clienteSchema = z.object({
   nombre: z.string().min(1, { message: "El nombre es obligatorio" }),
   nif: z.string().optional().nullable(),
+  esIntracomunitario: z.boolean().optional(),
   direccion: z.string().optional().nullable(),
   ciudad: z.string().optional().nullable(),
   email: z.string().optional().nullable(),
@@ -35,13 +36,14 @@ const clienteSchema = z.object({
   tipo: z.enum(["EMPRESA", "PARTICULAR"]),
 })
 
-type ClienteFormValues = z.infer<typeof clienteSchema>
+export type ClienteFormValues = z.infer<typeof clienteSchema>
 
 interface ClienteFormProps {
   initialData?: {
     id: string
     nombre: string
     nif?: string | null
+    esIntracomunitario?: boolean
     direccion?: string | null
     ciudad?: string | null
     email?: string | null
@@ -59,6 +61,7 @@ export function ClienteForm({ initialData, onSubmit, isSubmitting = false }: Cli
     defaultValues: {
       nombre: initialData?.nombre || "",
       nif: initialData?.nif || "",
+      esIntracomunitario: initialData?.esIntracomunitario || false,
       direccion: initialData?.direccion || "",
       ciudad: initialData?.ciudad || "",
       email: initialData?.email || "",
@@ -66,6 +69,9 @@ export function ClienteForm({ initialData, onSubmit, isSubmitting = false }: Cli
       tipo: initialData?.tipo || "EMPRESA",
     }
   })
+
+  // Observar el valor de esIntracomunitario para cambiar la etiqueta del NIF
+  const esIntracomunitario = form.watch("esIntracomunitario");
 
   return (
     <Form {...form}>
@@ -111,15 +117,42 @@ export function ClienteForm({ initialData, onSubmit, isSubmitting = false }: Cli
           )}
         />
 
-        {/* NIF/CIF */}
+        {/* Es Intracomunitario (Checkbox) */}
+        <FormField
+          control={form.control}
+          name="esIntracomunitario"
+          render={({ field }) => (
+            <FormItem className="flex flex-row items-center space-x-3 space-y-0 rounded-md border p-4 shadow">
+              <FormControl>
+                <input
+                  type="checkbox"
+                  checked={field.value}
+                  onChange={field.onChange}
+                  className="form-checkbox h-5 w-5 text-blue-600"
+                />
+              </FormControl>
+              <div className="space-y-1 leading-none">
+                <FormLabel>
+                  Cliente Intracomunitario (operación exenta de IVA)
+                </FormLabel>
+              </div>
+            </FormItem>
+          )}
+        />
+
+        {/* NIF/CIF o VAT Number */}
         <FormField
           control={form.control}
           name="nif"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>NIF/CIF</FormLabel>
+              <FormLabel>{esIntracomunitario ? "VAT Number (Intracomunitario)" : "NIF/CIF"}</FormLabel>
               <FormControl>
-                <Input {...field} placeholder="NIF o CIF" value={field.value || ""} />
+                <Input 
+                  {...field} 
+                  placeholder={esIntracomunitario ? "Ej: DE123456789" : "NIF o CIF"} 
+                  value={field.value || ""} 
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

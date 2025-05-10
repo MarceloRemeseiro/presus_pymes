@@ -63,6 +63,7 @@ interface Cliente {
   id: string
   nombre: string
   nif?: string | null
+  esIntracomunitario?: boolean
 }
 
 interface Producto {
@@ -119,6 +120,7 @@ interface Factura {
   subtotal: number
   iva: number
   total: number
+  esOperacionIntracomunitaria?: boolean
   items: {
     id: string
     productoId?: string
@@ -242,6 +244,7 @@ export default function EditarFacturaPage({ params }: { params: Promise<{ id: st
   const [clienteId, setClienteId] = useState<string>("")
   const [estado, setEstado] = useState<string>("PENDIENTE")
   const [observaciones, setObservaciones] = useState("")
+  const [esOperacionIntracomunitaria, setEsOperacionIntracomunitaria] = useState(false)
   
   // Estado para partidas e items
   const [partidasFactura, setPartidasFactura] = useState<PartidaLocalState[]>([])
@@ -274,6 +277,7 @@ export default function EditarFacturaPage({ params }: { params: Promise<{ id: st
       }
       const facturaData = await facturaResponse.json()
       setFactura(facturaData)
+      setEsOperacionIntracomunitaria(facturaData.esOperacionIntracomunitaria || false)
       
       // Cargar clientes
       const clientesResponse = await fetch("/api/clientes")
@@ -393,6 +397,46 @@ export default function EditarFacturaPage({ params }: { params: Promise<{ id: st
   useEffect(() => {
     fetchData()
   }, [facturaId])
+  
+  // Efecto para actualizar esOperacionIntracomunitaria cuando cambia el clienteId o se cargan los clientes
+  useEffect(() => {
+    if (clienteId && clientes.length > 0) {
+      const clienteSeleccionado = clientes.find(c => c.id === clienteId);
+      if (clienteSeleccionado && clienteSeleccionado.esIntracomunitario) {
+        setEsOperacionIntracomunitaria(true);
+      } else {
+        setEsOperacionIntracomunitaria(false);
+      }
+    } else {
+      // Si no hay clienteId, no es operación intracomunitaria por defecto
+      setEsOperacionIntracomunitaria(false);
+    }
+  }, [clienteId, clientes]);
+  
+  // Efecto para ajustar el IVA de los ítems si esOperacionIntracomunitaria cambia
+  useEffect(() => {
+    setPartidasFactura(prevPartidas => 
+      prevPartidas.map(partida => ({
+        ...partida,
+        items: partida.items.map(item => {
+          if (item.tipo === "CATEGORIA" || item.tipo === "SEPARADOR") {
+            return item; // No aplicar IVA a categorías o separadores
+          }
+          const nuevoIva = esOperacionIntracomunitaria ? 0 : item.iva; // Si es intracom, IVA es 0, sino, mantiene su IVA actual
+          const subtotal = item.cantidad * item.precioUnitario * (item.dias || 1) * (1 - item.descuento / 100);
+          return {
+            ...item,
+            iva: nuevoIva,
+            total: subtotal * (1 + nuevoIva / 100)
+          };
+        })
+      }))
+    );
+    // No es necesario llamar a calcularTotales() aquí explícitamente si el useEffect de calcularTotales
+    // ya depende de partidasFactura, lo cual es el caso.
+    // También marcamos que hay cambios sin guardar si esOperacionIntracomunitaria ha tenido un efecto.
+    setChangesNotSaved(true);
+  }, [esOperacionIntracomunitaria]);
   
   // Calcular totales cuando cambian las partidas
   useEffect(() => {
@@ -697,6 +741,7 @@ export default function EditarFacturaPage({ params }: { params: Promise<{ id: st
         estado: estado || "PENDIENTE",
         numeroPedido: numeroPedido || undefined,
         nombre: nombre || undefined,
+        esOperacionIntracomunitaria: esOperacionIntracomunitaria,
         items: itemsArray
       }
       
@@ -1072,6 +1117,7 @@ export default function EditarFacturaPage({ params }: { params: Promise<{ id: st
                               <TableHead>Días</TableHead>
                               <TableHead>Precio</TableHead>
                               <TableHead>Descuento</TableHead>
+                              <TableHead>IVA</TableHead>
                               <TableHead>Subtotal</TableHead>
                               <TableHead></TableHead>
                             </TableRow>
@@ -1146,9 +1192,10 @@ export default function EditarFacturaPage({ params }: { params: Promise<{ id: st
                                             nuevasPartidas[index].items[itemIndex].subtotal = 
                                               cantidad * precio * dias * (1 - descuento / 100);
                                             
-                                            const iva = nuevasPartidas[index].items[itemIndex].iva;
+                                            const ivaAplicable = esOperacionIntracomunitaria ? 0 : nuevasPartidas[index].items[itemIndex].iva;
+
                                             nuevasPartidas[index].items[itemIndex].total = 
-                                              nuevasPartidas[index].items[itemIndex].subtotal * (1 + iva / 100);
+                                              nuevasPartidas[index].items[itemIndex].subtotal * (1 + ivaAplicable / 100);
                                             
                                             setPartidasFactura(nuevasPartidas);
                                             setChangesNotSaved(true);
@@ -1175,9 +1222,10 @@ export default function EditarFacturaPage({ params }: { params: Promise<{ id: st
                                             nuevasPartidas[index].items[itemIndex].subtotal = 
                                               cantidad * precio * dias * (1 - descuento / 100);
                                             
-                                            const iva = nuevasPartidas[index].items[itemIndex].iva;
+                                            const ivaAplicable = esOperacionIntracomunitaria ? 0 : nuevasPartidas[index].items[itemIndex].iva;
+
                                             nuevasPartidas[index].items[itemIndex].total = 
-                                              nuevasPartidas[index].items[itemIndex].subtotal * (1 + iva / 100);
+                                              nuevasPartidas[index].items[itemIndex].subtotal * (1 + ivaAplicable / 100);
                                             
                                             setPartidasFactura(nuevasPartidas);
                                             setChangesNotSaved(true);
@@ -1201,11 +1249,10 @@ export default function EditarFacturaPage({ params }: { params: Promise<{ id: st
                                               const precio = nuevasPartidas[index].items[itemIndex].precioUnitario;
                                               const descuento = nuevasPartidas[index].items[itemIndex].descuento;
                                               const dias = nuevasPartidas[index].items[itemIndex].dias;
+                                              const iva = esOperacionIntracomunitaria ? 0 : nuevasPartidas[index].items[itemIndex].iva; // Usar 0 si es intracom
                                               
                                               nuevasPartidas[index].items[itemIndex].subtotal = 
                                                 cantidad * precio * dias * (1 - descuento / 100);
-                                              
-                                              const iva = nuevasPartidas[index].items[itemIndex].iva;
                                               nuevasPartidas[index].items[itemIndex].total = 
                                                 nuevasPartidas[index].items[itemIndex].subtotal * (1 + iva / 100);
                                               
@@ -1223,7 +1270,8 @@ export default function EditarFacturaPage({ params }: { params: Promise<{ id: st
                                             min="0"
                                             max="100"
                                             className="w-16 h-8"
-                                            value={item.descuento}
+                                            value={item.descuento} // Mantenemos el valor original del descuento
+                                            // No deshabilitamos el descuento basado en esOperacionIntracomunitaria
                                             onChange={(e) => {
                                               const nuevasPartidas = [...partidasFactura];
                                               nuevasPartidas[index].items[itemIndex].descuento = parseFloat(e.target.value) || 0;
@@ -1231,15 +1279,42 @@ export default function EditarFacturaPage({ params }: { params: Promise<{ id: st
                                               // Recalcular subtotal y total
                                               const cantidad = nuevasPartidas[index].items[itemIndex].cantidad;
                                               const precio = nuevasPartidas[index].items[itemIndex].precioUnitario;
-                                              const descuento = nuevasPartidas[index].items[itemIndex].descuento;
+                                              const descuentoActual = nuevasPartidas[index].items[itemIndex].descuento;
                                               const dias = nuevasPartidas[index].items[itemIndex].dias;
-                                              
+                                              const iva = esOperacionIntracomunitaria ? 0 : nuevasPartidas[index].items[itemIndex].iva; // Usar 0 si es intracom
+
                                               nuevasPartidas[index].items[itemIndex].subtotal = 
-                                                cantidad * precio * dias * (1 - descuento / 100);
-                                              
-                                              const iva = nuevasPartidas[index].items[itemIndex].iva;
+                                                cantidad * precio * dias * (1 - descuentoActual / 100);
                                               nuevasPartidas[index].items[itemIndex].total = 
                                                 nuevasPartidas[index].items[itemIndex].subtotal * (1 + iva / 100);
+                                              
+                                              setPartidasFactura(nuevasPartidas);
+                                              setChangesNotSaved(true);
+                                            }}
+                                          />
+                                          <span className="ml-1">%</span>
+                                        </div>
+                                      </TableCell>
+                                      <TableCell>
+                                        <div className="flex items-center">
+                                          <Input 
+                                            type="number"
+                                            min="0"
+                                            max="100" // O el IVA máximo que consideres
+                                            className="w-16 h-8"
+                                            value={esOperacionIntracomunitaria ? 0 : item.iva} // Mostrar 0 si es intracom, sino el IVA del item
+                                            disabled={esOperacionIntracomunitaria} // Deshabilitar si es intracom
+                                            onChange={(e) => {
+                                              if (esOperacionIntracomunitaria) return; // No permitir edición si es intracom
+
+                                              const nuevasPartidas = [...partidasFactura];
+                                              const nuevoValorIva = parseFloat(e.target.value) || 0;
+                                              nuevasPartidas[index].items[itemIndex].iva = nuevoValorIva;
+                                              
+                                              // Recalcular solo el total del item basado en su subtotal y el nuevo IVA
+                                              const subtotalItem = nuevasPartidas[index].items[itemIndex].subtotal;
+                                              nuevasPartidas[index].items[itemIndex].total = 
+                                                subtotalItem * (1 + nuevoValorIva / 100);
                                               
                                               setPartidasFactura(nuevasPartidas);
                                               setChangesNotSaved(true);

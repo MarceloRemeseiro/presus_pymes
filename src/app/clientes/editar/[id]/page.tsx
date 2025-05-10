@@ -9,6 +9,7 @@ import { toast, Toaster } from "sonner"
 import { ArrowLeft, Loader2 } from "lucide-react"
 import Link from "next/link"
 import { use } from "react"
+import { type ClienteFormValues } from "@/components/clientes/cliente-form"
 
 interface PageParams {
   params: Promise<{
@@ -20,6 +21,7 @@ interface Cliente {
   id: string
   nombre: string
   nif?: string | null
+  esIntracomunitario?: boolean
   direccion?: string | null
   email?: string | null
   telefono?: string | null
@@ -66,16 +68,21 @@ export default function EditarClientePage({ params }: PageParams) {
     fetchCliente()
   }, [id])
 
-  const handleSubmit = async (data: any) => {
+  const handleSubmit = async (data: ClienteFormValues) => {
     try {
       setIsSubmitting(true)
       
+      const dataToSend = {
+        ...data,
+        esIntracomunitario: data.esIntracomunitario || false,
+      };
+
       const response = await fetch(`/api/clientes/${id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(dataToSend),
       })
       
       if (!response.ok) {

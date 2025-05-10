@@ -155,7 +155,8 @@ export const generatePresupuestoPDF = async (
   partidasAgrupadas: GroupedItems[],
   empresa?: Empresa,
   colorPresupuesto?: string,
-  nivelDetalle: 'completo' | 'medio' | 'minimo' = 'completo'
+  nivelDetalle: 'completo' | 'medio' | 'minimo' = 'completo',
+  configuracion?: { condicionesPresupuesto?: string[] }
 ) => {
   // Crear el documento PDF utilizando la función compartida
   const { doc, filename } = await createPresupuestoPDF(
@@ -163,7 +164,8 @@ export const generatePresupuestoPDF = async (
     partidasAgrupadas, 
     empresa, 
     colorPresupuesto, 
-    nivelDetalle
+    nivelDetalle,
+    configuracion
   );
 
   // Nombre personalizado para el archivo
@@ -235,7 +237,8 @@ export const downloadPresupuestoPDF = async (
   partidasAgrupadas: GroupedItems[],
   empresa?: Empresa,
   colorPresupuesto?: string,
-  nivelDetalle: 'completo' | 'medio' | 'minimo' = 'completo'
+  nivelDetalle: 'completo' | 'medio' | 'minimo' = 'completo',
+  configuracion?: { condicionesPresupuesto?: string[] }
 ) => {
   // Crear el documento PDF utilizando la función compartida
   const { doc, filename } = await createPresupuestoPDF(
@@ -243,7 +246,8 @@ export const downloadPresupuestoPDF = async (
     partidasAgrupadas, 
     empresa, 
     colorPresupuesto, 
-    nivelDetalle
+    nivelDetalle,
+    configuracion
   );
   
   // Descargar el PDF con el nombre correcto
@@ -258,7 +262,8 @@ async function createPresupuestoPDF(
   partidasAgrupadas: GroupedItems[],
   empresa?: Empresa,
   colorPresupuesto?: string,
-  nivelDetalle: 'completo' | 'medio' | 'minimo' = 'completo'
+  nivelDetalle: 'completo' | 'medio' | 'minimo' = 'completo',
+  configuracion?: { condicionesPresupuesto?: string[] }
 ): Promise<{ doc: jsPDF, filename: string }> {
   // Crear nuevo documento PDF
   const doc = new jsPDF();
@@ -888,6 +893,57 @@ async function createPresupuestoPDF(
     // Dividir las observaciones en líneas para evitar desbordamiento
     const splitObservaciones = doc.splitTextToSize(presupuesto.observaciones, pageWidth - (marginLeft * 2));
     doc.text(splitObservaciones, marginLeft, tableY + 5);
+    
+    // Actualizar la posición Y considerando el alto del texto
+    tableY += 10 + (splitObservaciones.length * 4);
+  }
+  
+  // Mostrar las condiciones si existen
+  if (configuracion?.condicionesPresupuesto && configuracion.condicionesPresupuesto.length > 0) {
+    // Si no hay espacio suficiente para las condiciones, agregar página
+    if (tableY > doc.internal.pageSize.height - 40) {
+      doc.addPage();
+      tableY = marginTop;
+    }
+    
+    // Título de las condiciones
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(primaryColor);
+    doc.text('CONDICIONES:', marginLeft, tableY);
+    
+    // Dibujar las condiciones como lista
+    doc.setFontSize(6);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(textColor);
+    
+    let condicionY = tableY + 4;
+    
+    configuracion.condicionesPresupuesto.forEach((condicion, index) => {
+      // Comprobar si necesitamos una nueva página para esta condición
+      if (condicionY > doc.internal.pageSize.height - 10) {
+        doc.addPage();
+        condicionY = marginTop + 5;
+      }
+      
+      // Dividir la condición en líneas si es muy larga
+      const splitCondicion = doc.splitTextToSize(condicion, pageWidth - (marginLeft * 2) - 10);
+      
+      // Dibujar el punto de lista
+      doc.setTextColor(primaryColor);
+      doc.text('-', marginLeft, condicionY);
+      
+      // Dibujar el texto de la condición
+      doc.setTextColor(textColor);
+      doc.text(splitCondicion, marginLeft + 5, condicionY);
+      
+      // Actualizar la posición Y para la siguiente condición
+      // Reducimos el espaciado entre condiciones y entre líneas
+      condicionY += 3 + ((splitCondicion.length - 1) * 2);
+    });
+    
+    // Actualizar la posición Y general
+    tableY = condicionY + 3;
   }
   
   // Construir el nombre del archivo para usarlo como título del PDF

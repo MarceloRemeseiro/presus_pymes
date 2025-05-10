@@ -16,6 +16,7 @@ export async function GET() {
           direccion: "Calle Ejemplo, 123",
           email: "contacto@presuspymes.com",
           telefono: "+34 912 345 678",
+          cuentaBancaria: null,
         }
       })
     }
@@ -49,6 +50,7 @@ export async function PUT(req: Request) {
           email: body.email || empresa.email,
           telefono: body.telefono || empresa.telefono,
           logoUrl: body.logoUrl || empresa.logoUrl,
+          cuentaBancaria: body.cuentaBancaria !== undefined ? body.cuentaBancaria : empresa.cuentaBancaria,
         }
       })
     } else {
@@ -61,6 +63,7 @@ export async function PUT(req: Request) {
           email: body.email || "contacto@presuspymes.com",
           telefono: body.telefono || "+34 912 345 678",
           logoUrl: body.logoUrl,
+          cuentaBancaria: body.cuentaBancaria || null,
         }
       })
     }

@@ -15,6 +15,7 @@ import { Separator } from "@/components/ui/separator"
 import { toast, Toaster } from "sonner"
 import { Loader2, Upload, Image as ImageIcon, X } from "lucide-react"
 import Image from "next/image"
+import { CondicionesList } from "@/components/configuracion/CondicionesList"
 
 interface Empresa {
   id: string
@@ -24,6 +25,7 @@ interface Empresa {
   email: string
   telefono: string
   logoUrl: string | null
+  cuentaBancaria: string
 }
 
 interface Configuracion {
@@ -34,6 +36,8 @@ interface Configuracion {
   prefijoPresupuesto: string
   colorFactura: string
   colorPresupuesto: string
+  condicionesPresupuesto: string[]
+  condicionesFactura: string[]
 }
 
 export default function ConfiguracionPage() {
@@ -49,6 +53,7 @@ export default function ConfiguracionPage() {
   const [logoFile, setLogoFile] = useState<File | null>(null)
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const [cuentaBancaria, setCuentaBancaria] = useState("")
   
   // Estados para la configuración
   const [configuracion, setConfiguracion] = useState<Configuracion | null>(null)
@@ -58,6 +63,8 @@ export default function ConfiguracionPage() {
   const [prefijoPresupuesto, setPrefijoPresupuesto] = useState("")
   const [colorFactura, setColorFactura] = useState("#3c4e66")
   const [colorPresupuesto, setColorPresupuesto] = useState("#150a4a")
+  const [condicionesPresupuesto, setCondicionesPresupuesto] = useState<string[]>([])
+  const [condicionesFactura, setCondicionesFactura] = useState<string[]>([])
   const [guardandoConfig, setGuardandoConfig] = useState(false)
   
   // Estado general de carga
@@ -84,6 +91,7 @@ export default function ConfiguracionPage() {
         setEmail(empresaData.email)
         setTelefono(empresaData.telefono)
         setLogoUrl(empresaData.logoUrl)
+        setCuentaBancaria(empresaData.cuentaBancaria || "")
         
         // Cargar datos de configuración
         const configResponse = await fetch('/api/configuracion')
@@ -98,6 +106,8 @@ export default function ConfiguracionPage() {
         setPrefijoPresupuesto(configData.prefijoPresupuesto)
         setColorFactura(configData.colorFactura || "#3c4e66")
         setColorPresupuesto(configData.colorPresupuesto || "#150a4a")
+        setCondicionesPresupuesto(configData.condicionesPresupuesto || [])
+        setCondicionesFactura(configData.condicionesFactura || [])
       } catch (err) {
         console.error('Error al cargar configuración:', err)
         setError('Error al cargar la configuración del sistema')
@@ -197,6 +207,7 @@ export default function ConfiguracionPage() {
           email,
           telefono,
           logoUrl: logoUrlToSave,
+          cuentaBancaria,
         }),
       })
       
@@ -280,6 +291,8 @@ export default function ConfiguracionPage() {
           prefijoPresupuesto,
           colorFactura,
           colorPresupuesto,
+          condicionesPresupuesto,
+          condicionesFactura,
         }),
       })
       
@@ -328,248 +341,295 @@ export default function ConfiguracionPage() {
     <div className="py-10">
       <h1 className="text-3xl font-bold mb-8">Configuración</h1>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl">
-        <Card>
-          <CardHeader>
-            <CardTitle>Información de la Empresa</CardTitle>
-            <CardDescription>
-              Configura los datos básicos de tu empresa
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <label htmlFor="nombre" className="text-sm font-medium">Nombre de la Empresa</label>
-              <Input 
-                id="nombre" 
-                placeholder="Nombre de la empresa" 
-                value={nombreEmpresa}
-                onChange={(e) => setNombreEmpresa(e.target.value)}
-              />
-            </div>
-            
-            {/* Sección de Logo */}
-            <div className="space-y-2">
-              <label htmlFor="logo" className="text-sm font-medium">Logo de la Empresa</label>
-              <div className="flex flex-col gap-4">
-                {/* Previsualización de imagen */}
-                {(previewUrl || logoUrl) && (
-                  <div className="relative w-fit">
-                    <div className="border rounded-md overflow-hidden" style={{ maxWidth: '200px', maxHeight: '100px' }}>
-                      <Image 
-                        src={previewUrl || logoUrl || ''} 
-                        alt="Logo de la empresa" 
-                        width={200} 
-                        height={100} 
-                        className="object-contain" 
-                        style={{ maxHeight: '100px' }}
-                      />
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl">
+        <div className="md:col-span-2 space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Información de la Empresa</CardTitle>
+              <CardDescription>
+                Configura los datos básicos de tu empresa
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                <label htmlFor="nombre" className="text-sm font-medium">Nombre de la Empresa</label>
+                <Input 
+                  id="nombre" 
+                  placeholder="Nombre de la empresa" 
+                  value={nombreEmpresa}
+                  onChange={(e) => setNombreEmpresa(e.target.value)}
+                />
+              </div>
+              
+              {/* Sección de Logo */}
+              <div className="space-y-2">
+                <label htmlFor="logo" className="text-sm font-medium">Logo de la Empresa</label>
+                <div className="flex flex-col gap-4">
+                  {/* Previsualización de imagen */}
+                  {(previewUrl || logoUrl) && (
+                    <div className="relative w-fit">
+                      <div className="border rounded-md overflow-hidden" style={{ maxWidth: '200px', maxHeight: '100px' }}>
+                        <Image 
+                          src={previewUrl || logoUrl || ''} 
+                          alt="Logo de la empresa" 
+                          width={200} 
+                          height={100} 
+                          className="object-contain" 
+                          style={{ maxHeight: '100px' }}
+                        />
+                      </div>
+                      <button 
+                        className="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 rounded-full p-1 text-white" 
+                        onClick={handleClearLogo}
+                        type="button"
+                      >
+                        <X className="h-4 w-4" />
+                      </button>
                     </div>
-                    <button 
-                      className="absolute -top-2 -right-2 bg-red-500 hover:bg-red-600 rounded-full p-1 text-white" 
-                      onClick={handleClearLogo}
-                      type="button"
+                  )}
+                  
+                  {/* Input para subir logo */}
+                  <div className="flex items-center gap-2">
+                    <Input 
+                      id="logo"
+                      type="file"
+                      ref={fileInputRef}
+                      className="hidden"
+                      accept="image/*"
+                      onChange={handleLogoChange}
+                    />
+                    <Button 
+                      type="button" 
+                      variant="outline" 
+                      onClick={() => fileInputRef.current?.click()}
+                      className="gap-2"
                     >
-                      <X className="h-4 w-4" />
-                    </button>
+                      <Upload className="h-4 w-4" />
+                      Subir Logo
+                    </Button>
+                    <span className="text-xs text-gray-500">
+                      Formato PNG o JPG, máx. 2MB
+                    </span>
                   </div>
-                )}
-                
-                {/* Input para subir logo */}
-                <div className="flex items-center gap-2">
-                  <Input 
-                    id="logo"
-                    type="file"
-                    ref={fileInputRef}
-                    className="hidden"
-                    accept="image/*"
-                    onChange={handleLogoChange}
-                  />
-                  <Button 
-                    type="button" 
-                    variant="outline" 
-                    onClick={() => fileInputRef.current?.click()}
-                    className="gap-2"
-                  >
-                    <Upload className="h-4 w-4" />
-                    Subir Logo
-                  </Button>
-                  <span className="text-xs text-gray-500">
-                    Formato PNG o JPG, máx. 2MB
-                  </span>
                 </div>
               </div>
-            </div>
-            
-            <div className="space-y-2">
-              <label htmlFor="cif" className="text-sm font-medium">CIF/NIF</label>
-              <Input 
-                id="cif" 
-                placeholder="CIF/NIF" 
-                value={cif}
-                onChange={(e) => setCif(e.target.value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <label htmlFor="direccion" className="text-sm font-medium">Dirección</label>
-              <Input 
-                id="direccion" 
-                placeholder="Dirección" 
-                value={direccion}
-                onChange={(e) => setDireccion(e.target.value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <label htmlFor="email" className="text-sm font-medium">Email</label>
-              <Input 
-                id="email" 
-                type="email" 
-                placeholder="Email" 
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <label htmlFor="telefono" className="text-sm font-medium">Teléfono</label>
-              <Input 
-                id="telefono" 
-                placeholder="Teléfono" 
-                value={telefono}
-                onChange={(e) => setTelefono(e.target.value)}
-              />
-            </div>
-          </CardContent>
-          <CardFooter>
-            <Button onClick={handleGuardarEmpresa} disabled={guardandoEmpresa}>
-              {guardandoEmpresa ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Guardando...
-                </>
-              ) : (
-                'Guardar Cambios'
-              )}
-            </Button>
-          </CardFooter>
-        </Card>
-        
-        <Card>
-          <CardHeader>
-            <CardTitle>Preferencias del Sistema</CardTitle>
-            <CardDescription>
-              Personaliza la configuración del sistema
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="space-y-4">
-              <h3 className="text-sm font-medium">Impuestos</h3>
-              <div className="flex items-center gap-2">
+              
+              <div className="space-y-2">
+                <label htmlFor="cif" className="text-sm font-medium">CIF/NIF</label>
                 <Input 
-                  id="iva" 
-                  placeholder="IVA (%)" 
-                  value={iva}
-                  onChange={(e) => setIva(e.target.value)}
-                  className="w-24" 
+                  id="cif" 
+                  placeholder="CIF/NIF" 
+                  value={cif}
+                  onChange={(e) => setCif(e.target.value)}
                 />
-                <span>% IVA por defecto</span>
               </div>
-            </div>
-            
-            <Separator />
-            
-            <div className="space-y-4">
-              <h3 className="text-sm font-medium">Moneda</h3>
-              <div className="flex items-center gap-2">
-                <select 
-                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-                  value={moneda}
-                  onChange={(e) => setMoneda(e.target.value)}
-                >
-                  <option value="EUR">Euro (€)</option>
-                  <option value="USD">Dólar ($)</option>
-                  <option value="GBP">Libra (£)</option>
-                </select>
-              </div>
-            </div>
-            
-            <Separator />
-            
-            <div className="space-y-4">
-              <h3 className="text-sm font-medium">Numeración</h3>
-              <div className="flex items-center gap-2">
+              <div className="space-y-2">
+                <label htmlFor="direccion" className="text-sm font-medium">Dirección</label>
                 <Input 
-                  id="prefijo_factura" 
-                  placeholder="Prefijo factura" 
-                  value={prefijoFactura}
-                  onChange={(e) => setPrefijoFactura(e.target.value)}
-                  className="w-32" 
+                  id="direccion" 
+                  placeholder="Dirección" 
+                  value={direccion}
+                  onChange={(e) => setDireccion(e.target.value)}
                 />
-                <span>Prefijo factura</span>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="space-y-2">
+                <label htmlFor="email" className="text-sm font-medium">Email</label>
                 <Input 
-                  id="prefijo_presupuesto" 
-                  placeholder="Prefijo presupuesto" 
-                  value={prefijoPresupuesto}
-                  onChange={(e) => setPrefijoPresupuesto(e.target.value)}
-                  className="w-32" 
-                />
-                <span>Prefijo presupuesto</span>
-              </div>
-            </div>
-            
-            <Separator />
-            
-            <div className="space-y-4">
-              <h3 className="text-sm font-medium">Colores PDF</h3>
-              <div className="flex items-center gap-2">
-                <input 
-                  type="color" 
-                  id="color_factura" 
-                  value={colorFactura}
-                  onChange={(e) => handleColorFacturaChange(e.target.value)}
-                  className="w-12 h-8 cursor-pointer border rounded" 
-                />
-                <span>Color para facturas PDF</span>
-                <Input
-                  value={colorFactura}
-                  onChange={(e) => handleColorFacturaChange(e.target.value)}
-                  onBlur={handleColorFacturaBlur}
-                  className="w-28 h-8 font-mono text-xs"
-                  placeholder="#000000"
+                  id="email" 
+                  type="email" 
+                  placeholder="Email" 
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
-              <div className="flex items-center gap-2">
-                <input 
-                  type="color" 
-                  id="color_presupuesto" 
-                  value={colorPresupuesto}
-                  onChange={(e) => handleColorPresupuestoChange(e.target.value)}
-                  className="w-12 h-8 cursor-pointer border rounded" 
-                />
-                <span>Color para presupuestos PDF</span>
-                <Input
-                  value={colorPresupuesto}
-                  onChange={(e) => handleColorPresupuestoChange(e.target.value)}
-                  onBlur={handleColorPresupuestoBlur}
-                  className="w-28 h-8 font-mono text-xs"
-                  placeholder="#000000"
+              <div className="space-y-2">
+                <label htmlFor="telefono" className="text-sm font-medium">Teléfono</label>
+                <Input 
+                  id="telefono" 
+                  placeholder="Teléfono" 
+                  value={telefono}
+                  onChange={(e) => setTelefono(e.target.value)}
                 />
               </div>
-            </div>
-          </CardContent>
-          <CardFooter>
-            <Button onClick={handleGuardarConfig} disabled={guardandoConfig}>
-              {guardandoConfig ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Guardando...
-                </>
-              ) : (
-                'Guardar Preferencias'
-              )}
-            </Button>
-          </CardFooter>
-        </Card>
+              <div className="space-y-2">
+                <label htmlFor="cuentaBancaria" className="text-sm font-medium">Cuenta bancaria (IBAN)</label>
+                <Input 
+                  id="cuentaBancaria" 
+                  placeholder="ES00 0000 0000 0000 0000 0000" 
+                  value={cuentaBancaria}
+                  onChange={(e) => setCuentaBancaria(e.target.value)}
+                />
+              </div>
+            </CardContent>
+            <CardFooter>
+              <Button onClick={handleGuardarEmpresa} disabled={guardandoEmpresa}>
+                {guardandoEmpresa ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Guardando...
+                  </>
+                ) : (
+                  'Guardar Cambios'
+                )}
+              </Button>
+            </CardFooter>
+          </Card>
+          
+          <Card>
+            <CardHeader>
+              <CardTitle>Preferencias del Sistema</CardTitle>
+              <CardDescription>
+                Personaliza la configuración del sistema
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="space-y-4">
+                <h3 className="text-sm font-medium">Impuestos</h3>
+                <div className="flex items-center gap-2">
+                  <Input 
+                    id="iva" 
+                    placeholder="IVA (%)" 
+                    value={iva}
+                    onChange={(e) => setIva(e.target.value)}
+                    className="w-24" 
+                  />
+                  <span>% IVA por defecto</span>
+                </div>
+              </div>
+              
+              <Separator />
+              
+              <div className="space-y-4">
+                <h3 className="text-sm font-medium">Moneda</h3>
+                <div className="flex items-center gap-2">
+                  <select 
+                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                    value={moneda}
+                    onChange={(e) => setMoneda(e.target.value)}
+                  >
+                    <option value="EUR">Euro (€)</option>
+                    <option value="USD">Dólar ($)</option>
+                    <option value="GBP">Libra (£)</option>
+                  </select>
+                </div>
+              </div>
+              
+              <Separator />
+              
+              <div className="space-y-4">
+                <h3 className="text-sm font-medium">Numeración</h3>
+                <div className="flex items-center gap-2">
+                  <Input 
+                    id="prefijo_factura" 
+                    placeholder="Prefijo factura" 
+                    value={prefijoFactura}
+                    onChange={(e) => setPrefijoFactura(e.target.value)}
+                    className="w-32" 
+                  />
+                  <span>Prefijo factura</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Input 
+                    id="prefijo_presupuesto" 
+                    placeholder="Prefijo presupuesto" 
+                    value={prefijoPresupuesto}
+                    onChange={(e) => setPrefijoPresupuesto(e.target.value)}
+                    className="w-32" 
+                  />
+                  <span>Prefijo presupuesto</span>
+                </div>
+              </div>
+              
+              <Separator />
+              
+              <div className="space-y-4">
+                <h3 className="text-sm font-medium">Colores PDF</h3>
+                <div className="flex items-center gap-2">
+                  <input 
+                    type="color" 
+                    id="color_factura" 
+                    value={colorFactura}
+                    onChange={(e) => handleColorFacturaChange(e.target.value)}
+                    className="w-12 h-8 cursor-pointer border rounded" 
+                  />
+                  <span>Color para facturas PDF</span>
+                  <Input
+                    value={colorFactura}
+                    onChange={(e) => handleColorFacturaChange(e.target.value)}
+                    onBlur={handleColorFacturaBlur}
+                    className="w-28 h-8 font-mono text-xs"
+                    placeholder="#000000"
+                  />
+                </div>
+                <div className="flex items-center gap-2">
+                  <input 
+                    type="color" 
+                    id="color_presupuesto" 
+                    value={colorPresupuesto}
+                    onChange={(e) => handleColorPresupuestoChange(e.target.value)}
+                    className="w-12 h-8 cursor-pointer border rounded" 
+                  />
+                  <span>Color para presupuestos PDF</span>
+                  <Input
+                    value={colorPresupuesto}
+                    onChange={(e) => handleColorPresupuestoChange(e.target.value)}
+                    onBlur={handleColorPresupuestoBlur}
+                    className="w-28 h-8 font-mono text-xs"
+                    placeholder="#000000"
+                  />
+                </div>
+              </div>
+            </CardContent>
+            <CardFooter>
+              <Button onClick={handleGuardarConfig} disabled={guardandoConfig}>
+                {guardandoConfig ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Guardando...
+                  </>
+                ) : (
+                  'Guardar Preferencias'
+                )}
+              </Button>
+            </CardFooter>
+          </Card>
+        </div>
+
+        <div className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Condiciones para Presupuestos</CardTitle>
+              <CardDescription>
+                Configura las condiciones que aparecerán en los presupuestos
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <CondicionesList
+                titulo="Condiciones para Presupuestos"
+                condiciones={condicionesPresupuesto}
+                onChange={setCondicionesPresupuesto}
+                placeholder="Añadir condición para presupuestos..."
+              />
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Condiciones para Facturas</CardTitle>
+              <CardDescription>
+                Configura las condiciones que aparecerán en las facturas
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <CondicionesList
+                titulo="Condiciones para Facturas"
+                condiciones={condicionesFactura}
+                onChange={setCondicionesFactura}
+                placeholder="Añadir condición para facturas..."
+              />
+            </CardContent>
+          </Card>
+        </div>
       </div>
       
       <Toaster />

@@ -24,6 +24,7 @@ model Empresa {
   email         String
   telefono      String
   logoUrl       String?
+  cuentaBancaria String?  // IBAN o número de cuenta bancaria (opcional)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }
@@ -88,6 +89,7 @@ model Cliente {
   nombre      String
   tipo        TipoCliente   @default(PARTICULAR)
   nif         String?       @unique
+  esIntracomunitario Boolean @default(false)
   direccion   String?
   ciudad      String?
   email       String?
@@ -173,6 +175,7 @@ model Factura {
   subtotal         Float
   iva              Float
   total            Float
+  esOperacionIntracomunitaria Boolean @default(false)
   items            ItemFactura[]
   presupuestos     Presupuesto[]
   gastosTickelia   Tikelia[]    // Relación con gastos de Tikelia
@@ -210,6 +213,8 @@ model Configuracion {
   prefijoPresupuesto String  @default("PRES-")
   colorFactura       String? @default("#2563eb") // Color primario para facturas
   colorPresupuesto   String? @default("#84cc16") // Color primario para presupuestos
+  condicionesPresupuesto String[] @default([]) // Condiciones para presupuestos
+  condicionesFactura String[] @default([]) // Condiciones para facturas
   userId             String? // Puede ser nulo si es una configuración global (o puedes quitarlo si siempre es global)
 
   createdAt DateTime @default(now())

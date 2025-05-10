@@ -3315,6 +3315,7 @@ export namespace Prisma {
     email: string | null
     telefono: string | null
     logoUrl: string | null
+    cuentaBancaria: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3327,6 +3328,7 @@ export namespace Prisma {
     email: string | null
     telefono: string | null
     logoUrl: string | null
+    cuentaBancaria: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3339,6 +3341,7 @@ export namespace Prisma {
     email: number
     telefono: number
     logoUrl: number
+    cuentaBancaria: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -3353,6 +3356,7 @@ export namespace Prisma {
     email?: true
     telefono?: true
     logoUrl?: true
+    cuentaBancaria?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3365,6 +3369,7 @@ export namespace Prisma {
     email?: true
     telefono?: true
     logoUrl?: true
+    cuentaBancaria?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3377,6 +3382,7 @@ export namespace Prisma {
     email?: true
     telefono?: true
     logoUrl?: true
+    cuentaBancaria?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -3462,6 +3468,7 @@ export namespace Prisma {
     email: string
     telefono: string
     logoUrl: string | null
+    cuentaBancaria: string | null
     createdAt: Date
     updatedAt: Date
     _count: EmpresaCountAggregateOutputType | null
@@ -3491,6 +3498,7 @@ export namespace Prisma {
     email?: boolean
     telefono?: boolean
     logoUrl?: boolean
+    cuentaBancaria?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["empresa"]>
@@ -3503,6 +3511,7 @@ export namespace Prisma {
     email?: boolean
     telefono?: boolean
     logoUrl?: boolean
+    cuentaBancaria?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["empresa"]>
@@ -3515,6 +3524,7 @@ export namespace Prisma {
     email?: boolean
     telefono?: boolean
     logoUrl?: boolean
+    cuentaBancaria?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["empresa"]>
@@ -3527,11 +3537,12 @@ export namespace Prisma {
     email?: boolean
     telefono?: boolean
     logoUrl?: boolean
+    cuentaBancaria?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type EmpresaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "cif" | "direccion" | "email" | "telefono" | "logoUrl" | "createdAt" | "updatedAt", ExtArgs["result"]["empresa"]>
+  export type EmpresaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "cif" | "direccion" | "email" | "telefono" | "logoUrl" | "cuentaBancaria" | "createdAt" | "updatedAt", ExtArgs["result"]["empresa"]>
 
   export type $EmpresaPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Empresa"
@@ -3544,6 +3555,7 @@ export namespace Prisma {
       email: string
       telefono: string
       logoUrl: string | null
+      cuentaBancaria: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["empresa"]>
@@ -3976,6 +3988,7 @@ export namespace Prisma {
     readonly email: FieldRef<"Empresa", 'String'>
     readonly telefono: FieldRef<"Empresa", 'String'>
     readonly logoUrl: FieldRef<"Empresa", 'String'>
+    readonly cuentaBancaria: FieldRef<"Empresa", 'String'>
     readonly createdAt: FieldRef<"Empresa", 'DateTime'>
     readonly updatedAt: FieldRef<"Empresa", 'DateTime'>
   }
@@ -8965,6 +8978,7 @@ export namespace Prisma {
     nombre: string | null
     tipo: $Enums.TipoCliente | null
     nif: string | null
+    esIntracomunitario: boolean | null
     direccion: string | null
     ciudad: string | null
     email: string | null
@@ -8978,6 +8992,7 @@ export namespace Prisma {
     nombre: string | null
     tipo: $Enums.TipoCliente | null
     nif: string | null
+    esIntracomunitario: boolean | null
     direccion: string | null
     ciudad: string | null
     email: string | null
@@ -8991,6 +9006,7 @@ export namespace Prisma {
     nombre: number
     tipo: number
     nif: number
+    esIntracomunitario: number
     direccion: number
     ciudad: number
     email: number
@@ -9006,6 +9022,7 @@ export namespace Prisma {
     nombre?: true
     tipo?: true
     nif?: true
+    esIntracomunitario?: true
     direccion?: true
     ciudad?: true
     email?: true
@@ -9019,6 +9036,7 @@ export namespace Prisma {
     nombre?: true
     tipo?: true
     nif?: true
+    esIntracomunitario?: true
     direccion?: true
     ciudad?: true
     email?: true
@@ -9032,6 +9050,7 @@ export namespace Prisma {
     nombre?: true
     tipo?: true
     nif?: true
+    esIntracomunitario?: true
     direccion?: true
     ciudad?: true
     email?: true
@@ -9118,6 +9137,7 @@ export namespace Prisma {
     nombre: string
     tipo: $Enums.TipoCliente
     nif: string | null
+    esIntracomunitario: boolean
     direccion: string | null
     ciudad: string | null
     email: string | null
@@ -9148,6 +9168,7 @@ export namespace Prisma {
     nombre?: boolean
     tipo?: boolean
     nif?: boolean
+    esIntracomunitario?: boolean
     direccion?: boolean
     ciudad?: boolean
     email?: boolean
@@ -9164,6 +9185,7 @@ export namespace Prisma {
     nombre?: boolean
     tipo?: boolean
     nif?: boolean
+    esIntracomunitario?: boolean
     direccion?: boolean
     ciudad?: boolean
     email?: boolean
@@ -9177,6 +9199,7 @@ export namespace Prisma {
     nombre?: boolean
     tipo?: boolean
     nif?: boolean
+    esIntracomunitario?: boolean
     direccion?: boolean
     ciudad?: boolean
     email?: boolean
@@ -9190,6 +9213,7 @@ export namespace Prisma {
     nombre?: boolean
     tipo?: boolean
     nif?: boolean
+    esIntracomunitario?: boolean
     direccion?: boolean
     ciudad?: boolean
     email?: boolean
@@ -9198,7 +9222,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type ClienteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "tipo" | "nif" | "direccion" | "ciudad" | "email" | "telefono" | "createdAt" | "updatedAt", ExtArgs["result"]["cliente"]>
+  export type ClienteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "nombre" | "tipo" | "nif" | "esIntracomunitario" | "direccion" | "ciudad" | "email" | "telefono" | "createdAt" | "updatedAt", ExtArgs["result"]["cliente"]>
   export type ClienteInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     presupuestos?: boolean | Cliente$presupuestosArgs<ExtArgs>
     facturas?: boolean | Cliente$facturasArgs<ExtArgs>
@@ -9218,6 +9242,7 @@ export namespace Prisma {
       nombre: string
       tipo: $Enums.TipoCliente
       nif: string | null
+      esIntracomunitario: boolean
       direccion: string | null
       ciudad: string | null
       email: string | null
@@ -9653,6 +9678,7 @@ export namespace Prisma {
     readonly nombre: FieldRef<"Cliente", 'String'>
     readonly tipo: FieldRef<"Cliente", 'TipoCliente'>
     readonly nif: FieldRef<"Cliente", 'String'>
+    readonly esIntracomunitario: FieldRef<"Cliente", 'Boolean'>
     readonly direccion: FieldRef<"Cliente", 'String'>
     readonly ciudad: FieldRef<"Cliente", 'String'>
     readonly email: FieldRef<"Cliente", 'String'>
@@ -13941,6 +13967,7 @@ export namespace Prisma {
     subtotal: number | null
     iva: number | null
     total: number | null
+    esOperacionIntracomunitaria: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -13958,6 +13985,7 @@ export namespace Prisma {
     subtotal: number | null
     iva: number | null
     total: number | null
+    esOperacionIntracomunitaria: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -13975,6 +14003,7 @@ export namespace Prisma {
     subtotal: number
     iva: number
     total: number
+    esOperacionIntracomunitaria: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -14006,6 +14035,7 @@ export namespace Prisma {
     subtotal?: true
     iva?: true
     total?: true
+    esOperacionIntracomunitaria?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -14023,6 +14053,7 @@ export namespace Prisma {
     subtotal?: true
     iva?: true
     total?: true
+    esOperacionIntracomunitaria?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -14040,6 +14071,7 @@ export namespace Prisma {
     subtotal?: true
     iva?: true
     total?: true
+    esOperacionIntracomunitaria?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -14144,6 +14176,7 @@ export namespace Prisma {
     subtotal: number
     iva: number
     total: number
+    esOperacionIntracomunitaria: boolean
     createdAt: Date
     updatedAt: Date
     _count: FacturaCountAggregateOutputType | null
@@ -14180,6 +14213,7 @@ export namespace Prisma {
     subtotal?: boolean
     iva?: boolean
     total?: boolean
+    esOperacionIntracomunitaria?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     cliente?: boolean | Factura$clienteArgs<ExtArgs>
@@ -14203,6 +14237,7 @@ export namespace Prisma {
     subtotal?: boolean
     iva?: boolean
     total?: boolean
+    esOperacionIntracomunitaria?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     cliente?: boolean | Factura$clienteArgs<ExtArgs>
@@ -14221,6 +14256,7 @@ export namespace Prisma {
     subtotal?: boolean
     iva?: boolean
     total?: boolean
+    esOperacionIntracomunitaria?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     cliente?: boolean | Factura$clienteArgs<ExtArgs>
@@ -14239,11 +14275,12 @@ export namespace Prisma {
     subtotal?: boolean
     iva?: boolean
     total?: boolean
+    esOperacionIntracomunitaria?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type FacturaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "numero" | "nombre" | "numeroPedido" | "fecha" | "fechaVencimiento" | "clienteId" | "estado" | "observaciones" | "subtotal" | "iva" | "total" | "createdAt" | "updatedAt", ExtArgs["result"]["factura"]>
+  export type FacturaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "numero" | "nombre" | "numeroPedido" | "fecha" | "fechaVencimiento" | "clienteId" | "estado" | "observaciones" | "subtotal" | "iva" | "total" | "esOperacionIntracomunitaria" | "createdAt" | "updatedAt", ExtArgs["result"]["factura"]>
   export type FacturaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     cliente?: boolean | Factura$clienteArgs<ExtArgs>
     items?: boolean | Factura$itemsArgs<ExtArgs>
@@ -14281,6 +14318,7 @@ export namespace Prisma {
       subtotal: number
       iva: number
       total: number
+      esOperacionIntracomunitaria: boolean
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["factura"]>
@@ -14723,6 +14761,7 @@ export namespace Prisma {
     readonly subtotal: FieldRef<"Factura", 'Float'>
     readonly iva: FieldRef<"Factura", 'Float'>
     readonly total: FieldRef<"Factura", 'Float'>
+    readonly esOperacionIntracomunitaria: FieldRef<"Factura", 'Boolean'>
     readonly createdAt: FieldRef<"Factura", 'DateTime'>
     readonly updatedAt: FieldRef<"Factura", 'DateTime'>
   }
@@ -16572,6 +16611,8 @@ export namespace Prisma {
     prefijoPresupuesto: number
     colorFactura: number
     colorPresupuesto: number
+    condicionesPresupuesto: number
+    condicionesFactura: number
     userId: number
     createdAt: number
     updatedAt: number
@@ -16621,6 +16662,8 @@ export namespace Prisma {
     prefijoPresupuesto?: true
     colorFactura?: true
     colorPresupuesto?: true
+    condicionesPresupuesto?: true
+    condicionesFactura?: true
     userId?: true
     createdAt?: true
     updatedAt?: true
@@ -16721,6 +16764,8 @@ export namespace Prisma {
     prefijoPresupuesto: string
     colorFactura: string | null
     colorPresupuesto: string | null
+    condicionesPresupuesto: string[]
+    condicionesFactura: string[]
     userId: string | null
     createdAt: Date
     updatedAt: Date
@@ -16753,6 +16798,8 @@ export namespace Prisma {
     prefijoPresupuesto?: boolean
     colorFactura?: boolean
     colorPresupuesto?: boolean
+    condicionesPresupuesto?: boolean
+    condicionesFactura?: boolean
     userId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -16766,6 +16813,8 @@ export namespace Prisma {
     prefijoPresupuesto?: boolean
     colorFactura?: boolean
     colorPresupuesto?: boolean
+    condicionesPresupuesto?: boolean
+    condicionesFactura?: boolean
     userId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -16779,6 +16828,8 @@ export namespace Prisma {
     prefijoPresupuesto?: boolean
     colorFactura?: boolean
     colorPresupuesto?: boolean
+    condicionesPresupuesto?: boolean
+    condicionesFactura?: boolean
     userId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -16792,12 +16843,14 @@ export namespace Prisma {
     prefijoPresupuesto?: boolean
     colorFactura?: boolean
     colorPresupuesto?: boolean
+    condicionesPresupuesto?: boolean
+    condicionesFactura?: boolean
     userId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ConfiguracionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "ivaPorDefecto" | "moneda" | "prefijoFactura" | "prefijoPresupuesto" | "colorFactura" | "colorPresupuesto" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["configuracion"]>
+  export type ConfiguracionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "ivaPorDefecto" | "moneda" | "prefijoFactura" | "prefijoPresupuesto" | "colorFactura" | "colorPresupuesto" | "condicionesPresupuesto" | "condicionesFactura" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["configuracion"]>
 
   export type $ConfiguracionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Configuracion"
@@ -16810,6 +16863,8 @@ export namespace Prisma {
       prefijoPresupuesto: string
       colorFactura: string | null
       colorPresupuesto: string | null
+      condicionesPresupuesto: string[]
+      condicionesFactura: string[]
       userId: string | null
       createdAt: Date
       updatedAt: Date
@@ -17243,6 +17298,8 @@ export namespace Prisma {
     readonly prefijoPresupuesto: FieldRef<"Configuracion", 'String'>
     readonly colorFactura: FieldRef<"Configuracion", 'String'>
     readonly colorPresupuesto: FieldRef<"Configuracion", 'String'>
+    readonly condicionesPresupuesto: FieldRef<"Configuracion", 'String[]'>
+    readonly condicionesFactura: FieldRef<"Configuracion", 'String[]'>
     readonly userId: FieldRef<"Configuracion", 'String'>
     readonly createdAt: FieldRef<"Configuracion", 'DateTime'>
     readonly updatedAt: FieldRef<"Configuracion", 'DateTime'>
@@ -28951,6 +29008,7 @@ export namespace Prisma {
     email: 'email',
     telefono: 'telefono',
     logoUrl: 'logoUrl',
+    cuentaBancaria: 'cuentaBancaria',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -29017,6 +29075,7 @@ export namespace Prisma {
     nombre: 'nombre',
     tipo: 'tipo',
     nif: 'nif',
+    esIntracomunitario: 'esIntracomunitario',
     direccion: 'direccion',
     ciudad: 'ciudad',
     email: 'email',
@@ -29096,6 +29155,7 @@ export namespace Prisma {
     subtotal: 'subtotal',
     iva: 'iva',
     total: 'total',
+    esOperacionIntracomunitaria: 'esOperacionIntracomunitaria',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -29131,6 +29191,8 @@ export namespace Prisma {
     prefijoPresupuesto: 'prefijoPresupuesto',
     colorFactura: 'colorFactura',
     colorPresupuesto: 'colorPresupuesto',
+    condicionesPresupuesto: 'condicionesPresupuesto',
+    condicionesFactura: 'condicionesFactura',
     userId: 'userId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -29392,6 +29454,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'EstadoPresupuesto'
    */
   export type EnumEstadoPresupuestoFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EstadoPresupuesto'>
@@ -29416,13 +29485,6 @@ export namespace Prisma {
    * Reference to a field of type 'EstadoFactura[]'
    */
   export type ListEnumEstadoFacturaFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EstadoFactura[]'>
-    
-
-
-  /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -29454,6 +29516,7 @@ export namespace Prisma {
     email?: StringFilter<"Empresa"> | string
     telefono?: StringFilter<"Empresa"> | string
     logoUrl?: StringNullableFilter<"Empresa"> | string | null
+    cuentaBancaria?: StringNullableFilter<"Empresa"> | string | null
     createdAt?: DateTimeFilter<"Empresa"> | Date | string
     updatedAt?: DateTimeFilter<"Empresa"> | Date | string
   }
@@ -29466,6 +29529,7 @@ export namespace Prisma {
     email?: SortOrder
     telefono?: SortOrder
     logoUrl?: SortOrderInput | SortOrder
+    cuentaBancaria?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -29481,6 +29545,7 @@ export namespace Prisma {
     email?: StringFilter<"Empresa"> | string
     telefono?: StringFilter<"Empresa"> | string
     logoUrl?: StringNullableFilter<"Empresa"> | string | null
+    cuentaBancaria?: StringNullableFilter<"Empresa"> | string | null
     createdAt?: DateTimeFilter<"Empresa"> | Date | string
     updatedAt?: DateTimeFilter<"Empresa"> | Date | string
   }, "id" | "cif">
@@ -29493,6 +29558,7 @@ export namespace Prisma {
     email?: SortOrder
     telefono?: SortOrder
     logoUrl?: SortOrderInput | SortOrder
+    cuentaBancaria?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: EmpresaCountOrderByAggregateInput
@@ -29511,6 +29577,7 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"Empresa"> | string
     telefono?: StringWithAggregatesFilter<"Empresa"> | string
     logoUrl?: StringNullableWithAggregatesFilter<"Empresa"> | string | null
+    cuentaBancaria?: StringNullableWithAggregatesFilter<"Empresa"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Empresa"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Empresa"> | Date | string
   }
@@ -29813,6 +29880,7 @@ export namespace Prisma {
     nombre?: StringFilter<"Cliente"> | string
     tipo?: EnumTipoClienteFilter<"Cliente"> | $Enums.TipoCliente
     nif?: StringNullableFilter<"Cliente"> | string | null
+    esIntracomunitario?: BoolFilter<"Cliente"> | boolean
     direccion?: StringNullableFilter<"Cliente"> | string | null
     ciudad?: StringNullableFilter<"Cliente"> | string | null
     email?: StringNullableFilter<"Cliente"> | string | null
@@ -29828,6 +29896,7 @@ export namespace Prisma {
     nombre?: SortOrder
     tipo?: SortOrder
     nif?: SortOrderInput | SortOrder
+    esIntracomunitario?: SortOrder
     direccion?: SortOrderInput | SortOrder
     ciudad?: SortOrderInput | SortOrder
     email?: SortOrderInput | SortOrder
@@ -29846,6 +29915,7 @@ export namespace Prisma {
     NOT?: ClienteWhereInput | ClienteWhereInput[]
     nombre?: StringFilter<"Cliente"> | string
     tipo?: EnumTipoClienteFilter<"Cliente"> | $Enums.TipoCliente
+    esIntracomunitario?: BoolFilter<"Cliente"> | boolean
     direccion?: StringNullableFilter<"Cliente"> | string | null
     ciudad?: StringNullableFilter<"Cliente"> | string | null
     email?: StringNullableFilter<"Cliente"> | string | null
@@ -29861,6 +29931,7 @@ export namespace Prisma {
     nombre?: SortOrder
     tipo?: SortOrder
     nif?: SortOrderInput | SortOrder
+    esIntracomunitario?: SortOrder
     direccion?: SortOrderInput | SortOrder
     ciudad?: SortOrderInput | SortOrder
     email?: SortOrderInput | SortOrder
@@ -29880,6 +29951,7 @@ export namespace Prisma {
     nombre?: StringWithAggregatesFilter<"Cliente"> | string
     tipo?: EnumTipoClienteWithAggregatesFilter<"Cliente"> | $Enums.TipoCliente
     nif?: StringNullableWithAggregatesFilter<"Cliente"> | string | null
+    esIntracomunitario?: BoolWithAggregatesFilter<"Cliente"> | boolean
     direccion?: StringNullableWithAggregatesFilter<"Cliente"> | string | null
     ciudad?: StringNullableWithAggregatesFilter<"Cliente"> | string | null
     email?: StringNullableWithAggregatesFilter<"Cliente"> | string | null
@@ -30207,6 +30279,7 @@ export namespace Prisma {
     subtotal?: FloatFilter<"Factura"> | number
     iva?: FloatFilter<"Factura"> | number
     total?: FloatFilter<"Factura"> | number
+    esOperacionIntracomunitaria?: BoolFilter<"Factura"> | boolean
     createdAt?: DateTimeFilter<"Factura"> | Date | string
     updatedAt?: DateTimeFilter<"Factura"> | Date | string
     cliente?: XOR<ClienteNullableScalarRelationFilter, ClienteWhereInput> | null
@@ -30229,6 +30302,7 @@ export namespace Prisma {
     subtotal?: SortOrder
     iva?: SortOrder
     total?: SortOrder
+    esOperacionIntracomunitaria?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     cliente?: ClienteOrderByWithRelationInput
@@ -30254,6 +30328,7 @@ export namespace Prisma {
     subtotal?: FloatFilter<"Factura"> | number
     iva?: FloatFilter<"Factura"> | number
     total?: FloatFilter<"Factura"> | number
+    esOperacionIntracomunitaria?: BoolFilter<"Factura"> | boolean
     createdAt?: DateTimeFilter<"Factura"> | Date | string
     updatedAt?: DateTimeFilter<"Factura"> | Date | string
     cliente?: XOR<ClienteNullableScalarRelationFilter, ClienteWhereInput> | null
@@ -30276,6 +30351,7 @@ export namespace Prisma {
     subtotal?: SortOrder
     iva?: SortOrder
     total?: SortOrder
+    esOperacionIntracomunitaria?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: FacturaCountOrderByAggregateInput
@@ -30301,6 +30377,7 @@ export namespace Prisma {
     subtotal?: FloatWithAggregatesFilter<"Factura"> | number
     iva?: FloatWithAggregatesFilter<"Factura"> | number
     total?: FloatWithAggregatesFilter<"Factura"> | number
+    esOperacionIntracomunitaria?: BoolWithAggregatesFilter<"Factura"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Factura"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Factura"> | Date | string
   }
@@ -30424,6 +30501,8 @@ export namespace Prisma {
     prefijoPresupuesto?: StringFilter<"Configuracion"> | string
     colorFactura?: StringNullableFilter<"Configuracion"> | string | null
     colorPresupuesto?: StringNullableFilter<"Configuracion"> | string | null
+    condicionesPresupuesto?: StringNullableListFilter<"Configuracion">
+    condicionesFactura?: StringNullableListFilter<"Configuracion">
     userId?: StringNullableFilter<"Configuracion"> | string | null
     createdAt?: DateTimeFilter<"Configuracion"> | Date | string
     updatedAt?: DateTimeFilter<"Configuracion"> | Date | string
@@ -30437,6 +30516,8 @@ export namespace Prisma {
     prefijoPresupuesto?: SortOrder
     colorFactura?: SortOrderInput | SortOrder
     colorPresupuesto?: SortOrderInput | SortOrder
+    condicionesPresupuesto?: SortOrder
+    condicionesFactura?: SortOrder
     userId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -30453,6 +30534,8 @@ export namespace Prisma {
     prefijoPresupuesto?: StringFilter<"Configuracion"> | string
     colorFactura?: StringNullableFilter<"Configuracion"> | string | null
     colorPresupuesto?: StringNullableFilter<"Configuracion"> | string | null
+    condicionesPresupuesto?: StringNullableListFilter<"Configuracion">
+    condicionesFactura?: StringNullableListFilter<"Configuracion">
     userId?: StringNullableFilter<"Configuracion"> | string | null
     createdAt?: DateTimeFilter<"Configuracion"> | Date | string
     updatedAt?: DateTimeFilter<"Configuracion"> | Date | string
@@ -30466,6 +30549,8 @@ export namespace Prisma {
     prefijoPresupuesto?: SortOrder
     colorFactura?: SortOrderInput | SortOrder
     colorPresupuesto?: SortOrderInput | SortOrder
+    condicionesPresupuesto?: SortOrder
+    condicionesFactura?: SortOrder
     userId?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -30487,6 +30572,8 @@ export namespace Prisma {
     prefijoPresupuesto?: StringWithAggregatesFilter<"Configuracion"> | string
     colorFactura?: StringNullableWithAggregatesFilter<"Configuracion"> | string | null
     colorPresupuesto?: StringNullableWithAggregatesFilter<"Configuracion"> | string | null
+    condicionesPresupuesto?: StringNullableListFilter<"Configuracion">
+    condicionesFactura?: StringNullableListFilter<"Configuracion">
     userId?: StringNullableWithAggregatesFilter<"Configuracion"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Configuracion"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Configuracion"> | Date | string
@@ -31229,6 +31316,7 @@ export namespace Prisma {
     email: string
     telefono: string
     logoUrl?: string | null
+    cuentaBancaria?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -31241,6 +31329,7 @@ export namespace Prisma {
     email: string
     telefono: string
     logoUrl?: string | null
+    cuentaBancaria?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -31253,6 +31342,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     telefono?: StringFieldUpdateOperationsInput | string
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    cuentaBancaria?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -31265,6 +31355,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     telefono?: StringFieldUpdateOperationsInput | string
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    cuentaBancaria?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -31277,6 +31368,7 @@ export namespace Prisma {
     email: string
     telefono: string
     logoUrl?: string | null
+    cuentaBancaria?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -31289,6 +31381,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     telefono?: StringFieldUpdateOperationsInput | string
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    cuentaBancaria?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -31301,6 +31394,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     telefono?: StringFieldUpdateOperationsInput | string
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    cuentaBancaria?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -31620,6 +31714,7 @@ export namespace Prisma {
     nombre: string
     tipo?: $Enums.TipoCliente
     nif?: string | null
+    esIntracomunitario?: boolean
     direccion?: string | null
     ciudad?: string | null
     email?: string | null
@@ -31635,6 +31730,7 @@ export namespace Prisma {
     nombre: string
     tipo?: $Enums.TipoCliente
     nif?: string | null
+    esIntracomunitario?: boolean
     direccion?: string | null
     ciudad?: string | null
     email?: string | null
@@ -31650,6 +31746,7 @@ export namespace Prisma {
     nombre?: StringFieldUpdateOperationsInput | string
     tipo?: EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
     nif?: NullableStringFieldUpdateOperationsInput | string | null
+    esIntracomunitario?: BoolFieldUpdateOperationsInput | boolean
     direccion?: NullableStringFieldUpdateOperationsInput | string | null
     ciudad?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
@@ -31665,6 +31762,7 @@ export namespace Prisma {
     nombre?: StringFieldUpdateOperationsInput | string
     tipo?: EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
     nif?: NullableStringFieldUpdateOperationsInput | string | null
+    esIntracomunitario?: BoolFieldUpdateOperationsInput | boolean
     direccion?: NullableStringFieldUpdateOperationsInput | string | null
     ciudad?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
@@ -31680,6 +31778,7 @@ export namespace Prisma {
     nombre: string
     tipo?: $Enums.TipoCliente
     nif?: string | null
+    esIntracomunitario?: boolean
     direccion?: string | null
     ciudad?: string | null
     email?: string | null
@@ -31693,6 +31792,7 @@ export namespace Prisma {
     nombre?: StringFieldUpdateOperationsInput | string
     tipo?: EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
     nif?: NullableStringFieldUpdateOperationsInput | string | null
+    esIntracomunitario?: BoolFieldUpdateOperationsInput | boolean
     direccion?: NullableStringFieldUpdateOperationsInput | string | null
     ciudad?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
@@ -31706,6 +31806,7 @@ export namespace Prisma {
     nombre?: StringFieldUpdateOperationsInput | string
     tipo?: EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
     nif?: NullableStringFieldUpdateOperationsInput | string | null
+    esIntracomunitario?: BoolFieldUpdateOperationsInput | boolean
     direccion?: NullableStringFieldUpdateOperationsInput | string | null
     ciudad?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
@@ -32067,6 +32168,7 @@ export namespace Prisma {
     subtotal: number
     iva: number
     total: number
+    esOperacionIntracomunitaria?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     cliente?: ClienteCreateNestedOneWithoutFacturasInput
@@ -32089,6 +32191,7 @@ export namespace Prisma {
     subtotal: number
     iva: number
     total: number
+    esOperacionIntracomunitaria?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     items?: ItemFacturaUncheckedCreateNestedManyWithoutFacturaInput
@@ -32109,6 +32212,7 @@ export namespace Prisma {
     subtotal?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    esOperacionIntracomunitaria?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     cliente?: ClienteUpdateOneWithoutFacturasNestedInput
@@ -32131,6 +32235,7 @@ export namespace Prisma {
     subtotal?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    esOperacionIntracomunitaria?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: ItemFacturaUncheckedUpdateManyWithoutFacturaNestedInput
@@ -32152,6 +32257,7 @@ export namespace Prisma {
     subtotal: number
     iva: number
     total: number
+    esOperacionIntracomunitaria?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -32168,6 +32274,7 @@ export namespace Prisma {
     subtotal?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    esOperacionIntracomunitaria?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -32185,6 +32292,7 @@ export namespace Prisma {
     subtotal?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    esOperacionIntracomunitaria?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -32313,6 +32421,8 @@ export namespace Prisma {
     prefijoPresupuesto?: string
     colorFactura?: string | null
     colorPresupuesto?: string | null
+    condicionesPresupuesto?: ConfiguracionCreatecondicionesPresupuestoInput | string[]
+    condicionesFactura?: ConfiguracionCreatecondicionesFacturaInput | string[]
     userId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -32326,6 +32436,8 @@ export namespace Prisma {
     prefijoPresupuesto?: string
     colorFactura?: string | null
     colorPresupuesto?: string | null
+    condicionesPresupuesto?: ConfiguracionCreatecondicionesPresupuestoInput | string[]
+    condicionesFactura?: ConfiguracionCreatecondicionesFacturaInput | string[]
     userId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -32339,6 +32451,8 @@ export namespace Prisma {
     prefijoPresupuesto?: StringFieldUpdateOperationsInput | string
     colorFactura?: NullableStringFieldUpdateOperationsInput | string | null
     colorPresupuesto?: NullableStringFieldUpdateOperationsInput | string | null
+    condicionesPresupuesto?: ConfiguracionUpdatecondicionesPresupuestoInput | string[]
+    condicionesFactura?: ConfiguracionUpdatecondicionesFacturaInput | string[]
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32352,6 +32466,8 @@ export namespace Prisma {
     prefijoPresupuesto?: StringFieldUpdateOperationsInput | string
     colorFactura?: NullableStringFieldUpdateOperationsInput | string | null
     colorPresupuesto?: NullableStringFieldUpdateOperationsInput | string | null
+    condicionesPresupuesto?: ConfiguracionUpdatecondicionesPresupuestoInput | string[]
+    condicionesFactura?: ConfiguracionUpdatecondicionesFacturaInput | string[]
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32365,6 +32481,8 @@ export namespace Prisma {
     prefijoPresupuesto?: string
     colorFactura?: string | null
     colorPresupuesto?: string | null
+    condicionesPresupuesto?: ConfiguracionCreatecondicionesPresupuestoInput | string[]
+    condicionesFactura?: ConfiguracionCreatecondicionesFacturaInput | string[]
     userId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -32378,6 +32496,8 @@ export namespace Prisma {
     prefijoPresupuesto?: StringFieldUpdateOperationsInput | string
     colorFactura?: NullableStringFieldUpdateOperationsInput | string | null
     colorPresupuesto?: NullableStringFieldUpdateOperationsInput | string | null
+    condicionesPresupuesto?: ConfiguracionUpdatecondicionesPresupuestoInput | string[]
+    condicionesFactura?: ConfiguracionUpdatecondicionesFacturaInput | string[]
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32391,6 +32511,8 @@ export namespace Prisma {
     prefijoPresupuesto?: StringFieldUpdateOperationsInput | string
     colorFactura?: NullableStringFieldUpdateOperationsInput | string | null
     colorPresupuesto?: NullableStringFieldUpdateOperationsInput | string | null
+    condicionesPresupuesto?: ConfiguracionUpdatecondicionesPresupuestoInput | string[]
+    condicionesFactura?: ConfiguracionUpdatecondicionesFacturaInput | string[]
     userId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -33230,6 +33352,7 @@ export namespace Prisma {
     email?: SortOrder
     telefono?: SortOrder
     logoUrl?: SortOrder
+    cuentaBancaria?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -33242,6 +33365,7 @@ export namespace Prisma {
     email?: SortOrder
     telefono?: SortOrder
     logoUrl?: SortOrder
+    cuentaBancaria?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -33254,6 +33378,7 @@ export namespace Prisma {
     email?: SortOrder
     telefono?: SortOrder
     logoUrl?: SortOrder
+    cuentaBancaria?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -33651,6 +33776,11 @@ export namespace Prisma {
     not?: NestedEnumTipoClienteFilter<$PrismaModel> | $Enums.TipoCliente
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type PresupuestoListRelationFilter = {
     every?: PresupuestoWhereInput
     some?: PresupuestoWhereInput
@@ -33676,6 +33806,7 @@ export namespace Prisma {
     nombre?: SortOrder
     tipo?: SortOrder
     nif?: SortOrder
+    esIntracomunitario?: SortOrder
     direccion?: SortOrder
     ciudad?: SortOrder
     email?: SortOrder
@@ -33689,6 +33820,7 @@ export namespace Prisma {
     nombre?: SortOrder
     tipo?: SortOrder
     nif?: SortOrder
+    esIntracomunitario?: SortOrder
     direccion?: SortOrder
     ciudad?: SortOrder
     email?: SortOrder
@@ -33702,6 +33834,7 @@ export namespace Prisma {
     nombre?: SortOrder
     tipo?: SortOrder
     nif?: SortOrder
+    esIntracomunitario?: SortOrder
     direccion?: SortOrder
     ciudad?: SortOrder
     email?: SortOrder
@@ -33718,6 +33851,14 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumTipoClienteFilter<$PrismaModel>
     _max?: NestedEnumTipoClienteFilter<$PrismaModel>
+  }
+
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type PresupuestoProveedorListRelationFilter = {
@@ -33975,6 +34116,7 @@ export namespace Prisma {
     subtotal?: SortOrder
     iva?: SortOrder
     total?: SortOrder
+    esOperacionIntracomunitaria?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -33998,6 +34140,7 @@ export namespace Prisma {
     subtotal?: SortOrder
     iva?: SortOrder
     total?: SortOrder
+    esOperacionIntracomunitaria?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -34015,6 +34158,7 @@ export namespace Prisma {
     subtotal?: SortOrder
     iva?: SortOrder
     total?: SortOrder
+    esOperacionIntracomunitaria?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -34109,6 +34253,14 @@ export namespace Prisma {
     dias?: SortOrder
   }
 
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
   export type ConfiguracionCountOrderByAggregateInput = {
     id?: SortOrder
     ivaPorDefecto?: SortOrder
@@ -34117,6 +34269,8 @@ export namespace Prisma {
     prefijoPresupuesto?: SortOrder
     colorFactura?: SortOrder
     colorPresupuesto?: SortOrder
+    condicionesPresupuesto?: SortOrder
+    condicionesFactura?: SortOrder
     userId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -34381,11 +34535,6 @@ export namespace Prisma {
     importe?: SortOrder
   }
 
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type PresupuestoProveedorCountOrderByAggregateInput = {
     id?: SortOrder
     presupuestoId?: SortOrder
@@ -34443,14 +34592,6 @@ export namespace Prisma {
 
   export type PresupuestoProveedorSumOrderByAggregateInput = {
     precio?: SortOrder
-  }
-
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type DecimalNullableFilter<$PrismaModel = never> = {
@@ -34950,6 +35091,10 @@ export namespace Prisma {
 
   export type EnumTipoClienteFieldUpdateOperationsInput = {
     set?: $Enums.TipoCliente
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
   export type PresupuestoUpdateManyWithoutClienteNestedInput = {
@@ -35572,6 +35717,24 @@ export namespace Prisma {
     update?: XOR<XOR<PartidaPresupuestoUpdateToOneWithWhereWithoutItemsFacturaInput, PartidaPresupuestoUpdateWithoutItemsFacturaInput>, PartidaPresupuestoUncheckedUpdateWithoutItemsFacturaInput>
   }
 
+  export type ConfiguracionCreatecondicionesPresupuestoInput = {
+    set: string[]
+  }
+
+  export type ConfiguracionCreatecondicionesFacturaInput = {
+    set: string[]
+  }
+
+  export type ConfiguracionUpdatecondicionesPresupuestoInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type ConfiguracionUpdatecondicionesFacturaInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
   export type PersonalPuestoCreateNestedManyWithoutPuestoInput = {
     create?: XOR<PersonalPuestoCreateWithoutPuestoInput, PersonalPuestoUncheckedCreateWithoutPuestoInput> | PersonalPuestoCreateWithoutPuestoInput[] | PersonalPuestoUncheckedCreateWithoutPuestoInput[]
     connectOrCreate?: PersonalPuestoCreateOrConnectWithoutPuestoInput | PersonalPuestoCreateOrConnectWithoutPuestoInput[]
@@ -35884,10 +36047,6 @@ export namespace Prisma {
     create?: XOR<PartidaPresupuestoCreateWithoutPresupuestosProveedoresInput, PartidaPresupuestoUncheckedCreateWithoutPresupuestosProveedoresInput>
     connectOrCreate?: PartidaPresupuestoCreateOrConnectWithoutPresupuestosProveedoresInput
     connect?: PartidaPresupuestoWhereUniqueInput
-  }
-
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
   }
 
   export type PresupuestoUpdateOneRequiredWithoutPresupuestosProveedoresNestedInput = {
@@ -36270,6 +36429,11 @@ export namespace Prisma {
     not?: NestedEnumTipoClienteFilter<$PrismaModel> | $Enums.TipoCliente
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
   export type NestedEnumTipoClienteWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.TipoCliente | EnumTipoClienteFieldRefInput<$PrismaModel>
     in?: $Enums.TipoCliente[] | ListEnumTipoClienteFieldRefInput<$PrismaModel>
@@ -36278,6 +36442,14 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumTipoClienteFilter<$PrismaModel>
     _max?: NestedEnumTipoClienteFilter<$PrismaModel>
+  }
+
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedEnumEstadoPresupuestoFilter<$PrismaModel = never> = {
@@ -36312,19 +36484,6 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumEstadoFacturaFilter<$PrismaModel>
     _max?: NestedEnumEstadoFacturaFilter<$PrismaModel>
-  }
-
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedDecimalNullableFilter<$PrismaModel = never> = {
@@ -37028,6 +37187,7 @@ export namespace Prisma {
     subtotal: number
     iva: number
     total: number
+    esOperacionIntracomunitaria?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     items?: ItemFacturaCreateNestedManyWithoutFacturaInput
@@ -37048,6 +37208,7 @@ export namespace Prisma {
     subtotal: number
     iva: number
     total: number
+    esOperacionIntracomunitaria?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     items?: ItemFacturaUncheckedCreateNestedManyWithoutFacturaInput
@@ -37138,6 +37299,7 @@ export namespace Prisma {
     subtotal?: FloatFilter<"Factura"> | number
     iva?: FloatFilter<"Factura"> | number
     total?: FloatFilter<"Factura"> | number
+    esOperacionIntracomunitaria?: BoolFilter<"Factura"> | boolean
     createdAt?: DateTimeFilter<"Factura"> | Date | string
     updatedAt?: DateTimeFilter<"Factura"> | Date | string
   }
@@ -37431,6 +37593,7 @@ export namespace Prisma {
     nombre: string
     tipo?: $Enums.TipoCliente
     nif?: string | null
+    esIntracomunitario?: boolean
     direccion?: string | null
     ciudad?: string | null
     email?: string | null
@@ -37445,6 +37608,7 @@ export namespace Prisma {
     nombre: string
     tipo?: $Enums.TipoCliente
     nif?: string | null
+    esIntracomunitario?: boolean
     direccion?: string | null
     ciudad?: string | null
     email?: string | null
@@ -37555,6 +37719,7 @@ export namespace Prisma {
     subtotal: number
     iva: number
     total: number
+    esOperacionIntracomunitaria?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     cliente?: ClienteCreateNestedOneWithoutFacturasInput
@@ -37576,6 +37741,7 @@ export namespace Prisma {
     subtotal: number
     iva: number
     total: number
+    esOperacionIntracomunitaria?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     items?: ItemFacturaUncheckedCreateNestedManyWithoutFacturaInput
@@ -37604,6 +37770,7 @@ export namespace Prisma {
     nombre?: StringFieldUpdateOperationsInput | string
     tipo?: EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
     nif?: NullableStringFieldUpdateOperationsInput | string | null
+    esIntracomunitario?: BoolFieldUpdateOperationsInput | boolean
     direccion?: NullableStringFieldUpdateOperationsInput | string | null
     ciudad?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
@@ -37618,6 +37785,7 @@ export namespace Prisma {
     nombre?: StringFieldUpdateOperationsInput | string
     tipo?: EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
     nif?: NullableStringFieldUpdateOperationsInput | string | null
+    esIntracomunitario?: BoolFieldUpdateOperationsInput | boolean
     direccion?: NullableStringFieldUpdateOperationsInput | string | null
     ciudad?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
@@ -37682,6 +37850,7 @@ export namespace Prisma {
     subtotal?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    esOperacionIntracomunitaria?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     cliente?: ClienteUpdateOneWithoutFacturasNestedInput
@@ -37703,6 +37872,7 @@ export namespace Prisma {
     subtotal?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    esOperacionIntracomunitaria?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: ItemFacturaUncheckedUpdateManyWithoutFacturaNestedInput
@@ -37963,6 +38133,7 @@ export namespace Prisma {
     nombre: string
     tipo?: $Enums.TipoCliente
     nif?: string | null
+    esIntracomunitario?: boolean
     direccion?: string | null
     ciudad?: string | null
     email?: string | null
@@ -37977,6 +38148,7 @@ export namespace Prisma {
     nombre: string
     tipo?: $Enums.TipoCliente
     nif?: string | null
+    esIntracomunitario?: boolean
     direccion?: string | null
     ciudad?: string | null
     email?: string | null
@@ -38181,6 +38353,7 @@ export namespace Prisma {
     nombre?: StringFieldUpdateOperationsInput | string
     tipo?: EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
     nif?: NullableStringFieldUpdateOperationsInput | string | null
+    esIntracomunitario?: BoolFieldUpdateOperationsInput | boolean
     direccion?: NullableStringFieldUpdateOperationsInput | string | null
     ciudad?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38195,6 +38368,7 @@ export namespace Prisma {
     nombre?: StringFieldUpdateOperationsInput | string
     tipo?: EnumTipoClienteFieldUpdateOperationsInput | $Enums.TipoCliente
     nif?: NullableStringFieldUpdateOperationsInput | string | null
+    esIntracomunitario?: BoolFieldUpdateOperationsInput | boolean
     direccion?: NullableStringFieldUpdateOperationsInput | string | null
     ciudad?: NullableStringFieldUpdateOperationsInput | string | null
     email?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38293,6 +38467,7 @@ export namespace Prisma {
     subtotal: number
     iva: number
     total: number
+    esOperacionIntracomunitaria?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     cliente?: ClienteCreateNestedOneWithoutFacturasInput
@@ -38314,6 +38489,7 @@ export namespace Prisma {
     subtotal: number
     iva: number
     total: number
+    esOperacionIntracomunitaria?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     presupuestos?: PresupuestoUncheckedCreateNestedManyWithoutFacturaInput
@@ -38415,6 +38591,7 @@ export namespace Prisma {
     subtotal?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    esOperacionIntracomunitaria?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     cliente?: ClienteUpdateOneWithoutFacturasNestedInput
@@ -38436,6 +38613,7 @@ export namespace Prisma {
     subtotal?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    esOperacionIntracomunitaria?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     presupuestos?: PresupuestoUncheckedUpdateManyWithoutFacturaNestedInput
@@ -38949,6 +39127,7 @@ export namespace Prisma {
     subtotal: number
     iva: number
     total: number
+    esOperacionIntracomunitaria?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     cliente?: ClienteCreateNestedOneWithoutFacturasInput
@@ -38970,6 +39149,7 @@ export namespace Prisma {
     subtotal: number
     iva: number
     total: number
+    esOperacionIntracomunitaria?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     items?: ItemFacturaUncheckedCreateNestedManyWithoutFacturaInput
@@ -39005,6 +39185,7 @@ export namespace Prisma {
     subtotal?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    esOperacionIntracomunitaria?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     cliente?: ClienteUpdateOneWithoutFacturasNestedInput
@@ -39026,6 +39207,7 @@ export namespace Prisma {
     subtotal?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    esOperacionIntracomunitaria?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: ItemFacturaUncheckedUpdateManyWithoutFacturaNestedInput
@@ -39285,6 +39467,7 @@ export namespace Prisma {
     subtotal: number
     iva: number
     total: number
+    esOperacionIntracomunitaria?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     cliente?: ClienteCreateNestedOneWithoutFacturasInput
@@ -39306,6 +39489,7 @@ export namespace Prisma {
     subtotal: number
     iva: number
     total: number
+    esOperacionIntracomunitaria?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     items?: ItemFacturaUncheckedCreateNestedManyWithoutFacturaInput
@@ -39403,6 +39587,7 @@ export namespace Prisma {
     subtotal?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    esOperacionIntracomunitaria?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     cliente?: ClienteUpdateOneWithoutFacturasNestedInput
@@ -39424,6 +39609,7 @@ export namespace Prisma {
     subtotal?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    esOperacionIntracomunitaria?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: ItemFacturaUncheckedUpdateManyWithoutFacturaNestedInput
@@ -39981,6 +40167,7 @@ export namespace Prisma {
     subtotal: number
     iva: number
     total: number
+    esOperacionIntracomunitaria?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -40061,6 +40248,7 @@ export namespace Prisma {
     subtotal?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    esOperacionIntracomunitaria?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: ItemFacturaUpdateManyWithoutFacturaNestedInput
@@ -40081,6 +40269,7 @@ export namespace Prisma {
     subtotal?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    esOperacionIntracomunitaria?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: ItemFacturaUncheckedUpdateManyWithoutFacturaNestedInput
@@ -40101,6 +40290,7 @@ export namespace Prisma {
     subtotal?: FloatFieldUpdateOperationsInput | number
     iva?: FloatFieldUpdateOperationsInput | number
     total?: FloatFieldUpdateOperationsInput | number
+    esOperacionIntracomunitaria?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

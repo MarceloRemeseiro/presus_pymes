@@ -50,6 +50,8 @@ export async function PUT(req: Request) {
           prefijoPresupuesto: body.prefijoPresupuesto || configuracion.prefijoPresupuesto,
           colorFactura: body.colorFactura || configuracion.colorFactura,
           colorPresupuesto: body.colorPresupuesto || configuracion.colorPresupuesto,
+          condicionesPresupuesto: body.condicionesPresupuesto || configuracion.condicionesPresupuesto,
+          condicionesFactura: body.condicionesFactura || configuracion.condicionesFactura,
         }
       })
     } else {
@@ -62,6 +64,8 @@ export async function PUT(req: Request) {
           prefijoPresupuesto: body.prefijoPresupuesto || "PRES-",
           colorFactura: body.colorFactura || "#3c4e66",
           colorPresupuesto: body.colorPresupuesto || "#150a4a",
+          condicionesPresupuesto: body.condicionesPresupuesto || [],
+          condicionesFactura: body.condicionesFactura || [],
         }
       })
     }

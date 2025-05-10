@@ -130,6 +130,7 @@ interface Factura {
   items: ItemFactura[]
   presupuestos: Presupuesto[]
   facturasProveedores: FacturaProveedor[]
+  esOperacionIntracomunitaria: boolean;
   createdAt: string
   updatedAt: string
 }
@@ -158,6 +159,10 @@ export default function FacturaDetallePage({ params }: { params: Promise<{ id: s
       }
       
       const data = await response.json()
+      
+      // Añadir logs para depurar
+      console.log('Factura cargada - esOperacionIntracomunitaria:', data.esOperacionIntracomunitaria)
+      console.log('Tipo de esOperacionIntracomunitaria:', typeof data.esOperacionIntracomunitaria)
       
       // Organizar los datos para la visualización
       setFactura(data)
@@ -272,7 +277,7 @@ export default function FacturaDetallePage({ params }: { params: Promise<{ id: s
     return format(date, 'dd/MM/yyyy', { locale: es })
   }
 
-  // Función para generar el PDF de la factura
+  // Función para imprimir la factura
   const handleImprimirFactura = async () => {
     if (!factura) return;
     
@@ -286,7 +291,7 @@ export default function FacturaDetallePage({ params }: { params: Promise<{ id: s
       }
       const empresa: Empresa = await empresaResponse.json();
       
-      // Obtener la configuración para el color de la factura
+      // Obtener la configuración para el color de la factura y condiciones
       const configResponse = await fetch('/api/configuracion');
       if (!configResponse.ok) {
         throw new Error('Error al obtener configuración');
@@ -300,7 +305,10 @@ export default function FacturaDetallePage({ params }: { params: Promise<{ id: s
         factura, 
         partidasAgrupadas,
         empresa,
-        config.colorFactura
+        config.colorFactura,
+        {
+          condicionesFactura: config.condicionesFactura || []
+        }
       );
       
       // Cerrar el indicador de carga

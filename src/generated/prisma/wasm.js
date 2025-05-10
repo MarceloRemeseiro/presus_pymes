@@ -128,6 +128,7 @@ exports.Prisma.EmpresaScalarFieldEnum = {
   email: 'email',
   telefono: 'telefono',
   logoUrl: 'logoUrl',
+  cuentaBancaria: 'cuentaBancaria',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -179,6 +180,7 @@ exports.Prisma.ClienteScalarFieldEnum = {
   nombre: 'nombre',
   tipo: 'tipo',
   nif: 'nif',
+  esIntracomunitario: 'esIntracomunitario',
   direccion: 'direccion',
   ciudad: 'ciudad',
   email: 'email',
@@ -246,6 +248,7 @@ exports.Prisma.FacturaScalarFieldEnum = {
   subtotal: 'subtotal',
   iva: 'iva',
   total: 'total',
+  esOperacionIntracomunitaria: 'esOperacionIntracomunitaria',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -275,6 +278,8 @@ exports.Prisma.ConfiguracionScalarFieldEnum = {
   prefijoPresupuesto: 'prefijoPresupuesto',
   colorFactura: 'colorFactura',
   colorPresupuesto: 'colorPresupuesto',
+  condicionesPresupuesto: 'condicionesPresupuesto',
+  condicionesFactura: 'condicionesFactura',
   userId: 'userId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

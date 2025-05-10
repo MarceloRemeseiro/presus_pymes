@@ -23,6 +23,7 @@ interface Empresa {
   email: string;
   telefono: string;
   logoUrl?: string | null;
+  cuentaBancaria?: string | null;
 }
 
 interface Producto {
@@ -69,6 +70,7 @@ interface Factura {
   total: number;
   items: ItemFactura[];
   presupuestos?: { id: string; numero: string }[];
+  esOperacionIntracomunitaria?: boolean;
 }
 
 interface GroupedItems {
@@ -131,8 +133,18 @@ export const generateFacturaPDF = async (
   factura: Factura, 
   partidasAgrupadas: GroupedItems[],
   empresa?: Empresa,
-  colorFactura?: string
+  colorFactura?: string,
+  configuracion?: { condicionesFactura?: string[] }
 ) => {
+  // Añadir log para depurar
+  console.log('GENERADOR PDF - Valor de esOperacionIntracomunitaria:', factura.esOperacionIntracomunitaria);
+  console.log('GENERADOR PDF - Tipo de esOperacionIntracomunitaria:', typeof factura.esOperacionIntracomunitaria);
+  console.log('GENERADOR PDF - Datos de factura básicos:', JSON.stringify({
+    id: factura.id,
+    numero: factura.numero,
+    esOperacionIntracomunitaria: factura.esOperacionIntracomunitaria
+  }));
+
   // Crear nuevo documento PDF
   const doc = new jsPDF();
   
@@ -320,7 +332,7 @@ export const generateFacturaPDF = async (
     head: [['EMPRESA']],
     body: empresa ? [
       [`${empresa.nombre}`],
-      [`CIF: ${empresa.cif}`],
+      [factura.esOperacionIntracomunitaria ? `VAT NUMBER: ES${empresa.cif}` : `CIF: ${empresa.cif}`],
       [`${empresa.direccion}`],
       [`${empresa.email}`],
       [`${empresa.telefono}`]
@@ -354,7 +366,7 @@ export const generateFacturaPDF = async (
     head: [['CLIENTE']],
     body: factura.cliente ? [
       [`${factura.cliente.nombre}`],
-      [`NIF/CIF: ${factura.cliente.nif || '-'}`],
+      [factura.esOperacionIntracomunitaria ? `VAT NUMBER: ${factura.cliente.nif || '-'}` : `NIF/CIF: ${factura.cliente.nif || '-'}`],
       [`${factura.cliente.direccion || '-'}`],
       [`${factura.cliente.ciudad || '-'}`]
     ] : [
@@ -671,37 +683,137 @@ export const generateFacturaPDF = async (
     doc.addPage();
     tableY = marginTop; // Usar marginTop global (5) en lugar de startY para consistencia
   }
-  
-  // Totales con mejor presentación
+
+  // Definir dimensiones de las cajas
+  const totalsBoxWidth = 60;
+  const cuentaBoxWidth = 80; // Más ancha
+  const boxHeight = factura.esOperacionIntracomunitaria ? 20 : 36;
+  const leftBoxX = marginLeft;
+  const rightBoxX = pageWidth - marginLeft - totalsBoxWidth;
+
+  // Caja de cuenta bancaria (izquierda, más ancha)
+  if (empresa?.cuentaBancaria) {
+    doc.setDrawColor(220, 220, 220);
+    doc.setFillColor(250, 250, 250);
+    doc.roundedRect(leftBoxX, tableY, cuentaBoxWidth, boxHeight, 2, 2, 'FD');
+    // Título
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(localPrimaryColor);
+    doc.text('Número de cuenta', leftBoxX + 8, tableY + 8);
+    // IBAN
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(textColor);
+    doc.text(empresa.cuentaBancaria, leftBoxX + 8, tableY + 15);
+    // Forma de pago
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(textColor);
+    doc.text('FORMA DE PAGO: Transferencia', leftBoxX + 8, tableY + 22);
+  }
+
+  // Caja de totales (derecha)
   doc.setFontSize(10);
   doc.setTextColor(textColor);
   doc.setFont('helvetica', 'normal');
-  
-  const totalsBoxWidth = 60;
-  const totalsBoxX = pageWidth - marginLeft - totalsBoxWidth; // Usar marginLeft global (8)
-  
-  // Rectángulo con borde para los totales
   doc.setDrawColor(220, 220, 220);
   doc.setFillColor(250, 250, 250);
-  doc.roundedRect(totalsBoxX, tableY, totalsBoxWidth, 32, 2, 2, 'FD');
+  doc.roundedRect(rightBoxX, tableY, totalsBoxWidth, boxHeight, 2, 2, 'FD');
+
+  if (factura.esOperacionIntracomunitaria) {
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(localPrimaryColor);
+    doc.text('TOTAL:', rightBoxX + 8, tableY + 10);
+    doc.text(formatCurrency(factura.total), rightBoxX + totalsBoxWidth - 8, tableY + 10, { align: 'right' });
+  } else {
+    doc.text('Subtotal:', rightBoxX + 8, tableY + 8);
+    doc.text(formatCurrency(factura.subtotal), rightBoxX + totalsBoxWidth - 8, tableY + 8, { align: 'right' });
+    doc.text('IVA (21%):', rightBoxX + 8, tableY + 16);
+    doc.text(formatCurrency(factura.iva), rightBoxX + totalsBoxWidth - 8, tableY + 16, { align: 'right' });
+    doc.setDrawColor(220, 220, 220);
+    doc.line(rightBoxX + 8, tableY + 20, rightBoxX + totalsBoxWidth - 8, tableY + 20);
+    doc.setFontSize(11);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(localPrimaryColor);
+    doc.text('TOTAL:', rightBoxX + 8, tableY + 28);
+    doc.text(formatCurrency(factura.total), rightBoxX + totalsBoxWidth - 8, tableY + 28, { align: 'right' });
+  }
+
+  // Reducir el espacio inferior entre las cajas y el siguiente contenido
+  tableY += boxHeight + 2;
   
-  // Textos y valores
-  doc.text('Subtotal:', totalsBoxX + 8, tableY + 8);
-  doc.text(formatCurrency(factura.subtotal), totalsBoxX + totalsBoxWidth - 8, tableY + 8, { align: 'right' });
+  // Observaciones
+  if (factura.observaciones) {
+    // Si no hay espacio suficiente para las observaciones, agregar página
+    if (tableY > doc.internal.pageSize.height - 30) {
+      doc.addPage();
+      tableY = marginTop;
+    }
+    
+    doc.setFontSize(10);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(textColor);
+    doc.text('Observaciones:', marginLeft, tableY);
+    doc.setFontSize(9);
+    doc.setFont('helvetica', 'normal');
+    
+    // Dividir las observaciones en líneas para evitar desbordamiento
+    const splitObservaciones = doc.splitTextToSize(factura.observaciones, pageWidth - (marginLeft * 2));
+    doc.text(splitObservaciones, marginLeft, tableY + 5);
+    
+    // Actualizar la posición Y considerando el alto del texto
+    tableY += 10 + (splitObservaciones.length * 4);
+  }
   
-  doc.text('IVA (21%):', totalsBoxX + 8, tableY + 16);
-  doc.text(formatCurrency(factura.iva), totalsBoxX + totalsBoxWidth - 8, tableY + 16, { align: 'right' });
-  
-  // Línea separadora
-  doc.setDrawColor(220, 220, 220);
-  doc.line(totalsBoxX + 8, tableY + 20, totalsBoxX + totalsBoxWidth - 8, tableY + 20);
-  
-  // Total
-  doc.setFontSize(11);
-  doc.setFont('helvetica', 'bold');
-  doc.setTextColor(localPrimaryColor);
-  doc.text('TOTAL:', totalsBoxX + 8, tableY + 28);
-  doc.text(formatCurrency(factura.total), totalsBoxX + totalsBoxWidth - 8, tableY + 28, { align: 'right' });
+  // Mostrar las condiciones si existen
+  if (configuracion?.condicionesFactura && configuracion.condicionesFactura.length > 0) {
+    // Si no hay espacio suficiente para las condiciones, agregar página
+    if (tableY > doc.internal.pageSize.height - 40) {
+      doc.addPage();
+      tableY = marginTop;
+    }
+    
+    // Título de las condiciones
+    doc.setFontSize(8);
+    doc.setFont('helvetica', 'bold');
+    doc.setTextColor(localPrimaryColor);
+    doc.text('CONDICIONES:', marginLeft, tableY);
+    
+    // Dibujar las condiciones como lista
+    doc.setFontSize(6);
+    doc.setFont('helvetica', 'normal');
+    doc.setTextColor(textColor);
+    
+    let condicionY = tableY + 4;
+    
+    configuracion.condicionesFactura.forEach((condicion, index) => {
+      // Comprobar si necesitamos una nueva página para esta condición
+      if (condicionY > doc.internal.pageSize.height - 10) {
+        doc.addPage();
+        condicionY = marginTop + 5;
+      }
+      
+      // Dividir la condición en líneas si es muy larga
+      const splitCondicion = doc.splitTextToSize(condicion, pageWidth - (marginLeft * 2) - 10);
+      
+      // Dibujar el punto de lista
+      doc.setTextColor(localPrimaryColor);
+      doc.text('-', marginLeft, condicionY);
+      
+      // Dibujar el texto de la condición
+      doc.setTextColor(textColor);
+      doc.text(splitCondicion, marginLeft + 5, condicionY);
+      
+      // Actualizar la posición Y para la siguiente condición
+      // Reducimos el espaciado entre condiciones y entre líneas
+      condicionY += 3 + ((splitCondicion.length - 1) * 2);
+    });
+    
+    // Actualizar la posición Y general
+    tableY = condicionY + 3;
+  }
   
   // Generar el nombre del archivo PDF con el formato solicitado:
   // [numero de factura]__Factura[nombreEmpresa]_[referencia]-FACTURA
@@ -783,48 +895,3 @@ function formatDate(dateString: string | null): string {
   date.setMinutes(date.getMinutes() + date.getTimezoneOffset()); // Ajustar UTC
   return format(date, 'dd/MM/yyyy', { locale: es });
 }
-
-// Función para generar el encabezado común
-function addHeader(doc: jsPDF, empresa: Empresa, factura: Factura, config?: PDFConfig): number {
-  let currentY = marginTop;
-  
-  // Título y Número de Factura
-  const headerY = currentY;
-  doc.setFontSize(18);
-  doc.setTextColor(primaryColorGlobal);
-  doc.setFont('helvetica', 'bold');
-  doc.text('FACTURA', marginLeft, headerY);
-  
-  doc.setFontSize(10);
-  doc.setFont('helvetica', 'normal');
-  doc.setTextColor(0, 0, 0); // Reset color
-  doc.text(`Nº: ${factura.numero}`, pageDimensions.width - marginLeft, headerY, { align: 'right' });
-  currentY = headerY + 5;
-  
-  return currentY;
-}
-
-// Función para añadir la tabla de items
-function addItemsTable(doc: jsPDF, partidas: GroupedItems[], startY: number, config?: PDFConfig): number {
-  let currentY = startY;
-  const tableHeadersCompleto = ['Cant.', 'Descripción', 'Días', 'P.U.', 'DTO %', 'IVA %', 'Subtotal'];
-  const tableHeadersCompacto = ['Descripción', 'Subtotal'];
-  const columnWidthsCompleto = [15, 75, 15, 20, 15, 15, 25]; 
-  const columnWidthsCompacto = [155, 25]; 
-  const tableMargin = marginLeft;
-  const tableWidth = pageDimensions.width - 2 * tableMargin;
-  
-  partidas.forEach((partida) => {
-    // ... existing code ...
-    // Subtotal de la partida
-    currentY += 5;
-    doc.setFont('helvetica', 'bold');
-    const subtotalPartidaTexto = `Subtotal ${partida.partidaNombre || 'Otros'}: ${formatCurrency(partida.subtotal)}`;
-    doc.text(subtotalPartidaTexto, pageDimensions.width - marginLeft, currentY, { align: 'right' });
-    currentY += 5;
-  });
-
-  return currentY;
-}
-
-// ... (resto de funciones) 

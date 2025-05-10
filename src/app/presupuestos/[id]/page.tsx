@@ -308,7 +308,7 @@ export default function PresupuestoDetallePage({ params }: { params: Promise<{ i
       }
       const empresa: Empresa = await empresaResponse.json();
       
-      // Obtener la configuración para el color del presupuesto
+      // Obtener la configuración para el color del presupuesto y las condiciones
       const configResponse = await fetch('/api/configuracion');
       if (!configResponse.ok) {
         throw new Error('Error al obtener configuración');
@@ -324,26 +324,14 @@ export default function PresupuestoDetallePage({ params }: { params: Promise<{ i
         partidasAgrupadas as any,
         empresa,
         config.colorPresupuesto,
-        nivelDetalle
+        nivelDetalle,
+        {
+          condicionesPresupuesto: config.condicionesPresupuesto || []
+        }
       );
       
-      // Ya no necesitamos procesar 'doc' aquí, generatePresupuestoPDF lo maneja.
-      // const numero = presupuesto.numero || 'SIN_NUMERO';
-      // const nombreEmpresa = empresa?.nombre || 'MiEmpresa';
-      // const referencia = presupuesto.referencia || 'SIN_REF';
-      // const baseFilename = `${numero}_Presupuesto${nombreEmpresa}_${referencia}-PRESUPUESTO`;
-      // const filename = sanitizeFilename(baseFilename) + '.pdf';
-
       // Cerrar el indicador de carga
       toast.dismiss();
-      
-      // // Guardar el PDF con el nombre personalizado
-      // // doc.save(filename); // Comentado para evitar descarga directa
-
-      // // Apertura en nueva pestaña ahora se maneja dentro de generatePresupuestoPDF
-      // const pdfBlob = doc.output('blob');
-      // const pdfUrl = URL.createObjectURL(pdfBlob);
-      // window.open(pdfUrl, '_blank');
       
     } catch (error) {
       toast.dismiss();

@@ -45,22 +45,45 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const body = await req.json()
+    let esOperacionIntracomunitaria = body.esOperacionIntracomunitaria || false;
+
+    // Determinar si es operación intracomunitaria si no se especificó y hay clienteId
+    if (body.clienteId && typeof body.esOperacionIntracomunitaria === 'undefined') {
+      const cliente = await prisma.cliente.findUnique({
+        where: { id: body.clienteId },
+        select: { esIntracomunitario: true }
+      });
+      if (cliente && cliente.esIntracomunitario) {
+        esOperacionIntracomunitaria = true;
+      }
+    }
+
+    // Recalcular items y totales si es operación intracomunitaria
+    let itemsParaCrear = body.items || [];
+    if (esOperacionIntracomunitaria) {
+      itemsParaCrear = itemsParaCrear.map((item: any) => ({
+        ...item,
+        iva: 0,
+        total: item.cantidad * item.precioUnitario * (1 - (item.descuento || 0) / 100) * (item.dias || 1)
+        // El subtotal de un item ya es sin IVA.
+      }));
+    }
     
-    // Calculamos los totales
-    const subtotal = body.items ? body.items.reduce(
-      (acc: number, item: any) => acc + (item.cantidad * item.precioUnitario * (1 - item.descuento / 100)),
+    // Calculamos los totales basados en los items (potencialmente modificados)
+    const subtotal = itemsParaCrear.reduce(
+      (acc: number, item: any) => acc + (item.cantidad * item.precioUnitario * (1 - (item.descuento || 0) / 100) * (item.dias || 1)),
       0
-    ) : 0
+    );
     
-    const iva = body.items ? body.items.reduce(
+    const iva = esOperacionIntracomunitaria ? 0 : itemsParaCrear.reduce(
       (acc: number, item: any) => {
-        const baseImponible = item.cantidad * item.precioUnitario * (1 - item.descuento / 100)
-        return acc + (baseImponible * (item.iva / 100))
+        const baseImponibleItem = item.cantidad * item.precioUnitario * (1 - (item.descuento || 0) / 100) * (item.dias || 1);
+        return acc + (baseImponibleItem * (item.iva / 100)); // item.iva ya será 0 si es intracomunitaria
       },
       0
-    ) : 0
+    );
     
-    const total = subtotal + iva
+    const total = subtotal + iva;
     
     // ---- Obtener configuración para prefijo y generar número secuencial ----
     let config = await prisma.configuracion.findFirst();
@@ -109,6 +132,7 @@ export async function POST(req: Request) {
       subtotal,
       iva,
       total,
+      esOperacionIntracomunitaria,
     }
     
     // Agregar numeroPedido si existe
@@ -127,11 +151,13 @@ export async function POST(req: Request) {
     }
     
     // Agregar items si existen
-    if (body.items?.length) {
+    if (itemsParaCrear.length) {
       facturaData.items = {
-        create: body.items.map((item: any) => {
-          const precioTotal = item.cantidad * item.precioUnitario * (1 - item.descuento / 100)
-          const ivaImporte = precioTotal * (item.iva / 100)
+        create: itemsParaCrear.map((item: any) => {
+          // El total del item ya se calculó arriba si era intracomunitaria
+          // Si no, el total del item viene del body, o lo recalculamos.
+          const precioTotalItem = item.cantidad * item.precioUnitario * (1 - (item.descuento || 0) / 100) * (item.dias || 1);
+          const ivaImporteItem = esOperacionIntracomunitaria ? 0 : (precioTotalItem * (item.iva / 100));
           
           return {
             productoId: item.productoId,
@@ -139,10 +165,10 @@ export async function POST(req: Request) {
             tipo: item.tipo,
             cantidad: item.cantidad,
             precioUnitario: item.precioUnitario,
-            descuento: item.descuento,
-            iva: item.iva,
-            total: precioTotal + ivaImporte,
-            dias: item.dias,
+            descuento: item.descuento || 0,
+            iva: esOperacionIntracomunitaria ? 0 : item.iva, // Asegurar IVA 0 aquí también
+            total: precioTotalItem + ivaImporteItem,
+            dias: item.dias || 1,
             partidaId: item.partidaId || null
           }
         }),

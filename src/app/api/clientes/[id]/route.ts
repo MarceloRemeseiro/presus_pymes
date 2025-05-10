@@ -64,6 +64,7 @@ export async function PUT(
         nombre: body.nombre,
         tipo: body.tipo,
         nif: body.nif,
+        esIntracomunitario: body.esIntracomunitario,
         direccion: body.direccion,
         ciudad: body.ciudad,
         email: body.email,
