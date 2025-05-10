@@ -56,7 +56,7 @@ export async function GET(request: Request) {
           gte: fechaInicio,
           lte: fechaFin
         },
-        estado: 'PENDIENTE'
+        estado: 'ENVIADA'
       }
     });
 

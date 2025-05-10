@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useMemo } from "react"
+import { useState, useEffect } from "react"
 import { 
   Card, 
   CardContent, 
@@ -8,11 +8,19 @@ import {
   CardHeader, 
   CardTitle 
 } from "@/components/ui/card"
-import {
-  BarChart3,
-  TrendingUp
-} from "lucide-react"
+import { BarChart3 } from "lucide-react"
 import { Skeleton } from "@/components/ui/skeleton"
+import { 
+  BarChart, 
+  Bar, 
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip, 
+  Legend, 
+  ResponsiveContainer,
+  TooltipProps
+} from 'recharts'
 
 interface GraficoEvolucionProps {
   filtros: {
@@ -28,7 +36,72 @@ interface DatosMensuales {
   ingresos: number;
   gastos: number;
   beneficio: number;
+  mesNumero?: string; // Añadimos campo para el número de mes
 }
+
+// Mapa para convertir nombres de meses a números
+const mesANumero: Record<string, string> = {
+  'enero': 'ENE',
+  'febrero': 'FEB',
+  'marzo': 'MAR',
+  'abril': 'ABR',
+  'mayo': 'MAY',
+  'junio': 'JUN',
+  'julio': 'JUL',
+  'agosto': 'AGO',
+  'septiembre': 'SEP',
+  'octubre': 'OCT',
+  'noviembre': 'NOV',
+  'diciembre': 'DIC'
+};
+
+// Componente personalizado para el tooltip
+const CustomTooltip = ({ active, payload, label }: TooltipProps<number, string>) => {
+  if (active && payload && payload.length) {
+    // En el tooltip mostramos el nombre completo del mes en lugar del número
+    const nombreMes = payload[0]?.payload?.mes || label;
+    
+    return (
+      <div className="bg-background border rounded-md shadow-md p-3 text-sm">
+        <p className="font-medium mb-1">{nombreMes}</p>
+        {payload.map((entry, index) => (
+          <p key={index} style={{ color: entry.color }}>
+            {entry.name}: {formatearMoneda(entry.value as number)}
+          </p>
+        ))}
+      </div>
+    );
+  }
+
+  return null;
+};
+
+// Formatear moneda para tooltips y etiquetas
+const formatearMoneda = (valor: number) => {
+  return new Intl.NumberFormat('es-ES', {
+    style: 'currency',
+    currency: 'EUR',
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0
+  }).format(valor);
+};
+
+// Formatear valores de eje Y
+const formatearEjeY = (valor: number) => {
+  if (valor >= 1000000) {
+    return `${(valor / 1000000).toFixed(1)}M €`;
+  } else if (valor >= 1000) {
+    return `${(valor / 1000).toFixed(0)}k €`;
+  }
+  return `${valor} €`;
+};
+
+// Colores para las barras
+const colores = {
+  ingresos: "#ffffff", // Blanco
+  gastos: "#ef4444",   // Rojo
+  beneficio: "#22c55e" // Verde
+};
 
 export function GraficoEvolucion({ filtros }: GraficoEvolucionProps) {
   const [cargando, setCargando] = useState(true)
@@ -61,7 +134,25 @@ export function GraficoEvolucion({ filtros }: GraficoEvolucionProps) {
         }
         
         const data = await respuesta.json()
-        setDatos(data.financieras.evolucionMensual)
+        
+        if (data.financieras && data.financieras.evolucionMensual && 
+            Array.isArray(data.financieras.evolucionMensual) && 
+            data.financieras.evolucionMensual.length > 0) {
+          // Añadir números de mes a los datos
+          const datosConNumeros = data.financieras.evolucionMensual.map((dato: DatosMensuales) => ({
+            ...dato,
+            mesNumero: mesANumero[dato.mes.toLowerCase()] || 
+                       // Si no está en el mapa, intentamos extraer el mes del nombre
+                       dato.mes.match(/\d+/)?.[0]?.padStart(2, '0') || 
+                       dato.mes
+          }));
+          
+          setDatos(datosConNumeros)
+          console.log("Datos evolución recibidos:", datosConNumeros)
+        } else {
+          console.log("No hay datos de evolución disponibles", data)
+          setDatos([])
+        }
       } catch (error) {
         console.error('Error al cargar datos:', error)
         setError('No se pudieron cargar los datos de evolución')
@@ -72,21 +163,6 @@ export function GraficoEvolucion({ filtros }: GraficoEvolucionProps) {
     
     obtenerDatos()
   }, [filtros])
-
-  // Encontrar el valor máximo para escalar el gráfico
-  const valorMaximo = useMemo(() => {
-    if (!datos.length) return 100;
-    const valores = datos.flatMap(d => [d.ingresos, d.gastos]);
-    return Math.max(...valores, 100); // Mínimo 100 para evitar divisiones por cero
-  }, [datos]);
-
-  // Formatear moneda para tooltips
-  const formatearMoneda = (valor: number) => {
-    return new Intl.NumberFormat('es-ES', {
-      style: 'currency',
-      currency: 'EUR'
-    }).format(valor)
-  }
 
   if (error) {
     return (
@@ -103,7 +179,7 @@ export function GraficoEvolucion({ filtros }: GraficoEvolucionProps) {
   }
 
   return (
-    <Card>
+    <Card className="dark:bg-slate-900">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <BarChart3 className="h-5 w-5 text-primary" />
@@ -125,76 +201,77 @@ export function GraficoEvolucion({ filtros }: GraficoEvolucionProps) {
           </div>
         ) : datos.length > 0 ? (
           <div className="h-[300px] w-full">
-            <div className="flex justify-between items-center mb-8">
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-primary"></div>
-                <span className="text-sm">Ingresos</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-destructive"></div>
-                <span className="text-sm">Gastos</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                <span className="text-sm">Beneficio</span>
-              </div>
-            </div>
-            
-            <div className="flex h-[220px] items-end space-x-2">
-              {datos.map((datoMes, index) => (
-                <div 
-                  key={index} 
-                  className="flex-1 flex flex-col items-center"
-                >
-                  <div 
-                    className="relative w-full group"
-                    style={{ height: `${Math.max(0, Math.min(100, (datoMes.beneficio / valorMaximo) * 100))}%` }}
-                  >
-                    <div 
-                      className="absolute inset-x-0 bottom-0 bg-green-500 w-full rounded-t"
-                      style={{ height: `100%` }}
-                    ></div>
-                    <div className="opacity-0 group-hover:opacity-100 absolute -top-10 left-1/2 transform -translate-x-1/2 bg-black text-white text-xs rounded py-1 px-2 whitespace-nowrap z-10">
-                      Beneficio: {formatearMoneda(datoMes.beneficio)}
-                    </div>
-                  </div>
-
-                  <div className="flex w-full">
-                    <div 
-                      className="relative w-1/2 group"
-                      style={{ height: `${Math.max(0, Math.min(100, (datoMes.ingresos / valorMaximo) * 100))}%` }}
-                    >
-                      <div 
-                        className="absolute inset-x-0 bottom-0 bg-primary w-full"
-                        style={{ height: `100%` }}
-                      ></div>
-                      <div className="opacity-0 group-hover:opacity-100 absolute -top-10 left-1/2 transform -translate-x-1/2 bg-black text-white text-xs rounded py-1 px-2 whitespace-nowrap z-10">
-                        Ingresos: {formatearMoneda(datoMes.ingresos)}
-                      </div>
-                    </div>
-
-                    <div 
-                      className="relative w-1/2 group"
-                      style={{ height: `${Math.max(0, Math.min(100, (datoMes.gastos / valorMaximo) * 100))}%` }}
-                    >
-                      <div 
-                        className="absolute inset-x-0 bottom-0 bg-destructive w-full"
-                        style={{ height: `100%` }}
-                      ></div>
-                      <div className="opacity-0 group-hover:opacity-100 absolute -top-10 left-1/2 transform -translate-x-1/2 bg-black text-white text-xs rounded py-1 px-2 whitespace-nowrap z-10">
-                        Gastos: {formatearMoneda(datoMes.gastos)}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="text-xs mt-2 text-center">{datoMes.mes}</div>
-                </div>
-              ))}
-            </div>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart
+                data={datos}
+                margin={{
+                  top: 5,
+                  right: 20,
+                  left: 10,
+                  bottom: 5
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" vertical={false} className="stroke-muted" />
+                <XAxis 
+                  dataKey="mesNumero" 
+                  tick={{ fontSize: 12 }} 
+                  axisLine={{ strokeWidth: 1 }}
+                  tickLine={false}
+                  className="text-muted-foreground"
+                />
+                <YAxis 
+                  tickFormatter={formatearEjeY} 
+                  tick={{ fontSize: 12 }} 
+                  axisLine={{ strokeWidth: 0 }}
+                  tickLine={false}
+                  className="text-muted-foreground"
+                  width={70}
+                />
+                <Tooltip 
+                  content={<CustomTooltip />} 
+                  cursor={{ fill: 'rgba(0, 0, 0, 0.05)' }} 
+                />
+                <Legend 
+                  align="center" 
+                  verticalAlign="top" 
+                  iconType="circle" 
+                  iconSize={8} 
+                  wrapperStyle={{ paddingBottom: '15px' }}
+                />
+                <Bar 
+                  name="Ingresos" 
+                  dataKey="ingresos" 
+                  fill={colores.ingresos}
+                  stroke="#d4d4d8" 
+                  strokeWidth={1}
+                  radius={[4, 4, 0, 0]} 
+                  maxBarSize={40}
+                />
+                <Bar 
+                  name="Gastos" 
+                  dataKey="gastos" 
+                  fill={colores.gastos}
+                  radius={[4, 4, 0, 0]} 
+                  maxBarSize={40}
+                />
+                <Bar 
+                  name="Beneficio" 
+                  dataKey="beneficio" 
+                  fill={colores.beneficio}
+                  radius={[4, 4, 0, 0]} 
+                  maxBarSize={40}
+                />
+              </BarChart>
+            </ResponsiveContainer>
           </div>
         ) : (
           <div className="h-[300px] w-full flex items-center justify-center">
-            <p className="text-muted-foreground">No hay datos disponibles para este período</p>
+            <div className="text-center">
+              <p className="text-muted-foreground">No hay datos disponibles para este período</p>
+              <p className="text-xs text-muted-foreground mt-2">
+                Intenta seleccionar un período diferente o verifica que haya facturas registradas
+              </p>
+            </div>
           </div>
         )}
       </CardContent>

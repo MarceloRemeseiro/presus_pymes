@@ -14,7 +14,6 @@ import { ResumenGastos } from "@/components/dashboard/resumen-gastos"
 import { TopClientes } from "@/components/dashboard/top-clientes"
 import { ResumenFinanciero } from "@/components/dashboard/resumen-financiero"
 import { GraficoEvolucion } from "@/components/dashboard/grafico-evolucion"
-
 export default function Home() {
   const [filtros, setFiltros] = useState({
     periodo: 'anual',
@@ -27,7 +26,7 @@ export default function Home() {
   }, [])
 
   // Nombre de la empresa (en una aplicación real, esto podría venir de una API o contexto)
-  const nombreEmpresa = "Presus Pymes"
+  const nombreEmpresa = "Lumar Solutions Group SL"
 
   return (
     <div className="py-10">

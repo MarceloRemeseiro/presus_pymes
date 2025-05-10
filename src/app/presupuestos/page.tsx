@@ -433,11 +433,11 @@ export default function PresupuestosPage() {
       )
     },
     {
-      key: "total",
-      header: "Total",
+      key: "subtotal",
+      header: "Total sin IVA",
       sortable: true,
       cell: (presupuesto: Presupuesto) => (
-        <div className="text-right">{formatCurrency(presupuesto.total)}</div>
+        <div className="text-right">{formatCurrency(presupuesto.subtotal)}</div>
       )
     },
     {

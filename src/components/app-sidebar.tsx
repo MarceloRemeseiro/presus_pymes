@@ -61,7 +61,7 @@ export function AppSidebar() {
     <Sidebar>
       <SidebarHeader>
         <Link href="/" className="flex items-center gap-2 px-4 py-3">
-          <span className="font-semibold text-xl">Presus Pymes</span>
+          <span className="font-semibold text-xl">Lumar Solutions Group SL</span>
         </Link>
       </SidebarHeader>
       <SidebarContent className="py-2">
